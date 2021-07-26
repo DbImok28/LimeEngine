@@ -1,4 +1,7 @@
-#include <Windows.h>
+/*
+* Copyright(C) 2021, by ѕавел якушик(ruby.circles774@gmail.com)
+*/
+#include "Window.hpp"
 
 int APIENTRY wWinMain(
 	_In_		HINSTANCE	hInstance,
@@ -6,6 +9,9 @@ int APIENTRY wWinMain(
 	_In_		LPWSTR		lpCmdLine,
 	_In_		int			nCmdShow)
 {
+	
+	Window window(L"GameEngine", 1080, 720);
 
+	while (window.ProcessMessages());
 	return 0;
 }
