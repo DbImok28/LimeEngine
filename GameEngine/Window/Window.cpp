@@ -1,3 +1,5 @@
+#include <sstream>
+#include <comdef.h>
 #include "Window.hpp"
 #include "resource.h"
 
@@ -43,13 +45,18 @@ Window::Window(const wchar_t* title, int width, int height): width(width), heigh
 	wr.right = width + wr.left;
 	wr.top = 100;
 	wr.bottom = height + wr.top;
-	AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
+	if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == NULL)
+		throw WND_LAST_EXCEPTION();
+
 	hWnd = CreateWindowW(
 		WindowClass::GetName(), title,
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
+		CW_USEDEFAULT, CW_USEDEFAULT, 
+		wr.right - wr.left, wr.bottom - wr.top,
 		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
+	if(hWnd == nullptr)
+		throw WND_LAST_EXCEPTION();
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 }
 
@@ -60,7 +67,8 @@ Window::~Window()
 
 void Window::SetTitle(const std::wstring& title)
 {
-	SetWindowTextW(hWnd, title.c_str());
+	if (!SetWindowTextW(hWnd, title.c_str()))
+		throw WND_LAST_EXCEPTION();
 }
 
 bool Window::ProcessMessages() noexcept
@@ -108,4 +116,33 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	default:
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
+}
+
+Window::WindowException::WindowException(int line, const char* file, HRESULT hr) noexcept : EngineException(line, file), hr(hr) {}
+
+const wchar_t* Window::WindowException::what() const noexcept
+{
+	_com_error errorInfo(hr);
+	std::wostringstream oss;
+	oss << GetType() << " - 0x" << std::hex << std::uppercase << hr << std::dec << L"(" << (unsigned long)hr << L")" << std::endl
+		<< L"Description: " << errorInfo.ErrorMessage() << std::endl
+		<< GetErrorLocation().c_str();
+	buffer = oss.str();
+	return buffer.c_str();
+}
+
+const wchar_t* Window::WindowException::GetType() const noexcept
+{
+	return L"WindowException";
+}
+
+HRESULT Window::WindowException::GetHr() const noexcept
+{
+	return hr;
+}
+
+std::wstring Window::WindowException::TranslateErrorCode(HRESULT hr) noexcept
+{
+	_com_error errorInfo(hr);
+	return errorInfo.ErrorMessage();
 }

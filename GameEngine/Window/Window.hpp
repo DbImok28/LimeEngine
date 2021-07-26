@@ -1,9 +1,24 @@
 #pragma once
-#include <string>
 #include <Windows.h>
+#include "../Exceptions/EngineExceptions.hpp"
+
+#define WND_EXCEPTION(hr) Window::WindowException(__LINE__, __FILE__, hr)
+#define WND_LAST_EXCEPTION() Window::WindowException(__LINE__, __FILE__, GetLastError())
 
 class Window
 {
+public:
+	class WindowException : public EngineException
+	{
+	public:
+		WindowException(int line, const char* file, HRESULT hr) noexcept;
+		const wchar_t* what() const noexcept override;
+		virtual const wchar_t* GetType() const noexcept;
+		HRESULT GetHr() const noexcept;
+		std::wstring TranslateErrorCode(HRESULT hr) noexcept;
+	private:
+		HRESULT hr;
+	};
 private:
 	class WindowClass
 	{

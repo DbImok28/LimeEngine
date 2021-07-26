@@ -159,18 +159,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="WinMain.cpp" />
+    <ClCompile Include="Exceptions\EngineExceptions.cpp" />
+    <ClCompile Include="Helpers\StringHelper.cpp" />
+    <ClCompile Include="Window\Window.cpp" />
+    <ClCompile Include="Window\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Window.hpp" />
+    <ClInclude Include="Exceptions\EngineExceptions.hpp" />
+    <ClInclude Include="Window\resource.h" />
+    <ClInclude Include="Helpers\StringHelper.hpp" />
+    <ClInclude Include="Window\Window.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="GameEngine.rc" />
+    <ResourceCompile Include="Window\GameEngine.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="cherry.ico" />
+    <Image Include="Window\cherry.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
