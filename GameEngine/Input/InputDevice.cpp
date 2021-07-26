@@ -49,10 +49,10 @@ LRESULT InputDevice::ProcInputMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 		}
 		return 0;
-	}/*
+	}
 	case WM_KILLFOCUS:
 		keyboard.ClearKeyState();
-		break;*/
+		break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
