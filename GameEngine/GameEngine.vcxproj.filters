@@ -16,6 +16,9 @@
     <Filter Include="Engine\Window\Resources">
       <UniqueIdentifier>{3b4eec78-24db-4d77-9e0b-8339e22e9f38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Input">
+      <UniqueIdentifier>{065edf82-b98b-4e8b-b622-e4211bf39a0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window\Window.cpp">
@@ -30,6 +33,15 @@
     <ClCompile Include="Window\WinMain.cpp">
       <Filter>Engine\Window</Filter>
     </ClCompile>
+    <ClCompile Include="Input\Keyboard.cpp">
+      <Filter>Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\InputDevice.cpp">
+      <Filter>Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\resource.h">
@@ -43,6 +55,15 @@
     </ClInclude>
     <ClInclude Include="Helpers\StringHelper.hpp">
       <Filter>Engine\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\Keyboard.hpp">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\InputDevice.hpp">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.hpp">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -159,13 +159,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Exceptions\EngineExceptions.cpp" />
     <ClCompile Include="Helpers\StringHelper.cpp" />
+    <ClCompile Include="Input\InputDevice.cpp" />
+    <ClCompile Include="Input\Keyboard.cpp" />
     <ClCompile Include="Window\Window.cpp" />
     <ClCompile Include="Window\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine.hpp" />
     <ClInclude Include="Exceptions\EngineExceptions.hpp" />
+    <ClInclude Include="Input\InputDevice.hpp" />
+    <ClInclude Include="Input\Keyboard.hpp" />
     <ClInclude Include="Window\resource.h" />
     <ClInclude Include="Helpers\StringHelper.hpp" />
     <ClInclude Include="Window\Window.hpp" />

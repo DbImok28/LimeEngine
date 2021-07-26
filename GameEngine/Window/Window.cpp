@@ -2,6 +2,7 @@
 #include <comdef.h>
 #include "Window.hpp"
 #include "resource.h"
+#include "../Engine.hpp"
 
 Window::WindowClass Window::WindowClass::wndClassInstance;
 
@@ -38,7 +39,7 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return wndClassInstance.hInst;
 }
 
-Window::Window(const wchar_t* title, int width, int height): width(width), height(height)
+Window::Window(Engine* engine, const wchar_t* title, int width, int height): width(width), height(height)
 {
 	RECT wr;
 	wr.left = 100;
@@ -53,7 +54,7 @@ Window::Window(const wchar_t* title, int width, int height): width(width), heigh
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
 		CW_USEDEFAULT, CW_USEDEFAULT, 
 		wr.right - wr.left, wr.bottom - wr.top,
-		nullptr, nullptr, WindowClass::GetInstance(), this
+		nullptr, nullptr, WindowClass::GetInstance(), engine
 	);
 	if(hWnd == nullptr)
 		throw WND_LAST_EXCEPTION();
@@ -91,18 +92,24 @@ LRESULT Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 	if (msg == WM_NCCREATE)
 	{
 		const CREATESTRUCTW* const pCreateStruct = reinterpret_cast<CREATESTRUCTW*>(lParam);
-		Window* const pWnd = static_cast<Window*>(pCreateStruct->lpCreateParams);
-		SetWindowLongPtrW(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
+		Engine* const pEngine = static_cast<Engine*>(pCreateStruct->lpCreateParams);
+		if (pEngine == nullptr)
+		{
+			assert("Critical Error: pointer to Engine is null!(Window::HandleMsgSetup)");
+			exit(-1);
+		}
+		SetWindowLongPtrW(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&pEngine->window));
 		SetWindowLongPtrW(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Window::HandleMsgForwarding));
-		return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
+		pEngine->window.inputDevice = &pEngine->inputDevice;
+		return pEngine->window.HandleMsg(hWnd, msg, wParam, lParam);
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
 LRESULT CALLBACK Window::HandleMsgForwarding(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
-	Window* const pWnd = reinterpret_cast<Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-	return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
+	Window* const pWindow = reinterpret_cast<Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+	return pWindow->HandleMsg(hWnd, msg, wParam, lParam);
 }
 
 LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
@@ -113,8 +120,9 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		PostQuitMessage(0);
 		return 0;
 	default:
-		return DefWindowProc(hWnd, msg, wParam, lParam);
+		return inputDevice->ProcInputMsg(hWnd, msg, wParam, lParam);
 	}
+	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
 Window::WindowException::WindowException(int line, const char* file, HRESULT hr) noexcept : EngineException(line, file), hr(hr) {}

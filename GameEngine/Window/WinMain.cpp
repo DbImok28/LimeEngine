@@ -1,8 +1,8 @@
 /*
 * Copyright(C) 2021, by ѕавел якушик(ruby.circles774@gmail.com)
 */
-#include "Window.hpp"
-
+#include "../Engine.hpp"
+#include <sstream>
 int APIENTRY wWinMain(
 	_In_		HINSTANCE	hInstance,
 	_In_opt_	HINSTANCE	hPrevInstance,
@@ -11,17 +11,23 @@ int APIENTRY wWinMain(
 {
 	try
 	{
-		Window window(L"GameEngine", 1080, 720);
+		Engine engine;
 
 		std::optional<int> exitCode = 0;
 		while (true)
 		{
-			if (exitCode = window.ProcessMessages())
+			if (exitCode = engine.window.ProcessMessages())
 			{
 				return *exitCode;
 			}
+			static std::wstringstream str;
+			char c = engine.inputDevice.keyboard.ReadChar();
+			if (c)
+			{
+				str << c;
+				engine.window.SetTitle(str.str());
+			}
 		}
-
 		return 0;
 	}
 	catch (const EngineException& e)

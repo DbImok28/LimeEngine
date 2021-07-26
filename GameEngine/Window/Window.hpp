@@ -1,11 +1,13 @@
 #pragma once
 #include <Windows.h>
 #include <optional>
+#include "../Input/InputDevice.hpp"
 #include "../Exceptions/EngineExceptions.hpp"
 
 #define WND_EXCEPTION(hr) Window::WindowException(__LINE__, __FILE__, hr)
 #define WND_LAST_EXCEPTION() Window::WindowException(__LINE__, __FILE__, GetLastError())
-
+class Engine;
+class InputDevice;
 class Window
 {
 public:
@@ -39,7 +41,7 @@ private:
 		HINSTANCE hInst;
 	};
 public:
-	Window(const wchar_t* title = L"GameEngine", int width = 1080, int height = 720);
+	Window(Engine* engine, const wchar_t* title = L"GameEngine", int width = 1080, int height = 720);
 	~Window();
 	Window(const Window&) = delete;
 	Window(Window&&) noexcept = delete;
@@ -56,4 +58,5 @@ private:
 	int width;
 	int height;
 	HWND hWnd;
+	InputDevice* inputDevice = nullptr;
 };
