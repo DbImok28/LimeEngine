@@ -65,6 +65,9 @@
     <ClInclude Include="Engine.hpp">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Window\WinApi.hpp">
+      <Filter>Engine\Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Window\GameEngine.rc">

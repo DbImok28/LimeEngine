@@ -1,5 +1,5 @@
 #pragma once
-#include <Windows.h>
+#include "WinApi.hpp"
 #include <optional>
 #include "../Input/InputDevice.hpp"
 #include "../Exceptions/EngineExceptions.hpp"

@@ -172,6 +172,7 @@
     <ClInclude Include="Exceptions\EngineExceptions.hpp" />
     <ClInclude Include="Input\InputDevice.hpp" />
     <ClInclude Include="Input\Keyboard.hpp" />
+    <ClInclude Include="Window\WinApi.hpp" />
     <ClInclude Include="Window\resource.h" />
     <ClInclude Include="Helpers\StringHelper.hpp" />
     <ClInclude Include="Window\Window.hpp" />
