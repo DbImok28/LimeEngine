@@ -12,7 +12,15 @@ int APIENTRY wWinMain(
 	try
 	{
 		Window window(L"GameEngine", 1080, 720);
-		while (window.ProcessMessages());
+
+		std::optional<int> exitCode = 0;
+		while (true)
+		{
+			if (exitCode = window.ProcessMessages())
+			{
+				return *exitCode;
+			}
+		}
 
 		return 0;
 	}

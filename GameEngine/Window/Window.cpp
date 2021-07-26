@@ -71,19 +71,18 @@ void Window::SetTitle(const std::wstring& title)
 		throw WND_LAST_EXCEPTION();
 }
 
-bool Window::ProcessMessages() noexcept
+std::optional<int> Window::ProcessMessages() noexcept
 {
 	MSG msg;
 	while (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
 		//PM_REMOVE Messages are removed from the queue after processing by PeekMessage.
 	{
 		if (msg.message == WM_QUIT)
-			return false;
+			return static_cast<int>(msg.wParam);;
 		TranslateMessage(&msg);
 		DispatchMessageW(&msg);
 	}
-
-	return true;
+	return {};
 }
 
 LRESULT Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept

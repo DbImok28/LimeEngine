@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <optional>
 #include "../Exceptions/EngineExceptions.hpp"
 
 #define WND_EXCEPTION(hr) Window::WindowException(__LINE__, __FILE__, hr)
@@ -46,7 +47,7 @@ public:
 	Window& operator=(Window&&) noexcept = delete;
 
 	void SetTitle(const std::wstring& title);
-	bool ProcessMessages() noexcept;
+	std::optional<int> ProcessMessages() noexcept;
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgForwarding(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
