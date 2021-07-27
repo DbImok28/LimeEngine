@@ -4,7 +4,8 @@
 
 class Keyboard
 {
-	friend class InputDevice;
+	friend class Window;
+public:
 	class KeyboardEvent
 	{
 	public:
@@ -24,7 +25,6 @@ class Keyboard
 		EventType type;
 		unsigned char key;
 	};
-public:
 	Keyboard() = default;
 	Keyboard(const Keyboard&) = delete;
 	Keyboard& operator=(const Keyboard&) = delete;

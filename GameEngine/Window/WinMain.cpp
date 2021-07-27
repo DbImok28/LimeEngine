@@ -20,12 +20,13 @@ int APIENTRY wWinMain(
 			{
 				return *exitCode;
 			}
-			static std::wstringstream str;
-			char c = engine.inputDevice.keyboard.ReadChar();
-			if (c)
+			static std::wstring str;
+			auto e = engine.inputDevice.mouse.ReadEvent();;
+			if (e.GetType() == Mouse::MouseEvent::EventType::RawMove)
 			{
-				str << c;
-				engine.window.SetTitle(str.str());
+				str = L"(x:" + std::to_wstring(e.GetPosX()) + L", y:" + std::to_wstring(e.GetPosY()) + L")";
+				engine.window.SetTitle(str);
+				str.clear();
 			}
 		}
 		return 0;

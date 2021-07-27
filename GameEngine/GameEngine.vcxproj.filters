@@ -42,6 +42,9 @@
     <ClCompile Include="Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Input\Mouse.cpp">
+      <Filter>Engine\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\resource.h">
@@ -67,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="Window\WinApi.hpp">
       <Filter>Engine\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\Mouse.hpp">
+      <Filter>Engine\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
