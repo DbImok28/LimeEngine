@@ -6,3 +6,29 @@ const wchar_t* Graphics::GraphicsException::GetType() const noexcept
 {
 	return L"GraphicsException";
 }
+
+Graphics::Graphics()
+{
+}
+
+void Graphics::RenderFrame()
+{
+	PreProcessing();
+	Processing();
+	PostProcessing();
+}
+
+void Graphics::PreProcessing()
+{
+	
+}
+
+void Graphics::Processing()
+{
+
+}
+
+void Graphics::PostProcessing()
+{
+
+}

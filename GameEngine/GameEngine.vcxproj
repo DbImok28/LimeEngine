@@ -178,6 +178,7 @@
     <ClInclude Include="Input\Keyboard.hpp" />
     <ClInclude Include="Input\Mouse.hpp" />
     <ClInclude Include="Helpers\Timer.hpp" />
+    <ClInclude Include="Graphics\DirectXDef.hpp" />
     <ClInclude Include="Window\WinApi.hpp" />
     <ClInclude Include="Window\resource.h" />
     <ClInclude Include="Helpers\StringHelper.hpp" />

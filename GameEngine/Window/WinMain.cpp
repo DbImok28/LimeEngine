@@ -2,7 +2,6 @@
 * Copyright(C) 2021, by ѕавел якушик(ruby.circles774@gmail.com)
 */
 #include "../Engine.hpp"
-#include <sstream>
 int APIENTRY wWinMain(
 	_In_		HINSTANCE	hInstance,
 	_In_opt_	HINSTANCE	hPrevInstance,
@@ -11,24 +10,8 @@ int APIENTRY wWinMain(
 {
 	try
 	{
-		Timer timer;
-		timer.Start();
 		Engine engine;
-		std::optional<int> exitCode = 0;
-		while (true)
-		{
-			float deltaTime = timer.ElapsedTime();
-			timer.Restart();
-			if (exitCode = engine.window.ProcessMessages())
-			{
-				return *exitCode;
-			}
-			static std::wstring str;
-			str = std::to_wstring(deltaTime);
-			engine.window.SetTitle(str);
-			str.clear();
-
-		}
+		engine.Start();
 		return 0;
 	}
 	catch (const EngineException& e)

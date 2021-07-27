@@ -3,6 +3,7 @@
 #include <optional>
 #include "../Input/InputDevice.hpp"
 #include "../Exceptions/EngineExceptions.hpp"
+#include "../Graphics/Graphics.hpp"
 
 #define WND_EXCEPTION(hr) Window::WindowException(__LINE__, __FILE__, hr)
 #define WND_LAST_EXCEPTION() Window::WindowException(__LINE__, __FILE__, GetLastError())
@@ -54,4 +55,5 @@ public:
 	int width;
 	int height;
 	InputDevice inputDevice;
+	Graphics gfx;
 };

@@ -10,8 +10,13 @@ public:
 	Engine(Engine&&) noexcept = delete;
 	Engine& operator=(const Engine&) = delete;
 	Engine& operator=(Engine&&) noexcept = delete;
-	Engine();
+	Engine(const wchar_t* windowTitle = L"GameEngine", int width = 1080, int height = 720);
+
+	int Start();
+	void Processing();
+	void RenderFrame();
 public:
+	float deltaTime = 0;
 	Window window;
 	Timer timer;
 };

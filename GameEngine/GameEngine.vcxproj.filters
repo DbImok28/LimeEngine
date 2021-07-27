@@ -89,6 +89,9 @@
     <ClInclude Include="Graphics\Graphics.hpp">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\DirectXDef.hpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Window\GameEngine.rc">
