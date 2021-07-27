@@ -19,6 +19,9 @@
     <Filter Include="Engine\Input">
       <UniqueIdentifier>{065edf82-b98b-4e8b-b622-e4211bf39a0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Graphics">
+      <UniqueIdentifier>{9225a1bc-b0ad-4f9b-ae70-eccbc1974033}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window\Window.cpp">
@@ -47,6 +50,9 @@
     </ClCompile>
     <ClCompile Include="Helpers\Timer.cpp">
       <Filter>Engine\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Graphics.cpp">
+      <Filter>Engine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="Helpers\Timer.hpp">
       <Filter>Engine\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Graphics.hpp">
+      <Filter>Engine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

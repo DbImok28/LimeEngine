@@ -6,21 +6,15 @@
 
 #define WND_EXCEPTION(hr) Window::WindowException(__LINE__, __FILE__, hr)
 #define WND_LAST_EXCEPTION() Window::WindowException(__LINE__, __FILE__, GetLastError())
-class Engine;
-class InputDevice;
+
 class Window
 {
 public:
-	class WindowException : public EngineException
+	class WindowException : public HrException
 	{
 	public:
 		WindowException(int line, const char* file, HRESULT hr) noexcept;
-		const wchar_t* what() const noexcept override;
-		virtual const wchar_t* GetType() const noexcept;
-		HRESULT GetHr() const noexcept;
-		std::wstring TranslateErrorCode(HRESULT hr) noexcept;
-	private:
-		HRESULT hr;
+		const wchar_t* GetType() const noexcept override;
 	};
 private:
 	class WindowClass
