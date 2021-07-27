@@ -1,6 +1,6 @@
 #include "Engine.hpp"
 
-Engine::Engine() : window(this, L"GameEngine", 1080, 720)
+Engine::Engine() : window(L"GameEngine", 1080, 720)
 {
 
 }

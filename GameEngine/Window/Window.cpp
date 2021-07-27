@@ -39,7 +39,7 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return wndClassInstance.hInst;
 }
 
-Window::Window(Engine* engine, const wchar_t* title, int width, int height): width(width), height(height)
+Window::Window(const wchar_t* title, int width, int height): width(width), height(height), inputDevice()
 {
 	RECT wr;
 	wr.left = 100;
@@ -54,7 +54,7 @@ Window::Window(Engine* engine, const wchar_t* title, int width, int height): wid
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
 		CW_USEDEFAULT, CW_USEDEFAULT, 
 		wr.right - wr.left, wr.bottom - wr.top,
-		nullptr, nullptr, WindowClass::GetInstance(), engine
+		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
 	if(hWnd == nullptr)
 		throw WND_LAST_EXCEPTION();
@@ -107,16 +107,15 @@ LRESULT Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 	if (msg == WM_NCCREATE)
 	{
 		const CREATESTRUCTW* const pCreateStruct = reinterpret_cast<CREATESTRUCTW*>(lParam);
-		Engine* const pEngine = static_cast<Engine*>(pCreateStruct->lpCreateParams);
-		if (pEngine == nullptr)
+		Window* const pWindow = static_cast<Window*>(pCreateStruct->lpCreateParams);
+		if (pWindow == nullptr)
 		{
-			assert("Critical Error: pointer to Engine is null!(Window::HandleMsgSetup)");
+			assert("Critical Error: pointer to Window is null!(Window::HandleMsgSetup)");
 			exit(-1);
 		}
-		SetWindowLongPtrW(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&pEngine->window)); // Set window ptr
+		SetWindowLongPtrW(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWindow)); // Set window ptr
 		SetWindowLongPtrW(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Window::HandleMsgForwarding));
-		pEngine->window.inputDevice = &pEngine->inputDevice;
-		return pEngine->window.HandleMsg(hWnd, msg, wParam, lParam);
+		return pWindow->HandleMsg(hWnd, msg, wParam, lParam);
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
@@ -139,16 +138,16 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_KEYDOWN:
 	{
 		unsigned char keycode = static_cast<unsigned char>(wParam);
-		if (inputDevice->keyboard.IsKeysAutoRepeat())
+		if (inputDevice.keyboard.IsKeysAutoRepeat())
 		{
-			inputDevice->keyboard.OnKeyPressed(keycode);
+			inputDevice.keyboard.OnKeyPressed(keycode);
 		}
 		else
 		{
 			const bool wasPressed = lParam & 0x40000000;
 			if (!wasPressed)
 			{
-				inputDevice->keyboard.OnKeyPressed(keycode);
+				inputDevice.keyboard.OnKeyPressed(keycode);
 			}
 		}
 		break;
@@ -156,50 +155,50 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_SYSKEYUP:
 	case WM_KEYUP:
 	{
-		inputDevice->keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));
+		inputDevice.keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));
 		break;
 	}
 	case WM_CHAR:
 	{
 		char ch = static_cast<char>(wParam);
-		if (inputDevice->keyboard.IsCharsAutoRepeat())
+		if (inputDevice.keyboard.IsCharsAutoRepeat())
 		{
-			inputDevice->keyboard.OnChar(ch);
+			inputDevice.keyboard.OnChar(ch);
 		}
 		else
 		{
 			const bool wasPressed = lParam & 0x40000000;
 			if (!wasPressed)
 			{
-				inputDevice->keyboard.OnChar(ch);
+				inputDevice.keyboard.OnChar(ch);
 			}
 		}
 		break;
 	}
 	case WM_KILLFOCUS:
 	{
-		inputDevice->keyboard.ClearKeyState();
+		inputDevice.keyboard.ClearKeyState();
 		break;
 	}
 	// Mouse
 	case WM_MOUSEMOVE:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
-		inputDevice->mouse.OnMouseMove(pt.x, pt.y);
+		inputDevice.mouse.OnMouseMove(pt.x, pt.y);
 		if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height)
 		{
-			if (!inputDevice->mouse.IsInWindow())
+			if (!inputDevice.mouse.IsInWindow())
 			{
 				SetCapture(hWnd);
-				inputDevice->mouse.OnMouseEnter();
+				inputDevice.mouse.OnMouseEnter();
 			}
 		}
 		else
 		{
-			if (inputDevice->mouse.IsInWindow())
+			if (inputDevice.mouse.IsInWindow())
 			{
 				ReleaseCapture();
-				inputDevice->mouse.OnMouseLeave();
+				inputDevice.mouse.OnMouseLeave();
 			}
 		}
 		break;
@@ -207,44 +206,44 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_LBUTTONDOWN:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
-		inputDevice->mouse.OnLeftPressed(pt.x, pt.y);
+		inputDevice.mouse.OnLeftPressed(pt.x, pt.y);
 		break;
 	}
 	case WM_RBUTTONDOWN:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
-		inputDevice->mouse.OnRightPressed(pt.x, pt.y);
+		inputDevice.mouse.OnRightPressed(pt.x, pt.y);
 		break;
 	}
 	case WM_MBUTTONDOWN:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
-		inputDevice->mouse.OnMiddlePressed(pt.x, pt.y);
+		inputDevice.mouse.OnMiddlePressed(pt.x, pt.y);
 		break;
 	}
 	case WM_LBUTTONUP:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
-		inputDevice->mouse.OnLeftReleased(pt.x, pt.y);
+		inputDevice.mouse.OnLeftReleased(pt.x, pt.y);
 		break;
 	}
 	case WM_RBUTTONUP:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
-		inputDevice->mouse.OnRightReleased(pt.x, pt.y);
+		inputDevice.mouse.OnRightReleased(pt.x, pt.y);
 		break;
 	}
 	case WM_MBUTTONUP:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
-		inputDevice->mouse.OnMiddleReleased(pt.x, pt.y);
+		inputDevice.mouse.OnMiddleReleased(pt.x, pt.y);
 		break;
 	}
 	case WM_MOUSEWHEEL:
 	{
 		const POINTS pt = MAKEPOINTS(lParam);
 		const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
-		inputDevice->mouse.OnWheelDelta(pt.x, pt.y, delta);
+		inputDevice.mouse.OnWheelDelta(pt.x, pt.y, delta);
 		break;
 	}
 	case WM_INPUT:
@@ -259,7 +258,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 				RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(rawdata.get());
 				if (raw->header.dwType == RIM_TYPEMOUSE)
 				{
-					inputDevice->mouse.OnMouseRawMove(raw->data.mouse.lLastX, raw->data.mouse.lLastY);
+					inputDevice.mouse.OnMouseRawMove(raw->data.mouse.lLastX, raw->data.mouse.lLastY);
 				}
 			}
 		}

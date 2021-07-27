@@ -41,7 +41,7 @@ private:
 		HINSTANCE hInst;
 	};
 public:
-	Window(Engine* engine, const wchar_t* title = L"GameEngine", int width = 1080, int height = 720);
+	Window(const wchar_t* title = L"GameEngine", int width = 1080, int height = 720);
 	~Window();
 	Window(const Window&) = delete;
 	Window(Window&&) noexcept = delete;
@@ -55,8 +55,9 @@ private:
 	static LRESULT CALLBACK HandleMsgForwarding(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 
+	HWND hWnd;
+public:
 	int width;
 	int height;
-	HWND hWnd;
-	InputDevice* inputDevice = nullptr;
+	InputDevice inputDevice;
 };

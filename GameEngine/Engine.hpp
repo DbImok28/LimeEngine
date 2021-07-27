@@ -11,6 +11,5 @@ public:
 	Engine& operator=(Engine&&) noexcept = delete;
 	Engine();
 public:
-	InputDevice inputDevice;
 	Window window;
 };

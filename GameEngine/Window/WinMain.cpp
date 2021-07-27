@@ -12,7 +12,6 @@ int APIENTRY wWinMain(
 	try
 	{
 		Engine engine;
-
 		std::optional<int> exitCode = 0;
 		while (true)
 		{
@@ -21,7 +20,7 @@ int APIENTRY wWinMain(
 				return *exitCode;
 			}
 			static std::wstring str;
-			auto e = engine.inputDevice.mouse.ReadEvent();;
+			auto e = engine.window.inputDevice.mouse.ReadEvent();;
 			if (e.GetType() == Mouse::MouseEvent::EventType::RawMove)
 			{
 				str = L"(x:" + std::to_wstring(e.GetPosX()) + L", y:" + std::to_wstring(e.GetPosY()) + L")";
