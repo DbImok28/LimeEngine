@@ -1,6 +1,7 @@
 #pragma once
 #include "Window/Window.hpp"
 #include "Input/InputDevice.hpp"
+#include "Helpers/Timer.hpp"
 
 class Engine
 {
@@ -12,4 +13,5 @@ public:
 	Engine();
 public:
 	Window window;
+	Timer timer;
 };

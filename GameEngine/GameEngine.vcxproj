@@ -165,6 +165,7 @@
     <ClCompile Include="Input\InputDevice.cpp" />
     <ClCompile Include="Input\Keyboard.cpp" />
     <ClCompile Include="Input\Mouse.cpp" />
+    <ClCompile Include="Helpers\Timer.cpp" />
     <ClCompile Include="Window\Window.cpp" />
     <ClCompile Include="Window\WinMain.cpp" />
   </ItemGroup>
@@ -174,6 +175,7 @@
     <ClInclude Include="Input\InputDevice.hpp" />
     <ClInclude Include="Input\Keyboard.hpp" />
     <ClInclude Include="Input\Mouse.hpp" />
+    <ClInclude Include="Helpers\Timer.hpp" />
     <ClInclude Include="Window\WinApi.hpp" />
     <ClInclude Include="Window\resource.h" />
     <ClInclude Include="Helpers\StringHelper.hpp" />

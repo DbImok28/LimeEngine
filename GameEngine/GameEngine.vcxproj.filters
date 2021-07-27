@@ -45,6 +45,9 @@
     <ClCompile Include="Input\Mouse.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Helpers\Timer.cpp">
+      <Filter>Engine\Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\resource.h">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="Input\Mouse.hpp">
       <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Timer.hpp">
+      <Filter>Engine\Helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

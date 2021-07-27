@@ -11,22 +11,23 @@ int APIENTRY wWinMain(
 {
 	try
 	{
+		Timer timer;
+		timer.Start();
 		Engine engine;
 		std::optional<int> exitCode = 0;
 		while (true)
 		{
+			float deltaTime = timer.ElapsedTime();
+			timer.Restart();
 			if (exitCode = engine.window.ProcessMessages())
 			{
 				return *exitCode;
 			}
 			static std::wstring str;
-			auto e = engine.window.inputDevice.mouse.ReadEvent();;
-			if (e.GetType() == Mouse::MouseEvent::EventType::RawMove)
-			{
-				str = L"(x:" + std::to_wstring(e.GetPosX()) + L", y:" + std::to_wstring(e.GetPosY()) + L")";
-				engine.window.SetTitle(str);
-				str.clear();
-			}
+			str = std::to_wstring(deltaTime);
+			engine.window.SetTitle(str);
+			str.clear();
+
 		}
 		return 0;
 	}
