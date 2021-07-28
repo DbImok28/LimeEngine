@@ -62,6 +62,7 @@ const wchar_t* Graphics::InfoGraphicsException::what() const noexcept
 Graphics::Graphics(HWND hWnd, int width, int height) : windowWidth(width), windowHeight(height)
 {
 	InitializeDirectX(hWnd);
+	Initialize();
 }
 
 void Graphics::RenderFrame()
@@ -70,24 +71,46 @@ void Graphics::RenderFrame()
 	Processing();
 	PostProcessing();
 }
-
 void Graphics::PreProcessing()
 {
 	float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
 	deviceContext->ClearRenderTargetView(renderTargetView.Get(), bgcolor);
 	
+	deviceContext->IASetInputLayout(vertexShader.GatInputLoyout());
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	deviceContext->VSSetShader(vertexShader.GetShader(), NULL, 0);
+	deviceContext->PSSetShader(pixelShader.GetShader(), NULL, 0);
+
 }
 
 void Graphics::Processing()
 {
+
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
 }
 
 void Graphics::PostProcessing()
 {
 
+	deviceContext->Draw(3, 0);
 	swapchain->Present(1, NULL);
 }
 
+/*
+*1  Input Assembler		(IA) Stage
+*2  Vertex Shader		(VS) Stage
+3  Hull Shader			(HS) Stage
+4  Tessellator Shader	(TS) Stage
+5  Domain Shader		(DS) Stage
+6  Geometry Shader		(GS) Stage
+7  Stream Output		(SO) Stage
+8  Rasterizer			(RS) Stage
+9  Pixel Shader			(PS) Stage
+10 Output Merger		(OM) Stage
+*/
 void Graphics::InitializeDirectX(HWND hWnd)
 {
 	std::vector<GraphicAdapter> adapters = GraphicAdapter::GetGraphicAdapters();
@@ -135,10 +158,61 @@ void Graphics::InitializeDirectX(HWND hWnd)
 
 	com_ptr<ID3D11Texture2D> backBuffer;
 	hr = swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backBuffer.GetAddressOf()));
-	GFX_ERROR_IF(hr, L"GetBuffer Failed.");
+	GFX_ERROR_IF(hr, L"Failed to create backBuffer.");
 
 	hr = device->CreateRenderTargetView(backBuffer.Get(), NULL, renderTargetView.GetAddressOf());
 	GFX_ERROR_IF(hr, L"Failed to create RenderTargetView.");
 
 	this->deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), NULL);
+
+	// viewport
+	D3D11_VIEWPORT viewport;
+	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.Width = static_cast<FLOAT>(windowWidth);
+	viewport.Height = static_cast<FLOAT>(windowHeight);
+
+	deviceContext->RSSetViewports(1, &viewport);
+}
+
+void Graphics::Initialize()
+{
+	// Shaders
+	D3D11_INPUT_ELEMENT_DESC loyout[]
+	{
+		{"POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{"TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{"NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+	UINT numElements = ARRAYSIZE(loyout);
+	vertexShader.Initalize(device, Paths::ShaderFolder + L"VertexShader.cso", loyout, numElements);
+	pixelShader.Initalize(device, Paths::ShaderFolder + L"PixelShader.cso");
+
+
+
+	// Scene
+	Vertex v[]
+	{
+		{-0.5f, -0.5f, 0.0f, 0.0f, 0.0f},
+		{0.0f, 0.5f, 0.0f, 0.0f, 0.0f},
+		{0.5f, -0.5f, 0.0f, 0.0f, 0.0f},
+	};
+	D3D11_BUFFER_DESC vertexBufferDesc;
+	ZeroMemory(&vertexBufferDesc, sizeof(vertexBufferDesc));
+
+	vertexBufferDesc.ByteWidth = sizeof(Vertex) * ARRAYSIZE(v);
+	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexBufferDesc.CPUAccessFlags = NULL;
+	vertexBufferDesc.MiscFlags = NULL;
+	vertexBufferDesc.StructureByteStride = sizeof(Vertex);
+
+	D3D11_SUBRESOURCE_DATA vertexBufferData;
+	ZeroMemory(&vertexBufferData, sizeof(vertexBufferData));
+
+	vertexBufferData.pSysMem = v;
+
+	HRESULT hr = device->CreateBuffer(&vertexBufferDesc, &vertexBufferData, vertexBuffer.GetAddressOf());
+	GFX_ERROR_IF(hr, L"Failed to create vertex buffer.");
 }

@@ -22,6 +22,15 @@
     <Filter Include="Engine\Graphics">
       <UniqueIdentifier>{9225a1bc-b0ad-4f9b-ae70-eccbc1974033}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Graphics\Resources">
+      <UniqueIdentifier>{8d5860a3-2445-47cb-8c66-7c7a15667c3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Resources\Shaders">
+      <UniqueIdentifier>{d4f773c0-bed0-41c0-824d-39d148abe15d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Base">
+      <UniqueIdentifier>{ed0dd5a7-b4ee-4554-9b34-aeb32bcde501}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window\Window.cpp">
@@ -57,7 +66,15 @@
     <ClCompile Include="Graphics\GraphicAdapter.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Vertex.cpp" />
+    <ClCompile Include="Graphics\Shaders.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Paths.cpp">
+      <Filter>Engine\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Vertex.cpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\resource.h">
@@ -99,7 +116,15 @@
     <ClInclude Include="Graphics\GraphicAdapter.hpp">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Vertex.hpp" />
+    <ClInclude Include="Graphics\Shaders.hpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Paths.hpp">
+      <Filter>Engine\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Vertex.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Window\GameEngine.rc">
@@ -110,5 +135,13 @@
     <Image Include="Window\cherry.ico">
       <Filter>Engine\Window\Resources</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>Engine\Graphics\Resources\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>Engine\Graphics\Resources\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -4,6 +4,9 @@
 #include <sstream>
 #include "DirectXDef.hpp"
 #include "../Exceptions/EngineExceptions.hpp"
+#include "../Helpers/Paths.hpp"
+#include "Shaders.hpp"
+#include "Vertex.hpp"
 
 #define GFX_EXCEPTION(hr) Graphics::GraphicsHrException(__LINE__, __FILE__, hr)
 #define GFX_THROW_EXCEPTION_IF(hr) if(FAILED(hr)) throw Graphics::GraphicsHrException(__LINE__, __FILE__, hr)
@@ -54,11 +57,16 @@ private:
 	void PostProcessing();
 
 	void InitializeDirectX(HWND hWnd);
+	void Initialize();
 
 	com_ptr<ID3D11Device> device;
 	com_ptr<ID3D11DeviceContext> deviceContext;
 	com_ptr<IDXGISwapChain> swapchain;
 	com_ptr<ID3D11RenderTargetView> renderTargetView;
+
+	com_ptr<ID3D11Buffer>vertexBuffer;
+	VertexShader vertexShader;
+	PixelShader pixelShader;
 
 	int windowWidth = 0;
 	int windowHeight = 0;

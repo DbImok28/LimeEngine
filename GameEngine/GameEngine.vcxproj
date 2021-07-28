@@ -172,7 +172,9 @@
     <ClCompile Include="Input\Keyboard.cpp" />
     <ClCompile Include="Input\Mouse.cpp" />
     <ClCompile Include="Helpers\Timer.cpp" />
-    <ClCompile Include="Vertex.cpp" />
+    <ClCompile Include="Graphics\Shaders.cpp" />
+    <ClCompile Include="Graphics\Vertex.cpp" />
+    <ClCompile Include="Helpers\Paths.cpp" />
     <ClCompile Include="Window\Window.cpp" />
     <ClCompile Include="Window\WinMain.cpp" />
   </ItemGroup>
@@ -186,7 +188,9 @@
     <ClInclude Include="Input\Mouse.hpp" />
     <ClInclude Include="Helpers\Timer.hpp" />
     <ClInclude Include="Graphics\DirectXDef.hpp" />
-    <ClInclude Include="Vertex.hpp" />
+    <ClInclude Include="Graphics\Shaders.hpp" />
+    <ClInclude Include="Graphics\Vertex.hpp" />
+    <ClInclude Include="Helpers\Paths.hpp" />
     <ClInclude Include="Window\WinApi.hpp" />
     <ClInclude Include="Window\resource.h" />
     <ClInclude Include="Helpers\StringHelper.hpp" />
@@ -197,6 +201,20 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Window\cherry.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
