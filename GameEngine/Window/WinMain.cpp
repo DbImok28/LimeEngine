@@ -10,6 +10,9 @@ int APIENTRY wWinMain(
 {
 	try
 	{
+		HRESULT hr = CoInitialize(NULL);
+		if (FAILED(hr))
+			throw HR_EXCEPTION(hr);
 		Engine engine;
 		engine.Start();
 		return 0;

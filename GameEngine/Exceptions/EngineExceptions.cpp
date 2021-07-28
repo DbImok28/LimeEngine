@@ -45,7 +45,8 @@ HrException::HrException(int line, const char* file, HRESULT hr) noexcept : Engi
 const wchar_t* HrException::what() const noexcept
 {
 	std::wostringstream oss;
-	oss << HrErrorString()
+	oss << GetType() << std::endl
+		<< HrErrorString()
 		<< GetErrorLocation();
 	buffer = oss.str();
 	return buffer.c_str();

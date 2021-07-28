@@ -1,6 +1,7 @@
 #pragma once
 #include "WinApi.hpp"
 #include <optional>
+#include <memory>
 #include "../Input/InputDevice.hpp"
 #include "../Exceptions/EngineExceptions.hpp"
 #include "../Graphics/Graphics.hpp"
@@ -50,10 +51,12 @@ private:
 	static LRESULT CALLBACK HandleMsgForwarding(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 
-	HWND hWnd;
 public:
+	Graphics& GetGraphics()const noexcept;
 	int width;
 	int height;
 	InputDevice inputDevice;
-	Graphics gfx;
+private:
+	HWND hWnd;
+	std::unique_ptr<Graphics> pGfx = nullptr;
 };

@@ -30,5 +30,5 @@ void Engine::Processing()
 
 void Engine::RenderFrame()
 {
-	window.gfx.RenderFrame();
+	window.GetGraphics().RenderFrame();
 }

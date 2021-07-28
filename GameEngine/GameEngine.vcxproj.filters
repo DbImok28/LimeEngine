@@ -54,6 +54,10 @@
     <ClCompile Include="Graphics\Graphics.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\GraphicAdapter.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\resource.h">
@@ -92,6 +96,10 @@
     <ClInclude Include="Graphics\DirectXDef.hpp">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics\GraphicAdapter.hpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Window\GameEngine.rc">
