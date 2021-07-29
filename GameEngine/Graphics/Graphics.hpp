@@ -64,6 +64,12 @@ private:
 	com_ptr<IDXGISwapChain> swapchain;
 	com_ptr<ID3D11RenderTargetView> renderTargetView;
 
+	com_ptr<ID3D11DepthStencilView> depthStencilView;
+	com_ptr<ID3D11Texture2D> depthStencilBuffer;
+	com_ptr<ID3D11DepthStencilState> depthStencilState;
+
+	com_ptr<ID3D11RasterizerState> rasterizerState;
+
 	com_ptr<ID3D11Buffer>vertexBuffer;
 	VertexShader vertexShader;
 	PixelShader pixelShader;
