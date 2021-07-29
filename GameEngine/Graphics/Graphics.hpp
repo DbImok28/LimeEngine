@@ -1,8 +1,9 @@
 #pragma once
+#include "DirectXDef.hpp"
+#include <DirectXTK/WICTextureLoader.h>
 #include <vector>
 #include <string>
 #include <sstream>
-#include "DirectXDef.hpp"
 #include "../Exceptions/EngineExceptions.hpp"
 #include "../Helpers/Paths.hpp"
 #include "Shaders.hpp"
@@ -73,6 +74,9 @@ private:
 	com_ptr<ID3D11Buffer>vertexBuffer;
 	VertexShader vertexShader;
 	PixelShader pixelShader;
+
+	com_ptr<ID3D11SamplerState> samplerState;
+	com_ptr<ID3D11ShaderResourceView> texture;
 
 	int windowWidth = 0;
 	int windowHeight = 0;

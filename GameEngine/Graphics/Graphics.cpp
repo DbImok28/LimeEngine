@@ -75,16 +75,17 @@ void Graphics::PreProcessing()
 {
 	float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
 	deviceContext->ClearRenderTargetView(renderTargetView.Get(), bgcolor);
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	deviceContext->OMSetDepthStencilState(depthStencilState.Get(), 0);
 	deviceContext->RSSetState(rasterizerState.Get());
-	
+	deviceContext->PSSetSamplers(0, 1, samplerState.GetAddressOf());
+
+
+
+
 	deviceContext->IASetInputLayout(vertexShader.GatInputLoyout());
-	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-
-
 	deviceContext->VSSetShader(vertexShader.GetShader(), NULL, 0);
 	deviceContext->PSSetShader(pixelShader.GetShader(), NULL, 0);
 
@@ -96,13 +97,14 @@ void Graphics::Processing()
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 
+	deviceContext->PSSetShaderResources(0, 1, texture.GetAddressOf());
 	deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
 }
 
 void Graphics::PostProcessing()
 {
 
-	deviceContext->Draw(3, 0);
+	deviceContext->Draw(6, 0);
 	swapchain->Present(1, NULL);
 }
 
@@ -219,6 +221,22 @@ void Graphics::InitializeDirectX(HWND hWnd)
 
 
 
+	// Sampler state
+	D3D11_SAMPLER_DESC sampDesc;
+	ZeroMemory(&sampDesc, sizeof(sampDesc));
+	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	sampDesc.MinLOD = 0;
+	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+	hr = device->CreateSamplerState(&sampDesc, samplerState.GetAddressOf());
+	GFX_ERROR_IF(hr, L"Failed to create sampler state.");
+
+
+
+
 	// viewport
 	D3D11_VIEWPORT viewport;
 	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
@@ -251,9 +269,12 @@ void Graphics::Initialize()
 	// Scene
 	Vertex v[]
 	{
-		{-0.5f, -0.5f, 1.0f, 0.0f, 0.0f},
-		{ 0.0f,  0.5f, 1.0f, 0.0f, 0.0f},
-		{ 0.5f, -0.5f, 1.0f, 0.0f, 0.0f},
+		{-0.5f, -0.5f, 1.0f, 0.0f, 1.0f},
+		{-0.5f,  0.5f, 1.0f, 0.0f, 0.0f},
+		{ 0.5f,  0.5f, 1.0f, 1.0f, 0.0f},
+		{-0.5f, -0.5f, 1.0f, 0.0f, 1.0f},
+		{ 0.5f,  0.5f, 1.0f, 1.0f, 0.0f},
+		{ 0.5f, -0.5f, 1.0f, 1.0f, 1.0f},
 	};
 	D3D11_BUFFER_DESC vertexBufferDesc;
 	ZeroMemory(&vertexBufferDesc, sizeof(vertexBufferDesc));
@@ -272,4 +293,10 @@ void Graphics::Initialize()
 
 	HRESULT hr = device->CreateBuffer(&vertexBufferDesc, &vertexBufferData, vertexBuffer.GetAddressOf());
 	GFX_ERROR_IF(hr, L"Failed to create vertex buffer.");
+
+
+
+	hr = DirectX::CreateWICTextureFromFile(device.Get(), L"Data\\Textures\\cat.jpg", nullptr, texture.GetAddressOf());
+	GFX_ERROR_IF(hr, L"Failed to load texture from file.");
+
 }
