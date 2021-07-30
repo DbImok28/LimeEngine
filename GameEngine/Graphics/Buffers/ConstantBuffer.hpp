@@ -5,14 +5,37 @@ template<class T>
 class ConstantBuffer
 {
 public:
-	ConstantBuffer(const ConstantBuffer&) = delete;
-	ConstantBuffer(ConstantBuffer&& cb) noexcept = delete;
-	ConstantBuffer& operator=(const ConstantBuffer&) = delete;
-	ConstantBuffer& operator=(ConstantBuffer&& cb) noexcept = delete;
+	ConstantBuffer() noexcept {}
+	ConstantBuffer(const ConstantBuffer& cb) noexcept : buffer(cb.buffer), deviceContext(cb.deviceContext), data(data) {}
+	ConstantBuffer(ConstantBuffer&& cb) noexcept : buffer(std::move(cb.buffer)), deviceContext(std::move(cb.deviceContext)), data(data) 
+	{
+		cb.buffer = nullptr;
+		cb.deviceContext = nullptr;
+	}
+	ConstantBuffer& operator=(const ConstantBuffer& cb) noexcept
+	{
+		if (this != &cb)
+		{
+			buffer = cb.buffer;
+			deviceContext = cb.deviceContext;
+			data = cb.data;
+		}
+		return *this;
+	}
+	ConstantBuffer& operator=(ConstantBuffer&& cb) noexcept
+	{
+		if (this != &cb)
+		{
+			buffer = std::move(cb.buffer);
+			deviceContext = std::move(cb.deviceContext);
+			data = cb.data;
 
-
-	ConstantBuffer() {}
-	HRESULT Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
+			cb.buffer = nullptr;
+			cb.deviceContext = nullptr;
+		}
+		return *this;
+	}
+	HRESULT Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext) noexcept
 	{
 		this->deviceContext = deviceContext;
 
@@ -35,7 +58,6 @@ public:
 		CopyMemory(mappedResorce.pData, &data, sizeof(T));
 		deviceContext->Unmap(buffer.Get(), 0);
 	}
-
 	ID3D11Buffer* Get() const noexcept
 	{
 		return buffer.Get();

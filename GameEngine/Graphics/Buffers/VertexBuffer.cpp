@@ -1,14 +1,7 @@
 #include "VertexBuffer.hpp"
 #include <type_traits>
 
-VertexBuffer::VertexBuffer(const VertexBuffer& vb) :buffer(vb.buffer), bufferSize(vb.bufferSize){}
-
-VertexBuffer& VertexBuffer::operator=(const VertexBuffer& vb)
-{
-	buffer = vb.buffer;
-	bufferSize = vb.bufferSize;
-	return *this;
-}
+VertexBuffer::VertexBuffer(const VertexBuffer& vb) noexcept : buffer(vb.buffer), bufferSize(vb.bufferSize){}
 
 VertexBuffer::VertexBuffer(VertexBuffer&& vb) noexcept
 	:buffer(std::move(vb.buffer)), bufferSize(std::move(vb.bufferSize))
@@ -17,10 +10,26 @@ VertexBuffer::VertexBuffer(VertexBuffer&& vb) noexcept
 	vb.bufferSize = 0;
 }
 
+VertexBuffer& VertexBuffer::operator=(const VertexBuffer& vb) noexcept
+{
+	if (this != &vb)
+	{
+		buffer = vb.buffer;
+		bufferSize = vb.bufferSize;
+	}
+	return *this;
+}
+
 VertexBuffer& VertexBuffer::operator=(VertexBuffer&& vb) noexcept
 {
-	buffer = std::move(vb.buffer);
-	bufferSize = std::move(vb.bufferSize);
+	if (this != &vb)
+	{
+		buffer = std::move(vb.buffer);
+		bufferSize = std::move(vb.bufferSize);
+
+		vb.buffer = nullptr;
+		vb.bufferSize = 0;
+	}
 	return *this;
 }
 

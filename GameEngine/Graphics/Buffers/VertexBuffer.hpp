@@ -5,11 +5,12 @@
 class VertexBuffer
 {
 public:
-	VertexBuffer() {}
-	VertexBuffer(const VertexBuffer& vb);
-	VertexBuffer& operator=(const VertexBuffer& vb);
+	VertexBuffer() noexcept {}
+	VertexBuffer(const VertexBuffer& vb) noexcept;
 	VertexBuffer(VertexBuffer&& vb) noexcept;
+	VertexBuffer& operator=(const VertexBuffer& vb) noexcept;
 	VertexBuffer& operator=(VertexBuffer&& vb) noexcept;
+
 	HRESULT Initialize(ID3D11Device* device, Vertex* data, UINT vertexCount) noexcept;
 	ID3D11Buffer* Get() const noexcept;
 	ID3D11Buffer* const* GetAddressOf() const noexcept;
