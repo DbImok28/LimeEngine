@@ -75,6 +75,12 @@
     <ClCompile Include="Graphics\Vertex.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\IndexBuffer.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\VertexBuffer.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window\resource.h">
@@ -124,6 +130,12 @@
     </ClInclude>
     <ClInclude Include="Graphics\Vertex.hpp">
       <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\IndexBuffer.hpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\VertexBuffer.hpp">
+      <Filter>Engine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

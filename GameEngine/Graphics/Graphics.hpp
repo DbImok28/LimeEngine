@@ -8,6 +8,8 @@
 #include "../Helpers/Paths.hpp"
 #include "Shaders.hpp"
 #include "Vertex.hpp"
+#include "VertexBuffer.hpp"
+#include "IndexBuffer.hpp"
 
 #define GFX_EXCEPTION(hr) Graphics::GraphicsHrException(__LINE__, __FILE__, hr)
 #define GFX_THROW_EXCEPTION_IF(hr) if(FAILED(hr)) throw Graphics::GraphicsHrException(__LINE__, __FILE__, hr)
@@ -71,12 +73,14 @@ private:
 
 	com_ptr<ID3D11RasterizerState> rasterizerState;
 
-	com_ptr<ID3D11Buffer>vertexBuffer;
 	VertexShader vertexShader;
 	PixelShader pixelShader;
 
 	com_ptr<ID3D11SamplerState> samplerState;
 	com_ptr<ID3D11ShaderResourceView> texture;
+
+	VertexBuffer vertexBuffer;
+	IndexBuffer indexBuffer;
 
 	int windowWidth = 0;
 	int windowHeight = 0;

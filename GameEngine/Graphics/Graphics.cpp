@@ -75,9 +75,10 @@ void Graphics::PreProcessing()
 {
 	float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
 	deviceContext->ClearRenderTargetView(renderTargetView.Get(), bgcolor);
-	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
 	deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	
 	deviceContext->OMSetDepthStencilState(depthStencilState.Get(), 0);
 	deviceContext->RSSetState(rasterizerState.Get());
 	deviceContext->PSSetSamplers(0, 1, samplerState.GetAddressOf());
@@ -98,13 +99,13 @@ void Graphics::Processing()
 	UINT offset = 0;
 
 	deviceContext->PSSetShaderResources(0, 1, texture.GetAddressOf());
-	deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), &stride, &offset);
+	deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);
+	deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
+	deviceContext->DrawIndexed(indexBuffer.BufferSize(), 0, 0);
 }
 
 void Graphics::PostProcessing()
 {
-
-	deviceContext->Draw(6, 0);
 	swapchain->Present(1, NULL);
 }
 
@@ -272,27 +273,19 @@ void Graphics::Initialize()
 		{-0.5f, -0.5f, 1.0f, 0.0f, 1.0f},
 		{-0.5f,  0.5f, 1.0f, 0.0f, 0.0f},
 		{ 0.5f,  0.5f, 1.0f, 1.0f, 0.0f},
-		{-0.5f, -0.5f, 1.0f, 0.0f, 1.0f},
-		{ 0.5f,  0.5f, 1.0f, 1.0f, 0.0f},
 		{ 0.5f, -0.5f, 1.0f, 1.0f, 1.0f},
 	};
-	D3D11_BUFFER_DESC vertexBufferDesc;
-	ZeroMemory(&vertexBufferDesc, sizeof(vertexBufferDesc));
-
-	vertexBufferDesc.ByteWidth = sizeof(Vertex) * ARRAYSIZE(v);
-	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertexBufferDesc.CPUAccessFlags = NULL;
-	vertexBufferDesc.MiscFlags = NULL;
-	vertexBufferDesc.StructureByteStride = sizeof(Vertex);
-
-	D3D11_SUBRESOURCE_DATA vertexBufferData;
-	ZeroMemory(&vertexBufferData, sizeof(vertexBufferData));
-
-	vertexBufferData.pSysMem = v;
-
-	HRESULT hr = device->CreateBuffer(&vertexBufferDesc, &vertexBufferData, vertexBuffer.GetAddressOf());
+	HRESULT hr = vertexBuffer.Initialize(device.Get(), v, ARRAYSIZE(v));
 	GFX_ERROR_IF(hr, L"Failed to create vertex buffer.");
+
+	DWORD indices[] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+	hr = indexBuffer.Initialize(device.Get(), indices, ARRAYSIZE(indices));
+	GFX_ERROR_IF(hr, L"Failed to create index buffer.");
+
 
 
 

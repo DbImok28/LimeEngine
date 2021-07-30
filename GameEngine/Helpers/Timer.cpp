@@ -11,13 +11,13 @@ float Timer::ElapsedTime() const noexcept
 	using namespace std::chrono;
 	if (isRunning)
 	{
-		auto elapsed = std::chrono::duration<float, std::centi>(high_resolution_clock::now() - start);
-		return elapsed.count();
+		auto elapsed = std::chrono::duration<float, std::milli>(high_resolution_clock::now() - start);
+		return elapsed.count() / 1000.0f;
 	}
 	else
 	{
-		auto elapsed = std::chrono::duration<float, std::centi>(stop - start);
-		return elapsed.count();
+		auto elapsed = std::chrono::duration<float, std::milli>(stop - start);
+		return elapsed.count() / 1000.0f;
 	}
 }
 
