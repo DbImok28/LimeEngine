@@ -1,64 +1,6 @@
 #include "Graphics.hpp"
 #include "GraphicAdapter.hpp"
 
-Graphics::GraphicsHrException::GraphicsHrException(int line, const char* file, HRESULT hr) noexcept : HrException(line, file, hr) {}
-
-const wchar_t* Graphics::GraphicsHrException::GetType() const noexcept
-{
-	return L"GraphicsHrException";
-}
-
-Graphics::InfoGraphicsHrException::InfoGraphicsHrException(int line, const char* file, HRESULT hr, std::wstring info) noexcept : GraphicsHrException(line, file, hr), info(info) {}
-
-Graphics::InfoGraphicsHrException::InfoGraphicsHrException(int line, const char* file, HRESULT hr, std::vector<std::wstring> info) noexcept : GraphicsHrException(line, file, hr)
-{
-	std::wostringstream oss;
-	for (auto&& str : info)
-		oss << str;
-	this->info = oss.str();
-}
-
-const wchar_t* Graphics::InfoGraphicsHrException::GetType() const noexcept
-{
-	return L"InfoGraphicsHrException";
-}
-
-const wchar_t* Graphics::InfoGraphicsHrException::what() const noexcept
-{
-	std::wostringstream oss;
-	oss << GetType() << std::endl
-		<< L"Info: " << info << std::endl
-		<< HrErrorString()
-		<< GetErrorLocation();
-	buffer = oss.str();
-	return buffer.c_str();
-}
-
-Graphics::InfoGraphicsException::InfoGraphicsException(int line, const char* file, std::wstring info) noexcept : EngineException(line, file), info(info) {}
-
-Graphics::InfoGraphicsException::InfoGraphicsException(int line, const char* file, std::vector<std::wstring> info) noexcept : EngineException(line, file)
-{
-	std::wostringstream oss;
-	for (auto&& str : info)
-		oss << str;
-	this->info = oss.str();
-}
-
-const wchar_t* Graphics::InfoGraphicsException::GetType() const noexcept
-{
-	return L"InfoGraphicsException";
-}
-
-const wchar_t* Graphics::InfoGraphicsException::what() const noexcept
-{
-	std::wostringstream oss;
-	oss << GetType() << std::endl
-		<< L"Info: " << info << std::endl
-		<< GetErrorLocation();
-	buffer = oss.str();
-	return buffer.c_str();
-}
-
 Graphics::Graphics(HWND hWnd, int width, int height) : windowWidth(width), windowHeight(height)
 {
 	InitializeDirectX(hWnd);
@@ -101,6 +43,12 @@ void Graphics::Processing()
 	deviceContext->PSSetShaderResources(0, 1, texture.GetAddressOf());
 	deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);
 	deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
+
+	constantBuffer.data.xOffset = 0.0f;
+	constantBuffer.data.yOffset = 0.5f;
+	constantBuffer.ApplyChanges();
+	deviceContext->VSSetConstantBuffers(0, 1, constantBuffer.GetAddressOf());
+
 	deviceContext->DrawIndexed(indexBuffer.BufferSize(), 0, 0);
 }
 
@@ -286,6 +234,8 @@ void Graphics::Initialize()
 	hr = indexBuffer.Initialize(device.Get(), indices, ARRAYSIZE(indices));
 	GFX_ERROR_IF(hr, L"Failed to create index buffer.");
 
+	hr = constantBuffer.Initialize(device.Get(), deviceContext.Get());
+	GFX_ERROR_IF(hr, L"Failed to create constant buffer.");
 
 
 

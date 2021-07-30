@@ -31,6 +31,9 @@
     <Filter Include="Engine\Graphics\Base">
       <UniqueIdentifier>{ed0dd5a7-b4ee-4554-9b34-aeb32bcde501}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Graphics\Buffers">
+      <UniqueIdentifier>{6c98179c-6e73-483c-a639-f46e47503b90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window\Window.cpp">
@@ -66,20 +69,23 @@
     <ClCompile Include="Graphics\GraphicAdapter.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Shaders.cpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Helpers\Paths.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\Vertex.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\IndexBuffer.cpp">
-      <Filter>Engine\Graphics</Filter>
+    <ClCompile Include="Exceptions\GraphicsExceptions.cpp">
+      <Filter>Engine\Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\VertexBuffer.cpp">
-      <Filter>Engine\Graphics</Filter>
+    <ClCompile Include="Graphics\Buffers\IndexBuffer.cpp">
+      <Filter>Engine\Graphics\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Buffers\VertexBuffer.cpp">
+      <Filter>Engine\Graphics\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Shaders.cpp">
+      <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,20 +128,26 @@
     <ClInclude Include="Graphics\GraphicAdapter.hpp">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Shaders.hpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Helpers\Paths.hpp">
       <Filter>Engine\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\Vertex.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\IndexBuffer.hpp">
-      <Filter>Engine\Graphics</Filter>
+    <ClInclude Include="Exceptions\GraphicsExceptions.hpp">
+      <Filter>Engine\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\VertexBuffer.hpp">
-      <Filter>Engine\Graphics</Filter>
+    <ClInclude Include="Graphics\Buffers\IndexBuffer.hpp">
+      <Filter>Engine\Graphics\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Buffers\ConstantBuffer.hpp">
+      <Filter>Engine\Graphics\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Buffers\VertexBuffer.hpp">
+      <Filter>Engine\Graphics\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Shaders.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

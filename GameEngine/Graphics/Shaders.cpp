@@ -1,5 +1,5 @@
 #include "Shaders.hpp"
-#include "Graphics.hpp"
+#include "../Exceptions/GraphicsExceptions.hpp"
 #include <sstream>
 
 void VertexShader::Initalize(com_ptr<ID3D11Device>& device, std::wstring shaderpath, D3D11_INPUT_ELEMENT_DESC* layoutDesc, UINT numElements)

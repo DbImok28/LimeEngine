@@ -1,5 +1,5 @@
 #pragma once
-#include "DirectXDef.hpp"
+#include "../DirectXDef.hpp"
 
 class IndexBuffer
 {

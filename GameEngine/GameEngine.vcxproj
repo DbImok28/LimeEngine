@@ -169,11 +169,12 @@
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Exceptions\EngineExceptions.cpp" />
+    <ClCompile Include="Exceptions\GraphicsExceptions.cpp" />
     <ClCompile Include="Graphics\GraphicAdapter.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
-    <ClCompile Include="Graphics\VertexBuffer.cpp" />
+    <ClCompile Include="Graphics\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="Helpers\StringHelper.cpp" />
-    <ClCompile Include="Graphics\IndexBuffer.cpp" />
+    <ClCompile Include="Graphics\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="Input\InputDevice.cpp" />
     <ClCompile Include="Input\Keyboard.cpp" />
     <ClCompile Include="Input\Mouse.cpp" />
@@ -185,11 +186,13 @@
     <ClCompile Include="Window\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Exceptions\GraphicsExceptions.hpp" />
+    <ClInclude Include="Graphics\Buffers\ConstantBuffer.hpp" />
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="Exceptions\EngineExceptions.hpp" />
     <ClInclude Include="Graphics\GraphicAdapter.hpp" />
     <ClInclude Include="Graphics\Graphics.hpp" />
-    <ClInclude Include="Graphics\IndexBuffer.hpp" />
+    <ClInclude Include="Graphics\Buffers\IndexBuffer.hpp" />
     <ClInclude Include="Input\InputDevice.hpp" />
     <ClInclude Include="Input\Keyboard.hpp" />
     <ClInclude Include="Input\Mouse.hpp" />
@@ -198,7 +201,7 @@
     <ClInclude Include="Graphics\Shaders.hpp" />
     <ClInclude Include="Graphics\Vertex.hpp" />
     <ClInclude Include="Helpers\Paths.hpp" />
-    <ClInclude Include="Graphics\VertexBuffer.hpp" />
+    <ClInclude Include="Graphics\Buffers\VertexBuffer.hpp" />
     <ClInclude Include="Window\WinApi.hpp" />
     <ClInclude Include="Window\resource.h" />
     <ClInclude Include="Helpers\StringHelper.hpp" />

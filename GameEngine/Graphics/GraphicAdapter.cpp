@@ -1,5 +1,5 @@
 #include "GraphicAdapter.hpp"
-#include "Graphics.hpp"
+#include "../Exceptions/GraphicsExceptions.hpp"
 
 std::vector<GraphicAdapter> GraphicAdapter::adapters;
 
