@@ -167,57 +167,57 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Exceptions\EngineExceptions.cpp" />
-    <ClCompile Include="Exceptions\GraphicsExceptions.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Graphics\GraphicAdapter.cpp" />
-    <ClCompile Include="Graphics\Graphics.cpp" />
-    <ClCompile Include="Graphics\Buffers\VertexBuffer.cpp" />
-    <ClCompile Include="Helpers\StringHelper.cpp" />
-    <ClCompile Include="Graphics\Buffers\IndexBuffer.cpp" />
-    <ClCompile Include="Input\InputDevice.cpp" />
-    <ClCompile Include="Input\Keyboard.cpp" />
-    <ClCompile Include="Input\Mouse.cpp" />
-    <ClCompile Include="Helpers\Timer.cpp" />
-    <ClCompile Include="Graphics\Shaders.cpp" />
-    <ClCompile Include="Base\Vertex.cpp" />
-    <ClCompile Include="Helpers\Paths.cpp" />
-    <ClCompile Include="Base\Transform.cpp" />
-    <ClCompile Include="Base\Vector.cpp" />
-    <ClCompile Include="Window\Window.cpp" />
-    <ClCompile Include="Window\WinMain.cpp" />
+    <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\Exceptions\EngineExceptions.cpp" />
+    <ClCompile Include="Engine\Exceptions\GraphicsExceptions.cpp" />
+    <ClCompile Include="Engine\Scene\GameObject.cpp" />
+    <ClCompile Include="Engine\Graphics\GraphicAdapter.cpp" />
+    <ClCompile Include="Engine\Graphics\Graphics.cpp" />
+    <ClCompile Include="Engine\Graphics\Buffers\VertexBuffer.cpp" />
+    <ClCompile Include="Engine\Helpers\StringHelper.cpp" />
+    <ClCompile Include="Engine\Graphics\Buffers\IndexBuffer.cpp" />
+    <ClCompile Include="Engine\Input\InputDevice.cpp" />
+    <ClCompile Include="Engine\Input\Keyboard.cpp" />
+    <ClCompile Include="Engine\Input\Mouse.cpp" />
+    <ClCompile Include="Engine\Helpers\Timer.cpp" />
+    <ClCompile Include="Engine\Graphics\Shaders.cpp" />
+    <ClCompile Include="Engine\Base\Vertex.cpp" />
+    <ClCompile Include="Engine\Helpers\Paths.cpp" />
+    <ClCompile Include="Engine\Base\Transform.cpp" />
+    <ClCompile Include="Engine\Base\Vector.cpp" />
+    <ClCompile Include="Engine\Window\Window.cpp" />
+    <ClCompile Include="Engine\Window\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Exceptions\GraphicsExceptions.hpp" />
-    <ClInclude Include="GameObject.hpp" />
-    <ClInclude Include="Graphics\Buffers\ConstantBuffer.hpp" />
-    <ClInclude Include="Engine.hpp" />
-    <ClInclude Include="Exceptions\EngineExceptions.hpp" />
-    <ClInclude Include="Graphics\GraphicAdapter.hpp" />
-    <ClInclude Include="Graphics\Graphics.hpp" />
-    <ClInclude Include="Graphics\Buffers\IndexBuffer.hpp" />
-    <ClInclude Include="Input\InputDevice.hpp" />
-    <ClInclude Include="Input\Keyboard.hpp" />
-    <ClInclude Include="Input\Mouse.hpp" />
-    <ClInclude Include="Helpers\Timer.hpp" />
-    <ClInclude Include="Graphics\DirectXDef.hpp" />
-    <ClInclude Include="Graphics\Shaders.hpp" />
-    <ClInclude Include="Base\Vertex.hpp" />
-    <ClInclude Include="Helpers\Paths.hpp" />
-    <ClInclude Include="Graphics\Buffers\VertexBuffer.hpp" />
-    <ClInclude Include="Base\Transform.hpp" />
-    <ClInclude Include="Base\Vector.hpp" />
-    <ClInclude Include="Window\WinApi.hpp" />
-    <ClInclude Include="Window\resource.h" />
-    <ClInclude Include="Helpers\StringHelper.hpp" />
-    <ClInclude Include="Window\Window.hpp" />
+    <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp" />
+    <ClInclude Include="Engine\Scene\GameObject.hpp" />
+    <ClInclude Include="Engine\Graphics\Buffers\ConstantBuffer.hpp" />
+    <ClInclude Include="Engine\Engine.hpp" />
+    <ClInclude Include="Engine\Exceptions\EngineExceptions.hpp" />
+    <ClInclude Include="Engine\Graphics\GraphicAdapter.hpp" />
+    <ClInclude Include="Engine\Graphics\Graphics.hpp" />
+    <ClInclude Include="Engine\Graphics\Buffers\IndexBuffer.hpp" />
+    <ClInclude Include="Engine\Input\InputDevice.hpp" />
+    <ClInclude Include="Engine\Input\Keyboard.hpp" />
+    <ClInclude Include="Engine\Input\Mouse.hpp" />
+    <ClInclude Include="Engine\Helpers\Timer.hpp" />
+    <ClInclude Include="Engine\Graphics\DirectXDef.hpp" />
+    <ClInclude Include="Engine\Graphics\Shaders.hpp" />
+    <ClInclude Include="Engine\Base\Vertex.hpp" />
+    <ClInclude Include="Engine\Helpers\Paths.hpp" />
+    <ClInclude Include="Engine\Graphics\Buffers\VertexBuffer.hpp" />
+    <ClInclude Include="Engine\Base\Transform.hpp" />
+    <ClInclude Include="Engine\Base\Vector.hpp" />
+    <ClInclude Include="Engine\Window\WinApi.hpp" />
+    <ClInclude Include="Engine\Window\resource.h" />
+    <ClInclude Include="Engine\Helpers\StringHelper.hpp" />
+    <ClInclude Include="Engine\Window\Window.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Window\GameEngine.rc" />
+    <ResourceCompile Include="Engine\Window\GameEngine.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Window\cherry.ico" />
+    <Image Include="Engine\Window\cherry.ico" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

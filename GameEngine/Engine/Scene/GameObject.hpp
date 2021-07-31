@@ -1,16 +1,16 @@
 #pragma once
-#include <DirectXMath.h>
+#include "../Base/Transform.hpp"
 
 using namespace DirectX;
 
 class GameObject
 {
 public:
-	const XMVECTOR& GetPositionVector() const noexcept;
+	XMVECTOR GetPositionVector() const noexcept;
 	const XMFLOAT3& GetPositionFloat3() const noexcept;
-	const XMVECTOR& GetRotationVector() const noexcept;
+	XMVECTOR GetRotationVector() const noexcept;
 	const XMFLOAT3& GetRotationFloat3() const noexcept;
-	const XMVECTOR& GetScaleVector() const noexcept;
+	XMVECTOR GetScaleVector() const noexcept;
 	const XMFLOAT3& GetScaleFloat3() const noexcept;
 
 	void SetPosition(const XMVECTOR& pos) noexcept;
@@ -34,9 +34,11 @@ public:
 	void AddScale(const XMFLOAT3& scale) noexcept;
 	void AddScale(float x, float y, float z) noexcept;
 
-protected:
+	void SetTransform(const Transform& transform) noexcept;
+
+	const XMMATRIX& GetTransformMatrix();
+private:
 	bool isChanged = false;
-	XMFLOAT3 pos;
-	XMFLOAT3 rot;
-	XMFLOAT3 scale;
+	Transform transform;
+	XMMATRIX transformMatrix;
 };

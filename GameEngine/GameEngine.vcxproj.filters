@@ -42,145 +42,145 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Window\Window.cpp">
+    <ClCompile Include="Engine\Window\Window.cpp">
       <Filter>Engine\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Exceptions\EngineExceptions.cpp">
+    <ClCompile Include="Engine\Exceptions\EngineExceptions.cpp">
       <Filter>Engine\Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="Helpers\StringHelper.cpp">
+    <ClCompile Include="Engine\Helpers\StringHelper.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Window\WinMain.cpp">
+    <ClCompile Include="Engine\Window\WinMain.cpp">
       <Filter>Engine\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Input\Keyboard.cpp">
+    <ClCompile Include="Engine\Input\Keyboard.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Input\InputDevice.cpp">
+    <ClCompile Include="Engine\Input\InputDevice.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Engine.cpp">
+    <ClCompile Include="Engine\Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Input\Mouse.cpp">
+    <ClCompile Include="Engine\Input\Mouse.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Helpers\Timer.cpp">
+    <ClCompile Include="Engine\Helpers\Timer.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Graphics.cpp">
+    <ClCompile Include="Engine\Graphics\Graphics.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\GraphicAdapter.cpp">
+    <ClCompile Include="Engine\Graphics\GraphicAdapter.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Helpers\Paths.cpp">
+    <ClCompile Include="Engine\Helpers\Paths.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Exceptions\GraphicsExceptions.cpp">
+    <ClCompile Include="Engine\Exceptions\GraphicsExceptions.cpp">
       <Filter>Engine\Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Buffers\IndexBuffer.cpp">
+    <ClCompile Include="Engine\Graphics\Buffers\IndexBuffer.cpp">
       <Filter>Engine\Graphics\Buffers</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Buffers\VertexBuffer.cpp">
+    <ClCompile Include="Engine\Graphics\Buffers\VertexBuffer.cpp">
       <Filter>Engine\Graphics\Buffers</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Shaders.cpp">
+    <ClCompile Include="Engine\Graphics\Shaders.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
+    <ClCompile Include="Engine\Scene\GameObject.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Vertex.cpp">
+    <ClCompile Include="Engine\Base\Vertex.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Vector.cpp">
+    <ClCompile Include="Engine\Base\Vector.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Base\Transform.cpp">
+    <ClCompile Include="Engine\Base\Transform.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window\resource.h">
+    <ClInclude Include="Engine\Window\resource.h">
       <Filter>Engine\Window\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Window\Window.hpp">
+    <ClInclude Include="Engine\Window\Window.hpp">
       <Filter>Engine\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Exceptions\EngineExceptions.hpp">
+    <ClInclude Include="Engine\Exceptions\EngineExceptions.hpp">
       <Filter>Engine\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\StringHelper.hpp">
+    <ClInclude Include="Engine\Helpers\StringHelper.hpp">
       <Filter>Engine\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Input\Keyboard.hpp">
+    <ClInclude Include="Engine\Input\Keyboard.hpp">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Input\InputDevice.hpp">
+    <ClInclude Include="Engine\Input\InputDevice.hpp">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Engine.hpp">
+    <ClInclude Include="Engine\Engine.hpp">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Window\WinApi.hpp">
+    <ClInclude Include="Engine\Window\WinApi.hpp">
       <Filter>Engine\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Input\Mouse.hpp">
+    <ClInclude Include="Engine\Input\Mouse.hpp">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\Timer.hpp">
+    <ClInclude Include="Engine\Helpers\Timer.hpp">
       <Filter>Engine\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Graphics.hpp">
+    <ClInclude Include="Engine\Graphics\Graphics.hpp">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\DirectXDef.hpp">
+    <ClInclude Include="Engine\Graphics\DirectXDef.hpp">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\GraphicAdapter.hpp">
+    <ClInclude Include="Engine\Graphics\GraphicAdapter.hpp">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\Paths.hpp">
+    <ClInclude Include="Engine\Helpers\Paths.hpp">
       <Filter>Engine\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Exceptions\GraphicsExceptions.hpp">
+    <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp">
       <Filter>Engine\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Buffers\IndexBuffer.hpp">
+    <ClInclude Include="Engine\Graphics\Buffers\IndexBuffer.hpp">
       <Filter>Engine\Graphics\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Buffers\ConstantBuffer.hpp">
+    <ClInclude Include="Engine\Graphics\Buffers\ConstantBuffer.hpp">
       <Filter>Engine\Graphics\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Buffers\VertexBuffer.hpp">
+    <ClInclude Include="Engine\Graphics\Buffers\VertexBuffer.hpp">
       <Filter>Engine\Graphics\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Shaders.hpp">
+    <ClInclude Include="Engine\Graphics\Shaders.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.hpp">
+    <ClInclude Include="Engine\Scene\GameObject.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Vertex.hpp">
+    <ClInclude Include="Engine\Base\Vertex.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Vector.hpp">
+    <ClInclude Include="Engine\Base\Vector.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\Transform.hpp">
+    <ClInclude Include="Engine\Base\Transform.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Window\GameEngine.rc">
+    <ResourceCompile Include="Engine\Window\GameEngine.rc">
       <Filter>Engine\Window\Resources</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Window\cherry.ico">
+    <Image Include="Engine\Window\cherry.ico">
       <Filter>Engine\Window\Resources</Filter>
     </Image>
   </ItemGroup>

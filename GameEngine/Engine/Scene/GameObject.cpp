@@ -1,153 +1,155 @@
 #include "GameObject.hpp"
 
-const XMVECTOR& GameObject::GetPositionVector() const noexcept
+XMVECTOR GameObject::GetPositionVector() const noexcept
 {
-	return XMLoadFloat3(&this->pos);
+	return transform.location.GetVector();
 }
 
 const XMFLOAT3& GameObject::GetPositionFloat3() const noexcept
 {
-	return pos;
+	return transform.location.GetFloat3();
 }
 
-const XMVECTOR& GameObject::GetRotationVector() const noexcept
+XMVECTOR GameObject::GetRotationVector() const noexcept
 {
-	return XMLoadFloat3(&this->rot);
+	return transform.rotation.GetVector();
 }
 
 const XMFLOAT3& GameObject::GetRotationFloat3() const noexcept
 {
-	return rot;
+	return transform.rotation.GetFloat3();
 }
 
-const XMVECTOR& GameObject::GetScaleVector() const noexcept
+XMVECTOR GameObject::GetScaleVector() const noexcept
 {
-	return XMLoadFloat3(&this->scale);
+	return transform.scale.GetVector();
 }
 
 const XMFLOAT3& GameObject::GetScaleFloat3() const noexcept
 {
-	return scale;
+	return transform.scale.GetFloat3();
 }
-
+// location
 void GameObject::SetPosition(const XMVECTOR& pos) noexcept
 {
-	XMStoreFloat3(&this->pos, pos);
+	transform.location.Set(pos);
 	isChanged = true;
 }
 
 void GameObject::SetPosition(const XMFLOAT3& pos) noexcept
 {
-	this->pos = pos;
+	transform.location.Set(pos);
 	isChanged = true;
 }
 
 void GameObject::SetPosition(float x, float y, float z) noexcept
 {
-	pos = XMFLOAT3(x, y, z);
+	transform.location.Set(x, y, z);
 	isChanged = true;
 }
 
 void GameObject::AddPosition(const XMVECTOR& pos) noexcept
 {
-	XMStoreFloat3(&this->pos, GetPositionVector() + pos);
+	transform.location.Add(pos);
 	isChanged = true;
 }
 
 void GameObject::AddPosition(const XMFLOAT3& pos) noexcept
 {
-	this->pos.x += pos.x;
-	this->pos.y += pos.y;
-	this->pos.z += pos.z;
+	transform.location.Add(pos);
 	isChanged = true;
 }
 
 void GameObject::AddPosition(float x, float y, float z) noexcept
 {
-	pos.x += x;
-	pos.y += y;
-	pos.z += z;
+	transform.location.Add(x, y, z);
 	isChanged = true;
 }
-
+// rotation
 void GameObject::SetRotation(const XMVECTOR& rot) noexcept
 {
-	XMStoreFloat3(&this->rot, rot);
+	transform.rotation.Set(rot);
 	isChanged = true;
 }
 
 void GameObject::SetRotation(const XMFLOAT3& rot) noexcept
 {
-	this->rot = rot;
+	transform.rotation.Set(rot);
 	isChanged = true;
 }
 
 void GameObject::SetRotation(float x, float y, float z) noexcept
 {
-	rot = XMFLOAT3(x, y, z);
+	transform.rotation.Set(x, y, z);
 	isChanged = true;
 }
 
 void GameObject::AddRotation(const XMVECTOR& rot) noexcept
 {
-	XMStoreFloat3(&this->rot, GetRotationVector() + rot);
+	transform.rotation.Add(rot);
 	isChanged = true;
 }
 
 void GameObject::AddRotation(const XMFLOAT3& rot) noexcept
 {
-	this->rot.x += rot.x;
-	this->rot.y += rot.y;
-	this->rot.z += rot.z;
+	transform.rotation.Add(rot);
 	isChanged = true;
 }
 
 void GameObject::AddRotation(float x, float y, float z) noexcept
 {
-	rot.x += x;
-	rot.y += y;
-	rot.z += z;
+	transform.rotation.Add(x, y, z);
 	isChanged = true;
 }
-
+// scale
 void GameObject::SetScale(const XMVECTOR& scale) noexcept
 {
-	XMStoreFloat3(&this->scale, scale);
+	transform.scale.Set(scale);
 	isChanged = true;
 }
 
 void GameObject::SetScale(const XMFLOAT3& scale) noexcept
 {
-	this->scale = scale;
+	transform.scale.Set(scale);
 	isChanged = true;
 }
 
 void GameObject::SetScale(float x, float y, float z) noexcept
 {
-	scale.x = x;
-	scale.y = y;
-	scale.z = z;
+	transform.scale.Set(x, y, z);
 	isChanged = true;
 }
 
 void GameObject::AddScale(const XMVECTOR& scale) noexcept
 {
-	XMStoreFloat3(&this->scale, GetScaleVector() + scale);
+	transform.scale.Add(scale);
 	isChanged = true;
 }
 
 void GameObject::AddScale(const XMFLOAT3& scale) noexcept
 {
-	this->scale.x += scale.x;
-	this->scale.y += scale.y;
-	this->scale.z += scale.z;
+	transform.scale.Add(scale);
 	isChanged = true;
 }
 
 void GameObject::AddScale(float x, float y, float z) noexcept
 {
-	scale.x += x;
-	scale.y += y;
-	scale.z += z;
+	transform.scale.Add(x, y, z);
 	isChanged = true;
+}
+
+void GameObject::SetTransform(const Transform& transform) noexcept
+{
+	this->transform = transform;
+	isChanged = true;
+}
+
+const XMMATRIX& GameObject::GetTransformMatrix()
+{
+	if (isChanged)
+	{
+		transformMatrix = transform.getTransformMatrix();
+		isChanged = false;
+	}
+	return transformMatrix;
 }

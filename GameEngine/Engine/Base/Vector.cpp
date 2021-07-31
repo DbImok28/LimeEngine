@@ -132,7 +132,7 @@ const XMFLOAT3& Vector::GetFloat3() const noexcept
 
 const float* Vector::GetArray() const noexcept
 {
-	return &vec.x;
+	return &x;
 }
 
 void Vector::Set(const XMVECTOR& vec) noexcept
