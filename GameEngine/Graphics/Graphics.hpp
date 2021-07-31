@@ -7,7 +7,7 @@
 #include <string>
 #include <sstream>
 #include "Shaders.hpp"
-#include "Vertex.hpp"
+#include "../Base/Vertex.hpp"
 #include "Buffers/VertexBuffer.hpp"
 #include "Buffers/IndexBuffer.hpp"
 #include "Buffers/ConstantBuffer.hpp"

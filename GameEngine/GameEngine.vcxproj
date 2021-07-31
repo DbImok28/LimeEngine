@@ -170,6 +170,7 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Exceptions\EngineExceptions.cpp" />
     <ClCompile Include="Exceptions\GraphicsExceptions.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics\GraphicAdapter.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Graphics\Buffers\VertexBuffer.cpp" />
@@ -180,13 +181,16 @@
     <ClCompile Include="Input\Mouse.cpp" />
     <ClCompile Include="Helpers\Timer.cpp" />
     <ClCompile Include="Graphics\Shaders.cpp" />
-    <ClCompile Include="Graphics\Vertex.cpp" />
+    <ClCompile Include="Base\Vertex.cpp" />
     <ClCompile Include="Helpers\Paths.cpp" />
+    <ClCompile Include="Base\Transform.cpp" />
+    <ClCompile Include="Base\Vector.cpp" />
     <ClCompile Include="Window\Window.cpp" />
     <ClCompile Include="Window\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Exceptions\GraphicsExceptions.hpp" />
+    <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="Graphics\Buffers\ConstantBuffer.hpp" />
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="Exceptions\EngineExceptions.hpp" />
@@ -199,9 +203,11 @@
     <ClInclude Include="Helpers\Timer.hpp" />
     <ClInclude Include="Graphics\DirectXDef.hpp" />
     <ClInclude Include="Graphics\Shaders.hpp" />
-    <ClInclude Include="Graphics\Vertex.hpp" />
+    <ClInclude Include="Base\Vertex.hpp" />
     <ClInclude Include="Helpers\Paths.hpp" />
     <ClInclude Include="Graphics\Buffers\VertexBuffer.hpp" />
+    <ClInclude Include="Base\Transform.hpp" />
+    <ClInclude Include="Base\Vector.hpp" />
     <ClInclude Include="Window\WinApi.hpp" />
     <ClInclude Include="Window\resource.h" />
     <ClInclude Include="Helpers\StringHelper.hpp" />

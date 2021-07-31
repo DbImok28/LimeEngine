@@ -34,6 +34,12 @@
     <Filter Include="Engine\Graphics\Buffers">
       <UniqueIdentifier>{6c98179c-6e73-483c-a639-f46e47503b90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Scene">
+      <UniqueIdentifier>{16109484-e514-4e56-a244-498ca46a9ed3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base">
+      <UniqueIdentifier>{d0d4a15b-8c0e-46ef-9f39-6a5a96cec5aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window\Window.cpp">
@@ -72,9 +78,6 @@
     <ClCompile Include="Helpers\Paths.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Vertex.cpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Exceptions\GraphicsExceptions.cpp">
       <Filter>Engine\Exceptions</Filter>
     </ClCompile>
@@ -86,6 +89,18 @@
     </ClCompile>
     <ClCompile Include="Graphics\Shaders.cpp">
       <Filter>Engine\Graphics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Vertex.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Vector.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Transform.cpp">
+      <Filter>Engine\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,9 +146,6 @@
     <ClInclude Include="Helpers\Paths.hpp">
       <Filter>Engine\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Vertex.hpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Exceptions\GraphicsExceptions.hpp">
       <Filter>Engine\Exceptions</Filter>
     </ClInclude>
@@ -148,6 +160,18 @@
     </ClInclude>
     <ClInclude Include="Graphics\Shaders.hpp">
       <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.hpp">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Vertex.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Vector.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Transform.hpp">
+      <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

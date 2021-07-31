@@ -1,6 +1,6 @@
 #pragma once
 #include "../DirectXDef.hpp"
-#include "../Vertex.hpp"
+#include "../Base/Vertex.hpp"
 
 class VertexBuffer
 {
