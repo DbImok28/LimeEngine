@@ -11,6 +11,7 @@
 #include "Buffers/VertexBuffer.hpp"
 #include "Buffers/IndexBuffer.hpp"
 #include "Buffers/ConstantBuffer.hpp"
+#include "../Scene/Camera.hpp"
 
 class Graphics
 {
@@ -46,6 +47,9 @@ private:
 	IndexBuffer indexBuffer;
 	ConstantBuffer<CB_VS_VertexShader> constantBuffer;
 
+
 	int windowWidth = 0;
 	int windowHeight = 0;
+public:
+	Camera camera;
 };

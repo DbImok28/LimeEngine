@@ -1,155 +1,245 @@
 #include "GameObject.hpp"
 
-XMVECTOR GameObject::GetPositionVector() const noexcept
+// location
+const Vector& GameObject::GetObjectPosition() const noexcept
+{
+	return transform.location;
+}
+
+XMVECTOR GameObject::GetObjectPositionVector() const noexcept
 {
 	return transform.location.GetVector();
 }
 
-const XMFLOAT3& GameObject::GetPositionFloat3() const noexcept
+const XMFLOAT3& GameObject::GetObjectPositionFloat3() const noexcept
 {
 	return transform.location.GetFloat3();
 }
 
-XMVECTOR GameObject::GetRotationVector() const noexcept
+void GameObject::SetObjectLocation(const Vector& loc) noexcept
 {
-	return transform.rotation.GetVector();
-}
-
-const XMFLOAT3& GameObject::GetRotationFloat3() const noexcept
-{
-	return transform.rotation.GetFloat3();
-}
-
-XMVECTOR GameObject::GetScaleVector() const noexcept
-{
-	return transform.scale.GetVector();
-}
-
-const XMFLOAT3& GameObject::GetScaleFloat3() const noexcept
-{
-	return transform.scale.GetFloat3();
-}
-// location
-void GameObject::SetPosition(const XMVECTOR& pos) noexcept
-{
-	transform.location.Set(pos);
+	transform.location = loc;
 	isChanged = true;
 }
 
-void GameObject::SetPosition(const XMFLOAT3& pos) noexcept
+void GameObject::SetObjectLocation(const XMVECTOR& loc) noexcept
 {
-	transform.location.Set(pos);
+	transform.location.Set(loc);
 	isChanged = true;
 }
 
-void GameObject::SetPosition(float x, float y, float z) noexcept
+void GameObject::SetObjectLocation(const XMFLOAT3& loc) noexcept
+{
+	transform.location.Set(loc);
+	isChanged = true;
+}
+
+void GameObject::SetObjectLocation(float x, float y, float z) noexcept
 {
 	transform.location.Set(x, y, z);
 	isChanged = true;
 }
 
-void GameObject::AddPosition(const XMVECTOR& pos) noexcept
+void GameObject::AddObjectLocation(const Vector& loc) noexcept
 {
-	transform.location.Add(pos);
+	transform.location += loc;
 	isChanged = true;
 }
 
-void GameObject::AddPosition(const XMFLOAT3& pos) noexcept
+void GameObject::AddObjectLocation(const XMVECTOR& loc) noexcept
 {
-	transform.location.Add(pos);
+	transform.location.Add(loc);
 	isChanged = true;
 }
 
-void GameObject::AddPosition(float x, float y, float z) noexcept
+void GameObject::AddObjectLocation(const XMFLOAT3& loc) noexcept
+{
+	transform.location.Add(loc);
+	isChanged = true;
+}
+
+void GameObject::AddObjectLocation(float x, float y, float z) noexcept
 {
 	transform.location.Add(x, y, z);
 	isChanged = true;
 }
+
 // rotation
-void GameObject::SetRotation(const XMVECTOR& rot) noexcept
+const Vector& GameObject::GetObjectRotation() const noexcept
+{
+	return transform.rotation;
+}
+
+XMVECTOR GameObject::GetObjectRotationVector() const noexcept
+{
+	return transform.rotation.GetVector();
+}
+
+const XMFLOAT3& GameObject::GetObjectRotationFloat3() const noexcept
+{
+	return transform.rotation.GetFloat3();
+}
+
+void GameObject::SetObjectRotation(const Vector& rot) noexcept
+{
+	transform.rotation = rot;
+	isChanged = true;
+}
+
+void GameObject::SetObjectRotation(const XMVECTOR& rot) noexcept
 {
 	transform.rotation.Set(rot);
 	isChanged = true;
 }
 
-void GameObject::SetRotation(const XMFLOAT3& rot) noexcept
+void GameObject::SetObjectRotation(const XMFLOAT3& rot) noexcept
 {
 	transform.rotation.Set(rot);
 	isChanged = true;
 }
 
-void GameObject::SetRotation(float x, float y, float z) noexcept
+void GameObject::SetObjectRotation(float x, float y, float z) noexcept
 {
 	transform.rotation.Set(x, y, z);
 	isChanged = true;
 }
 
-void GameObject::AddRotation(const XMVECTOR& rot) noexcept
+void GameObject::AddObjectRotation(const Vector& rot) noexcept
+{
+	transform.rotation += rot;
+	isChanged = true;
+}
+
+void GameObject::AddObjectRotation(const XMVECTOR& rot) noexcept
 {
 	transform.rotation.Add(rot);
 	isChanged = true;
 }
 
-void GameObject::AddRotation(const XMFLOAT3& rot) noexcept
+void GameObject::AddObjectRotation(const XMFLOAT3& rot) noexcept
 {
 	transform.rotation.Add(rot);
 	isChanged = true;
 }
 
-void GameObject::AddRotation(float x, float y, float z) noexcept
+void GameObject::AddObjectRotation(float x, float y, float z) noexcept
 {
 	transform.rotation.Add(x, y, z);
 	isChanged = true;
 }
+
 // scale
-void GameObject::SetScale(const XMVECTOR& scale) noexcept
+const Vector& GameObject::GetObjectScale() const noexcept
+{
+	return transform.scale;
+}
+
+XMVECTOR GameObject::GetObjectScaleVector() const noexcept
+{
+	return transform.scale.GetVector();
+}
+
+const XMFLOAT3& GameObject::GetObjectScaleFloat3() const noexcept
+{
+	return transform.scale.GetFloat3();
+}
+
+void GameObject::SetObjectScale(const Vector& scale) noexcept
+{
+	transform.scale = scale;
+	isChanged = true;
+}
+
+void GameObject::SetObjectScale(const XMVECTOR& scale) noexcept
 {
 	transform.scale.Set(scale);
 	isChanged = true;
 }
 
-void GameObject::SetScale(const XMFLOAT3& scale) noexcept
+void GameObject::SetObjectScale(const XMFLOAT3& scale) noexcept
 {
 	transform.scale.Set(scale);
 	isChanged = true;
 }
 
-void GameObject::SetScale(float x, float y, float z) noexcept
+void GameObject::SetObjectScale(float x, float y, float z) noexcept
 {
 	transform.scale.Set(x, y, z);
 	isChanged = true;
 }
 
-void GameObject::AddScale(const XMVECTOR& scale) noexcept
+void GameObject::AddObjectScale(const Vector& scale) noexcept
+{
+	transform.scale += scale;
+	isChanged = true;
+}
+
+void GameObject::AddObjectScale(const XMVECTOR& scale) noexcept
 {
 	transform.scale.Add(scale);
 	isChanged = true;
 }
 
-void GameObject::AddScale(const XMFLOAT3& scale) noexcept
+void GameObject::AddObjectScale(const XMFLOAT3& scale) noexcept
 {
 	transform.scale.Add(scale);
 	isChanged = true;
 }
 
-void GameObject::AddScale(float x, float y, float z) noexcept
+void GameObject::AddObjectScale(float x, float y, float z) noexcept
 {
 	transform.scale.Add(x, y, z);
 	isChanged = true;
 }
 
-void GameObject::SetTransform(const Transform& transform) noexcept
+// transform
+const Transform& GameObject::GetObjectTransform() const noexcept
+{
+	return transform;
+}
+
+void GameObject::SetObjectTransform(const Transform& transform) noexcept
 {
 	this->transform = transform;
 	isChanged = true;
 }
 
-const XMMATRIX& GameObject::GetTransformMatrix()
+const XMMATRIX& GameObject::GetTransformMatrix() noexcept
 {
 	if (isChanged)
 	{
-		transformMatrix = transform.getTransformMatrix();
+		UpdateTransform();
 		isChanged = false;
 	}
 	return transformMatrix;
+}
+
+XMMATRIX GameObject::GetRotationMatrix() noexcept
+{
+	if (isChanged)
+	{
+		UpdateTransform();
+		isChanged = false;
+	}
+	return XMMatrixRotationRollPitchYaw(transform.rotation.x, transform.rotation.y, transform.rotation.z);
+}
+
+void GameObject::UpdateTransform() noexcept
+{
+	transformMatrix = transform.getTransformMatrix();
+}
+
+XMVECTOR GameObject::GetObjectRightVector() noexcept
+{
+	return XMVector3TransformCoord(RIGHT_VECTOR, GetRotationMatrix());
+}
+
+XMVECTOR GameObject::GetObjectForwardVector() noexcept
+{
+	return XMVector3TransformCoord(FORWARD_VECTOR, GetRotationMatrix());
+}
+
+XMVECTOR GameObject::GetObjectUpVector() noexcept
+{
+	return XMVector3TransformCoord(UP_VECTOR, GetRotationMatrix());
 }
