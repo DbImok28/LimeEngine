@@ -12,10 +12,10 @@
 class Window
 {
 public:
-	class WindowException : public HrException
+	class WindowException : public EngineHrException
 	{
+		using EngineHrException::EngineHrException;
 	public:
-		WindowException(int line, const char* file, HRESULT hr) noexcept;
 		const wchar_t* GetType() const noexcept override;
 	};
 private:

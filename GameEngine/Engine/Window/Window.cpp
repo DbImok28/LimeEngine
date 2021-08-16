@@ -274,8 +274,6 @@ Graphics& Window::GetGraphics() const noexcept
 	return *pGfx;
 }
 
-Window::WindowException::WindowException(int line, const char* file, HRESULT hr) noexcept : HrException(line, file, hr) {}
-
 const wchar_t* Window::WindowException::GetType() const noexcept
 {
 	return L"WindowException";
