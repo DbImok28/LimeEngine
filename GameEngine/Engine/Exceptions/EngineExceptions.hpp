@@ -3,8 +3,16 @@
 #include <string>
 #include <vector>
 
-#define HR_EXCEPTION(hr) EngineHrException(__LINE__, __FILE__, hr)
-#define HR_LAST_EXCEPTION() EngineHrException(__LINE__, __FILE__, GetLastError())
+#define MSG_EXCEPTION(msg)			EngineException(__LINE__, __FILE__, msg)
+#define MSG_HR_EXCEPTION(hr, msg)	EngineHrException(__LINE__, __FILE__, hr, msg)
+#define HR_EXCEPTION(hr)			EngineHrException(__LINE__, __FILE__, hr)
+#define HR_LAST_EXCEPTION()			EngineHrException(__LINE__, __FILE__, GetLastError())
+
+
+#define ERROR_IF(hr)				if(FAILED(hr)) throw HR_EXCEPTION(hr)
+#define ERROR_IF_MSG(hr, msg)		if(FAILED(hr)) throw MSG_HR_EXCEPTION(hr, msg)
+
+
 
 class EngineException // : public std::exception
 {
@@ -37,7 +45,8 @@ public:
 	const wchar_t* what() const noexcept override;
 	const wchar_t* GetType() const noexcept override;
 	HRESULT GetHr() const noexcept;
-	std::wstring HrErrorString() const noexcept;
+	std::wstring GetHrErrorDescription() const noexcept;
+	std::wstring GetHrErrorString() const noexcept;
 private:
 	HRESULT hr;
 };

@@ -1,5 +1,6 @@
 #include "EngineExceptions.hpp"
 #include "../Helpers/StringHelper.hpp"
+#include "../../Includes/dxerr/dxerr.h"
 #include <sstream>
 //#include <comdef.h>
 
@@ -76,7 +77,7 @@ const wchar_t* EngineHrException::what() const noexcept
 	std::wostringstream oss;
 	oss << GetType() << std::endl
 		<< GetErrorInfo()
-		<< HrErrorString()
+		<< GetHrErrorString()
 		<< GetErrorLocation();
 	buffer = oss.str();
 	return buffer.c_str();
@@ -92,27 +93,30 @@ HRESULT EngineHrException::GetHr() const noexcept
 	return hr;
 }
 
-std::wstring EngineHrException::HrErrorString() const noexcept
+std::wstring EngineHrException::GetHrErrorDescription() const noexcept
 {
-	if (FAILED(hr))
-	{
-		//_com_error errorInfo(hr);
-		wchar_t* pMsg = nullptr;
-		DWORD len = FormatMessageW(
-			FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-			nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-			reinterpret_cast<LPWSTR>(&pMsg), 0, nullptr);
-		if (len == 0)
-			return L"Unknown hr error code\n";
+	wchar_t buf[512];
+	#pragma warning(suppress: 6386)
+	DXGetErrorDescriptionW(hr, buf, sizeof(buf));
+	return buf;
+}
 
-		std::wostringstream oss;
-		oss << L"ErrorCode: " << L" - 0x" << std::hex << std::uppercase << hr << std::dec << L"(" << hr << L")" << std::endl
-			<< L"Description: " << pMsg;// << std::endl;
-		LocalFree(pMsg);
-		return oss.str();
-	}
-	else
-	{
-		return {};
-	}
+std::wstring EngineHrException::GetHrErrorString() const noexcept
+{
+	//_com_error errorInfo(hr);
+	wchar_t* pMsg = nullptr;
+	DWORD len = FormatMessageW(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		reinterpret_cast<LPWSTR>(&pMsg), 0, nullptr);
+	if (len == 0)
+		return L"Unknown hr error code\n";
+
+	std::wostringstream oss;
+	oss << L"ErrorCode: " << L" - 0x" << std::hex << std::uppercase << hr << std::dec << L"(" << hr << L")" << std::endl
+		<< L"Description: " << pMsg
+		<< GetHrErrorDescription() << std::endl;
+	LocalFree(pMsg);
+	return oss.str();
+
 }

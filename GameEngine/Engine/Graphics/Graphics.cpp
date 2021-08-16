@@ -26,8 +26,6 @@ void Graphics::PreProcessing()
 	deviceContext->PSSetSamplers(0, 1, samplerState.GetAddressOf());
 
 
-
-
 	deviceContext->IASetInputLayout(vertexShader.GatInputLoyout());
 	deviceContext->VSSetShader(vertexShader.GetShader(), NULL, 0);
 	deviceContext->PSSetShader(pixelShader.GetShader(), NULL, 0);
@@ -79,7 +77,7 @@ void Graphics::InitializeDirectX(HWND hWnd)
 {
 	std::vector<GraphicAdapter> adapters = GraphicAdapter::GetGraphicAdapters();
 	if (adapters.size() < 1)
-		throw GFX_INFO_EXCEPTION(L"No found DXGI Adapters.");
+		throw GFX_MSG_EXCEPTION(L"No found DXGI Adapters.");
 
 	DXGI_SWAP_CHAIN_DESC scd;
 	ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
@@ -102,33 +100,35 @@ void Graphics::InitializeDirectX(HWND hWnd)
 	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
-	HRESULT hr = 0;
-
-	hr = D3D11CreateDeviceAndSwapChain(
+	UINT swapFlags = 0u;
+#ifndef NDEBUG
+	swapFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+	HRESULT hr = D3D11CreateDeviceAndSwapChain(
 		adapters[0].pAdapter,			// Adapter
 		D3D_DRIVER_TYPE_UNKNOWN,		// DriverType
-		NULL,							// Software
-		NULL,							// Flags
-		NULL,							// FeatureLevels
+		nullptr,						// Software
+		swapFlags,						// Flags
+		nullptr,						// FeatureLevels
 		0,								// FeatureLevels
 		D3D11_SDK_VERSION,				// SDKVersion
 		&scd,							// SwapChainDesc
 		swapchain.GetAddressOf(),		// SwapChain
 		device.GetAddressOf(),			// Device
-		NULL,							// FeatureLevel
+		nullptr,						// FeatureLevel
 		deviceContext.GetAddressOf()	// ImmediateContext
 	);
-	GFX_ERROR_IF(hr, L"Failed to create device and swapchain.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to create device and swapchain.");
 
 	com_ptr<ID3D11Texture2D> backBuffer;
 	hr = swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backBuffer.GetAddressOf()));
-	GFX_ERROR_IF(hr, L"Failed to create backBuffer.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to create backBuffer.");
 
 
 
 	// Render Target
 	hr = device->CreateRenderTargetView(backBuffer.Get(), NULL, renderTargetView.GetAddressOf());
-	GFX_ERROR_IF(hr, L"Failed to create RenderTargetView.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to create RenderTargetView.");
 
 	// Depth
 	D3D11_TEXTURE2D_DESC depthStencilDesc;
@@ -145,10 +145,10 @@ void Graphics::InitializeDirectX(HWND hWnd)
 	depthStencilDesc.MiscFlags = 0;
 
 	hr = device->CreateTexture2D(&depthStencilDesc, NULL, depthStencilBuffer.GetAddressOf());
-	GFX_ERROR_IF(hr, L"Failed to create depth stencil buffer.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to create depth stencil buffer.");
 
 	hr = device->CreateDepthStencilView(depthStencilBuffer.Get(), NULL, depthStencilView.GetAddressOf());
-	GFX_ERROR_IF(hr, L"Failed to create depth stencil view.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to create depth stencil view.");
 
 	this->deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
 
@@ -162,7 +162,7 @@ void Graphics::InitializeDirectX(HWND hWnd)
 	depthStencilStateDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
 	depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
 	hr = device->CreateDepthStencilState(&depthStencilStateDesc, depthStencilState.GetAddressOf());
-	GFX_ERROR_IF(hr, L"Failed to create depth stencil state.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to create depth stencil state.");
 
 
 
@@ -172,7 +172,7 @@ void Graphics::InitializeDirectX(HWND hWnd)
 	rasterizerDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID; // Fill the triangles formed by the vertices. Adjacent vertices are not drawn.
 	rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;	 // Do not draw triangles that are back-facing.
 	hr = device->CreateRasterizerState(&rasterizerDesc, rasterizerState.GetAddressOf());
-	GFX_ERROR_IF(hr, L"Failed to create rasterizer state.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to create rasterizer state.");
 
 
 
@@ -187,7 +187,7 @@ void Graphics::InitializeDirectX(HWND hWnd)
 	sampDesc.MinLOD = 0;
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	hr = device->CreateSamplerState(&sampDesc, samplerState.GetAddressOf());
-	GFX_ERROR_IF(hr, L"Failed to create sampler state.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to create sampler state.");
 
 
 
@@ -221,7 +221,6 @@ void Graphics::Initialize()
 
 
 	camera.Initialize(Camera::ProjectionType::Perspective, static_cast<float>(windowWidth), static_cast<float>(windowHeight));
-	
 
 
 	// Scene
@@ -264,17 +263,17 @@ void Graphics::Initialize()
 		0, 3, 7, 0, 7, 4, // bottom
 	};
 	HRESULT hr = vertexBuffer.Initialize(device.Get(), v, ARRAYSIZE(v));
-	GFX_ERROR_IF(hr, L"Failed to create vertex buffer.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to create vertex buffer.");
 
 	hr = indexBuffer.Initialize(device.Get(), indices, ARRAYSIZE(indices));
-	GFX_ERROR_IF(hr, L"Failed to create index buffer.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to create index buffer.");
 
 	hr = constantBuffer.Initialize(device.Get(), deviceContext.Get());
-	GFX_ERROR_IF(hr, L"Failed to create constant buffer.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to create constant buffer.");
 
 
 
 	hr = DirectX::CreateWICTextureFromFile(device.Get(), L"Data\\Textures\\cat.jpg", nullptr, texture.GetAddressOf());
-	GFX_ERROR_IF(hr, L"Failed to load texture from file.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to load texture from file.");
 
 }

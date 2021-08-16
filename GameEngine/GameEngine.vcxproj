@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Exceptions\DxgiInfo.cpp" />
     <ClCompile Include="Engine\Scene\Camera.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Exceptions\EngineExceptions.cpp" />
@@ -188,8 +189,10 @@
     <ClCompile Include="Engine\Base\Vector.cpp" />
     <ClCompile Include="Engine\Window\Window.cpp" />
     <ClCompile Include="Engine\Window\WinMain.cpp" />
+    <ClCompile Include="Includes\dxerr\dxerr.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp" />
     <ClInclude Include="Engine\Scene\Camera.hpp" />
     <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp" />
     <ClInclude Include="Engine\Scene\GameObject.hpp" />
@@ -214,6 +217,7 @@
     <ClInclude Include="Engine\Window\resource.h" />
     <ClInclude Include="Engine\Helpers\StringHelper.hpp" />
     <ClInclude Include="Engine\Window\Window.hpp" />
+    <ClInclude Include="Includes\dxerr\dxerr.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\GameEngine.rc" />
@@ -242,6 +246,11 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Includes\dxerr\DXGetErrorDescription.inl" />
+    <None Include="Includes\dxerr\DXGetErrorString.inl" />
+    <None Include="Includes\dxerr\DXTrace.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

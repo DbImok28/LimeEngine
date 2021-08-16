@@ -40,6 +40,12 @@
     <Filter Include="Engine\Base">
       <UniqueIdentifier>{d0d4a15b-8c0e-46ef-9f39-6a5a96cec5aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Includes">
+      <UniqueIdentifier>{e5656f2e-698b-4c52-aab7-672ea616c678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\dxerr">
+      <UniqueIdentifier>{fd0a2959-07c6-4920-8d7e-59ef08c79e94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Window\Window.cpp">
@@ -104,6 +110,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Scene\Camera.cpp">
       <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\dxerr\dxerr.cpp">
+      <Filter>Includes\dxerr</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Exceptions\DxgiInfo.cpp">
+      <Filter>Engine\Exceptions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +191,12 @@
     <ClInclude Include="Engine\Scene\Camera.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Includes\dxerr\dxerr.h">
+      <Filter>Includes\dxerr</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp">
+      <Filter>Engine\Exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\GameEngine.rc">
@@ -197,5 +215,16 @@
     <FxCompile Include="VertexShader.hlsl">
       <Filter>Engine\Graphics\Resources\Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Includes\dxerr\DXGetErrorDescription.inl">
+      <Filter>Includes\dxerr</Filter>
+    </None>
+    <None Include="Includes\dxerr\DXGetErrorString.inl">
+      <Filter>Includes\dxerr</Filter>
+    </None>
+    <None Include="Includes\dxerr\DXTrace.inl">
+      <Filter>Includes\dxerr</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,18 +1,25 @@
 #pragma once
 #include "EngineExceptions.hpp"
+#include "DxgiInfo.hpp"
 #include <vector>
 #include <string>
 #include <sstream>
 
-#define GFX_EXCEPTION(hr) GraphicsHrException(__LINE__, __FILE__, hr)
-#define GFX_THROW_EXCEPTION_IF(hr) if(FAILED(hr)) throw GraphicsHrException(__LINE__, __FILE__, hr)
+#define GFX_MSG_EXCEPTION(msg)			GraphicsException(__LINE__, __FILE__, msg)
+#define GFX_MSG_HR_EXCEPTION(hr, msg)	GraphicsHrException(__LINE__, __FILE__, hr, msg)
 
-#define GFX_INFO_HR_EXCEPTION(hr, info) GraphicsHrException(__LINE__, __FILE__, hr, info)
-#define GFX_THROW_INFO_HR_EXCEPTION_IF(hr, info) if(FAILED(hr)) throw GraphicsHrException(__LINE__, __FILE__, hr, info)
+#ifndef NDEBUG
+static DxgiInfo dxgiErrorInfo;
 
-#define GFX_INFO_EXCEPTION(info) GraphicsException(__LINE__, __FILE__, info)
+#define GFX_HR_EXCEPTION(hr) GraphicsHrException(__LINE__, __FILE__, hr, dxgiErrorInfo.GetMessages())
+#define GFX_ERROR_IF_MSG(hr, msg)	if(FAILED(hr)) { auto info = dxgiErrorInfo.GetMessages(); info.push_back(msg); throw GFX_MSG_HR_EXCEPTION(hr, info);}
+#else
+#define GFX_HR_EXCEPTION(hr) GraphicsHrException(__LINE__, __FILE__, hr)
+#define GFX_ERROR_IF_MSG(hr, msg)	if(FAILED(hr)) throw GFX_MSG_HR_EXCEPTION(hr, msg)
+#endif
 
-#define GFX_ERROR_IF(hr, info) GFX_THROW_INFO_HR_EXCEPTION_IF(hr, info)
+#define GFX_ERROR_IF(hr)			if(FAILED(hr)) throw GFX_HR_EXCEPTION(hr)
+#define GFX_ERROR_IF_NOINFO(hr)		if(FAILED(hr)) throw GraphicsHrException(__LINE__, __FILE__, hr)
 
 class GraphicsException : public EngineException
 {

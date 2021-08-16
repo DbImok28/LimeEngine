@@ -9,17 +9,17 @@ void VertexShader::Initalize(com_ptr<ID3D11Device>& device, std::wstring shaderp
     {
         std::wostringstream oss;
         oss << L"Failed to load vertex shader: " << shaderpath;
-        throw GFX_INFO_HR_EXCEPTION(hr, oss.str());
+        throw GFX_MSG_HR_EXCEPTION(hr, oss.str());
     }
     hr = device->CreateVertexShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
     if (FAILED(hr))
     {
         std::wostringstream oss;
         oss << L"Failed to create vertex shader: " << shaderpath;
-        throw GFX_INFO_HR_EXCEPTION(hr, oss.str());
+        throw GFX_MSG_HR_EXCEPTION(hr, oss.str());
     }
     hr = device->CreateInputLayout(layoutDesc, numElements, shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), inputLoyout.GetAddressOf());
-    GFX_ERROR_IF(hr, L"Failed to create InputLayout.");
+    GFX_ERROR_IF_MSG(hr, L"Failed to create InputLayout.");
 }
 
 ID3D11VertexShader* VertexShader::GetShader() const noexcept
@@ -46,14 +46,14 @@ void PixelShader::Initalize(com_ptr<ID3D11Device>& device, std::wstring shaderpa
     {
         std::wstringstream oss;
         oss << L"Failed to load pixel shader: " << shaderpath;
-        throw GFX_INFO_HR_EXCEPTION(hr, oss.str());
+        throw GFX_MSG_HR_EXCEPTION(hr, oss.str());
     }
     hr = device->CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
     if (FAILED(hr))
     {
         std::wstringstream oss;
         oss << L"Failed to create pixel shader: " << shaderpath;
-        throw GFX_INFO_HR_EXCEPTION(hr, oss.str());
+        throw GFX_MSG_HR_EXCEPTION(hr, oss.str());
     }
 }
 

@@ -9,7 +9,7 @@ std::vector<GraphicAdapter> GraphicAdapter::GetGraphicAdapters()
 		return adapters;
 	com_ptr<IDXGIFactory> pFactory;
 	HRESULT hr = CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(pFactory.GetAddressOf()));
-	GFX_THROW_EXCEPTION_IF(hr);
+	GFX_ERROR_IF_NOINFO(hr);
 	
 	IDXGIAdapter* pAdapter;
 	UINT index = 0;
@@ -24,5 +24,5 @@ std::vector<GraphicAdapter> GraphicAdapter::GetGraphicAdapters()
 GraphicAdapter::GraphicAdapter(IDXGIAdapter* pAdapter) : pAdapter(pAdapter)
 {
 	HRESULT hr = pAdapter->GetDesc(&desc);
-	GFX_THROW_EXCEPTION_IF(hr);
+	GFX_ERROR_IF_NOINFO(hr);
 }

@@ -37,23 +37,23 @@ void Engine::Processing()
 	while (!window.inputDevice.mouse.EventBufferIsEmpty())
 	{
 		auto e = window.inputDevice.mouse.ReadEvent();
-		if (!window.inputDevice.keyboard.KeyIsPressed(VK_SHIFT) && e.GetType() == Mouse::MouseEvent::EventType::RawMove)
+		if (window.inputDevice.mouse.IsRightDown() && e.GetType() == Mouse::MouseEvent::EventType::RawMove)
 		{
 			window.GetGraphics().camera.AddObjectRotation(e.GetPosY() * cameraRotSpeed, e.GetPosX() * cameraRotSpeed, 0.0f);
 		}
 	}
-		if (window.inputDevice.keyboard.KeyIsPressed('X'))
-		{
-			window.GetGraphics().camera.AddObjectRotation(0.5f * deltaTime, 0.0f, 0.0f);
-		}
-		if (window.inputDevice.keyboard.KeyIsPressed('Y'))
-		{
-			window.GetGraphics().camera.AddObjectRotation(0.0f, 0.5f * deltaTime, 0.0f);
-		}
-		if (window.inputDevice.keyboard.KeyIsPressed('C'))
-		{
-			window.GetGraphics().camera.AddObjectRotation(0.0f, 0.0f, 0.5f * deltaTime);
-		}
+	if (window.inputDevice.keyboard.KeyIsPressed('X'))
+	{
+		window.GetGraphics().camera.AddObjectRotation(0.5f * deltaTime, 0.0f, 0.0f);
+	}
+	if (window.inputDevice.keyboard.KeyIsPressed('Y'))
+	{
+		window.GetGraphics().camera.AddObjectRotation(0.0f, 0.5f * deltaTime, 0.0f);
+	}
+	if (window.inputDevice.keyboard.KeyIsPressed('C'))
+	{
+		window.GetGraphics().camera.AddObjectRotation(0.0f, 0.0f, 0.5f * deltaTime);
+	}
 
 	float cameraSpeed = 20.0f;
 	if (window.inputDevice.keyboard.KeyIsPressed(VK_ESCAPE))

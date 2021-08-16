@@ -16,7 +16,7 @@ public:
 	const XMMATRIX& GetViewMatrix() noexcept;
 	const XMMATRIX& GetProjectionMatrix() const noexcept;
 	XMMATRIX GetViewProjectionMatrix() noexcept;
-	ProjectionType projectionType;
+	ProjectionType projectionType = ProjectionType::Perspective;
 
 	float width = 0.0f;
 	float height = 0.0f;
@@ -25,6 +25,6 @@ public:
 	float nearZ = 0.0f;
 	float farZ = 0.0f;
 private:
-	XMMATRIX viewMatrix;
-	XMMATRIX projectionMatrix;
+	XMMATRIX viewMatrix = XMMatrixIdentity();
+	XMMATRIX projectionMatrix = XMMatrixIdentity();
 };
