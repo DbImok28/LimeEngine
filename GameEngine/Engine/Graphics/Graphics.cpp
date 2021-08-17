@@ -58,7 +58,15 @@ void Graphics::Processing()
 
 void Graphics::PostProcessing()
 {
-	swapchain->Present(1, NULL);
+	HRESULT hr;
+	GFX_ERROR_INFO;
+	if (FAILED(hr = swapchain->Present(1, NULL)))
+	{
+		if (hr == DXGI_ERROR_DEVICE_REMOVED)
+			throw GFX_HR_EXCEPTION(device->GetDeviceRemovedReason());
+		else 
+			throw GFX_HR_EXCEPTION(hr);
+	}
 }
 
 /*
@@ -104,7 +112,8 @@ void Graphics::InitializeDirectX(HWND hWnd)
 #ifndef NDEBUG
 	swapFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
-	HRESULT hr = D3D11CreateDeviceAndSwapChain(
+	HRESULT hr;
+	GFX_ERROR_IF(D3D11CreateDeviceAndSwapChain(
 		adapters[0].pAdapter,			// Adapter
 		D3D_DRIVER_TYPE_UNKNOWN,		// DriverType
 		nullptr,						// Software
@@ -117,18 +126,16 @@ void Graphics::InitializeDirectX(HWND hWnd)
 		device.GetAddressOf(),			// Device
 		nullptr,						// FeatureLevel
 		deviceContext.GetAddressOf()	// ImmediateContext
-	);
-	GFX_ERROR_IF_MSG(hr, L"Failed to create device and swapchain.");
+	));
 
 	com_ptr<ID3D11Texture2D> backBuffer;
-	hr = swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backBuffer.GetAddressOf()));
-	GFX_ERROR_IF_MSG(hr, L"Failed to create backBuffer.");
+	GFX_ERROR_IF(swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backBuffer.GetAddressOf())));
 
 
 
 	// Render Target
-	hr = device->CreateRenderTargetView(backBuffer.Get(), NULL, renderTargetView.GetAddressOf());
-	GFX_ERROR_IF_MSG(hr, L"Failed to create RenderTargetView.");
+	GFX_ERROR_IF(device->CreateRenderTargetView(backBuffer.Get(), NULL, renderTargetView.GetAddressOf()));
+	//GFX_ERROR_IF_MSG(hr, L"Failed to create RenderTargetView.");
 
 	// Depth
 	D3D11_TEXTURE2D_DESC depthStencilDesc;
@@ -144,11 +151,9 @@ void Graphics::InitializeDirectX(HWND hWnd)
 	depthStencilDesc.CPUAccessFlags = 0;
 	depthStencilDesc.MiscFlags = 0;
 
-	hr = device->CreateTexture2D(&depthStencilDesc, NULL, depthStencilBuffer.GetAddressOf());
-	GFX_ERROR_IF_MSG(hr, L"Failed to create depth stencil buffer.");
+	GFX_ERROR_IF(device->CreateTexture2D(&depthStencilDesc, NULL, depthStencilBuffer.GetAddressOf()));
 
-	hr = device->CreateDepthStencilView(depthStencilBuffer.Get(), NULL, depthStencilView.GetAddressOf());
-	GFX_ERROR_IF_MSG(hr, L"Failed to create depth stencil view.");
+	GFX_ERROR_IF(device->CreateDepthStencilView(depthStencilBuffer.Get(), NULL, depthStencilView.GetAddressOf()));
 
 	this->deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
 
@@ -161,8 +166,7 @@ void Graphics::InitializeDirectX(HWND hWnd)
 	depthStencilStateDesc.DepthEnable = true;
 	depthStencilStateDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
 	depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
-	hr = device->CreateDepthStencilState(&depthStencilStateDesc, depthStencilState.GetAddressOf());
-	GFX_ERROR_IF_MSG(hr, L"Failed to create depth stencil state.");
+	GFX_ERROR_IF(device->CreateDepthStencilState(&depthStencilStateDesc, depthStencilState.GetAddressOf()));
 
 
 
@@ -171,8 +175,7 @@ void Graphics::InitializeDirectX(HWND hWnd)
 	ZeroMemory(&rasterizerDesc, sizeof(D3D11_RASTERIZER_DESC));
 	rasterizerDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID; // Fill the triangles formed by the vertices. Adjacent vertices are not drawn.
 	rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;	 // Do not draw triangles that are back-facing.
-	hr = device->CreateRasterizerState(&rasterizerDesc, rasterizerState.GetAddressOf());
-	GFX_ERROR_IF_MSG(hr, L"Failed to create rasterizer state.");
+	GFX_ERROR_IF(device->CreateRasterizerState(&rasterizerDesc, rasterizerState.GetAddressOf()));
 
 
 
@@ -186,8 +189,7 @@ void Graphics::InitializeDirectX(HWND hWnd)
 	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
 	sampDesc.MinLOD = 0;
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-	hr = device->CreateSamplerState(&sampDesc, samplerState.GetAddressOf());
-	GFX_ERROR_IF_MSG(hr, L"Failed to create sampler state.");
+	GFX_ERROR_IF(device->CreateSamplerState(&sampDesc, samplerState.GetAddressOf()));
 
 
 
@@ -221,7 +223,6 @@ void Graphics::Initialize()
 
 
 	camera.Initialize(Camera::ProjectionType::Perspective, static_cast<float>(windowWidth), static_cast<float>(windowHeight));
-
 
 	// Scene
 	/*Vertex v[]

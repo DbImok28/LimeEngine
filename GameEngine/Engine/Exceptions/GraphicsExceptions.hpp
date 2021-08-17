@@ -10,16 +10,18 @@
 
 #ifndef NDEBUG
 static DxgiInfo dxgiErrorInfo;
-
-#define GFX_HR_EXCEPTION(hr) GraphicsHrException(__LINE__, __FILE__, hr, dxgiErrorInfo.GetMessages())
-#define GFX_ERROR_IF_MSG(hr, msg)	if(FAILED(hr)) { auto info = dxgiErrorInfo.GetMessages(); info.push_back(msg); throw GFX_MSG_HR_EXCEPTION(hr, info);}
+#define GFX_ERROR_INFO				dxgiErrorInfo.Set()
+#define GFX_HR_EXCEPTION(hr)		GraphicsHrException(__LINE__, __FILE__, hr, dxgiErrorInfo.GetMessages())
+#define GFX_ERROR_IF_MSG(call, msg)	dxgiErrorInfo.Set(); if(FAILED(hr = (call))) { auto info = dxgiErrorInfo.GetMessages(); info.push_back(msg); throw GFX_MSG_HR_EXCEPTION(hr, info);}
+#define GFX_ERROR_IF(call)			dxgiErrorInfo.Set(); if(FAILED(hr = (call))) throw GFX_HR_EXCEPTION(hr)
 #else
-#define GFX_HR_EXCEPTION(hr) GraphicsHrException(__LINE__, __FILE__, hr)
-#define GFX_ERROR_IF_MSG(hr, msg)	if(FAILED(hr)) throw GFX_MSG_HR_EXCEPTION(hr, msg)
+#define GFX_ERROR_INFO
+#define GFX_HR_EXCEPTION(hr)		GraphicsHrException(__LINE__, __FILE__, hr)
+#define GFX_ERROR_IF_MSG(call, msg)	if(FAILED(hr = (call))) throw GFX_MSG_HR_EXCEPTION(hr, msg)
+#define GFX_ERROR_IF(call)			if(FAILED(hr = (call))) throw GFX_HR_EXCEPTION(hr)
 #endif
 
-#define GFX_ERROR_IF(hr)			if(FAILED(hr)) throw GFX_HR_EXCEPTION(hr)
-#define GFX_ERROR_IF_NOINFO(hr)		if(FAILED(hr)) throw GraphicsHrException(__LINE__, __FILE__, hr)
+#define GFX_ERROR_IF_NOINFO(call)	if(FAILED(hr = (call))) throw GraphicsHrException(__LINE__, __FILE__, hr)
 
 class GraphicsException : public EngineException
 {
