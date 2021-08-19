@@ -23,8 +23,11 @@ void Graphics::ImGuiUpdate()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
+
 	ImGui::Begin("Test");
 	ImGui::End();
+
+
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
