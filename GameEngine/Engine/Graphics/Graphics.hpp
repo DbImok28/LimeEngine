@@ -8,10 +8,9 @@
 #include <sstream>
 #include "Shaders.hpp"
 #include "../Base/Vertex.hpp"
-#include "Buffers/VertexBuffer.hpp"
-#include "Buffers/IndexBuffer.hpp"
 #include "Buffers/ConstantBuffer.hpp"
 #include "../Scene/Camera.hpp"
+#include "../Scene/Mesh.hpp"
 
 #define IMGUI
 
@@ -45,8 +44,7 @@ private:
 	com_ptr<ID3D11SamplerState> samplerState;
 	com_ptr<ID3D11ShaderResourceView> texture;
 
-	VertexBuffer vertexBuffer;
-	IndexBuffer indexBuffer;
+	Mesh mesh;
 	ConstantBuffer<CB_VS_VertexShader> constantBuffer;
 
 

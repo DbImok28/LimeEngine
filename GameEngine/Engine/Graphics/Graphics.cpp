@@ -38,6 +38,52 @@ Graphics::Graphics(HWND hWnd, int width, int height) : windowWidth(width), windo
 	InitializeDirectX(hWnd);
 	Initialize();
 
+	std::vector<Vertex> v
+	{
+		{-0.5f, -0.5f, -0.5f, 0.0f, 1.0f}, // front
+		{-0.5f,  0.5f, -0.5f, 0.0f, 0.0f},
+		{ 0.5f,  0.5f, -0.5f, 1.0f, 0.0f},
+		{ 0.5f, -0.5f, -0.5f, 1.0f, 1.0f},
+
+		{-0.5f, -0.5f, 0.5f, 0.0f, 1.0f}, // back
+		{-0.5f,  0.5f, 0.5f, 0.0f, 0.0f},
+		{ 0.5f,  0.5f, 0.5f, 1.0f, 0.0f},
+		{ 0.5f, -0.5f, 0.5f, 1.0f, 1.0f},
+	};
+	std::vector<DWORD> indices =
+	{
+		0, 1, 2, 0, 2, 3, // front
+		4, 7, 6, 4, 6, 5, // back
+		3, 2, 6, 3, 6, 7, // right
+		4, 5, 1, 4, 1, 0, // left
+		1, 5, 6, 1, 6, 2, // top
+		0, 3, 7, 0, 7, 4, // bottom
+	};
+	mesh = Mesh
+	(
+		device.Get(),
+		deviceContext.Get(),
+		{
+			{-0.5f, -0.5f, -0.5f, 0.0f, 1.0f}, // front
+			{-0.5f,  0.5f, -0.5f, 0.0f, 0.0f},
+			{ 0.5f,  0.5f, -0.5f, 1.0f, 0.0f},
+			{ 0.5f, -0.5f, -0.5f, 1.0f, 1.0f},
+
+			{-0.5f, -0.5f, 0.5f, 0.0f, 1.0f}, // back
+			{-0.5f,  0.5f, 0.5f, 0.0f, 0.0f},
+			{ 0.5f,  0.5f, 0.5f, 1.0f, 0.0f},
+			{ 0.5f, -0.5f, 0.5f, 1.0f, 1.0f},
+		},
+		{
+			0, 1, 2, 0, 2, 3, // front
+			4, 7, 6, 4, 6, 5, // back
+			3, 2, 6, 3, 6, 7, // right
+			4, 5, 1, 4, 1, 0, // left
+			1, 5, 6, 1, 6, 2, // top
+			0, 3, 7, 0, 7, 4, // bottom
+		},
+		XMMatrixIdentity()
+	);
 #ifdef IMGUI
 	ImGuiSetup(hWnd);
 #endif // IMGUI
@@ -71,25 +117,18 @@ void Graphics::PreProcessing()
 void Graphics::Processing()
 {
 
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
+	/*UINT stride = sizeof(Vertex);*/
+	/*UINT offset = 0;*/
 
-	deviceContext->PSSetShaderResources(0, 1, texture.GetAddressOf());
+	/*deviceContext->PSSetShaderResources(0, 1, texture.GetAddressOf());
 	deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);
-	deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
+	deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);*/
 
-	//const XMMATRIX TransformZUpToYUp = XMMatrixSet // Converting a Z Up Matrix to a Y Up Matrix
-	//(
-	//	1.0f, 0.0f, 0.0f, 0.0f,
-	//	0.0f, 0.0f, 1.0f, 0.0f,
-	//	0.0f, 1.0f, 0.0f, 0.0f,
-	//	0.0f, 0.0f, 0.0f, 1.0f
-	//);
 	constantBuffer.data.wvpMatrix = XMMatrixTranspose(camera.GetViewProjectionMatrix());
 	constantBuffer.ApplyChanges();
 	deviceContext->VSSetConstantBuffers(0, 1, constantBuffer.GetAddressOf());
-
-	deviceContext->DrawIndexed(indexBuffer.BufferSize(), 0, 0);
+	mesh.Draw();
+	//deviceContext->DrawIndexed(indexBuffer.BufferSize(), 0, 0);
 }
 
 void Graphics::PostProcessing()
@@ -265,49 +304,13 @@ void Graphics::Initialize()
 	camera.Initialize(Camera::ProjectionType::Perspective, static_cast<float>(windowWidth), static_cast<float>(windowHeight));
 
 	// Scene
-	/*Vertex v[]
-	{
-		{-0.5f, 1.0f, -0.5f, 0.0f, 1.0f},
-		{-0.5f, 1.0f,  0.5f, 0.0f, 0.0f},
-		{ 0.5f, 1.0f,  0.5f, 1.0f, 0.0f},
-		{ 0.5f, 1.0f, -0.5f, 1.0f, 1.0f},
-	};
-	DWORD indices[] =
-	{
-		0, 1, 2,
-		0, 2, 3
-	};*/
-	/*DWORD indices[] =
-	{
-		0, 2, 1,
-		0, 3, 2
-	};*/
-	Vertex v[]
-	{
-		{-0.5f, -0.5f, -0.5f, 0.0f, 1.0f}, // front
-		{-0.5f,  0.5f, -0.5f, 0.0f, 0.0f},
-		{ 0.5f,  0.5f, -0.5f, 1.0f, 0.0f},
-		{ 0.5f, -0.5f, -0.5f, 1.0f, 1.0f},
-
-		{-0.5f, -0.5f, 0.5f, 0.0f, 1.0f}, // back
-		{-0.5f,  0.5f, 0.5f, 0.0f, 0.0f},
-		{ 0.5f,  0.5f, 0.5f, 1.0f, 0.0f},
-		{ 0.5f, -0.5f, 0.5f, 1.0f, 1.0f},
-	};
-	DWORD indices[] =
-	{
-		0, 1, 2, 0, 2, 3, // front
-		4, 7, 6, 4, 6, 5, // back
-		3, 2, 6, 3, 6, 7, // right
-		4, 5, 1, 4, 1, 0, // left
-		1, 5, 6, 1, 6, 2, // top
-		0, 3, 7, 0, 7, 4, // bottom
-	};
-	HRESULT hr = vertexBuffer.Initialize(device.Get(), v, ARRAYSIZE(v));
+	
+	HRESULT hr;
+	/*HRESULT hr = vertexBuffer.Initialize(device.Get(), v, ARRAYSIZE(v));
 	GFX_ERROR_IF_MSG(hr, L"Failed to create vertex buffer.");
 
 	hr = indexBuffer.Initialize(device.Get(), indices, ARRAYSIZE(indices));
-	GFX_ERROR_IF_MSG(hr, L"Failed to create index buffer.");
+	GFX_ERROR_IF_MSG(hr, L"Failed to create index buffer.");*/
 
 	hr = constantBuffer.Initialize(device.Get(), deviceContext.Get());
 	GFX_ERROR_IF_MSG(hr, L"Failed to create constant buffer.");

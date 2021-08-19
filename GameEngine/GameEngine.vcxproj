@@ -204,6 +204,7 @@
     <ClCompile Include="Includes\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="Includes\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Includes\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Engine\Scene\Mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Includes\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Includes\ImGui\imstb_textedit.h" />
     <ClInclude Include="Includes\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Engine\Scene\Mesh.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\GameEngine.rc" />

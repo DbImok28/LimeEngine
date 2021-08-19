@@ -16,5 +16,5 @@ public:
 	HRESULT Initialize(ID3D11Device* device, DWORD* data, UINT numVertices) noexcept;
 	ID3D11Buffer* Get() const noexcept;
 	ID3D11Buffer* const* GetAddressOf() const noexcept;
-	UINT BufferSize() const noexcept;
+	UINT Count() const noexcept;
 };

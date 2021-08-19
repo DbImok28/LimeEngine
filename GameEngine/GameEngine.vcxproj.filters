@@ -138,6 +138,9 @@
     <ClCompile Include="Includes\ImGui\imgui_draw.cpp">
       <Filter>Includes\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Scene\Mesh.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\resource.h">
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="Includes\ImGui\imgui.h">
       <Filter>Includes\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\Mesh.hpp">
+      <Filter>Engine\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

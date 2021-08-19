@@ -61,7 +61,7 @@ ID3D11Buffer* const* IndexBuffer::GetAddressOf() const noexcept
 	return buffer.GetAddressOf();
 }
 
-UINT IndexBuffer::BufferSize() const noexcept
+UINT IndexBuffer::Count() const noexcept
 {
 	return bufferSize;
 }
