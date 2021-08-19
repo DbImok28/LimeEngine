@@ -1,11 +1,45 @@
 #include "Graphics.hpp"
 #include "GraphicAdapter.hpp"
 
+#ifdef IMGUI
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_impl_win32.h"
+#include "ImGui/imgui_impl_dx11.h"
+
+void Graphics::ImGuiSetup(HWND hWnd)
+{
+	// Setup ImGui
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui_ImplWin32_Init(hWnd);
+	ImGui_ImplDX11_Init(device.Get(), deviceContext.Get());
+	ImGui::StyleColorsDark();
+}
+
+void Graphics::ImGuiUpdate()
+{
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	ImGui::Begin("Test");
+	ImGui::End();
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+}
+#endif // IMGUI
+
 Graphics::Graphics(HWND hWnd, int width, int height) : windowWidth(width), windowHeight(height)
 {
 	InitializeDirectX(hWnd);
 	Initialize();
+
+#ifdef IMGUI
+	ImGuiSetup(hWnd);
+#endif // IMGUI
 }
+
 
 void Graphics::RenderFrame()
 {
@@ -20,7 +54,7 @@ void Graphics::PreProcessing()
 	deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	
+
 	deviceContext->OMSetDepthStencilState(depthStencilState.Get(), 0);
 	deviceContext->RSSetState(rasterizerState.Get());
 	deviceContext->PSSetSamplers(0, 1, samplerState.GetAddressOf());
@@ -29,7 +63,6 @@ void Graphics::PreProcessing()
 	deviceContext->IASetInputLayout(vertexShader.GatInputLoyout());
 	deviceContext->VSSetShader(vertexShader.GetShader(), NULL, 0);
 	deviceContext->PSSetShader(pixelShader.GetShader(), NULL, 0);
-
 }
 
 void Graphics::Processing()
@@ -58,6 +91,10 @@ void Graphics::Processing()
 
 void Graphics::PostProcessing()
 {
+#ifdef IMGUI
+	ImGuiUpdate();
+#endif // IMGUI
+
 	HRESULT hr;
 	GFX_ERROR_INFO;
 	if (FAILED(hr = swapchain->Present(1, NULL)))

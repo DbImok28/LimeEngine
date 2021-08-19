@@ -190,6 +190,12 @@
     <ClCompile Include="Engine\Window\Window.cpp" />
     <ClCompile Include="Engine\Window\WinMain.cpp" />
     <ClCompile Include="Includes\dxerr\dxerr.cpp" />
+    <ClCompile Include="Includes\ImGui\imgui.cpp" />
+    <ClCompile Include="Includes\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="Includes\ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="Includes\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="Includes\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="Includes\ImGui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp" />
@@ -218,6 +224,15 @@
     <ClInclude Include="Engine\Helpers\StringHelper.hpp" />
     <ClInclude Include="Engine\Window\Window.hpp" />
     <ClInclude Include="Includes\dxerr\dxerr.h" />
+    <ClInclude Include="Includes\ImGui\imconfig.h" />
+    <ClInclude Include="Includes\ImGui\imgui.h" />
+    <ClInclude Include="Includes\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="Includes\ImGui\imgui_impl_dx12.h" />
+    <ClInclude Include="Includes\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="Includes\ImGui\imgui_internal.h" />
+    <ClInclude Include="Includes\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="Includes\ImGui\imstb_textedit.h" />
+    <ClInclude Include="Includes\ImGui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\GameEngine.rc" />

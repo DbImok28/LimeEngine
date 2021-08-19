@@ -46,6 +46,9 @@
     <Filter Include="Includes\dxerr">
       <UniqueIdentifier>{fd0a2959-07c6-4920-8d7e-59ef08c79e94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Includes\ImGui">
+      <UniqueIdentifier>{0b8bd258-fd1f-4616-8122-384f5f1b0e12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Window\Window.cpp">
@@ -116,6 +119,24 @@
     </ClCompile>
     <ClCompile Include="Engine\Exceptions\DxgiInfo.cpp">
       <Filter>Engine\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\ImGui\imgui_impl_dx11.cpp">
+      <Filter>Includes\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\ImGui\imgui_impl_win32.cpp">
+      <Filter>Includes\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\ImGui\imgui_tables.cpp">
+      <Filter>Includes\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\ImGui\imgui_widgets.cpp">
+      <Filter>Includes\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\ImGui\imgui.cpp">
+      <Filter>Includes\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\ImGui\imgui_draw.cpp">
+      <Filter>Includes\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +217,33 @@
     </ClInclude>
     <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp">
       <Filter>Engine\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ImGui\imgui_impl_dx11.h">
+      <Filter>Includes\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ImGui\imgui_impl_dx12.h">
+      <Filter>Includes\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ImGui\imgui_impl_win32.h">
+      <Filter>Includes\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ImGui\imgui_internal.h">
+      <Filter>Includes\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ImGui\imstb_rectpack.h">
+      <Filter>Includes\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ImGui\imstb_textedit.h">
+      <Filter>Includes\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ImGui\imstb_truetype.h">
+      <Filter>Includes\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ImGui\imconfig.h">
+      <Filter>Includes\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ImGui\imgui.h">
+      <Filter>Includes\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

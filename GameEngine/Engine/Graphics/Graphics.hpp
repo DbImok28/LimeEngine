@@ -13,6 +13,8 @@
 #include "Buffers/ConstantBuffer.hpp"
 #include "../Scene/Camera.hpp"
 
+#define IMGUI
+
 class Graphics
 {
 public:
@@ -52,4 +54,10 @@ private:
 	int windowHeight = 0;
 public:
 	Camera camera;
+
+public:
+#ifdef IMGUI
+	void ImGuiSetup(HWND hWnd);
+	void ImGuiUpdate();
+#endif // IMGUI
 };

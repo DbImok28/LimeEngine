@@ -1,7 +1,7 @@
 #pragma once
+#include "../Graphics/DirectXDef.hpp"
 #include <vector>
 #include <string>
-#include <wrl.h>
 #include <dxgidebug.h>
 
 class DxgiInfo
@@ -14,5 +14,5 @@ public:
 	std::vector<std::wstring> GetMessages() const;
 private:
 	unsigned long long next = 0ull;
-	Microsoft::WRL::ComPtr<IDXGIInfoQueue> pDxgiInfoQueue;
+	com_ptr<IDXGIInfoQueue> pDxgiInfoQueue;
 };

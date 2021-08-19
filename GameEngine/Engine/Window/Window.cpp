@@ -127,8 +127,17 @@ LRESULT CALLBACK Window::HandleMsgForwarding(HWND hWnd, UINT msg, WPARAM wParam,
 	return pWindow->HandleMsg(hWnd, msg, wParam, lParam);
 }
 
+#ifdef IMGUI
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+#endif // IMGUI
+
 LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
+#ifdef IMGUI
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+		return true;
+#endif // IMGUI
+
 	switch (msg)
 	{
 	case WM_CLOSE:
