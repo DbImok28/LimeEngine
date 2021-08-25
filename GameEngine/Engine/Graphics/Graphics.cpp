@@ -27,6 +27,7 @@ void Graphics::ImGuiUpdate()
 	ImGui::Begin("Test");
 	ImGui::End();
 
+	//ImGui::DragFloat3()
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -37,7 +38,6 @@ Graphics::Graphics(HWND hWnd, int width, int height) : windowWidth(width), windo
 {
 	InitializeDirectX(hWnd);
 	Initialize();
-
 	std::vector<Vertex> v
 	{
 		{-0.5f, -0.5f, -0.5f, 0.0f, 1.0f}, // front
@@ -59,6 +59,9 @@ Graphics::Graphics(HWND hWnd, int width, int height) : windowWidth(width), windo
 		1, 5, 6, 1, 6, 2, // top
 		0, 3, 7, 0, 7, 4, // bottom
 	};
+	// Test
+	mat.Set(deviceContext.Get(), &vertexShader, &pixelShader);
+	mat.SetTextures({Texture2D(device.Get(), L"Data\\Textures\\cat.jpg", TextureType::Diffuse)});
 	mesh = Mesh
 	(
 		device.Get(),
@@ -82,6 +85,7 @@ Graphics::Graphics(HWND hWnd, int width, int height) : windowWidth(width), windo
 			1, 5, 6, 1, 6, 2, // top
 			0, 3, 7, 0, 7, 4, // bottom
 		},
+		mat,
 		XMMatrixIdentity()
 	);
 #ifdef IMGUI
@@ -109,9 +113,9 @@ void Graphics::PreProcessing()
 	deviceContext->PSSetSamplers(0, 1, samplerState.GetAddressOf());
 
 
-	deviceContext->IASetInputLayout(vertexShader.GatInputLoyout());
+	/*deviceContext->IASetInputLayout(vertexShader.GatInputLoyout());
 	deviceContext->VSSetShader(vertexShader.GetShader(), NULL, 0);
-	deviceContext->PSSetShader(pixelShader.GetShader(), NULL, 0);
+	deviceContext->PSSetShader(pixelShader.GetShader(), NULL, 0);*/
 }
 
 void Graphics::Processing()
@@ -120,13 +124,18 @@ void Graphics::Processing()
 	/*UINT stride = sizeof(Vertex);*/
 	/*UINT offset = 0;*/
 
-	/*deviceContext->PSSetShaderResources(0, 1, texture.GetAddressOf());
-	deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);
+	/*deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);
 	deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);*/
 
-	constantBuffer.data.wvpMatrix = XMMatrixTranspose(camera.GetViewProjectionMatrix());
+	/*constantBuffer.data.wvpMatrix = XMMatrixTranspose(camera.GetViewProjectionMatrix());
 	constantBuffer.ApplyChanges();
-	deviceContext->VSSetConstantBuffers(0, 1, constantBuffer.GetAddressOf());
+	deviceContext->VSSetConstantBuffers(0, 1, constantBuffer.GetAddressOf());*/
+
+	//deviceContext->PSSetShaderResources(0, 1, texture.GetAddressOf());
+	static ConstantBuffer<CB_VS_VertexShader> constantBuffer;
+	constantBuffer.Initialize(device.Get(), deviceContext.Get());
+	constantBuffer.data.wvpMatrix = XMMatrixTranspose(mesh.GetTransformMatrix() * camera.GetViewProjectionMatrix());
+	mat.ApplyConstantBuffer(constantBuffer);
 	mesh.Draw();
 	//deviceContext->DrawIndexed(indexBuffer.BufferSize(), 0, 0);
 }
@@ -312,12 +321,12 @@ void Graphics::Initialize()
 	hr = indexBuffer.Initialize(device.Get(), indices, ARRAYSIZE(indices));
 	GFX_ERROR_IF_MSG(hr, L"Failed to create index buffer.");*/
 
-	hr = constantBuffer.Initialize(device.Get(), deviceContext.Get());
-	GFX_ERROR_IF_MSG(hr, L"Failed to create constant buffer.");
+	/*hr = constantBuffer.Initialize(device.Get(), deviceContext.Get());
+	GFX_ERROR_IF_MSG(hr, L"Failed to create constant buffer.");*/
 
 
 
-	hr = DirectX::CreateWICTextureFromFile(device.Get(), L"Data\\Textures\\cat.jpg", nullptr, texture.GetAddressOf());
-	GFX_ERROR_IF_MSG(hr, L"Failed to load texture from file.");
+	/*hr = DirectX::CreateWICTextureFromFile(device.Get(), L"Data\\Textures\\cat.jpg", nullptr, texture.GetAddressOf());
+	GFX_ERROR_IF_MSG(hr, L"Failed to load texture from file.");*/
 
 }

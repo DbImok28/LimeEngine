@@ -138,8 +138,14 @@
     <ClCompile Include="Includes\ImGui\imgui_draw.cpp">
       <Filter>Includes\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\Mesh.cpp">
-      <Filter>Engine\Scene</Filter>
+    <ClCompile Include="Engine\Base\Texture2D.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Material.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Mesh.cpp">
+      <Filter>Engine\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -248,8 +254,14 @@
     <ClInclude Include="Includes\ImGui\imgui.h">
       <Filter>Includes\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\Mesh.hpp">
-      <Filter>Engine\Scene</Filter>
+    <ClInclude Include="Engine\Base\Texture2D.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Mesh.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Material.hpp">
+      <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -42,7 +42,7 @@ HRESULT IndexBuffer::Initialize(ID3D11Device* device, DWORD* data, UINT numVerti
 	indexBufferDesc.ByteWidth = sizeof(DWORD) * numVertices;
 	indexBufferDesc.StructureByteStride = sizeof(DWORD);
 	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	indexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	indexBufferDesc.CPUAccessFlags = 0;
 	indexBufferDesc.MiscFlags = 0;
 

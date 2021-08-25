@@ -2,15 +2,12 @@
 #include "DirectXDef.hpp"
 #include "../Exceptions/GraphicsExceptions.hpp"
 #include "../Helpers/Paths.hpp"
-#include <DirectXTK/WICTextureLoader.h>
 #include <vector>
 #include <string>
 #include <sstream>
-#include "Shaders.hpp"
 #include "../Base/Vertex.hpp"
-#include "Buffers/ConstantBuffer.hpp"
 #include "../Scene/Camera.hpp"
-#include "../Scene/Mesh.hpp"
+#include "../Base/Mesh.hpp"
 
 #define IMGUI
 
@@ -38,14 +35,13 @@ private:
 
 	com_ptr<ID3D11RasterizerState> rasterizerState;
 
+	com_ptr<ID3D11SamplerState> samplerState;
+
 	VertexShader vertexShader;
 	PixelShader pixelShader;
-
-	com_ptr<ID3D11SamplerState> samplerState;
-	com_ptr<ID3D11ShaderResourceView> texture;
-
+	Material mat;
 	Mesh mesh;
-	ConstantBuffer<CB_VS_VertexShader> constantBuffer;
+	//ConstantBuffer<CB_VS_VertexShader> constantBuffer;
 
 
 	int windowWidth = 0;

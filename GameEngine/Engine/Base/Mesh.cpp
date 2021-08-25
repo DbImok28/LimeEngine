@@ -1,20 +1,22 @@
 #include "Mesh.hpp"
 #include "../Exceptions/GraphicsExceptions.hpp"
 
-Mesh::Mesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices, const XMMATRIX& trasformMatrix)
+Mesh::Mesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices, Material& material, const XMMATRIX& trasformMatrix)
 	: deviceContext(deviceContext),
 	trasformMatrix(trasformMatrix),
 	vertices(vertices),
-	indices(indices)
+	indices(indices),
+	material(&material)
 {
 	InitializeBuffers(device);
 }
 
-Mesh::Mesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, std::vector<Vertex>&& vertices, std::vector<DWORD>&& indices, const XMMATRIX& trasformMatrix)
+Mesh::Mesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, std::vector<Vertex>&& vertices, std::vector<DWORD>&& indices, Material& material, const XMMATRIX& trasformMatrix)
 	: deviceContext(deviceContext),
 	trasformMatrix(trasformMatrix),
 	vertices(std::move(vertices)),
-	indices(std::move(indices))
+	indices(std::move(indices)),
+	material(&material)
 {
 	InitializeBuffers(device);
 }
@@ -40,6 +42,7 @@ const XMMATRIX& Mesh::GetTransformMatrix() const noexcept
 
 void Mesh::Draw()
 {
+	material->Apply();
 	UINT offset = 0;
 	deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
 	deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);

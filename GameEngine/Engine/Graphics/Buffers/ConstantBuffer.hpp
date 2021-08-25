@@ -1,4 +1,5 @@
 #pragma once
+#include <DirectXMath.h>
 #include "../Exceptions/GraphicsExceptions.hpp"
 
 template<class T>
