@@ -1,6 +1,6 @@
 #include "Engine.hpp"
 
-Engine::Engine(const wchar_t* windowTitle, int width, int height) : window(windowTitle, width, height)
+Engine::Engine(const wchar_t* windowTitle, int width, int height) : window(this, windowTitle, width, height)
 {
 }
 

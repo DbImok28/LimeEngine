@@ -1,6 +1,10 @@
 #pragma once
+/*
+* Copyright(C) 2021, by ѕавел якушик(ruby.circles774@gmail.com)
+*/
 #include "Window/Window.hpp"
 #include "Input/InputDevice.hpp"
+#include "Base/GameData.hpp"
 #include "Helpers/Timer.hpp"
 
 class Engine
@@ -18,5 +22,6 @@ public:
 public:
 	float deltaTime = 0;
 	Window window;
+	GameData gameData;
 	Timer timer;
 };

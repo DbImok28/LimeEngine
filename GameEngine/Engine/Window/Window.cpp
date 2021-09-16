@@ -38,7 +38,7 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return wndClassInstance.hInst;
 }
 
-Window::Window(const wchar_t* title, int width, int height): width(width), height(height),inputDevice()
+Window::Window(Engine* engine,const wchar_t* title, int width, int height): width(width), height(height),inputDevice()
 {
 	RECT wr;
 	wr.left = 100;
@@ -74,7 +74,7 @@ Window::Window(const wchar_t* title, int width, int height): width(width), heigh
 		rawInputInitialized = true;
 	}
 
-	pGfx = std::make_unique<Graphics>(hWnd, width, height);
+	pGfx = std::make_unique<Graphics>(hWnd, engine, width, height);
 }
 
 Window::~Window()

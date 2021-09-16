@@ -1,5 +1,6 @@
 #include "Graphics.hpp"
 #include "GraphicAdapter.hpp"
+#include "../Engine.hpp"
 
 #ifdef IMGUI
 #include "ImGui/imgui.h"
@@ -34,60 +35,11 @@ void Graphics::ImGuiUpdate()
 }
 #endif // IMGUI
 
-Graphics::Graphics(HWND hWnd, int width, int height) : windowWidth(width), windowHeight(height)
+Graphics::Graphics(HWND hWnd, Engine* engine, int width, int height) : windowWidth(width), windowHeight(height), pEngine(engine)
 {
+	// Engine is not constructed
 	InitializeDirectX(hWnd);
 	Initialize();
-	std::vector<Vertex> v
-	{
-		{-0.5f, -0.5f, -0.5f, 0.0f, 1.0f}, // front
-		{-0.5f,  0.5f, -0.5f, 0.0f, 0.0f},
-		{ 0.5f,  0.5f, -0.5f, 1.0f, 0.0f},
-		{ 0.5f, -0.5f, -0.5f, 1.0f, 1.0f},
-
-		{-0.5f, -0.5f, 0.5f, 0.0f, 1.0f}, // back
-		{-0.5f,  0.5f, 0.5f, 0.0f, 0.0f},
-		{ 0.5f,  0.5f, 0.5f, 1.0f, 0.0f},
-		{ 0.5f, -0.5f, 0.5f, 1.0f, 1.0f},
-	};
-	std::vector<DWORD> indices =
-	{
-		0, 1, 2, 0, 2, 3, // front
-		4, 7, 6, 4, 6, 5, // back
-		3, 2, 6, 3, 6, 7, // right
-		4, 5, 1, 4, 1, 0, // left
-		1, 5, 6, 1, 6, 2, // top
-		0, 3, 7, 0, 7, 4, // bottom
-	};
-	// Test
-	mat.Set(deviceContext.Get(), &vertexShader, &pixelShader);
-	mat.SetTextures({Texture2D(device.Get(), L"Data\\Textures\\cat.jpg", TextureType::Diffuse)});
-	mesh = Mesh
-	(
-		device.Get(),
-		deviceContext.Get(),
-		{
-			{-0.5f, -0.5f, -0.5f, 0.0f, 1.0f}, // front
-			{-0.5f,  0.5f, -0.5f, 0.0f, 0.0f},
-			{ 0.5f,  0.5f, -0.5f, 1.0f, 0.0f},
-			{ 0.5f, -0.5f, -0.5f, 1.0f, 1.0f},
-
-			{-0.5f, -0.5f, 0.5f, 0.0f, 1.0f}, // back
-			{-0.5f,  0.5f, 0.5f, 0.0f, 0.0f},
-			{ 0.5f,  0.5f, 0.5f, 1.0f, 0.0f},
-			{ 0.5f, -0.5f, 0.5f, 1.0f, 1.0f},
-		},
-		{
-			0, 1, 2, 0, 2, 3, // front
-			4, 7, 6, 4, 6, 5, // back
-			3, 2, 6, 3, 6, 7, // right
-			4, 5, 1, 4, 1, 0, // left
-			1, 5, 6, 1, 6, 2, // top
-			0, 3, 7, 0, 7, 4, // bottom
-		},
-		mat,
-		XMMatrixIdentity()
-	);
 #ifdef IMGUI
 	ImGuiSetup(hWnd);
 #endif // IMGUI
@@ -102,6 +54,37 @@ void Graphics::RenderFrame()
 }
 void Graphics::PreProcessing()
 {
+	static bool first = true;
+	if (first) {
+		static std::vector<Vertex> vertices
+		{
+			{-0.5f, -0.5f, -0.5f, 0.0f, 1.0f}, // front
+			{-0.5f,  0.5f, -0.5f, 0.0f, 0.0f},
+			{ 0.5f,  0.5f, -0.5f, 1.0f, 0.0f},
+			{ 0.5f, -0.5f, -0.5f, 1.0f, 1.0f},
+
+			{-0.5f, -0.5f, 0.5f, 0.0f, 1.0f}, // back
+			{-0.5f,  0.5f, 0.5f, 0.0f, 0.0f},
+			{ 0.5f,  0.5f, 0.5f, 1.0f, 0.0f},
+			{ 0.5f, -0.5f, 0.5f, 1.0f, 1.0f},
+		};
+		static std::vector<DWORD> indices =
+		{
+			0, 1, 2, 0, 2, 3, // front
+			4, 7, 6, 4, 6, 5, // back
+			3, 2, 6, 3, 6, 7, // right
+			4, 5, 1, 4, 1, 0, // left
+			1, 5, 6, 1, 6, 2, // top
+			0, 3, 7, 0, 7, 4, // bottom
+		};
+		auto mesh = pEngine->gameData.map.meshes.Create(0, device.Get(), deviceContext.Get(), vertices, indices);
+		auto material = pEngine->gameData.map.materials.Create(0, deviceContext.Get(), &vertexShader, &pixelShader);
+		auto texture = pEngine->gameData.map.textures2D.Create(0, device.Get(), L"Data\\Textures\\cat.jpg", TextureType::Diffuse);
+		material->AddTexture(texture);
+		mesh->SetMaterial(material);
+		first = false;
+	}
+
 	float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
 	deviceContext->ClearRenderTargetView(renderTargetView.Get(), bgcolor);
 	deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
@@ -133,10 +116,14 @@ void Graphics::Processing()
 
 	//deviceContext->PSSetShaderResources(0, 1, texture.GetAddressOf());
 	static ConstantBuffer<CB_VS_VertexShader> constantBuffer;
+	static Mesh* mesh = pEngine->gameData.map.meshes.Get(0);
+	static Material* mat = pEngine->gameData.map.materials.Get(0);
+
 	constantBuffer.Initialize(device.Get(), deviceContext.Get());
-	constantBuffer.data.wvpMatrix = XMMatrixTranspose(mesh.GetTransformMatrix() * camera.GetViewProjectionMatrix());
-	mat.ApplyConstantBuffer(constantBuffer);
-	mesh.Draw();
+	constantBuffer.data.wvpMatrix = XMMatrixTranspose(mesh->GetTransformMatrix() * camera.GetViewProjectionMatrix());
+	mat->ApplyConstantBuffer(constantBuffer);
+	mesh->Draw();
+
 	//deviceContext->DrawIndexed(indexBuffer.BufferSize(), 0, 0);
 }
 
@@ -314,7 +301,7 @@ void Graphics::Initialize()
 
 	// Scene
 	
-	HRESULT hr;
+	//HRESULT hr;
 	/*HRESULT hr = vertexBuffer.Initialize(device.Get(), v, ARRAYSIZE(v));
 	GFX_ERROR_IF_MSG(hr, L"Failed to create vertex buffer.");
 

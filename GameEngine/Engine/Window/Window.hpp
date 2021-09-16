@@ -1,4 +1,7 @@
 #pragma once
+/*
+* Copyright(C) 2021, by ѕавел якушик(ruby.circles774@gmail.com)
+*/
 #include "WinApi.hpp"
 #include <optional>
 #include <memory>
@@ -37,7 +40,7 @@ private:
 		HINSTANCE hInst;
 	};
 public:
-	Window(const wchar_t* title = L"GameEngine", int width = 1080, int height = 720);
+	Window(Engine* engine, const wchar_t* title = L"GameEngine", int width = 1080, int height = 720);
 	~Window();
 	Window(const Window&) = delete;
 	Window(Window&&) noexcept = delete;
