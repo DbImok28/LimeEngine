@@ -15,7 +15,7 @@ int APIENTRY wWinMain(
 			throw HR_EXCEPTION(hr);
 		Engine engine;
 		engine.Start();
-		return 0;
+		return EXIT_SUCCESS;
 	}
 	catch (const EngineException& e)
 	{
@@ -29,5 +29,5 @@ int APIENTRY wWinMain(
 	{
 		MessageBoxA(nullptr, "No info", "Unknown exception", MB_OK | MB_ICONEXCLAMATION);
 	}
-	return -1;
+	return EXIT_FAILURE;
 }
