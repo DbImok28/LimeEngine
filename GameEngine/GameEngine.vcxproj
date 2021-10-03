@@ -209,6 +209,7 @@
     <ClCompile Include="Engine\Base\Material.cpp" />
     <ClCompile Include="Engine\Base\Texture2D.cpp" />
     <ClCompile Include="Engine\Base\Map.cpp" />
+    <ClCompile Include="Engine\Exceptions\WindowExceptions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp" />
@@ -251,6 +252,7 @@
     <ClInclude Include="Engine\Base\Material.hpp" />
     <ClInclude Include="Engine\Base\Texture2D.hpp" />
     <ClInclude Include="Engine\Base\Map.hpp" />
+    <ClInclude Include="Engine\Exceptions\WindowExceptions.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\GameEngine.rc" />

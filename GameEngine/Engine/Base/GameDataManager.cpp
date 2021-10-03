@@ -2,8 +2,8 @@
 #include "../Engine.hpp"
 #include "../Helpers/Paths.hpp"
 
-GameDataManager::GameDataManager(com_ptr<ID3D11Device> device, com_ptr<ID3D11DeviceContext> deviceContext, Engine* engine)
-	: device(device), deviceContext(deviceContext), pEngine(engine)
+GameDataManager::GameDataManager(Graphics* gfx) noexcept :
+	graphics(gfx)
 {
 }
 
@@ -19,8 +19,8 @@ void GameDataManager::StartupLoading()
 		//{"NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 	UINT numElements = ARRAYSIZE(loyout);
-	vertexShader.Initalize(device, Paths::ShaderFolder + L"VertexShader.cso", loyout, numElements);
-	pixelShader.Initalize(device, Paths::ShaderFolder + L"PixelShader.cso");
+	vertexShader.Initalize(graphics->device, Paths::ShaderFolder + L"VertexShader.cso", loyout, numElements);
+	pixelShader.Initalize(graphics->device, Paths::ShaderFolder + L"PixelShader.cso");
 
 
 
@@ -45,9 +45,9 @@ void GameDataManager::StartupLoading()
 		1, 5, 6, 1, 6, 2, // top
 		0, 3, 7, 0, 7, 4, // bottom
 	};
-	auto mesh = map.meshes.Create(0, device.Get(), deviceContext.Get(), vertices, indices);
-	auto material = map.materials.Create(0, deviceContext.Get(), &vertexShader, &pixelShader);
-	auto texture = map.textures2D.Create(0, device.Get(), L"Data\\Textures\\cat.jpg", TextureType::Diffuse);
+	auto mesh = map.meshes.Create(0, graphics->device.Get(), graphics->deviceContext.Get(), vertices, indices);
+	auto material = map.materials.Create(0, graphics->deviceContext.Get(), &vertexShader, &pixelShader);
+	auto texture = map.textures2D.Create(0, graphics->device.Get(), L"Data\\Textures\\cat.jpg", TextureType::Diffuse);
 	material->AddTexture(texture);
 	mesh->SetMaterial(material);
 }

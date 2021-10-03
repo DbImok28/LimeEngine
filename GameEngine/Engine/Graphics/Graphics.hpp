@@ -3,34 +3,40 @@
 * Copyright(C) 2021, by ѕавел якушик(ruby.circles774@gmail.com)
 */
 #include "DirectXDef.hpp"
-#include "../Exceptions/GraphicsExceptions.hpp"
-#include "../Helpers/Paths.hpp"
-#include "Shaders.hpp"
 #include <vector>
 #include <string>
 #include <sstream>
-#include "../Base/Vertex.hpp"
-#include "../Scene/Camera.hpp"
-
+#include "Shaders.hpp"
 #include "../Base/Material.hpp"
+#include "../Scene/Camera.hpp"
+#include "../Exceptions/GraphicsExceptions.hpp"
+#include "../Helpers/Paths.hpp"
 
-#define IMGUI
+#ifndef NO_IMGUI
+	#ifndef IMGUI
+		#define IMGUI
+	#endif // !IMGUI
+#endif // !NO_IMGUI
+
 
 class Engine;
 
 class Graphics
 {
 public:
-	Graphics(HWND hWnd, Engine* engine, int width, int height);
+	Graphics() = default;
+	Graphics(const Graphics&) = delete;
+	Graphics(Graphics&&) noexcept = delete;
+	Graphics& operator=(const Graphics&) = delete;
+	Graphics& operator=(Graphics&&) noexcept = delete;
+
 	void RenderFrame();
+	void Initialize(HWND hWnd, Engine* engine, int width, int height);
 private:
+	void InitializeDirectX(HWND hWnd);
 	void PreProcessing();
 	void Processing();
 	void PostProcessing();
-
-	void InitializeDirectX(HWND hWnd);
-	void Initialize();
-
 
 	com_ptr<IDXGISwapChain> swapchain;
 	com_ptr<ID3D11RenderTargetView> renderTargetView;
@@ -47,18 +53,16 @@ public:
 	com_ptr<ID3D11Device> device;
 	com_ptr<ID3D11DeviceContext> deviceContext;
 
-	//Material *mat;
-	//Mesh mesh;
-	//ConstantBuffer<CB_VS_VertexShader> constantBuffer;
-
 private:
 	int windowWidth = 0;
 	int windowHeight = 0;
+
 public:
 	Camera camera;
-	Engine* pEngine;
-public:
+	Engine* pEngine = nullptr;
+
 #ifdef IMGUI
+public:
 	void ImGuiSetup(HWND hWnd);
 	void ImGuiUpdate();
 #endif // IMGUI

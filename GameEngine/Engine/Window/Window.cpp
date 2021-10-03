@@ -38,7 +38,10 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return wndClassInstance.hInst;
 }
 
-Window::Window(Engine* engine,const wchar_t* title, int width, int height): width(width), height(height),inputDevice()
+Window::Window(Engine* engine, const wchar_t* title, int width, int height) : 
+	width(width), 
+	height(height),
+	inputDevice()
 {
 	RECT wr;
 	wr.left = 100;
@@ -74,7 +77,7 @@ Window::Window(Engine* engine,const wchar_t* title, int width, int height): widt
 		rawInputInitialized = true;
 	}
 
-	pGfx = std::make_unique<Graphics>(hWnd, engine, width, height);
+	graphics.Initialize(hWnd, engine, width, height);
 }
 
 Window::~Window()
@@ -276,14 +279,4 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	}
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
-}
-
-Graphics& Window::GetGraphics() const noexcept
-{
-	return *pGfx;
-}
-
-const wchar_t* Window::WindowException::GetType() const noexcept
-{
-	return L"WindowException";
 }

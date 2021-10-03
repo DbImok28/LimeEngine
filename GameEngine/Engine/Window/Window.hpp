@@ -5,22 +5,12 @@
 #include "WinApi.hpp"
 #include <optional>
 #include <memory>
-#include "../Input/InputDevice.hpp"
-#include "../Exceptions/EngineExceptions.hpp"
 #include "../Graphics/Graphics.hpp"
-
-#define WND_EXCEPTION(hr) Window::WindowException(__LINE__, __FILE__, hr)
-#define WND_LAST_EXCEPTION() Window::WindowException(__LINE__, __FILE__, GetLastError())
+#include "../Input/InputDevice.hpp"
+#include "../Exceptions/WindowExceptions.hpp"
 
 class Window
 {
-public:
-	class WindowException : public EngineHrException
-	{
-		using EngineHrException::EngineHrException;
-	public:
-		const wchar_t* GetType() const noexcept override;
-	};
 private:
 	class WindowClass
 	{
@@ -49,17 +39,18 @@ public:
 
 	void SetTitle(const std::wstring& title);
 	std::optional<int> ProcessMessages() noexcept;
+
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgForwarding(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 
 public:
-	Graphics& GetGraphics()const noexcept;
 	int width;
 	int height;
+	Graphics graphics;
 	InputDevice inputDevice;
+
 private:
 	HWND hWnd;
-	std::unique_ptr<Graphics> pGfx = nullptr;
 };

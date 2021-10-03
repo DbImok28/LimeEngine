@@ -153,6 +153,9 @@
     <ClCompile Include="Engine\Base\Map.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Exceptions\WindowExceptions.cpp">
+      <Filter>Engine\Exceptions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\resource.h">
@@ -274,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Base\Map.hpp">
       <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Exceptions\WindowExceptions.hpp">
+      <Filter>Engine\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

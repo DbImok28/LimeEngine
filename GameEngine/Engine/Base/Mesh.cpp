@@ -21,8 +21,8 @@ Mesh::Mesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, std::vector
 	InitializeBuffers(device);
 }*/
 
-Mesh::Mesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices, const XMMATRIX& trasformMatrix)
-	: deviceContext(deviceContext),
+Mesh::Mesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices, const XMMATRIX& trasformMatrix) : 
+	deviceContext(deviceContext),
 	vertices(vertices),
 	indices(indices),
 	trasformMatrix(trasformMatrix)

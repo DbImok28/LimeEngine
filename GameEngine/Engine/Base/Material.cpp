@@ -1,7 +1,9 @@
 #include "Material.hpp"
 
-Material::Material(ID3D11DeviceContext* deviceContext, VertexShader* vertexShader, PixelShader* pixelShader)
-	: deviceContext(deviceContext), vertexShader(vertexShader), pixelShader(pixelShader)
+Material::Material(ID3D11DeviceContext* deviceContext, VertexShader* vertexShader, PixelShader* pixelShader) : 
+	deviceContext(deviceContext), 
+	vertexShader(vertexShader), 
+	pixelShader(pixelShader)
 {
 }
 

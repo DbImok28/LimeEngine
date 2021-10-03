@@ -6,127 +6,37 @@
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "ImGui/imgui_impl_dx11.h"
-
-void Graphics::ImGuiSetup(HWND hWnd)
-{
-	// Setup ImGui
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	ImGui_ImplWin32_Init(hWnd);
-	ImGui_ImplDX11_Init(device.Get(), deviceContext.Get());
-	ImGui::StyleColorsDark();
-}
-
-void Graphics::ImGuiUpdate()
-{
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-
-
-	ImGui::Begin("Test");
-	ImGui::End();
-
-	//ImGui::DragFloat3()
-
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-}
 #endif // IMGUI
 
-Graphics::Graphics(HWND hWnd, Engine* engine, int width, int height) : windowWidth(width), windowHeight(height), pEngine(engine)
+void Graphics::Initialize(HWND hWnd, Engine* engine, int width, int height)
 {
-	// Engine is not constructed
+	pEngine = engine;
+	windowWidth = width;
+	windowHeight = height;
+
 	InitializeDirectX(hWnd);
-	Initialize();
+
+	camera.Initialize(Camera::ProjectionType::Perspective, static_cast<float>(windowWidth), static_cast<float>(windowHeight));
+
 #ifdef IMGUI
 	ImGuiSetup(hWnd);
 #endif // IMGUI
 }
 
-
-void Graphics::RenderFrame()
-{
-	PreProcessing();
-	Processing();
-	PostProcessing();
-}
-void Graphics::PreProcessing()
-{
-	float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
-	deviceContext->ClearRenderTargetView(renderTargetView.Get(), bgcolor);
-	deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
-	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	deviceContext->OMSetDepthStencilState(depthStencilState.Get(), 0);
-	deviceContext->RSSetState(rasterizerState.Get());
-	deviceContext->PSSetSamplers(0, 1, samplerState.GetAddressOf());
-
-
-	/*deviceContext->IASetInputLayout(vertexShader.GatInputLoyout());
-	deviceContext->VSSetShader(vertexShader.GetShader(), NULL, 0);
-	deviceContext->PSSetShader(pixelShader.GetShader(), NULL, 0);*/
-}
-
-void Graphics::Processing()
-{
-
-	/*UINT stride = sizeof(Vertex);*/
-	/*UINT offset = 0;*/
-
-	/*deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);
-	deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);*/
-
-	/*constantBuffer.data.wvpMatrix = XMMatrixTranspose(camera.GetViewProjectionMatrix());
-	constantBuffer.ApplyChanges();
-	deviceContext->VSSetConstantBuffers(0, 1, constantBuffer.GetAddressOf());*/
-
-	//deviceContext->PSSetShaderResources(0, 1, texture.GetAddressOf());
-	static ConstantBuffer<CB_VS_VertexShader> constantBuffer;
-	static Mesh* mesh = pEngine->gameDataManager.map.meshes.Get(0);
-	static Material* mat = pEngine->gameDataManager.map.materials.Get(0);
-
-	constantBuffer.Initialize(device.Get(), deviceContext.Get());
-	constantBuffer.data.wvpMatrix = XMMatrixTranspose(mesh->GetTransformMatrix() * camera.GetViewProjectionMatrix());
-	mat->ApplyConstantBuffer(constantBuffer);
-	mesh->Draw();
-
-	//deviceContext->DrawIndexed(indexBuffer.BufferSize(), 0, 0);
-}
-
-void Graphics::PostProcessing()
-{
-#ifdef IMGUI
-	ImGuiUpdate();
-#endif // IMGUI
-
-	HRESULT hr;
-	GFX_ERROR_INFO;
-	if (FAILED(hr = swapchain->Present(1, NULL)))
-	{
-		if (hr == DXGI_ERROR_DEVICE_REMOVED)
-			throw GFX_HR_EXCEPTION(device->GetDeviceRemovedReason());
-		else 
-			throw GFX_HR_EXCEPTION(hr);
-	}
-}
-
-/*
-1  Input Assembler		(IA) Stage
-2  Vertex Shader		(VS) Stage
-3  Hull Shader			(HS) Stage
-4  Tessellator Shader	(TS) Stage
-5  Domain Shader		(DS) Stage
-6  Geometry Shader		(GS) Stage
-7  Stream Output		(SO) Stage
-8  Rasterizer			(RS) Stage
-9  Pixel Shader			(PS) Stage
-10 Output Merger		(OM) Stage
-*/
 void Graphics::InitializeDirectX(HWND hWnd)
 {
+	/*
+	1  Input Assembler		(IA) Stage
+	2  Vertex Shader		(VS) Stage
+	3  Hull Shader			(HS) Stage
+	4  Tessellator Shader	(TS) Stage
+	5  Domain Shader		(DS) Stage
+	6  Geometry Shader		(GS) Stage
+	7  Stream Output		(SO) Stage
+	8  Rasterizer			(RS) Stage
+	9  Pixel Shader			(PS) Stage
+	10 Output Merger		(OM) Stage
+	*/
 	std::vector<GraphicAdapter> adapters = GraphicAdapter::GetGraphicAdapters();
 	if (adapters.size() < 1)
 		throw GFX_MSG_EXCEPTION(L"No found DXGI Adapters.");
@@ -252,25 +162,98 @@ void Graphics::InitializeDirectX(HWND hWnd)
 
 }
 
-void Graphics::Initialize()
+void Graphics::RenderFrame()
 {
-
-	camera.Initialize(Camera::ProjectionType::Perspective, static_cast<float>(windowWidth), static_cast<float>(windowHeight));
-	// Scene
-	
-	//HRESULT hr;
-	/*HRESULT hr = vertexBuffer.Initialize(device.Get(), v, ARRAYSIZE(v));
-	GFX_ERROR_IF_MSG(hr, L"Failed to create vertex buffer.");
-
-	hr = indexBuffer.Initialize(device.Get(), indices, ARRAYSIZE(indices));
-	GFX_ERROR_IF_MSG(hr, L"Failed to create index buffer.");*/
-
-	/*hr = constantBuffer.Initialize(device.Get(), deviceContext.Get());
-	GFX_ERROR_IF_MSG(hr, L"Failed to create constant buffer.");*/
-
-
-
-	/*hr = DirectX::CreateWICTextureFromFile(device.Get(), L"Data\\Textures\\cat.jpg", nullptr, texture.GetAddressOf());
-	GFX_ERROR_IF_MSG(hr, L"Failed to load texture from file.");*/
-
+	PreProcessing();
+	Processing();
+	PostProcessing();
 }
+
+void Graphics::PreProcessing()
+{
+	float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
+	deviceContext->ClearRenderTargetView(renderTargetView.Get(), bgcolor);
+	deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	deviceContext->OMSetDepthStencilState(depthStencilState.Get(), 0);
+	deviceContext->RSSetState(rasterizerState.Get());
+	deviceContext->PSSetSamplers(0, 1, samplerState.GetAddressOf());
+
+
+	/*deviceContext->IASetInputLayout(vertexShader.GatInputLoyout());
+	deviceContext->VSSetShader(vertexShader.GetShader(), NULL, 0);
+	deviceContext->PSSetShader(pixelShader.GetShader(), NULL, 0);*/
+}
+
+void Graphics::Processing()
+{
+	/*UINT stride = sizeof(Vertex);*/
+	/*UINT offset = 0;*/
+
+	/*deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);
+	deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);*/
+
+	/*constantBuffer.data.wvpMatrix = XMMatrixTranspose(camera.GetViewProjectionMatrix());
+	constantBuffer.ApplyChanges();
+	deviceContext->VSSetConstantBuffers(0, 1, constantBuffer.GetAddressOf());*/
+
+	//deviceContext->PSSetShaderResources(0, 1, texture.GetAddressOf());
+	static ConstantBuffer<CB_VS_VertexShader> constantBuffer;
+	static Mesh* mesh = pEngine->gameDataManager.map.meshes.Get(0);
+	static Material* mat = pEngine->gameDataManager.map.materials.Get(0);
+
+	constantBuffer.Initialize(device.Get(), deviceContext.Get());
+	constantBuffer.data.wvpMatrix = XMMatrixTranspose(mesh->GetTransformMatrix() * camera.GetViewProjectionMatrix());
+	mat->ApplyConstantBuffer(constantBuffer);
+	mesh->Draw();
+
+	//deviceContext->DrawIndexed(indexBuffer.BufferSize(), 0, 0);
+}
+
+void Graphics::PostProcessing()
+{
+#ifdef IMGUI
+	ImGuiUpdate();
+#endif // IMGUI
+
+	HRESULT hr;
+	GFX_ERROR_INFO;
+	if (FAILED(hr = swapchain->Present(1, NULL)))
+	{
+		if (hr == DXGI_ERROR_DEVICE_REMOVED)
+			throw GFX_HR_EXCEPTION(device->GetDeviceRemovedReason());
+		else 
+			throw GFX_HR_EXCEPTION(hr);
+	}
+}
+
+#ifdef IMGUI
+void Graphics::ImGuiSetup(HWND hWnd)
+{
+	// Setup ImGui
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui_ImplWin32_Init(hWnd);
+	ImGui_ImplDX11_Init(device.Get(), deviceContext.Get());
+	ImGui::StyleColorsDark();
+}
+
+void Graphics::ImGuiUpdate()
+{
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+
+	ImGui::Begin("Test");
+	ImGui::End();
+
+	//ImGui::DragFloat3()
+
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+}
+#endif // IMGUI
