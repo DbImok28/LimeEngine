@@ -147,7 +147,7 @@
     <ClCompile Include="Engine\Base\Mesh.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\GameData.cpp">
+    <ClCompile Include="Engine\Base\GameDataManager.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\Map.cpp">
@@ -269,7 +269,7 @@
     <ClInclude Include="Engine\Base\Material.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\GameData.hpp">
+    <ClInclude Include="Engine\Base\GameDataManager.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Map.hpp">

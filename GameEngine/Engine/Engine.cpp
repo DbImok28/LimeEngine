@@ -1,11 +1,17 @@
 #include "Engine.hpp"
 
-Engine::Engine(const wchar_t* windowTitle, int width, int height) : window(this, windowTitle, width, height)
+Engine::Engine(const wchar_t* windowTitle, int width, int height) : window(this, windowTitle, width, height), gameDataManager(window.GetGraphics().device,window.GetGraphics().deviceContext, this)
 {
+}
+
+void Engine::Initialize()
+{
+	gameDataManager.StartupLoading();
 }
 
 int Engine::Start()
 {
+	Initialize();
 	timer.Start();
 	std::optional<int> exitCode = 0;
 	while (true)

@@ -197,7 +197,7 @@
     <ClCompile Include="Engine\Base\Vector.cpp" />
     <ClCompile Include="Engine\Window\Window.cpp" />
     <ClCompile Include="Engine\Window\WinMain.cpp" />
-    <ClCompile Include="Engine\Base\GameData.cpp" />
+    <ClCompile Include="Engine\Base\GameDataManager.cpp" />
     <ClCompile Include="Includes\dxerr\dxerr.cpp" />
     <ClCompile Include="Includes\ImGui\imgui.cpp" />
     <ClCompile Include="Includes\ImGui\imgui_draw.cpp" />
@@ -236,7 +236,7 @@
     <ClInclude Include="Engine\Window\resource.h" />
     <ClInclude Include="Engine\Helpers\StringHelper.hpp" />
     <ClInclude Include="Engine\Window\Window.hpp" />
-    <ClInclude Include="Engine\Base\GameData.hpp" />
+    <ClInclude Include="Engine\Base\GameDataManager.hpp" />
     <ClInclude Include="Includes\dxerr\dxerr.h" />
     <ClInclude Include="Includes\ImGui\imconfig.h" />
     <ClInclude Include="Includes\ImGui\imgui.h" />

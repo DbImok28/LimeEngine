@@ -4,7 +4,7 @@
 */
 #include "Window/Window.hpp"
 #include "Input/InputDevice.hpp"
-#include "Base/GameData.hpp"
+#include "Base/GameDataManager.hpp"
 #include "Helpers/Timer.hpp"
 
 class Engine
@@ -16,12 +16,13 @@ public:
 	Engine& operator=(Engine&&) noexcept = delete;
 	Engine(const wchar_t* windowTitle = L"GameEngine", int width = 1080, int height = 720);
 
+	void Initialize();
 	int Start();
 	void Processing();
 	void RenderFrame();
 public:
 	float deltaTime = 0;
 	Window window;
-	GameData gameData;
+	GameDataManager gameDataManager;
 	Timer timer;
 };

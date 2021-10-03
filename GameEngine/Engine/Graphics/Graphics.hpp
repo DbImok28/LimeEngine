@@ -31,8 +31,6 @@ private:
 	void InitializeDirectX(HWND hWnd);
 	void Initialize();
 
-	com_ptr<ID3D11Device> device;
-	com_ptr<ID3D11DeviceContext> deviceContext;
 
 	com_ptr<IDXGISwapChain> swapchain;
 	com_ptr<ID3D11RenderTargetView> renderTargetView;
@@ -45,14 +43,15 @@ private:
 
 	com_ptr<ID3D11SamplerState> samplerState;
 
-	VertexShader vertexShader;
-	PixelShader pixelShader;
+public:
+	com_ptr<ID3D11Device> device;
+	com_ptr<ID3D11DeviceContext> deviceContext;
 
 	//Material *mat;
 	//Mesh mesh;
 	//ConstantBuffer<CB_VS_VertexShader> constantBuffer;
 
-
+private:
 	int windowWidth = 0;
 	int windowHeight = 0;
 public:

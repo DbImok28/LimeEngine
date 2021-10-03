@@ -54,37 +54,6 @@ void Graphics::RenderFrame()
 }
 void Graphics::PreProcessing()
 {
-	static bool first = true;
-	if (first) {
-		static std::vector<Vertex> vertices
-		{
-			{-0.5f, -0.5f, -0.5f, 0.0f, 1.0f}, // front
-			{-0.5f,  0.5f, -0.5f, 0.0f, 0.0f},
-			{ 0.5f,  0.5f, -0.5f, 1.0f, 0.0f},
-			{ 0.5f, -0.5f, -0.5f, 1.0f, 1.0f},
-
-			{-0.5f, -0.5f, 0.5f, 0.0f, 1.0f}, // back
-			{-0.5f,  0.5f, 0.5f, 0.0f, 0.0f},
-			{ 0.5f,  0.5f, 0.5f, 1.0f, 0.0f},
-			{ 0.5f, -0.5f, 0.5f, 1.0f, 1.0f},
-		};
-		static std::vector<DWORD> indices =
-		{
-			0, 1, 2, 0, 2, 3, // front
-			4, 7, 6, 4, 6, 5, // back
-			3, 2, 6, 3, 6, 7, // right
-			4, 5, 1, 4, 1, 0, // left
-			1, 5, 6, 1, 6, 2, // top
-			0, 3, 7, 0, 7, 4, // bottom
-		};
-		auto mesh = pEngine->gameData.map.meshes.Create(0, device.Get(), deviceContext.Get(), vertices, indices);
-		auto material = pEngine->gameData.map.materials.Create(0, deviceContext.Get(), &vertexShader, &pixelShader);
-		auto texture = pEngine->gameData.map.textures2D.Create(0, device.Get(), L"Data\\Textures\\cat.jpg", TextureType::Diffuse);
-		material->AddTexture(texture);
-		mesh->SetMaterial(material);
-		first = false;
-	}
-
 	float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
 	deviceContext->ClearRenderTargetView(renderTargetView.Get(), bgcolor);
 	deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
@@ -116,8 +85,8 @@ void Graphics::Processing()
 
 	//deviceContext->PSSetShaderResources(0, 1, texture.GetAddressOf());
 	static ConstantBuffer<CB_VS_VertexShader> constantBuffer;
-	static Mesh* mesh = pEngine->gameData.map.meshes.Get(0);
-	static Material* mat = pEngine->gameData.map.materials.Get(0);
+	static Mesh* mesh = pEngine->gameDataManager.map.meshes.Get(0);
+	static Material* mat = pEngine->gameDataManager.map.materials.Get(0);
 
 	constantBuffer.Initialize(device.Get(), deviceContext.Get());
 	constantBuffer.data.wvpMatrix = XMMatrixTranspose(mesh->GetTransformMatrix() * camera.GetViewProjectionMatrix());
@@ -285,20 +254,8 @@ void Graphics::InitializeDirectX(HWND hWnd)
 
 void Graphics::Initialize()
 {
-	// Shaders
-	D3D11_INPUT_ELEMENT_DESC loyout[]
-	{
-		{"POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{"TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		//{"NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-	UINT numElements = ARRAYSIZE(loyout);
-	vertexShader.Initalize(device, Paths::ShaderFolder + L"VertexShader.cso", loyout, numElements);
-	pixelShader.Initalize(device, Paths::ShaderFolder + L"PixelShader.cso");
-
 
 	camera.Initialize(Camera::ProjectionType::Perspective, static_cast<float>(windowWidth), static_cast<float>(windowHeight));
-
 	// Scene
 	
 	//HRESULT hr;
