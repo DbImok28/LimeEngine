@@ -3,9 +3,8 @@
 * Copyright(C) 2021, by ѕавел якушик(ruby.circles774@gmail.com)
 */
 #include "Window/Window.hpp"
-#include "Input/InputDevice.hpp"
-#include "Base/GameDataManager.hpp"
 #include "Helpers/Timer.hpp"
+#include "Base/GameDataManager.hpp"
 
 class Engine
 {

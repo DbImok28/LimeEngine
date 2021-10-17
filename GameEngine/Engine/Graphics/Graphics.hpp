@@ -8,7 +8,7 @@
 #include <sstream>
 #include "Shaders.hpp"
 #include "../Base/Material.hpp"
-#include "../Scene/Camera.hpp"
+#include "../Scene/CameraComponent.hpp"
 #include "../Exceptions/GraphicsExceptions.hpp"
 #include "../Helpers/Paths.hpp"
 
@@ -58,7 +58,7 @@ private:
 	int windowHeight = 0;
 
 public:
-	Camera camera;
+	CameraComponent camera;
 	Engine* pEngine = nullptr;
 
 #ifdef IMGUI

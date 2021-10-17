@@ -1,6 +1,7 @@
+#include "../Engine.hpp"
 #include "Window.hpp"
+#include "../Exceptions/WindowExceptions.hpp"
 #include <cassert>
-#include <memory>
 #include "resource.h"
 
 Window::WindowClass Window::WindowClass::wndClassInstance;

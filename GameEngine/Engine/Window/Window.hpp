@@ -4,10 +4,12 @@
 */
 #include "WinApi.hpp"
 #include <optional>
-#include <memory>
+#include <string>
+
 #include "../Graphics/Graphics.hpp"
 #include "../Input/InputDevice.hpp"
-#include "../Exceptions/WindowExceptions.hpp"
+
+class Engine;
 
 class Window
 {

@@ -49,6 +49,9 @@
     <Filter Include="Includes\ImGui">
       <UniqueIdentifier>{0b8bd258-fd1f-4616-8122-384f5f1b0e12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Maps">
+      <UniqueIdentifier>{944ecbf0-254c-4c4a-acfb-1bb83b829061}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Window\Window.cpp">
@@ -99,7 +102,7 @@
     <ClCompile Include="Engine\Graphics\Shaders.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\GameObject.cpp">
+    <ClCompile Include="Engine\Scene\GameComponent.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\Vertex.cpp">
@@ -111,7 +114,7 @@
     <ClCompile Include="Engine\Base\Transform.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\Camera.cpp">
+    <ClCompile Include="Engine\Scene\CameraComponent.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Includes\dxerr\dxerr.cpp">
@@ -155,6 +158,18 @@
     </ClCompile>
     <ClCompile Include="Engine\Exceptions\WindowExceptions.cpp">
       <Filter>Engine\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\GameData.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\SceneComponent.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\MeshComponent.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Maps\TestMap.cpp">
+      <Filter>Maps</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -215,7 +230,7 @@
     <ClInclude Include="Engine\Graphics\Shaders.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\GameObject.hpp">
+    <ClInclude Include="Engine\Scene\GameComponent.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Vertex.hpp">
@@ -227,7 +242,7 @@
     <ClInclude Include="Engine\Base\Transform.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\Camera.hpp">
+    <ClInclude Include="Engine\Scene\CameraComponent.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Includes\dxerr\dxerr.h">
@@ -280,6 +295,18 @@
     </ClInclude>
     <ClInclude Include="Engine\Exceptions\WindowExceptions.hpp">
       <Filter>Engine\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\GameData.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\SceneComponent.hpp">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\MeshComponent.hpp">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Maps\TestMap.hpp">
+      <Filter>Maps</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
-#include "GameObject.hpp"
-class Camera : public GameObject
+#include "GameComponent.hpp"
+
+class CameraComponent : public GameComponent
 {
 public:
 	enum class ProjectionType

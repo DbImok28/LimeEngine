@@ -2,7 +2,7 @@
 
 Engine::Engine(const wchar_t* windowTitle, int width, int height) : 
 	window(this, windowTitle, width, height), 
-	gameDataManager(&window.graphics)
+	gameDataManager(this)
 {
 }
 
@@ -30,13 +30,15 @@ int Engine::Start()
 
 void Engine::Processing()
 {
+	gameDataManager.Update();
+
 	static std::wostringstream ss;
-	ss << "pos:" << window.graphics.camera.GetObjectPosition().x
-		<< ",  " << window.graphics.camera.GetObjectPosition().y
-		<< ",  " << window.graphics.camera.GetObjectPosition().z
-		<< " rot:" << window.graphics.camera.GetObjectRotation().x * 360.0f / XM_2PI
-		<< ",  " << window.graphics.camera.GetObjectRotation().y * 360.0f / XM_2PI
-		<< ",  " << window.graphics.camera.GetObjectRotation().z * 360.0f / XM_2PI;
+	ss << "pos:" << window.graphics.camera.GetComponentPosition().x
+		<< ",  " << window.graphics.camera.GetComponentPosition().y
+		<< ",  " << window.graphics.camera.GetComponentPosition().z
+		<< " rot:" << window.graphics.camera.GetComponentRotation().x * 360.0f / XM_2PI
+		<< ",  " << window.graphics.camera.GetComponentRotation().y * 360.0f / XM_2PI
+		<< ",  " << window.graphics.camera.GetComponentRotation().z * 360.0f / XM_2PI;
 
 	window.SetTitle(ss.str());
 	ss = std::wostringstream{};
@@ -47,20 +49,20 @@ void Engine::Processing()
 		auto e = window.inputDevice.mouse.ReadEvent();
 		if (window.inputDevice.mouse.IsRightDown() && e.GetType() == Mouse::MouseEvent::EventType::RawMove)
 		{
-			window.graphics.camera.AddObjectRotation(e.GetPosY() * cameraRotSpeed, e.GetPosX() * cameraRotSpeed, 0.0f);
+			window.graphics.camera.AddComponentRotation(e.GetPosY() * cameraRotSpeed, e.GetPosX() * cameraRotSpeed, 0.0f);
 		}
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('X'))
 	{
-		window.graphics.camera.AddObjectRotation(0.5f * deltaTime, 0.0f, 0.0f);
+		window.graphics.camera.AddComponentRotation(0.5f * deltaTime, 0.0f, 0.0f);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('Y'))
 	{
-		window.graphics.camera.AddObjectRotation(0.0f, 0.5f * deltaTime, 0.0f);
+		window.graphics.camera.AddComponentRotation(0.0f, 0.5f * deltaTime, 0.0f);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('C'))
 	{
-		window.graphics.camera.AddObjectRotation(0.0f, 0.0f, 0.5f * deltaTime);
+		window.graphics.camera.AddComponentRotation(0.0f, 0.0f, 0.5f * deltaTime);
 	}
 
 	float cameraSpeed = 20.0f;
@@ -70,43 +72,43 @@ void Engine::Processing()
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('W'))
 	{
-		window.graphics.camera.AddObjectLocation(window.graphics.camera.GetObjectForwardVector() * cameraSpeed * deltaTime);
+		window.graphics.camera.AddComponentLocation(window.graphics.camera.GetComponentForwardVector() * cameraSpeed * deltaTime);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('S'))
 	{
-		window.graphics.camera.AddObjectLocation(window.graphics.camera.GetObjectForwardVector() * -cameraSpeed * deltaTime);
+		window.graphics.camera.AddComponentLocation(window.graphics.camera.GetComponentForwardVector() * -cameraSpeed * deltaTime);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('A'))
 	{
-		window.graphics.camera.AddObjectLocation(window.graphics.camera.GetObjectRightVector() * -cameraSpeed * deltaTime);
+		window.graphics.camera.AddComponentLocation(window.graphics.camera.GetComponentRightVector() * -cameraSpeed * deltaTime);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('D'))
 	{
-		window.graphics.camera.AddObjectLocation(window.graphics.camera.GetObjectRightVector() * cameraSpeed * deltaTime);
+		window.graphics.camera.AddComponentLocation(window.graphics.camera.GetComponentRightVector() * cameraSpeed * deltaTime);
 	}
 	/*if (window.inputDevice.keyboard.KeyIsPressed('W'))
 	{
-		window.graphics.camera.AddObjectLocation(0.0f, cameraSpeed * deltaTime, 0.0f);
+		window.graphics.camera.AddComponentLocation(0.0f, cameraSpeed * deltaTime, 0.0f);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('S'))
 	{
-		window.graphics.camera.AddObjectLocation(0.0f, -cameraSpeed * deltaTime, 0.0f);
+		window.graphics.camera.AddComponentLocation(0.0f, -cameraSpeed * deltaTime, 0.0f);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('A'))
 	{
-		window.graphics.camera.AddObjectLocation(-cameraSpeed * deltaTime, 0.0f, 0.0f);
+		window.graphics.camera.AddComponentLocation(-cameraSpeed * deltaTime, 0.0f, 0.0f);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('D'))
 	{
-		window.graphics.camera.AddObjectLocation(cameraSpeed * deltaTime, 0.0f, 0.0f);
+		window.graphics.camera.AddComponentLocation(cameraSpeed * deltaTime, 0.0f, 0.0f);
 	}*/
 	if (window.inputDevice.keyboard.KeyIsPressed(VK_SPACE))
 	{
-		window.graphics.camera.AddObjectLocation(0.0f, cameraSpeed * deltaTime, 0.0f);
+		window.graphics.camera.AddComponentLocation(0.0f, cameraSpeed * deltaTime, 0.0f);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('Z'))
 	{
-		window.graphics.camera.AddObjectLocation(0.0f, -cameraSpeed * deltaTime, 0.0f);
+		window.graphics.camera.AddComponentLocation(0.0f, -cameraSpeed * deltaTime, 0.0f);
 	}
 }
 

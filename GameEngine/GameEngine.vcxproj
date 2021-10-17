@@ -176,11 +176,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Exceptions\DxgiInfo.cpp" />
-    <ClCompile Include="Engine\Scene\Camera.cpp" />
+    <ClCompile Include="Engine\Scene\CameraComponent.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Exceptions\EngineExceptions.cpp" />
     <ClCompile Include="Engine\Exceptions\GraphicsExceptions.cpp" />
-    <ClCompile Include="Engine\Scene\GameObject.cpp" />
+    <ClCompile Include="Engine\Scene\GameComponent.cpp" />
     <ClCompile Include="Engine\Graphics\GraphicAdapter.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Graphics\Buffers\VertexBuffer.cpp" />
@@ -198,6 +198,7 @@
     <ClCompile Include="Engine\Window\Window.cpp" />
     <ClCompile Include="Engine\Window\WinMain.cpp" />
     <ClCompile Include="Engine\Base\GameDataManager.cpp" />
+    <ClCompile Include="Engine\Base\GameData.cpp" />
     <ClCompile Include="Includes\dxerr\dxerr.cpp" />
     <ClCompile Include="Includes\ImGui\imgui.cpp" />
     <ClCompile Include="Includes\ImGui\imgui_draw.cpp" />
@@ -210,12 +211,15 @@
     <ClCompile Include="Engine\Base\Texture2D.cpp" />
     <ClCompile Include="Engine\Base\Map.cpp" />
     <ClCompile Include="Engine\Exceptions\WindowExceptions.cpp" />
+    <ClCompile Include="Engine\Scene\SceneComponent.cpp" />
+    <ClCompile Include="Engine\Scene\MeshComponent.cpp" />
+    <ClCompile Include="Engine\Maps\TestMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp" />
-    <ClInclude Include="Engine\Scene\Camera.hpp" />
+    <ClInclude Include="Engine\Scene\CameraComponent.hpp" />
     <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp" />
-    <ClInclude Include="Engine\Scene\GameObject.hpp" />
+    <ClInclude Include="Engine\Scene\GameComponent.hpp" />
     <ClInclude Include="Engine\Graphics\Buffers\ConstantBuffer.hpp" />
     <ClInclude Include="Engine\Engine.hpp" />
     <ClInclude Include="Engine\Exceptions\EngineExceptions.hpp" />
@@ -238,6 +242,7 @@
     <ClInclude Include="Engine\Helpers\StringHelper.hpp" />
     <ClInclude Include="Engine\Window\Window.hpp" />
     <ClInclude Include="Engine\Base\GameDataManager.hpp" />
+    <ClInclude Include="Engine\Base\GameData.hpp" />
     <ClInclude Include="Includes\dxerr\dxerr.h" />
     <ClInclude Include="Includes\ImGui\imconfig.h" />
     <ClInclude Include="Includes\ImGui\imgui.h" />
@@ -253,6 +258,9 @@
     <ClInclude Include="Engine\Base\Texture2D.hpp" />
     <ClInclude Include="Engine\Base\Map.hpp" />
     <ClInclude Include="Engine\Exceptions\WindowExceptions.hpp" />
+    <ClInclude Include="Engine\Scene\SceneComponent.hpp" />
+    <ClInclude Include="Engine\Scene\MeshComponent.hpp" />
+    <ClInclude Include="Engine\Maps\TestMap.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\GameEngine.rc" />

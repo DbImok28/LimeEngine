@@ -16,7 +16,9 @@ void Graphics::Initialize(HWND hWnd, Engine* engine, int width, int height)
 
 	InitializeDirectX(hWnd);
 
-	camera.Initialize(Camera::ProjectionType::Perspective, static_cast<float>(windowWidth), static_cast<float>(windowHeight));
+	// TODO: Auto find camera component
+	camera.InitializeComponent(pEngine);
+	camera.Initialize(CameraComponent::ProjectionType::Perspective, static_cast<float>(windowWidth), static_cast<float>(windowHeight));
 
 #ifdef IMGUI
 	ImGuiSetup(hWnd);
@@ -180,36 +182,19 @@ void Graphics::PreProcessing()
 	deviceContext->OMSetDepthStencilState(depthStencilState.Get(), 0);
 	deviceContext->RSSetState(rasterizerState.Get());
 	deviceContext->PSSetSamplers(0, 1, samplerState.GetAddressOf());
-
-
-	/*deviceContext->IASetInputLayout(vertexShader.GatInputLoyout());
-	deviceContext->VSSetShader(vertexShader.GetShader(), NULL, 0);
-	deviceContext->PSSetShader(pixelShader.GetShader(), NULL, 0);*/
 }
 
 void Graphics::Processing()
 {
-	/*UINT stride = sizeof(Vertex);*/
-	/*UINT offset = 0;*/
-
-	/*deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);
-	deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);*/
-
-	/*constantBuffer.data.wvpMatrix = XMMatrixTranspose(camera.GetViewProjectionMatrix());
-	constantBuffer.ApplyChanges();
-	deviceContext->VSSetConstantBuffers(0, 1, constantBuffer.GetAddressOf());*/
-
-	//deviceContext->PSSetShaderResources(0, 1, texture.GetAddressOf());
+	// TODO: Apply constant buffer
 	static ConstantBuffer<CB_VS_VertexShader> constantBuffer;
-	static Mesh* mesh = pEngine->gameDataManager.map.meshes.Get(0);
-	static Material* mat = pEngine->gameDataManager.map.materials.Get(0);
+	static Mesh* mesh = pEngine->gameDataManager.meshes.Get(0);
+	static Material* mat = pEngine->gameDataManager.materials.Get(0);
 
 	constantBuffer.Initialize(device.Get(), deviceContext.Get());
 	constantBuffer.data.wvpMatrix = XMMatrixTranspose(mesh->GetTransformMatrix() * camera.GetViewProjectionMatrix());
 	mat->ApplyConstantBuffer(constantBuffer);
-	mesh->Draw();
-
-	//deviceContext->DrawIndexed(indexBuffer.BufferSize(), 0, 0);
+	pEngine->gameDataManager.Render();
 }
 
 void Graphics::PostProcessing()
