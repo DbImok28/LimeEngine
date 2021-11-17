@@ -1,43 +1,49 @@
-#include "CameraComponent.hpp"
+#include "CameraObject.hpp"
 
-void CameraComponent::Initialize(ProjectionType projectionType, float width, float height, float fovDegrees, float nearZ, float farZ)
+CameraObject::CameraObject(ProjectionType projectionType, float width, float height, float fovDegrees, float nearZ, float farZ) noexcept :
+	projectionType(projectionType),
+	width(width),
+	height(height),
+	fovRadians((fovDegrees / 360.0f)* XM_2PI),
+	nearZ(nearZ),
+	farZ(farZ),
+	aspectRatio(width / height)
+{}
+
+void CameraObject::Initialize(Engine* engine)
 {
-	this->width = width;
-	this->height = height;
-	this->nearZ = nearZ;
-	this->farZ = farZ;
-	fovRadians = (fovDegrees / 360.0f) * XM_2PI;
-	aspectRatio = width / height;
+	this->engine = engine;
 	switch (projectionType)
 	{
-	case CameraComponent::ProjectionType::Perspective:
+	case CameraObject::ProjectionType::Perspective:
 	{
 		SetPerspective();
 		break;
 	}
-	case CameraComponent::ProjectionType::Orthographic:
+	case CameraObject::ProjectionType::Orthographic:
 	{
 		SetOrthographic();
 		break;
 	}
 	}
 	UpdateViewMatrix();
-	return;
+
+	InitializeComponents();
 }
 
-void CameraComponent::SetPerspective()
+void CameraObject::SetPerspective()
 {
 	projectionType = ProjectionType::Perspective;
 	projectionMatrix = XMMatrixPerspectiveFovLH(fovRadians, aspectRatio, nearZ, farZ);
 }
 
-void CameraComponent::SetOrthographic()
+void CameraObject::SetOrthographic()
 {
 	projectionType = ProjectionType::Orthographic;
 	projectionMatrix = XMMatrixOrthographicOffCenterLH(0.0f, width, height, 0.0f, nearZ, farZ);
 }
 
-void CameraComponent::UpdateViewMatrix() noexcept
+void CameraObject::UpdateViewMatrix() noexcept
 {
 	if (isChanged)
 	{
@@ -61,29 +67,29 @@ void CameraComponent::UpdateViewMatrix() noexcept
 	XMMATRIX camRotationMatrix = GetRotationMatrix();
 	XMVECTOR camTarget = XMVector3TransformCoord(FORWARD_VECTOR, camRotationMatrix);
 	XMVECTOR upDir = XMVector3TransformCoord(UP_VECTOR, camRotationMatrix);
-	camTarget += GetComponentPositionVector();
-	viewMatrix = XMMatrixLookAtLH(GetComponentPositionVector(), camTarget, upDir);
+	camTarget += GetObjectLocationVector();
+	viewMatrix = XMMatrixLookAtLH(GetObjectLocationVector(), camTarget, upDir);
 
 	// last
 	/*XMMATRIX camRotationMatrix = GetRotationMatrix();
 	XMVECTOR camTarget = XMVector3TransformCoord(FORWARD_VECTOR, camRotationMatrix);
 	XMVECTOR upDir = XMVector3TransformCoord(UP_VECTOR, camRotationMatrix);
-	camTarget += GetComponentPositionVector();
-	viewMatrix = XMMatrixLookAtLH(GetComponentPositionVector(), camTarget, upDir);*/
+	camTarget += GetObjectLocationVector();
+	viewMatrix = XMMatrixLookAtLH(GetObjectLocationVector(), camTarget, upDir);*/
 }
 
-const XMMATRIX& CameraComponent::GetViewMatrix() noexcept
+const XMMATRIX& CameraObject::GetViewMatrix() noexcept
 {
 	UpdateViewMatrix();
 	return viewMatrix;
 }
 
-const XMMATRIX& CameraComponent::GetProjectionMatrix() const noexcept
+const XMMATRIX& CameraObject::GetProjectionMatrix() const noexcept
 {
 	return projectionMatrix;
 }
 
-XMMATRIX CameraComponent::GetViewProjectionMatrix() noexcept
+XMMATRIX CameraObject::GetViewProjectionMatrix() noexcept
 {
 	return GetViewMatrix() * GetProjectionMatrix();
 }

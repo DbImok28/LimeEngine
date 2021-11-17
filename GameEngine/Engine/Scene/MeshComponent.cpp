@@ -3,7 +3,7 @@
 
 MeshComponent::MeshComponent(size_t id) noexcept : id(id) {}
 
-void MeshComponent::InitializeComponent(Engine* engine)
+void MeshComponent::Initialize(Engine* engine)
 {
 	this->engine = engine;
 	mesh = engine->gameDataManager.LoadMesh(id);
@@ -11,6 +11,5 @@ void MeshComponent::InitializeComponent(Engine* engine)
 
 void MeshComponent::Render()
 {
-	RenderSubComponents();
 	mesh->Draw();
 };

@@ -176,11 +176,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Exceptions\DxgiInfo.cpp" />
-    <ClCompile Include="Engine\Scene\CameraComponent.cpp" />
+    <ClCompile Include="Engine\Scene\CameraObject.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Exceptions\EngineExceptions.cpp" />
     <ClCompile Include="Engine\Exceptions\GraphicsExceptions.cpp" />
-    <ClCompile Include="Engine\Scene\GameComponent.cpp" />
+    <ClCompile Include="Engine\Scene\SceneObject.cpp" />
     <ClCompile Include="Engine\Graphics\GraphicAdapter.cpp" />
     <ClCompile Include="Engine\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Graphics\Buffers\VertexBuffer.cpp" />
@@ -209,17 +209,19 @@
     <ClCompile Include="Engine\Base\Mesh.cpp" />
     <ClCompile Include="Engine\Base\Material.cpp" />
     <ClCompile Include="Engine\Base\Texture2D.cpp" />
-    <ClCompile Include="Engine\Base\Map.cpp" />
+    <ClCompile Include="Engine\Scene\SceneMap.cpp" />
     <ClCompile Include="Engine\Exceptions\WindowExceptions.cpp" />
     <ClCompile Include="Engine\Scene\SceneComponent.cpp" />
     <ClCompile Include="Engine\Scene\MeshComponent.cpp" />
-    <ClCompile Include="Engine\Maps\TestMap.cpp" />
+    <ClCompile Include="Engine\Scene\TestMap.cpp" />
+    <ClCompile Include="Engine\Scene\Scene.cpp" />
+    <ClCompile Include="Engine\Scene\MeshObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp" />
-    <ClInclude Include="Engine\Scene\CameraComponent.hpp" />
+    <ClInclude Include="Engine\Scene\CameraObject.hpp" />
     <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp" />
-    <ClInclude Include="Engine\Scene\GameComponent.hpp" />
+    <ClInclude Include="Engine\Scene\SceneObject.hpp" />
     <ClInclude Include="Engine\Graphics\Buffers\ConstantBuffer.hpp" />
     <ClInclude Include="Engine\Engine.hpp" />
     <ClInclude Include="Engine\Exceptions\EngineExceptions.hpp" />
@@ -256,11 +258,13 @@
     <ClInclude Include="Engine\Base\Mesh.hpp" />
     <ClInclude Include="Engine\Base\Material.hpp" />
     <ClInclude Include="Engine\Base\Texture2D.hpp" />
-    <ClInclude Include="Engine\Base\Map.hpp" />
+    <ClInclude Include="Engine\Scene\SceneMap.hpp" />
     <ClInclude Include="Engine\Exceptions\WindowExceptions.hpp" />
     <ClInclude Include="Engine\Scene\SceneComponent.hpp" />
     <ClInclude Include="Engine\Scene\MeshComponent.hpp" />
-    <ClInclude Include="Engine\Maps\TestMap.hpp" />
+    <ClInclude Include="Engine\Scene\TestMap.hpp" />
+    <ClInclude Include="Engine\Scene\Scene.hpp" />
+    <ClInclude Include="Engine\Scene\MeshObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\GameEngine.rc" />

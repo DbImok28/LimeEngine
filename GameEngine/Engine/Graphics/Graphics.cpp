@@ -10,15 +10,15 @@
 
 void Graphics::Initialize(HWND hWnd, Engine* engine, int width, int height)
 {
-	pEngine = engine;
+	this->engine = engine;
 	windowWidth = width;
 	windowHeight = height;
 
 	InitializeDirectX(hWnd);
 
 	// TODO: Auto find camera component
-	camera.InitializeComponent(pEngine);
-	camera.Initialize(CameraComponent::ProjectionType::Perspective, static_cast<float>(windowWidth), static_cast<float>(windowHeight));
+	camera = std::make_unique<CameraObject>(CameraObject::ProjectionType::Perspective, static_cast<float>(windowWidth), static_cast<float>(windowHeight));
+	camera->Initialize(engine);
 
 #ifdef IMGUI
 	ImGuiSetup(hWnd);
@@ -188,13 +188,13 @@ void Graphics::Processing()
 {
 	// TODO: Apply constant buffer
 	static ConstantBuffer<CB_VS_VertexShader> constantBuffer;
-	static Mesh* mesh = pEngine->gameDataManager.meshes.Get(0);
-	static Material* mat = pEngine->gameDataManager.materials.Get(0);
+	static Mesh* mesh = engine->gameDataManager.meshes.Get(0);
+	static Material* mat = engine->gameDataManager.materials.Get(0);
 
 	constantBuffer.Initialize(device.Get(), deviceContext.Get());
-	constantBuffer.data.wvpMatrix = XMMatrixTranspose(mesh->GetTransformMatrix() * camera.GetViewProjectionMatrix());
+	constantBuffer.data.wvpMatrix = XMMatrixTranspose(mesh->GetTransformMatrix() * camera->GetViewProjectionMatrix());
 	mat->ApplyConstantBuffer(constantBuffer);
-	pEngine->gameDataManager.Render();
+	engine->scene.Render();
 }
 
 void Graphics::PostProcessing()

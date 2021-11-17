@@ -1,12 +1,12 @@
 #pragma once
-#include "GameComponent.hpp"
+#include "SceneComponent.hpp"
 #include "../Base/Mesh.hpp"
 
-class MeshComponent : public GameComponent
+class MeshComponent : public SceneComponent
 {
 public:
 	MeshComponent(size_t id = 0) noexcept;
-	void InitializeComponent(Engine* engine) override;
+	void Initialize(Engine* engine) override;
 	void Render() override;
 	size_t id = 0;
 	Mesh* mesh = nullptr;

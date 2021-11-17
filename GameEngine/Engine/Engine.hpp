@@ -4,6 +4,7 @@
 */
 #include "Window/Window.hpp"
 #include "Helpers/Timer.hpp"
+#include "Scene/Scene.hpp"
 #include "Base/GameDataManager.hpp"
 
 class Engine
@@ -22,6 +23,7 @@ public:
 public:
 	float deltaTime = 0;
 	Window window;
+	Scene scene;
 	GameDataManager gameDataManager;
 	Timer timer;
 };

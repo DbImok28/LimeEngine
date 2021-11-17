@@ -1,7 +1,7 @@
 #pragma once
-#include "GameComponent.hpp"
+#include "SceneObject.hpp"
 
-class CameraComponent : public GameComponent
+class CameraObject : public SceneObject
 {
 public:
 	enum class ProjectionType
@@ -9,7 +9,8 @@ public:
 		Perspective,
 		Orthographic
 	};
-	void Initialize(ProjectionType projectionType, float width, float height, float fovDegrees = 90.0f, float nearZ = 0.001f, float farZ = 10000.0f);
+	CameraObject(ProjectionType projectionType, float width, float height, float fovDegrees = 90.0f, float nearZ = 0.001f, float farZ = 10000.0f) noexcept;
+	void Initialize(Engine* engine) override;
 	void SetPerspective();
 	void SetOrthographic();
 
@@ -19,12 +20,12 @@ public:
 	XMMATRIX GetViewProjectionMatrix() noexcept;
 	ProjectionType projectionType = ProjectionType::Perspective;
 
-	float width = 0.0f;
-	float height = 0.0f;
-	float fovRadians = 0.0f;
-	float aspectRatio = 0.0f;
-	float nearZ = 0.0f;
-	float farZ = 0.0f;
+	float width;
+	float height;
+	float fovRadians;
+	float aspectRatio;
+	float nearZ;
+	float farZ;
 private:
 	XMMATRIX viewMatrix = XMMatrixIdentity();
 	XMMATRIX projectionMatrix = XMMatrixIdentity();

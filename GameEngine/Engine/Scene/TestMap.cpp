@@ -1,11 +1,11 @@
 #include "TestMap.hpp"
 #include "../Engine.hpp"
-#include "../Scene/SceneComponent.hpp"
 
-#include "../Scene/MeshComponent.hpp"
+#include "MeshObject.hpp"
 
-void TestMap::LoadScane()
+void TestMap::Initialize(Engine* engine)
 {
+	this->engine = engine;
 	// Loading
 	static VertexShader vertexShader;
 	static PixelShader pixelShader;
@@ -50,7 +50,5 @@ void TestMap::LoadScane()
 	mesh->SetMaterial(material);
 
 	// Make Scene
-	rootComponent->AttachComponent(std::make_unique<MeshComponent>(0));
-
-	rootComponent->InitializeComponent(engine);
+	AttachObject(std::make_unique<MeshObject>(0));
 }

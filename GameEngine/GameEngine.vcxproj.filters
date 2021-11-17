@@ -49,8 +49,14 @@
     <Filter Include="Includes\ImGui">
       <UniqueIdentifier>{0b8bd258-fd1f-4616-8122-384f5f1b0e12}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Maps">
+    <Filter Include="Engine\Scene\Maps">
       <UniqueIdentifier>{944ecbf0-254c-4c4a-acfb-1bb83b829061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene\Components">
+      <UniqueIdentifier>{50152d77-33df-43cd-accf-0d257049b5e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene\Objects">
+      <UniqueIdentifier>{7e4b3a42-e5ac-4ff3-a3d1-b5d6c62bf162}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -102,9 +108,6 @@
     <ClCompile Include="Engine\Graphics\Shaders.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\GameComponent.cpp">
-      <Filter>Engine\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Base\Vertex.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
@@ -113,9 +116,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Base\Transform.cpp">
       <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Scene\CameraComponent.cpp">
-      <Filter>Engine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Includes\dxerr\dxerr.cpp">
       <Filter>Includes\dxerr</Filter>
@@ -153,23 +153,35 @@
     <ClCompile Include="Engine\Base\GameDataManager.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Map.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Exceptions\WindowExceptions.cpp">
       <Filter>Engine\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\GameData.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\SceneComponent.cpp">
+    <ClCompile Include="Engine\Scene\TestMap.cpp">
+      <Filter>Engine\Scene\Maps</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\Scene.cpp">
       <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\CameraObject.cpp">
+      <Filter>Engine\Scene\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\SceneObject.cpp">
+      <Filter>Engine\Scene\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\SceneMap.cpp">
+      <Filter>Engine\Scene\Maps</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Scene\MeshComponent.cpp">
-      <Filter>Engine\Scene</Filter>
+      <Filter>Engine\Scene\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Maps\TestMap.cpp">
-      <Filter>Maps</Filter>
+    <ClCompile Include="Engine\Scene\SceneComponent.cpp">
+      <Filter>Engine\Scene\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\MeshObject.cpp">
+      <Filter>Engine\Scene\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,9 +242,6 @@
     <ClInclude Include="Engine\Graphics\Shaders.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\GameComponent.hpp">
-      <Filter>Engine\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Base\Vertex.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
@@ -241,9 +250,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Base\Transform.hpp">
       <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Scene\CameraComponent.hpp">
-      <Filter>Engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Includes\dxerr\dxerr.h">
       <Filter>Includes\dxerr</Filter>
@@ -290,23 +296,35 @@
     <ClInclude Include="Engine\Base\GameDataManager.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Map.hpp">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Exceptions\WindowExceptions.hpp">
       <Filter>Engine\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\GameData.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\SceneComponent.hpp">
+    <ClInclude Include="Engine\Scene\TestMap.hpp">
+      <Filter>Engine\Scene\Maps</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\Scene.hpp">
       <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\CameraObject.hpp">
+      <Filter>Engine\Scene\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\SceneObject.hpp">
+      <Filter>Engine\Scene\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\SceneMap.hpp">
+      <Filter>Engine\Scene\Maps</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Scene\MeshComponent.hpp">
-      <Filter>Engine\Scene</Filter>
+      <Filter>Engine\Scene\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Maps\TestMap.hpp">
-      <Filter>Maps</Filter>
+    <ClInclude Include="Engine\Scene\SceneComponent.hpp">
+      <Filter>Engine\Scene\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\MeshObject.hpp">
+      <Filter>Engine\Scene\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
