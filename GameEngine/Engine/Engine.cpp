@@ -66,7 +66,7 @@ void Engine::Processing()
 	float cameraSpeed = 20.0f;
 	if (window.inputDevice.keyboard.KeyIsPressed(VK_ESCAPE))
 	{
-		exit(-1);
+		exit(0);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('W'))
 	{
