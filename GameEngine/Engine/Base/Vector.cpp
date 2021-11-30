@@ -1,9 +1,9 @@
 #include "Vector.hpp"
 #include <type_traits>
 
-Vector::Vector() noexcept {}
+Vector::Vector() noexcept : x(0.0f), y(0.0f), z(0.0f) {}
 
-Vector::Vector(const XMVECTOR& vec) noexcept
+Vector::Vector(const TempVector& vec) noexcept
 {
 	XMStoreFloat3(&this->vec, vec);
 }
@@ -36,7 +36,7 @@ Vector& Vector::operator=(Vector&& other) noexcept
 	return *this;
 }
 
-Vector& Vector::operator=(const XMVECTOR& vec) noexcept
+Vector& Vector::operator=(const TempVector& vec) noexcept
 {
 	XMStoreFloat3(&this->vec, vec);
 	return *this;
@@ -48,61 +48,63 @@ Vector& Vector::operator=(const XMFLOAT3& vec) noexcept
 	return *this;
 }
 
-const Vector Vector::operator+(const Vector& v) const noexcept
+Vector::operator TempVector() const noexcept
 {
-	return Vector(vec.x + v.vec.x, vec.y + v.vec.y, vec.z + v.vec.z);
+	return XMLoadFloat3(&this->vec);
 }
 
-const Vector Vector::operator-(const Vector& v) const noexcept
+Vector::operator XMFLOAT3() const noexcept
 {
-	return Vector(vec.x - v.vec.x, vec.y - v.vec.y, vec.z - v.vec.z);
+	return vec;
 }
 
-const Vector Vector::operator*(const Vector& v) const noexcept
+TempVector Vector::operator+(const Vector& v) noexcept
 {
-	return Vector(vec.x * v.vec.x, vec.y * v.vec.y, vec.z * v.vec.z);
+	return GetTempVector() + v.GetTempVector();
 }
 
-const Vector Vector::operator/(const Vector& v) const noexcept
+TempVector Vector::operator-(const Vector& v) noexcept
 {
-	return Vector(vec.x / v.vec.x, vec.y / v.vec.y, vec.z / v.vec.z);
+	return GetTempVector() - v.GetTempVector();
 }
 
-Vector& Vector::operator+=(const Vector& v) noexcept
+TempVector Vector::operator*(const Vector& v) noexcept
 {
-	vec.x += v.vec.x;
-	vec.y += v.vec.y;
-	vec.z += v.vec.z;
+	return GetTempVector() * v.GetTempVector();
+}
+
+TempVector Vector::operator/(const Vector& v) noexcept
+{
+	return GetTempVector() / v.GetTempVector();
+}
+
+Vector& Vector::operator+=(const TempVector& v) noexcept
+{
+	*this = GetTempVector() + v;
 	return *this;
 }
 
-Vector& Vector::operator-=(const Vector& v) noexcept
+Vector& Vector::operator-=(const TempVector& v) noexcept
 {
-	vec.x -= v.vec.x;
-	vec.y -= v.vec.y;
-	vec.z -= v.vec.z;
+	*this = GetTempVector() - v;
 	return *this;
 }
 
-Vector& Vector::operator*=(const Vector& v) noexcept
+Vector& Vector::operator*=(const TempVector& v) noexcept
 {
-	vec.x *= v.vec.x;
-	vec.y *= v.vec.y;
-	vec.z *= v.vec.z;
+	*this = GetTempVector() * v;
 	return *this;
 }
 
-Vector& Vector::operator/=(const Vector& v) noexcept
+Vector& Vector::operator/=(const TempVector& v) noexcept
 {
-	vec.x /= v.vec.x;
-	vec.y /= v.vec.y;
-	vec.z /= v.vec.z;
+	*this = GetTempVector() / v;
 	return *this;
 }
 
-Vector Vector::operator+() const noexcept
+const Vector& Vector::operator+() const noexcept
 {
-	return Vector(*this);
+	return *this;
 }
 
 Vector Vector::operator-() const noexcept
@@ -120,7 +122,7 @@ bool Vector::operator!=(const Vector& v) const noexcept
 	return !(*this == v);
 }
 
-XMVECTOR Vector::GetVector() const noexcept
+TempVector Vector::GetTempVector() const noexcept
 {
 	return XMLoadFloat3(&this->vec);
 }
@@ -130,41 +132,27 @@ const XMFLOAT3& Vector::GetFloat3() const noexcept
 	return vec;
 }
 
-const float* Vector::GetArray() const noexcept
+float* Vector::GetArray() noexcept
 {
 	return &x;
 }
 
-void Vector::Set(const XMVECTOR& vec) noexcept
+void Vector::Add(const TempVector& v) noexcept
 {
-	XMStoreFloat3(&this->vec, vec);
+	*this = GetTempVector() + v;
 }
 
-void Vector::Set(const XMFLOAT3& vec) noexcept
+void Vector::Subtract(const TempVector& v) noexcept
 {
-	this->vec = vec;
+	*this = GetTempVector() - v;
 }
 
-void Vector::Set(float x, float y, float z) noexcept
+void Vector::Multiply(const TempVector& v) noexcept
 {
-	vec = XMFLOAT3(x, y, z);
+	*this = GetTempVector() * v;
 }
 
-void Vector::Add(const XMVECTOR& vec) noexcept
+void Vector::Divide(const TempVector& v) noexcept
 {
-	XMStoreFloat3(&this->vec, GetVector() + vec);
-}
-
-void Vector::Add(const XMFLOAT3& vec) noexcept
-{
-	this->vec.x += vec.x;
-	this->vec.y += vec.y;
-	this->vec.z += vec.z;
-}
-
-void Vector::Add(float x, float y, float z) noexcept
-{
-	vec.x += x;
-	vec.y += y;
-	vec.z += z;
+	*this = GetTempVector() / v;
 }
