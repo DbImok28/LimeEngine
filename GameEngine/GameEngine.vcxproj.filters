@@ -183,6 +183,12 @@
     <ClCompile Include="Engine\Scene\MeshObject.cpp">
       <Filter>Engine\Scene\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Base\Transformable.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Rotator.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\resource.h">
@@ -325,6 +331,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Scene\MeshObject.hpp">
       <Filter>Engine\Scene\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Transformable.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Rotator.hpp">
+      <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

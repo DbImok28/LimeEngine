@@ -74,7 +74,7 @@ public:
 	T data;
 };
 
-struct CB_VS_VertexShader
+struct CB_VS_Coordinates
 {
 	DirectX::XMMATRIX wvpMatrix;
 };

@@ -43,42 +43,21 @@ void CameraObject::SetOrthographic()
 	projectionMatrix = XMMatrixOrthographicOffCenterLH(0.0f, width, height, 0.0f, nearZ, farZ);
 }
 
-void CameraObject::UpdateViewMatrix() noexcept
+void CameraObject::UpdateViewMatrix() const noexcept
 {
-	if (isChanged)
+	if (isTransformChange)
 	{
 		UpdateTransform();
-		isChanged = false;
+		isTransformChange = false;
 	}
-	/*const XMMATRIX TransformZUpToYUp = XMMatrixSet // Converting a Z Up Matrix to a Y Up Matrix
-	(
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f
-	);
-	viewMatrix = TransformZUpToYUp;
-	XMMATRIX camRotationMatrix = XMMatrixRotationRollPitchYaw(transform.rotation.x, transform.rotation.z, transform.rotation.y);
-	XMVECTOR camTarget = XMVector3TransformCoord(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), camRotationMatrix);
-	XMVECTOR upDir = XMVector3TransformCoord(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), camRotationMatrix);
-	camTarget += XMVectorSet(transform.location.x, transform.location.z, transform.location.y, 1.0f);
-	viewMatrix *= XMMatrixLookAtLH(XMVectorSet(transform.location.x, transform.location.z, transform.location.y, 1.0f), camTarget, upDir);*/
-
 	XMMATRIX camRotationMatrix = GetRotationMatrix();
 	XMVECTOR camTarget = XMVector3TransformCoord(FORWARD_VECTOR, camRotationMatrix);
 	XMVECTOR upDir = XMVector3TransformCoord(UP_VECTOR, camRotationMatrix);
-	camTarget += GetObjectLocationVector();
-	viewMatrix = XMMatrixLookAtLH(GetObjectLocationVector(), camTarget, upDir);
-
-	// last
-	/*XMMATRIX camRotationMatrix = GetRotationMatrix();
-	XMVECTOR camTarget = XMVector3TransformCoord(FORWARD_VECTOR, camRotationMatrix);
-	XMVECTOR upDir = XMVector3TransformCoord(UP_VECTOR, camRotationMatrix);
-	camTarget += GetObjectLocationVector();
-	viewMatrix = XMMatrixLookAtLH(GetObjectLocationVector(), camTarget, upDir);*/
+	camTarget += GetTempLocationVector();
+	viewMatrix = XMMatrixLookAtLH(GetTempLocationVector(), camTarget, upDir);
 }
 
-const XMMATRIX& CameraObject::GetViewMatrix() noexcept
+const XMMATRIX& CameraObject::GetViewMatrix() const noexcept
 {
 	UpdateViewMatrix();
 	return viewMatrix;
@@ -89,7 +68,7 @@ const XMMATRIX& CameraObject::GetProjectionMatrix() const noexcept
 	return projectionMatrix;
 }
 
-XMMATRIX CameraObject::GetViewProjectionMatrix() noexcept
+XMMATRIX CameraObject::GetViewProjectionMatrix() const noexcept
 {
 	return GetViewMatrix() * GetProjectionMatrix();
 }

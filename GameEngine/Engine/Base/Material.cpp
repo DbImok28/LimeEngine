@@ -1,6 +1,6 @@
 #include "Material.hpp"
 
-Material::Material(ID3D11DeviceContext* deviceContext, VertexShader* vertexShader, PixelShader* pixelShader) : 
+Material::Material(ID3D11DeviceContext* deviceContext, VertexShader* vertexShader, PixelShader* pixelShader) noexcept : 
 	deviceContext(deviceContext), 
 	vertexShader(vertexShader), 
 	pixelShader(pixelShader)
@@ -17,7 +17,7 @@ void Material::AddTexture(Texture2D* texture)
 	this->textures.push_back(texture);
 }
 
-void Material::Apply()
+void Material::Apply() const noexcept
 {
 	deviceContext->IASetInputLayout(vertexShader->GatInputLoyout());
 	deviceContext->VSSetShader(vertexShader->GetShader(), NULL, 0);

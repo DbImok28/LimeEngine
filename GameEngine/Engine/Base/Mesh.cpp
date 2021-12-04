@@ -1,31 +1,10 @@
 #include "Mesh.hpp"
 #include "../Exceptions/GraphicsExceptions.hpp"
 
-/*Mesh::Mesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices, Material& material, const XMMATRIX& trasformMatrix)
-	: deviceContext(deviceContext),
-	trasformMatrix(trasformMatrix),
-	vertices(vertices),
-	indices(indices),
-	material(&material)
-{
-	InitializeBuffers(device);
-}
-
-Mesh::Mesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, std::vector<Vertex>&& vertices, std::vector<DWORD>&& indices, Material& material, const XMMATRIX& trasformMatrix)
-	: deviceContext(deviceContext),
-	trasformMatrix(trasformMatrix),
-	vertices(std::move(vertices)),
-	indices(std::move(indices)),
-	material(&material)
-{
-	InitializeBuffers(device);
-}*/
-
-Mesh::Mesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices, const XMMATRIX& trasformMatrix) : 
+Mesh::Mesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices) :
 	deviceContext(deviceContext),
 	vertices(vertices),
-	indices(indices),
-	trasformMatrix(trasformMatrix)
+	indices(indices)
 {
 	InitializeBuffers(device);
 }
@@ -40,6 +19,11 @@ void Mesh::SetMaterial(Material* material) noexcept
 	this->material = material;
 }
 
+Material* Mesh::GetMaterial() const noexcept
+{
+	return material;
+}
+
 void Mesh::InitializeBuffers(ID3D11Device* device)
 {
 	HRESULT hr;
@@ -52,15 +36,16 @@ void Mesh::InitializeBuffers(ID3D11Device* device)
 		indexBuffer.Initialize(device, this->indices.data(), static_cast<UINT>(indices.size())),
 		L"Failed to initialize index buffer."
 	);
+	GFX_ERROR_IF_MSG(
+		cbCoordinates.Initialize(device, deviceContext),
+		L"Failed to initialize constant buffer Coordinates."
+	);
 }
 
-const XMMATRIX& Mesh::GetTransformMatrix() const noexcept
+void Mesh::Draw(const CameraObject& camera, TempTransformMatrix worldMatrix)
 {
-	return trasformMatrix;
-}
-
-void Mesh::Draw()
-{
+	cbCoordinates.data.wvpMatrix = XMMatrixTranspose(worldMatrix * camera.GetViewProjectionMatrix());
+	GetMaterial()->ApplyConstantBuffer(cbCoordinates);
 	material->Apply();
 	UINT offset = 0;
 	deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);

@@ -216,6 +216,8 @@
     <ClCompile Include="Engine\Scene\TestMap.cpp" />
     <ClCompile Include="Engine\Scene\Scene.cpp" />
     <ClCompile Include="Engine\Scene\MeshObject.cpp" />
+    <ClCompile Include="Engine\Base\Transformable.cpp" />
+    <ClCompile Include="Engine\Base\Rotator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp" />
@@ -265,6 +267,8 @@
     <ClInclude Include="Engine\Scene\TestMap.hpp" />
     <ClInclude Include="Engine\Scene\Scene.hpp" />
     <ClInclude Include="Engine\Scene\MeshObject.hpp" />
+    <ClInclude Include="Engine\Base\Transformable.hpp" />
+    <ClInclude Include="Engine\Base\Rotator.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\GameEngine.rc" />

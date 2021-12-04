@@ -30,37 +30,38 @@ int Engine::Start()
 
 void Engine::Processing()
 {
+	scene.Update();
 	static std::wostringstream ss;
-	ss << "pos:"	<< window.graphics.camera->GetObjectLocation().x
-		<< ",  "	<< window.graphics.camera->GetObjectLocation().y
-		<< ",  "	<< window.graphics.camera->GetObjectLocation().z
-		<< " rot:"	<< window.graphics.camera->GetObjectRotation().x * 360.0f / XM_2PI
-		<< ",  "	<< window.graphics.camera->GetObjectRotation().y * 360.0f / XM_2PI
-		<< ",  "	<< window.graphics.camera->GetObjectRotation().z * 360.0f / XM_2PI;
+	ss << "pos:"	<< window.graphics.camera->GetLocation().x
+		<< ",  "	<< window.graphics.camera->GetLocation().y
+		<< ",  "	<< window.graphics.camera->GetLocation().z
+		<< " rot:"	<< window.graphics.camera->GetRotation().roll
+		<< ",  "	<< window.graphics.camera->GetRotation().pitch
+		<< ",  "	<< window.graphics.camera->GetRotation().yaw;
 
 	window.SetTitle(ss.str());
 	ss = std::wostringstream{};
 
-	float cameraRotSpeed = 0.005f;
+	float cameraRotSpeed = 0.4f;	
 	while (!window.inputDevice.mouse.EventBufferIsEmpty())
 	{
 		auto e = window.inputDevice.mouse.ReadEvent();
 		if (window.inputDevice.mouse.IsRightDown() && e.GetType() == Mouse::MouseEvent::EventType::RawMove)
 		{
-			window.graphics.camera->AddObjectRotation(e.GetPosY() * cameraRotSpeed, e.GetPosX() * cameraRotSpeed, 0.0f);
+			window.graphics.camera->AddRotation(e.GetPosY() * cameraRotSpeed, e.GetPosX() * cameraRotSpeed, 0.0f);
 		}
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('X'))
 	{
-		window.graphics.camera->AddObjectRotation(0.5f * deltaTime, 0.0f, 0.0f);
+		window.graphics.camera->AddRotation(0.5f * deltaTime, 0.0f, 0.0f);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('Y'))
 	{
-		window.graphics.camera->AddObjectRotation(0.0f, 0.5f * deltaTime, 0.0f);
+		window.graphics.camera->AddRotation(0.0f, 0.5f * deltaTime, 0.0f);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('C'))
 	{
-		window.graphics.camera->AddObjectRotation(0.0f, 0.0f, 0.5f * deltaTime);
+		window.graphics.camera->AddRotation(0.0f, 0.0f, 0.5f * deltaTime);
 	}
 
 	float cameraSpeed = 20.0f;
@@ -70,43 +71,43 @@ void Engine::Processing()
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('W'))
 	{
-		window.graphics.camera->AddObjectLocation(window.graphics.camera->GetObjectForwardVector() * cameraSpeed * deltaTime);
+		window.graphics.camera->AddLocation(window.graphics.camera->GetForwardVector() * cameraSpeed * deltaTime);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('S'))
 	{
-		window.graphics.camera->AddObjectLocation(window.graphics.camera->GetObjectForwardVector() * -cameraSpeed * deltaTime);
+		window.graphics.camera->AddLocation(window.graphics.camera->GetForwardVector() * -cameraSpeed * deltaTime);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('A'))
 	{
-		window.graphics.camera->AddObjectLocation(window.graphics.camera->GetObjectRightVector() * -cameraSpeed * deltaTime);
+		window.graphics.camera->AddLocation(window.graphics.camera->GetRightVector() * -cameraSpeed * deltaTime);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('D'))
 	{
-		window.graphics.camera->AddObjectLocation(window.graphics.camera->GetObjectRightVector() * cameraSpeed * deltaTime);
+		window.graphics.camera->AddLocation(window.graphics.camera->GetRightVector() * cameraSpeed * deltaTime);
 	}
 	/*if (window.inputDevice.keyboard.KeyIsPressed('W'))
 	{
-		window.graphics.camera->AddObjectLocation(0.0f, cameraSpeed * deltaTime, 0.0f);
+		window.graphics.camera->AddLocation(0.0f, cameraSpeed * deltaTime, 0.0f);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('S'))
 	{
-		window.graphics.camera->AddObjectLocation(0.0f, -cameraSpeed * deltaTime, 0.0f);
+		window.graphics.camera->AddLocation(0.0f, -cameraSpeed * deltaTime, 0.0f);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('A'))
 	{
-		window.graphics.camera->AddObjectLocation(-cameraSpeed * deltaTime, 0.0f, 0.0f);
+		window.graphics.camera->AddLocation(-cameraSpeed * deltaTime, 0.0f, 0.0f);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('D'))
 	{
-		window.graphics.camera->AddObjectLocation(cameraSpeed * deltaTime, 0.0f, 0.0f);
+		window.graphics.camera->AddLocation(cameraSpeed * deltaTime, 0.0f, 0.0f);
 	}*/
 	if (window.inputDevice.keyboard.KeyIsPressed(VK_SPACE))
 	{
-		window.graphics.camera->AddObjectLocation(0.0f, cameraSpeed * deltaTime, 0.0f);
+		window.graphics.camera->AddLocation(0.0f, cameraSpeed * deltaTime, 0.0f);
 	}
 	if (window.inputDevice.keyboard.KeyIsPressed('Z'))
 	{
-		window.graphics.camera->AddObjectLocation(0.0f, -cameraSpeed * deltaTime, 0.0f);
+		window.graphics.camera->AddLocation(0.0f, -cameraSpeed * deltaTime, 0.0f);
 	}
 }
 

@@ -27,7 +27,6 @@ public:
 	bool operator!=(const Transform& t) const noexcept;
 
 	const float* GetArray() const noexcept;
-	TempTransformMatrix getTransformMatrix() const noexcept;
 	TempTransformMatrix GetTransformMatrix() const noexcept;
 
 	Vector location;

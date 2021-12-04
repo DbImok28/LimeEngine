@@ -14,19 +14,20 @@ public:
 	void SetPerspective();
 	void SetOrthographic();
 
-	void UpdateViewMatrix() noexcept;
-	const XMMATRIX& GetViewMatrix() noexcept;
+	void UpdateViewMatrix() const noexcept;
+	const XMMATRIX& GetViewMatrix() const noexcept;
 	const XMMATRIX& GetProjectionMatrix() const noexcept;
-	XMMATRIX GetViewProjectionMatrix() noexcept;
-	ProjectionType projectionType = ProjectionType::Perspective;
+	XMMATRIX GetViewProjectionMatrix() const noexcept;
 
+private:
+	mutable XMMATRIX viewMatrix = XMMatrixIdentity();
+	mutable XMMATRIX projectionMatrix = XMMatrixIdentity();
+	ProjectionType projectionType = ProjectionType::Perspective;
+public:
 	float width;
 	float height;
 	float fovRadians;
 	float aspectRatio;
 	float nearZ;
 	float farZ;
-private:
-	XMMATRIX viewMatrix = XMMatrixIdentity();
-	XMMATRIX projectionMatrix = XMMatrixIdentity();
 };

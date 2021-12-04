@@ -68,8 +68,6 @@ const float* Transform::GetArray() const noexcept
     return &location.x;
 }
 
-inline TempTransformMatrix Transform::getTransformMatrix() const noexcept { return GetTransformMatrix(); }
-
 TempTransformMatrix Transform::GetTransformMatrix() const noexcept
 {
     return XMMatrixScaling(scale.x, scale.y, scale.z)

@@ -6,8 +6,6 @@ void Scene::Initialize(Engine* engine)
 	this->engine = engine;
 
 	AttachMap(std::make_unique<TestMap>());
-
-	InitializeMaps();
 }
 
 void Scene::Update()
