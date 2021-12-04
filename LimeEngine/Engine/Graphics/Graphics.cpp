@@ -186,14 +186,6 @@ void Graphics::PreProcessing()
 
 void Graphics::Processing()
 {
-	// TODO: Apply constant buffer
-	static ConstantBuffer<CB_VS_VertexShader> constantBuffer;
-	static Mesh* mesh = engine->gameDataManager.meshes.Get(0);
-	static Material* mat = engine->gameDataManager.materials.Get(0);
-
-	constantBuffer.Initialize(device.Get(), deviceContext.Get());
-	constantBuffer.data.wvpMatrix = XMMatrixTranspose(mesh->GetTransformMatrix() * camera->GetViewProjectionMatrix());
-	mat->ApplyConstantBuffer(constantBuffer);
 	engine->scene.Render();
 }
 
@@ -231,12 +223,30 @@ void Graphics::ImGuiUpdate()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
-
-
-	ImGui::Begin("Test");
+	
+	static Transform o1({ 0,-1,5 }, { 0,170,0 }, { 1,1,1 });
+	ImGui::Begin("Object");
+	ImGui::DragFloat3("location", o1.location.GetArray());
+	ImGui::DragFloat3("rotation", o1.rotation.GetArray());
+	ImGui::DragFloat3("scale", o1.scale.GetArray(), 0.1f, 0, 1);
+	engine->scene.maps[0]->objects[0]->SetTransform(o1);
 	ImGui::End();
 
-	//ImGui::DragFloat3()
+	static Transform t1;
+	ImGui::Begin("Mesh1");
+	ImGui::DragFloat3("location", t1.location.GetArray());
+	ImGui::DragFloat3("rotation", t1.rotation.GetArray(), 0.1f, -10, 10);
+	ImGui::DragFloat3("scale", t1.scale.GetArray(), 0.1f, 0, 1);
+	ImGui::End();
+	engine->scene.maps[0]->objects[0]->components[0]->SetTransform(t1);
+
+	static Transform t2({0,3,0}, {0,0,90}, {1,1,1});
+	ImGui::Begin("Mesh2");
+	ImGui::DragFloat3("location", t2.location.GetArray());
+	ImGui::DragFloat3("rotation", t2.rotation.GetArray());
+	ImGui::DragFloat3("scale",    t2.scale.GetArray(), 0.1f, 0, 1);
+	engine->scene.maps[0]->objects[0]->components[1]->SetTransform(t2);
+	ImGui::End();
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

@@ -22,8 +22,9 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{2ee89763-8ee7-4316-8927-ea7e7aa91f4a}</ProjectGuid>
-    <RootNamespace>GameEngine</RootNamespace>
+    <RootNamespace>LimeEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>LimeEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -271,7 +272,7 @@
     <ClInclude Include="Engine\Base\Rotator.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Engine\Window\GameEngine.rc" />
+    <ResourceCompile Include="Engine\Window\LimeEngine.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Engine\Window\cherry.ico" />

@@ -340,7 +340,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Engine\Window\GameEngine.rc">
+    <ResourceCompile Include="Engine\Window\LimeEngine.rc">
       <Filter>Engine\Window\Resources</Filter>
     </ResourceCompile>
   </ItemGroup>
