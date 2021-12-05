@@ -2,12 +2,14 @@
 * Copyright(C) 2021, by ѕавел якушик(ruby.circles774@gmail.com)
 */
 #include "../Engine.hpp"
+
 int APIENTRY wWinMain(
 	_In_		HINSTANCE	hInstance,
 	_In_opt_	HINSTANCE	hPrevInstance,
 	_In_		LPWSTR		lpCmdLine,
 	_In_		int			nCmdShow)
 {
+	using namespace LimeEngine;
 	try
 	{
 		HRESULT hr = CoInitialize(NULL);

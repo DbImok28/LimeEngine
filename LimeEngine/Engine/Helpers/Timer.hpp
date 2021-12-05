@@ -1,17 +1,20 @@
 #pragma once
 #include <chrono>
 
-class Timer
+namespace LimeEngine
 {
-public:
-	Timer() noexcept;
-	float ElapsedTime() const noexcept;
-	bool IsRunning() const noexcept;
-	bool Stop() noexcept;
-	bool Start() noexcept;
-	void Restart() noexcept;
-private:
-	bool isRunning = false;
-	std::chrono::time_point<std::chrono::steady_clock> start;
-	std::chrono::time_point<std::chrono::steady_clock> stop;
-};
+	class Timer
+	{
+	public:
+		Timer() noexcept;
+		float ElapsedTime() const noexcept;
+		bool IsRunning() const noexcept;
+		bool Stop() noexcept;
+		bool Start() noexcept;
+		void Restart() noexcept;
+	private:
+		bool isRunning = false;
+		std::chrono::time_point<std::chrono::steady_clock> start;
+		std::chrono::time_point<std::chrono::steady_clock> stop;
+	};
+}

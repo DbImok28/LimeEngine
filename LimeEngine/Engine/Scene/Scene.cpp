@@ -1,49 +1,52 @@
 #include "Scene.hpp"
 #include "TestMap.hpp"
 
-void Scene::Initialize(Engine* engine)
+namespace LimeEngine
 {
-	this->engine = engine;
-
-	AttachMap(std::make_unique<TestMap>());
-}
-
-void Scene::Update()
-{
-	UpdateMaps();
-}
-
-void Scene::Render()
-{
-	RenderMaps();
-}
-
-void Scene::InitializeMaps()
-{
-	for (auto&& map : maps)
+	void Scene::Initialize(Engine* engine)
 	{
-		map->Initialize(engine);
-	}
-}
+		this->engine = engine;
 
-void Scene::UpdateMaps()
-{
-	for (auto&& map : maps)
+		AttachMap(std::make_unique<TestMap>());
+	}
+
+	void Scene::Update()
 	{
-		map->Update();
+		UpdateMaps();
 	}
-}
 
-void Scene::RenderMaps()
-{
-	for (auto&& map : maps)
+	void Scene::Render()
 	{
-		map->Render();
+		RenderMaps();
 	}
-}
 
-void Scene::AttachMap(std::unique_ptr<SceneMap>&& map)
-{
-	maps.push_back(std::move(map));
-	maps.back()->Initialize(engine);
+	void Scene::InitializeMaps()
+	{
+		for (auto&& map : maps)
+		{
+			map->Initialize(engine);
+		}
+	}
+
+	void Scene::UpdateMaps()
+	{
+		for (auto&& map : maps)
+		{
+			map->Update();
+		}
+	}
+
+	void Scene::RenderMaps()
+	{
+		for (auto&& map : maps)
+		{
+			map->Render();
+		}
+	}
+
+	void Scene::AttachMap(std::unique_ptr<SceneMap>&& map)
+	{
+		maps.push_back(std::move(map));
+		maps.back()->Initialize(engine);
+	}
 }

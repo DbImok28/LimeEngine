@@ -18,52 +18,54 @@
 	#endif // !IMGUI
 #endif // !NO_IMGUI
 
-
-class Engine;
-
-class Graphics
+namespace LimeEngine
 {
-public:
-	Graphics() = default;
-	Graphics(const Graphics&) = delete;
-	Graphics(Graphics&&) noexcept = delete;
-	Graphics& operator=(const Graphics&) = delete;
-	Graphics& operator=(Graphics&&) noexcept = delete;
+	class Engine;
 
-	void RenderFrame();
-	void Initialize(HWND hWnd, Engine* engine, int width, int height);
-private:
-	void InitializeDirectX(HWND hWnd);
-	void PreProcessing();
-	void Processing();
-	void PostProcessing();
+	class Graphics
+	{
+	public:
+		Graphics() = default;
+		Graphics(const Graphics&) = delete;
+		Graphics(Graphics&&) noexcept = delete;
+		Graphics& operator=(const Graphics&) = delete;
+		Graphics& operator=(Graphics&&) noexcept = delete;
 
-	com_ptr<IDXGISwapChain> swapchain;
-	com_ptr<ID3D11RenderTargetView> renderTargetView;
+		void RenderFrame();
+		void Initialize(HWND hWnd, Engine* engine, int width, int height);
+	private:
+		void InitializeDirectX(HWND hWnd);
+		void PreProcessing();
+		void Processing();
+		void PostProcessing();
 
-	com_ptr<ID3D11DepthStencilView> depthStencilView;
-	com_ptr<ID3D11Texture2D> depthStencilBuffer;
-	com_ptr<ID3D11DepthStencilState> depthStencilState;
+		com_ptr<IDXGISwapChain> swapchain;
+		com_ptr<ID3D11RenderTargetView> renderTargetView;
 
-	com_ptr<ID3D11RasterizerState> rasterizerState;
+		com_ptr<ID3D11DepthStencilView> depthStencilView;
+		com_ptr<ID3D11Texture2D> depthStencilBuffer;
+		com_ptr<ID3D11DepthStencilState> depthStencilState;
 
-	com_ptr<ID3D11SamplerState> samplerState;
+		com_ptr<ID3D11RasterizerState> rasterizerState;
 
-public:
-	com_ptr<ID3D11Device> device;
-	com_ptr<ID3D11DeviceContext> deviceContext;
+		com_ptr<ID3D11SamplerState> samplerState;
 
-private:
-	int windowWidth = 0;
-	int windowHeight = 0;
+	public:
+		com_ptr<ID3D11Device> device;
+		com_ptr<ID3D11DeviceContext> deviceContext;
 
-public:
-	std::unique_ptr<CameraObject> camera;
-	Engine* engine = nullptr;
+	private:
+		int windowWidth = 0;
+		int windowHeight = 0;
+
+	public:
+		std::unique_ptr<CameraObject> camera;
+		Engine* engine = nullptr;
 
 #ifdef IMGUI
-public:
-	void ImGuiSetup(HWND hWnd);
-	void ImGuiUpdate();
+	public:
+		void ImGuiSetup(HWND hWnd);
+		void ImGuiUpdate();
 #endif // IMGUI
-};
+	};
+}

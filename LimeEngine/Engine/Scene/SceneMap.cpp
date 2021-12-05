@@ -1,47 +1,50 @@
 #include "SceneMap.hpp"
 
-void SceneMap::Initialize(Engine* engine)
+namespace LimeEngine
 {
-	this->engine = engine;
-	InitializeObjects();
-}
-
-void SceneMap::Update()
-{
-	UpdateObjects();
-}
-
-void SceneMap::Render()
-{
-	RenderObjects();
-}
-
-void SceneMap::InitializeObjects()
-{
-	for (auto&& object : objects)
+	void SceneMap::Initialize(Engine* engine)
 	{
-		object->Initialize(engine);
+		this->engine = engine;
+		InitializeObjects();
 	}
-}
 
-void SceneMap::UpdateObjects()
-{
-	for (auto&& object : objects)
+	void SceneMap::Update()
 	{
-		object->Update();
+		UpdateObjects();
 	}
-}
 
-void SceneMap::RenderObjects()
-{
-	for (auto&& object : objects)
+	void SceneMap::Render()
 	{
-		object->Render();
+		RenderObjects();
 	}
-}
 
-void SceneMap::AttachObject(std::unique_ptr<SceneObject>&& object)
-{
-	objects.push_back(std::move(object));
-	objects.back()->Initialize(engine);
+	void SceneMap::InitializeObjects()
+	{
+		for (auto&& object : objects)
+		{
+			object->Initialize(engine);
+		}
+	}
+
+	void SceneMap::UpdateObjects()
+	{
+		for (auto&& object : objects)
+		{
+			object->Update();
+		}
+	}
+
+	void SceneMap::RenderObjects()
+	{
+		for (auto&& object : objects)
+		{
+			object->Render();
+		}
+	}
+
+	void SceneMap::AttachObject(std::unique_ptr<SceneObject>&& object)
+	{
+		objects.push_back(std::move(object));
+		objects.back()->Initialize(engine);
+	}
 }

@@ -4,44 +4,47 @@
 #include <DirectXTK/WICTextureLoader.h>
 #include <DirectXTK/DDSTextureLoader.h>
 
-Texture2D::Texture2D(ID3D11Device* device, const uint8_t* pData, size_t size, TextureType type) : type(type)
+namespace LimeEngine
 {
-	// TODO: mipmap
-	HRESULT hr;
-	GFX_ERROR_IF_MSG(
-		DirectX::CreateWICTextureFromMemory(device, pData, size, texture.GetAddressOf(), textureView.GetAddressOf()),
-		L"Failed to create texture from memory."
-	);
-}
-
-Texture2D::Texture2D(ID3D11Device* device, const std::wstring& filePath, TextureType type)
-{
-	HRESULT hr;
-	if (Paths::GetFileExtension(filePath) == L".dds")
+	Texture2D::Texture2D(ID3D11Device* device, const uint8_t* pData, size_t size, TextureType type) : type(type)
 	{
-		hr = DirectX::CreateDDSTextureFromFile(device, filePath.c_str(), texture.GetAddressOf(), textureView.GetAddressOf());
-		if (FAILED(hr))
-		{
-			// TODO: Unloaded texture
-		}
-		return;
+		// TODO: mipmap
+		HRESULT hr;
+		GFX_ERROR_IF_MSG(
+			DirectX::CreateWICTextureFromMemory(device, pData, size, texture.GetAddressOf(), textureView.GetAddressOf()),
+			L"Failed to create texture from memory."
+		);
 	}
-	else
+
+	Texture2D::Texture2D(ID3D11Device* device, const std::wstring& filePath, TextureType type)
 	{
-		hr = DirectX::CreateWICTextureFromFile(device, filePath.c_str(), texture.GetAddressOf(), textureView.GetAddressOf());
-		if (FAILED(hr))
+		HRESULT hr;
+		if (Paths::GetFileExtension(filePath) == L".dds")
 		{
-			// TODO: Unloaded texture
+			hr = DirectX::CreateDDSTextureFromFile(device, filePath.c_str(), texture.GetAddressOf(), textureView.GetAddressOf());
+			if (FAILED(hr))
+			{
+				// TODO: Unloaded texture
+			}
+			return;
+		}
+		else
+		{
+			hr = DirectX::CreateWICTextureFromFile(device, filePath.c_str(), texture.GetAddressOf(), textureView.GetAddressOf());
+			if (FAILED(hr))
+			{
+				// TODO: Unloaded texture
+			}
 		}
 	}
-}
 
-ID3D11ShaderResourceView* Texture2D::GetView()
-{
-	return textureView.Get();
-}
+	ID3D11ShaderResourceView* Texture2D::GetView()
+	{
+		return textureView.Get();
+	}
 
-ID3D11ShaderResourceView** Texture2D::GetViewAddress()
-{
-	return textureView.GetAddressOf();
+	ID3D11ShaderResourceView** Texture2D::GetViewAddress()
+	{
+		return textureView.GetAddressOf();
+	}
 }

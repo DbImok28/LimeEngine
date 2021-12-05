@@ -4,21 +4,24 @@
 
 #include "../Base/Transformable.hpp"
 
-class Engine;
-class SceneObject;
-
-class SceneComponent : public Transformable
+namespace LimeEngine
 {
-public:
-	SceneComponent() noexcept = default;
+	class Engine;
+	class SceneObject;
 
-	virtual void Initialize(Engine* engine, SceneObject* rootObject);
-	virtual void Update();
-	virtual void Render();	
-	virtual ~SceneComponent() noexcept = default;
-	TempTransformMatrix GetWorldTransformMatrix() const noexcept override;
+	class SceneComponent : public Transformable
+	{
+	public:
+		SceneComponent() noexcept = default;
 
-protected:
-	SceneObject* rootObject = nullptr;
-	Engine* engine = nullptr;
-};
+		virtual void Initialize(Engine* engine, SceneObject* rootObject);
+		virtual void Update();
+		virtual void Render();
+		virtual ~SceneComponent() noexcept = default;
+		TempTransformMatrix GetWorldTransformMatrix() const noexcept override;
+
+	protected:
+		SceneObject* rootObject = nullptr;
+		Engine* engine = nullptr;
+	};
+}

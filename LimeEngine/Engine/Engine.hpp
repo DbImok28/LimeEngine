@@ -7,23 +7,26 @@
 #include "Scene/Scene.hpp"
 #include "Base/GameDataManager.hpp"
 
-class Engine
+namespace LimeEngine
 {
-public:
-	Engine(const Engine&) = delete;
-	Engine(Engine&&) noexcept = delete;
-	Engine& operator=(const Engine&) = delete;
-	Engine& operator=(Engine&&) noexcept = delete;
-	Engine(const wchar_t* windowTitle = L"GameEngine", int width = 1080, int height = 720);
+	class Engine
+	{
+	public:
+		Engine(const Engine&) = delete;
+		Engine(Engine&&) noexcept = delete;
+		Engine& operator=(const Engine&) = delete;
+		Engine& operator=(Engine&&) noexcept = delete;
+		Engine(const wchar_t* windowTitle = L"GameEngine", int width = 1080, int height = 720);
 
-	void Initialize();
-	int Start();
-	void Processing();
-	void RenderFrame();
-public:
-	float deltaTime = 0;
-	Window window;
-	Scene scene;
-	GameDataManager gameDataManager;
-	Timer timer;
-};
+		void Initialize();
+		int Start();
+		void Processing();
+		void RenderFrame();
+	public:
+		float deltaTime = 0;
+		Window window;
+		Scene scene;
+		GameDataManager gameDataManager;
+		Timer timer;
+	};
+}
