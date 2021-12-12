@@ -8,7 +8,7 @@ namespace LimeEngine
 	{
 	public:
 		MeshComponent(size_t id = 0) noexcept;
-		void Initialize(Engine* engine, SceneObject* rootObject) override;
+		void Initialize(Engine* engine, Transformable* rootTransform) override;
 		void Render() override;
 		size_t id = 0;
 		Mesh* mesh = nullptr;

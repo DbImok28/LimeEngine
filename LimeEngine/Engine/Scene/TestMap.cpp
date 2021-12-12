@@ -51,14 +51,21 @@ namespace LimeEngine
 		material->AddTexture(texture);
 		mesh->SetMaterial(material);
 
+		//// Make Scene
+		//AttachObject(std::make_unique<MeshObject>(0));
+		//objects[0]->AttachComponent(std::make_unique<MeshComponent>(0));
+		//objects[0]->SetLocation(5, 5, 10);
+		//objects[0]->SetRotation(XMConvertToRadians(45), XMConvertToRadians(45), XMConvertToRadians(45));
+
+		//objects[0]->components[0]->SetLocation(10, 10, 12);
+		//objects[0]->components[0]->SetRotation(XMConvertToRadians(30), XMConvertToRadians(60), XMConvertToRadians(90));
+		//objects[0]->components[0]->SetScale(0.5, 0.5, 0.5);
 		// Make Scene
 		AttachObject(std::make_unique<MeshObject>(0));
-		objects[0]->AttachComponent(std::make_unique<MeshComponent>(0));
-		objects[0]->SetLocation(5, 5, 10);
-		objects[0]->SetRotation(XMConvertToRadians(45), XMConvertToRadians(45), XMConvertToRadians(45));
-
-		objects[0]->components[0]->SetLocation(10, 10, 12);
-		objects[0]->components[0]->SetRotation(XMConvertToRadians(30), XMConvertToRadians(60), XMConvertToRadians(90));
-		objects[0]->components[0]->SetScale(0.5, 0.5, 0.5);
+		//objects[0]->AttachComponent(std::make_unique<MeshComponent>(0));
+		objects[0]->components[0]->AttachComponent(std::make_unique<MeshComponent>(0));
+		objects[0]->SetLocation(0, 0, 0);
+		objects[0]->components[0]->SetLocation(0, 10, 0);
+		objects[0]->components[0]->components[0]->SetLocation(0, 10, 0);	
 	}
 }
