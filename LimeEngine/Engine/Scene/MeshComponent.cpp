@@ -3,18 +3,16 @@
 
 namespace LimeEngine
 {
-	MeshComponent::MeshComponent(size_t id) noexcept : id(id) {}
-
-	void MeshComponent::Initialize(Engine* engine, Transformable* rootTransform)
+	MeshComponent::MeshComponent(Engine* engine, Transform transform, size_t id) noexcept : SceneComponent(engine, transform), id(id)
 	{
-		this->engine = engine;
-		this->rootTransform = rootTransform;
 		mesh = engine->gameDataManager.LoadMesh(id);
 	}
 
 	void MeshComponent::Render()
 	{
-		mesh->Draw(*engine->window.graphics.camera.get(), GetWorldTransformMatrix());
-		RenderComponents();
+		if (engine->scene.CameraIsSet())
+		{
+			mesh->Draw(*engine->scene.GetCamera(), GetWorldTransformMatrix());
+		}
 	};
 }

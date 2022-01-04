@@ -17,11 +17,6 @@ namespace LimeEngine
 		windowHeight = height;
 
 		InitializeDirectX(hWnd);
-
-		// TODO: Auto find camera component
-		camera = std::make_unique<CameraObject>(CameraObject::ProjectionType::Perspective, static_cast<float>(windowWidth), static_cast<float>(windowHeight));
-		camera->Initialize(engine);
-
 #ifdef IMGUI
 		ImGuiSetup(hWnd);
 #endif // IMGUI
@@ -188,7 +183,7 @@ namespace LimeEngine
 
 	void Graphics::Processing()
 	{
-		engine->scene.Render();
+		engine->scene.RenderScene();
 	}
 
 	void Graphics::PostProcessing()
@@ -227,28 +222,20 @@ namespace LimeEngine
 		ImGui::NewFrame();
 
 		static Transform o1;
-		ImGui::Begin("Object");
+		ImGui::Begin("mesh(root)");
 		ImGui::DragFloat3("location", o1.location.GetArray());
 		ImGui::DragFloat3("rotation", o1.rotation.GetArray());
 		ImGui::DragFloat3("scale", o1.scale.GetArray(), 0.1f, 0, 1);
-		engine->scene.maps[0]->objects[0]->SetTransform(o1);
+		engine->scene.maps[0]->objects[0]->rootComponent->SetTransform(o1);
 		ImGui::End();
 
 		static Transform t1({ 0,5,0 }, { 0,0,90 }, { 1,1,1 });
-		ImGui::Begin("Mesh1");
+		ImGui::Begin("mesh(sub)");
 		ImGui::DragFloat3("location", t1.location.GetArray());
 		ImGui::DragFloat3("rotation", t1.rotation.GetArray());
 		ImGui::DragFloat3("scale", t1.scale.GetArray(), 0.1f, 0, 1);
 		ImGui::End();
-		engine->scene.maps[0]->objects[0]->components[0]->SetTransform(t1);
-
-		static Transform t2({ 0,5,0 }, { 0,0,90 }, { 1,1,1 });
-		ImGui::Begin("Mesh2");
-		ImGui::DragFloat3("location", t2.location.GetArray());
-		ImGui::DragFloat3("rotation", t2.rotation.GetArray());
-		ImGui::DragFloat3("scale", t2.scale.GetArray(), 0.1f, 0, 1);
-		engine->scene.maps[0]->objects[0]->components[0]->components[0]->SetTransform(t2);
-		ImGui::End();
+		engine->scene.maps[0]->objects[0]->rootComponent->components[0]->SetTransform(t1);
 
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

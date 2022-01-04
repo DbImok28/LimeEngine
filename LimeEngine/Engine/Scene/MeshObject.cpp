@@ -2,8 +2,8 @@
 
 namespace LimeEngine
 {
-	MeshObject::MeshObject(size_t id) noexcept
+	MeshObject::MeshObject(Engine* engine, Transform transform, size_t id) noexcept : SceneObject(engine)
 	{
-		components.push_back(std::make_unique<MeshComponent>(id));
+		rootComponent = std::make_unique<MeshComponent>(engine, transform, id);
 	}
 }

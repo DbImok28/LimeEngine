@@ -10,16 +10,15 @@ namespace LimeEngine
 
 	class SceneComponent : public Transformable
 	{
-	public:
-		SceneComponent() noexcept = default;
-
-		virtual void Initialize(Engine* engine, Transformable* rootTransform);
+	protected:
 		virtual void Update();
 		virtual void Render();
-		void UpdateComponents();
-		void RenderComponents();
+	public:
+		SceneComponent(Engine* engine, Transform transform = {}) noexcept;
 		virtual ~SceneComponent() noexcept = default;
-
+		void UpdateComponent();
+		void RenderComponent();
+		void SetRootTransform(Transformable* rootTransform) noexcept;
 		void AttachComponent(std::unique_ptr<SceneComponent>&& component) noexcept;
 		TempTransformMatrix GetWorldTransformMatrix() const noexcept override;
 

@@ -5,16 +5,15 @@ namespace LimeEngine
 {
 	class SceneMap
 	{
-	public:
-		virtual void Initialize(Engine* engine);
+	protected:
 		virtual void Update();
 		virtual void Render();
-
-		void InitializeObjects();
-		void UpdateObjects();
-		void RenderObjects();
+	public:
+		SceneMap(Engine* engine);
+		virtual void Load();;
+		void UpdateMap();
+		void RenderMap();
 		void AttachObject(std::unique_ptr<SceneObject>&& object);
-
 		virtual ~SceneMap() noexcept = default;
 	public:
 		std::vector<std::unique_ptr<SceneObject>> objects;

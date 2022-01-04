@@ -3,50 +3,68 @@
 
 namespace LimeEngine
 {
-	void Scene::Initialize(Engine* engine)
-	{
-		this->engine = engine;
+	Scene::Scene(Engine* engine) : engine(engine) {}
 
-		AttachMap(std::make_unique<TestMap>());
+	Scene::Scene(Engine* engine, bool autoLoad)
+	{
+		if (autoLoad)
+		{
+			Load();
+		}
+	}
+
+	void Scene::Load()
+	{
+		auto map = std::make_unique<TestMap>(engine);
+		map->Load();
+		AttachMap(std::move(map));
 	}
 
 	void Scene::Update()
 	{
-		UpdateMaps();
+		//...
 	}
 
 	void Scene::Render()
 	{
-		RenderMaps();
+		//...
 	}
 
-	void Scene::InitializeMaps()
+	void Scene::UpdateScene()
 	{
+		Update();
 		for (auto&& map : maps)
 		{
-			map->Initialize(engine);
+			map->UpdateMap();
 		}
 	}
 
-	void Scene::UpdateMaps()
+	void Scene::RenderScene()
 	{
+		Render();
 		for (auto&& map : maps)
 		{
-			map->Update();
-		}
-	}
-
-	void Scene::RenderMaps()
-	{
-		for (auto&& map : maps)
-		{
-			map->Render();
+			map->RenderMap();
 		}
 	}
 
 	void Scene::AttachMap(std::unique_ptr<SceneMap>&& map)
 	{
 		maps.push_back(std::move(map));
-		maps.back()->Initialize(engine);
+	}
+
+	bool Scene::CameraIsSet() const noexcept
+	{
+		return activeCamera != nullptr;
+	}
+
+	CameraComponent* Scene::GetCamera() const noexcept
+	{
+		return activeCamera;
+	}
+
+	void Scene::SetCamera(CameraComponent* value) noexcept
+	{
+		activeCamera = value;
 	}
 }

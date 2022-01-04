@@ -8,7 +8,7 @@
 #include <sstream>
 #include "Shaders.hpp"
 #include "../Base/Material.hpp"
-#include "../Scene/CameraObject.hpp"
+#include "../Scene/CameraComponent.hpp"
 #include "../Exceptions/GraphicsExceptions.hpp"
 #include "../Helpers/Paths.hpp"
 
@@ -59,7 +59,6 @@ namespace LimeEngine
 		int windowHeight = 0;
 
 	public:
-		std::unique_ptr<CameraObject> camera;
 		Engine* engine = nullptr;
 
 #ifdef IMGUI

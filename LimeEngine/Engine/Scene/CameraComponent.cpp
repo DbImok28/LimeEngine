@@ -1,8 +1,10 @@
-#include "CameraObject.hpp"
+#include "CameraComponent.hpp"
+#include "../Engine.hpp"
 
 namespace LimeEngine
 {
-	CameraObject::CameraObject(ProjectionType projectionType, float width, float height, float fovDegrees, float nearZ, float farZ) noexcept :
+	CameraComponent::CameraComponent(Engine* engine, Transform transform, bool autoActivate, ProjectionType projectionType, float width, float height, float fovDegrees, float nearZ, float farZ) noexcept :
+		SceneComponent(engine, transform),
 		projectionType(projectionType),
 		width(width),
 		height(height),
@@ -10,42 +12,45 @@ namespace LimeEngine
 		nearZ(nearZ),
 		farZ(farZ),
 		aspectRatio(width / height)
-	{}
-
-	void CameraObject::Initialize(Engine* engine)
 	{
-		this->engine = engine;
 		switch (projectionType)
 		{
-		case CameraObject::ProjectionType::Perspective:
+		case ProjectionType::Perspective:
 		{
 			SetPerspective();
 			break;
 		}
-		case CameraObject::ProjectionType::Orthographic:
+		case ProjectionType::Orthographic:
 		{
 			SetOrthographic();
 			break;
 		}
 		}
 		UpdateViewMatrix();
-
-		InitializeComponents();
+		if (autoActivate)
+		{
+			MakeActive();
+		}
 	}
 
-	void CameraObject::SetPerspective()
+	void CameraComponent::MakeActive() noexcept
+	{
+		engine->scene.SetCamera(this);
+	}
+
+	void CameraComponent::SetPerspective()
 	{
 		projectionType = ProjectionType::Perspective;
 		projectionMatrix = XMMatrixPerspectiveFovLH(fovRadians, aspectRatio, nearZ, farZ);
 	}
 
-	void CameraObject::SetOrthographic()
+	void CameraComponent::SetOrthographic()
 	{
 		projectionType = ProjectionType::Orthographic;
 		projectionMatrix = XMMatrixOrthographicOffCenterLH(0.0f, width, height, 0.0f, nearZ, farZ);
 	}
 
-	void CameraObject::UpdateViewMatrix() const noexcept
+	void CameraComponent::UpdateViewMatrix() const noexcept
 	{
 		if (isTransformChange)
 		{
@@ -59,18 +64,18 @@ namespace LimeEngine
 		viewMatrix = XMMatrixLookAtLH(GetTempLocationVector(), camTarget, upDir);
 	}
 
-	const XMMATRIX& CameraObject::GetViewMatrix() const noexcept
+	const XMMATRIX& CameraComponent::GetViewMatrix() const noexcept
 	{
 		UpdateViewMatrix();
 		return viewMatrix;
 	}
 
-	const XMMATRIX& CameraObject::GetProjectionMatrix() const noexcept
+	const XMMATRIX& CameraComponent::GetProjectionMatrix() const noexcept
 	{
 		return projectionMatrix;
 	}
 
-	XMMATRIX CameraObject::GetViewProjectionMatrix() const noexcept
+	XMMATRIX CameraComponent::GetViewProjectionMatrix() const noexcept
 	{
 		return GetViewMatrix() * GetProjectionMatrix();
 	}

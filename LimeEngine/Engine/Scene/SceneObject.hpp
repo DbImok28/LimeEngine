@@ -3,22 +3,23 @@
 
 namespace LimeEngine
 {
-	class SceneObject : public Transformable
+	class SceneObject
 	{
-	public:
-		virtual ~SceneObject() noexcept = default;
-		virtual void Initialize(Engine* engine);
+	protected:
+		// This constructor leaves the object invalid, it just initializes the Engine field
+		SceneObject(Engine* engine) noexcept;
 		virtual void Update();
 		virtual void Render();
-
-		void InitializeComponents();
-		void UpdateComponents();
-		void RenderComponents();
-		void AttachComponent(std::unique_ptr<SceneComponent>&& component) noexcept;
-
-		TempTransformMatrix GetWorldTransformMatrix() const noexcept override;
 	public:
-		std::vector<std::unique_ptr<SceneComponent>> components;
+		SceneObject(Engine* engine, Transform transform) noexcept;
+		SceneObject(Engine* engine, std::unique_ptr<SceneComponent>&& rootComponent) noexcept;
+		void SetRootComponent(std::unique_ptr<SceneComponent>&& newRootComponent) noexcept;
+		Transform GetObjectTransform() const noexcept;
+		void UpdateObject();
+		void RenderObject();
+		virtual ~SceneObject() noexcept = default;
+	public:
+		std::unique_ptr<SceneComponent> rootComponent = nullptr;
 	protected:
 		Engine* engine = nullptr;
 	};

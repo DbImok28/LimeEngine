@@ -18,7 +18,6 @@ namespace LimeEngine
 		Engine& operator=(Engine&&) noexcept = delete;
 		Engine(const wchar_t* windowTitle = L"GameEngine", int width = 1080, int height = 720);
 
-		void Initialize();
 		int Start();
 		void Processing();
 		void RenderFrame();

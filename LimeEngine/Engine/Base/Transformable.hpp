@@ -8,6 +8,9 @@ namespace LimeEngine
 	class Transformable
 	{
 	public:
+		Transformable();
+		Transformable(Transform transform);
+
 		const Vector& GetLocation() const noexcept;
 		TempVector GetTempLocationVector() const noexcept;
 		void SetLocation(const Vector& loc) noexcept;

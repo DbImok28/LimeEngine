@@ -1,9 +1,9 @@
 #pragma once
-#include "SceneObject.hpp"
+#include "SceneComponent.hpp"
 
 namespace LimeEngine
 {
-	class CameraObject : public SceneObject
+	class CameraComponent : public SceneComponent
 	{
 	public:
 		enum class ProjectionType
@@ -11,8 +11,8 @@ namespace LimeEngine
 			Perspective,
 			Orthographic
 		};
-		CameraObject(ProjectionType projectionType, float width, float height, float fovDegrees = 90.0f, float nearZ = 0.001f, float farZ = 10000.0f) noexcept;
-		void Initialize(Engine* engine) override;
+		CameraComponent(Engine* engine, Transform transform, bool autoActivate, ProjectionType projectionType, float width, float height, float fovDegrees = 90.0f, float nearZ = 0.001f, float farZ = 10000.0f) noexcept;
+		void MakeActive() noexcept;
 		void SetPerspective();
 		void SetOrthographic();
 

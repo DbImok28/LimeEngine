@@ -3,7 +3,7 @@
 #include "../Graphics/Buffers/IndexBuffer.hpp"
 #include "Material.hpp"
 #include "Transform.hpp"
-#include "../Scene/CameraObject.hpp"
+#include "../Scene/CameraComponent.hpp"
 #include <vector>
 
 namespace LimeEngine
@@ -20,7 +20,7 @@ namespace LimeEngine
 		void SetMaterial(Material* material) noexcept;
 		Material* GetMaterial() const noexcept;
 		void InitializeBuffers(ID3D11Device* device);
-		void Draw(const CameraObject& camera, TempTransformMatrix worldMatrix);
+		void Draw(const CameraComponent& camera, TempTransformMatrix worldMatrix);
 	private:
 
 		//TempTransformMatrix trasformMatrix;

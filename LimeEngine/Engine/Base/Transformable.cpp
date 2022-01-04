@@ -2,6 +2,8 @@
 
 namespace LimeEngine
 {
+	Transformable::Transformable() : transform() {}
+	Transformable::Transformable(Transform transform) : transform(transform) {}
 	const Vector& Transformable::GetLocation() const noexcept
 	{
 		return transform.location;

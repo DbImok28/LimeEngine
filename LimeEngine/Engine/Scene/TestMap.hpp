@@ -6,6 +6,7 @@ namespace LimeEngine
 	class TestMap : public SceneMap
 	{
 	public:
-		void Initialize(Engine* engine) override;
+		using SceneMap::SceneMap;
+		void Load() override;
 	};
 }

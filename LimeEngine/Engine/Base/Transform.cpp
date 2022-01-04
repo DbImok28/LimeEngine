@@ -16,6 +16,10 @@ namespace LimeEngine
         scale = sc;
     }
 
+    Transform::Transform(float lx, float ly, float lz) noexcept : location(lx, ly, lz), rotation(0.0f, 0.0f, 0.0f), scale(1.0f, 1.0f, 1.0f) {}
+
+    Transform::Transform(float lx, float ly, float lz, float rx, float ry, float rz) noexcept : location(lx, ly, lz), rotation(rx, ry, rz), scale(1.0f, 1.0f, 1.0f) {}
+
     Transform::Transform(float lx, float ly, float lz, float rx, float ry, float rz, float sx, float sy, float sz) noexcept : location(lx, ly, lz), rotation(rx, ry, rz), scale(sx, sy, sz) {}
 
     Transform::Transform(const Transform& other) noexcept : location(other.location), rotation(other.rotation), scale(other.scale) {}

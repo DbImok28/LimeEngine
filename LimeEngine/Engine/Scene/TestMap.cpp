@@ -5,7 +5,7 @@
 
 namespace LimeEngine
 {
-	void TestMap::Initialize(Engine* engine)
+	void TestMap::Load()
 	{
 		this->engine = engine;
 		// Loading
@@ -50,22 +50,11 @@ namespace LimeEngine
 
 		material->AddTexture(texture);
 		mesh->SetMaterial(material);
-
-		//// Make Scene
-		//AttachObject(std::make_unique<MeshObject>(0));
-		//objects[0]->AttachComponent(std::make_unique<MeshComponent>(0));
-		//objects[0]->SetLocation(5, 5, 10);
-		//objects[0]->SetRotation(XMConvertToRadians(45), XMConvertToRadians(45), XMConvertToRadians(45));
-
-		//objects[0]->components[0]->SetLocation(10, 10, 12);
-		//objects[0]->components[0]->SetRotation(XMConvertToRadians(30), XMConvertToRadians(60), XMConvertToRadians(90));
-		//objects[0]->components[0]->SetScale(0.5, 0.5, 0.5);
 		// Make Scene
-		AttachObject(std::make_unique<MeshObject>(0));
-		//objects[0]->AttachComponent(std::make_unique<MeshComponent>(0));
-		objects[0]->components[0]->AttachComponent(std::make_unique<MeshComponent>(0));
-		objects[0]->SetLocation(0, 0, 0);
-		objects[0]->components[0]->SetLocation(0, 10, 0);
-		objects[0]->components[0]->components[0]->SetLocation(0, 10, 0);	
+		auto object = std::make_unique<MeshObject>(engine, Transform(), 0);
+		object->rootComponent->AttachComponent(std::make_unique<MeshComponent>(engine,Transform(0, 10, 0), 0));
+		AttachObject(std::move(object));
+		auto cameraObject = std::make_unique<SceneObject>(engine, std::make_unique<CameraComponent>(engine, Transform(), true, CameraComponent::ProjectionType::Perspective, static_cast<float>(engine->window.width), static_cast<float>(engine->window.height)));
+		AttachObject(std::move(cameraObject));
 	}
 }

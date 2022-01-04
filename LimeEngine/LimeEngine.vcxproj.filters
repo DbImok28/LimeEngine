@@ -165,9 +165,6 @@
     <ClCompile Include="Engine\Scene\Scene.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\CameraObject.cpp">
-      <Filter>Engine\Scene\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Scene\SceneObject.cpp">
       <Filter>Engine\Scene\Objects</Filter>
     </ClCompile>
@@ -188,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Base\Rotator.cpp">
       <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\CameraComponent.cpp">
+      <Filter>Engine\Scene\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -314,9 +314,6 @@
     <ClInclude Include="Engine\Scene\Scene.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\CameraObject.hpp">
-      <Filter>Engine\Scene\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Scene\SceneObject.hpp">
       <Filter>Engine\Scene\Objects</Filter>
     </ClInclude>
@@ -337,6 +334,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Base\Rotator.hpp">
       <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\CameraComponent.hpp">
+      <Filter>Engine\Scene\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -177,7 +177,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Exceptions\DxgiInfo.cpp" />
-    <ClCompile Include="Engine\Scene\CameraObject.cpp" />
+    <ClCompile Include="Engine\Scene\CameraComponent.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Exceptions\EngineExceptions.cpp" />
     <ClCompile Include="Engine\Exceptions\GraphicsExceptions.cpp" />
@@ -222,7 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp" />
-    <ClInclude Include="Engine\Scene\CameraObject.hpp" />
+    <ClInclude Include="Engine\Scene\CameraComponent.hpp" />
     <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp" />
     <ClInclude Include="Engine\Scene\SceneObject.hpp" />
     <ClInclude Include="Engine\Graphics\Buffers\ConstantBuffer.hpp" />

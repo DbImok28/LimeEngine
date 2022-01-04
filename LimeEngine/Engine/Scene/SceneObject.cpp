@@ -2,54 +2,52 @@
 
 namespace LimeEngine
 {
-	void SceneObject::Initialize(Engine* engine)
+	SceneObject::SceneObject(Engine* engine) noexcept : engine(engine) {}
+
+	SceneObject::SceneObject(Engine* engine, Transform transform) noexcept : engine(engine)
 	{
-		this->engine = engine;
-		InitializeComponents();
+		rootComponent = std::make_unique<SceneComponent>(engine, transform);
 	}
+
+	SceneObject::SceneObject(Engine* engine, std::unique_ptr<SceneComponent>&& rootComponent) noexcept : engine(engine), rootComponent(std::move(rootComponent)) {}
 
 	void SceneObject::Update()
 	{
-		UpdateComponents();
 	}
 
 	void SceneObject::Render()
 	{
-		RenderComponents();
 	}
 
-	void SceneObject::InitializeComponents()
+	void SceneObject::UpdateObject()
 	{
-		for (auto&& component : components)
+		Update();
+		if (rootComponent != nullptr)
 		{
-			component->Initialize(engine, this);
+			rootComponent->UpdateComponent();
 		}
 	}
 
-	void SceneObject::UpdateComponents()
+	void SceneObject::RenderObject()
 	{
-		for (auto&& component : components)
+		Render();
+		if (rootComponent != nullptr)
 		{
-			component->Update();
+			rootComponent->RenderComponent();
 		}
 	}
 
-	void SceneObject::RenderComponents()
+	void SceneObject::SetRootComponent(std::unique_ptr<SceneComponent>&& newRootComponent) noexcept
 	{
-		for (auto&& component : components)
+		rootComponent = std::move(newRootComponent);
+	}
+
+	Transform SceneObject::GetObjectTransform() const noexcept
+	{
+		if (rootComponent != nullptr)
 		{
-			component->Render();
+			return rootComponent->GetTransform();
 		}
-	}
-
-	void SceneObject::AttachComponent(std::unique_ptr<SceneComponent>&& component) noexcept
-	{
-		components.push_back(std::move(component));
-		components.back()->Initialize(engine, this);
-	}
-
-	TempTransformMatrix SceneObject::GetWorldTransformMatrix() const noexcept
-	{
-		return GetTransform().GetTransformMatrix();
+		return Transform();
 	}
 }
