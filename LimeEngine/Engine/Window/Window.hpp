@@ -1,7 +1,8 @@
+// Developed by Pavel Jakushik. 
+// See LICENSE for copyright and licensing details (standard MIT License).
+// GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
-/*
-* Copyright(C) 2021, by ѕавел якушик(ruby.circles774@gmail.com)
-*/
+
 #include "WinApi.hpp"
 #include <optional>
 #include <string>

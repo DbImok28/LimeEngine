@@ -1,7 +1,8 @@
+// Developed by Pavel Jakushik. 
+// See LICENSE for copyright and licensing details (standard MIT License).
+// GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
-/*
-* Copyright(C) 2021, by ѕавел якушик(ruby.circles774@gmail.com)
-*/
+
 #include "Window/Window.hpp"
 #include "Helpers/Timer.hpp"
 #include "Scene/Scene.hpp"

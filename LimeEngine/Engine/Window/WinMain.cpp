@@ -1,6 +1,6 @@
-/*
-* Copyright(C) 2021, by ѕавел якушик(ruby.circles774@gmail.com)
-*/
+// Developed by Pavel Jakushik. 
+// See LICENSE for copyright and licensing details (standard MIT License).
+// GitHub https://github.com/RubyCircle/LimeEngine
 #include "../Engine.hpp"
 
 int APIENTRY wWinMain(
