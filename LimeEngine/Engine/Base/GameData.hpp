@@ -12,7 +12,7 @@ namespace LimeEngine
 		T* Create(size_t id, Args&&... args) noexcept;
 		size_t Register(T* item) noexcept;
 		void Register(size_t id, T* item) noexcept;
-		T* Get(size_t id) noexcept;
+		T* Get(size_t id);
 		~GameData();
 	private:
 		size_t maxId = 0;
@@ -44,7 +44,7 @@ namespace LimeEngine
 	}
 
 	template<typename T>
-	T* GameData<T>::Get(size_t id) noexcept
+	T* GameData<T>::Get(size_t id)
 	{
 		// TODO: out of range
 		return data.at(id);

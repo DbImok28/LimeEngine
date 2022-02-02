@@ -23,7 +23,7 @@ namespace LimeEngine
 		void Processing();
 		void RenderFrame();
 	public:
-		float deltaTime = 0;
+		float deltaTime = 0.0f;
 		Window window;
 		Scene scene;
 		GameDataManager gameDataManager;
