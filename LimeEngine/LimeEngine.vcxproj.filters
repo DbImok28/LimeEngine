@@ -156,9 +156,6 @@
     <ClCompile Include="Engine\Exceptions\WindowExceptions.cpp">
       <Filter>Engine\Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\GameData.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Scene\TestMap.cpp">
       <Filter>Engine\Scene\Maps</Filter>
     </ClCompile>
@@ -337,6 +334,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Scene\CameraComponent.hpp">
       <Filter>Engine\Scene\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Events.hpp">
+      <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
