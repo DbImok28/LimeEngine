@@ -3,7 +3,7 @@
 
 namespace LimeEngine
 {
-	CameraComponent::CameraComponent(Engine* engine, Transform transform, bool autoActivate, ProjectionType projectionType, float width, float height, float fovDegrees, float nearZ, float farZ) noexcept :
+	CameraComponent::CameraComponent(Engine* engine, Transform transform, bool autoActivate, float width, float height, ProjectionType projectionType, float fovDegrees, float nearZ, float farZ) noexcept :
 		SceneComponent(engine, transform),
 		projectionType(projectionType),
 		width(width),

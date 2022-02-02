@@ -176,6 +176,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Scene\DefaultPlayerCameraComponent.cpp" />
     <ClCompile Include="Engine\Exceptions\DxgiInfo.cpp" />
     <ClCompile Include="Engine\Scene\CameraComponent.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
@@ -187,7 +188,6 @@
     <ClCompile Include="Engine\Graphics\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="Engine\Helpers\StringHelper.cpp" />
     <ClCompile Include="Engine\Graphics\Buffers\IndexBuffer.cpp" />
-    <ClCompile Include="Engine\Input\InputDevice.cpp" />
     <ClCompile Include="Engine\Input\Keyboard.cpp" />
     <ClCompile Include="Engine\Input\Mouse.cpp" />
     <ClCompile Include="Engine\Helpers\Timer.cpp" />
@@ -220,6 +220,7 @@
     <ClCompile Include="Engine\Base\Rotator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Scene\DefaultPlayerCameraComponent.hpp" />
     <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp" />
     <ClInclude Include="Engine\Scene\CameraComponent.hpp" />
     <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp" />

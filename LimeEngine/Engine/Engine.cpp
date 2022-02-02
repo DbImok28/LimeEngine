@@ -18,13 +18,13 @@ namespace LimeEngine
 			timer.Restart();
 			if (exitCode = window.ProcessMessages())
 				return *exitCode;
-
-			Processing();
+			if (exitCode = Processing())
+				return *exitCode;
 			RenderFrame();
 		}
 	}
 
-	void Engine::Processing()
+	std::optional<int> Engine::Processing()
 	{
 		scene.UpdateScene();
 		//TODO: Remove camera movement
@@ -41,79 +41,16 @@ namespace LimeEngine
 
 			window.SetTitle(ss.str());
 			ss = std::wostringstream{};
-
-			float cameraRotSpeed = 0.4f;
-			while (!window.inputDevice.mouse.EventBufferIsEmpty())
-			{
-				auto e = window.inputDevice.mouse.ReadEvent();
-				if (window.inputDevice.mouse.IsRightDown() && e.GetType() == Mouse::MouseEvent::EventType::RawMove)
-				{
-					camera->AddRotation(e.GetPosY() * cameraRotSpeed, e.GetPosX() * cameraRotSpeed, 0.0f);
-				}
-			}
-			if (window.inputDevice.keyboard.KeyIsPressed('X'))
-			{
-				camera->AddRotation(0.5f * deltaTime, 0.0f, 0.0f);
-			}
-			if (window.inputDevice.keyboard.KeyIsPressed('Y'))
-			{
-				camera->AddRotation(0.0f, 0.5f * deltaTime, 0.0f);
-			}
-			if (window.inputDevice.keyboard.KeyIsPressed('C'))
-			{
-				camera->AddRotation(0.0f, 0.0f, 0.5f * deltaTime);
-			}
-
-			float cameraSpeed = 20.0f;
-			if (window.inputDevice.keyboard.KeyIsPressed(VK_ESCAPE))
-			{
-				exit(0);
-			}
-			if (window.inputDevice.keyboard.KeyIsPressed('W'))
-			{
-				camera->AddLocation(camera->GetForwardVector() * cameraSpeed * deltaTime);
-			}
-			if (window.inputDevice.keyboard.KeyIsPressed('S'))
-			{
-				camera->AddLocation(camera->GetForwardVector() * -cameraSpeed * deltaTime);
-			}
-			if (window.inputDevice.keyboard.KeyIsPressed('A'))
-			{
-				camera->AddLocation(camera->GetRightVector() * -cameraSpeed * deltaTime);
-			}
-			if (window.inputDevice.keyboard.KeyIsPressed('D'))
-			{
-				camera->AddLocation(camera->GetRightVector() * cameraSpeed * deltaTime);
-			}
-			/*if (window.inputDevice.keyboard.KeyIsPressed('W'))
-			{
-				camera->AddLocation(0.0f, cameraSpeed * deltaTime, 0.0f);
-			}
-			if (window.inputDevice.keyboard.KeyIsPressed('S'))
-			{
-				camera->AddLocation(0.0f, -cameraSpeed * deltaTime, 0.0f);
-			}
-			if (window.inputDevice.keyboard.KeyIsPressed('A'))
-			{
-				camera->AddLocation(-cameraSpeed * deltaTime, 0.0f, 0.0f);
-			}
-			if (window.inputDevice.keyboard.KeyIsPressed('D'))
-			{
-				camera->AddLocation(cameraSpeed * deltaTime, 0.0f, 0.0f);
-			}*/
-			if (window.inputDevice.keyboard.KeyIsPressed(VK_SPACE))
-			{
-				camera->AddLocation(0.0f, cameraSpeed * deltaTime, 0.0f);
-			}
-			if (window.inputDevice.keyboard.KeyIsPressed('Z'))
-			{
-				camera->AddLocation(0.0f, -cameraSpeed * deltaTime, 0.0f);
-			}
 		}
 		else
 		{
 			window.SetTitle(L"Camera is not set");
 		}
+		if (window.inputDevice.keyboard.KeyIsPressed(VK_ESCAPE))
+		{
+			return 0;
+		}
+		return {};
 	}
 
 	void Engine::RenderFrame()

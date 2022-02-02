@@ -54,7 +54,5 @@ namespace LimeEngine
 		auto object = std::make_unique<MeshObject>(engine, Transform(), 0);
 		object->rootComponent->AttachComponent(std::make_unique<MeshComponent>(engine,Transform(0, 10, 0), 0));
 		AttachObject(std::move(object));
-		auto cameraObject = std::make_unique<SceneObject>(engine, std::make_unique<CameraComponent>(engine, Transform(), true, CameraComponent::ProjectionType::Perspective, static_cast<float>(engine->window.width), static_cast<float>(engine->window.height)));
-		AttachObject(std::move(cameraObject));
 	}
 }

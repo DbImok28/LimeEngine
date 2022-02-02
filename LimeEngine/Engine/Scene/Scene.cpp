@@ -18,6 +18,11 @@ namespace LimeEngine
 		auto map = std::make_unique<TestMap>(engine);
 		map->Load();
 		AttachMap(std::move(map));
+		if (!CameraIsSet())
+		{		
+			auto cameraObject = std::make_unique<SceneObject>(engine, std::make_unique<DefaultPlayerCameraComponent>(engine)); // auto activated
+			maps[0]->AttachObject(std::move(cameraObject));
+		}
 	}
 
 	void Scene::Update()

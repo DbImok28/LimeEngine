@@ -75,9 +75,6 @@
     <ClCompile Include="Engine\Input\Keyboard.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Input\InputDevice.cpp">
-      <Filter>Engine\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -184,6 +181,9 @@
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Scene\CameraComponent.cpp">
+      <Filter>Engine\Scene\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\DefaultPlayerCameraComponent.cpp">
       <Filter>Engine\Scene\Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -337,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Base\Events.hpp">
       <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\DefaultPlayerCameraComponent.hpp">
+      <Filter>Engine\Scene\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

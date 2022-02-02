@@ -12,6 +12,7 @@ namespace LimeEngine
 		InputDevice& operator=(const InputDevice&) = delete;
 		InputDevice() = default;
 
+		// TODO: Add event system
 		Keyboard keyboard;
 		Mouse mouse;
 	};

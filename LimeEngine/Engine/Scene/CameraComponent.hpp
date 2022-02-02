@@ -11,7 +11,7 @@ namespace LimeEngine
 			Perspective,
 			Orthographic
 		};
-		CameraComponent(Engine* engine, Transform transform, bool autoActivate, ProjectionType projectionType, float width, float height, float fovDegrees = 90.0f, float nearZ = 0.001f, float farZ = 10000.0f) noexcept;
+		CameraComponent(Engine* engine, Transform transform, bool autoActivate, float width, float height, ProjectionType projectionType = ProjectionType::Perspective, float fovDegrees = 90.0f, float nearZ = 0.001f, float farZ = 10000.0f) noexcept;
 		void MakeActive() noexcept;
 		void SetPerspective();
 		void SetOrthographic();

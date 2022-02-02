@@ -20,7 +20,7 @@ namespace LimeEngine
 		Engine(const wchar_t* windowTitle = L"GameEngine", int width = 1080, int height = 720);
 
 		int Start();
-		void Processing();
+		std::optional<int> Processing();
 		void RenderFrame();
 	public:
 		float deltaTime = 0.0f;
