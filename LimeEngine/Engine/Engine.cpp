@@ -27,7 +27,6 @@ namespace LimeEngine
 	std::optional<int> Engine::Processing()
 	{
 		scene.UpdateScene();
-		//TODO: Remove camera movement
 		static std::wostringstream ss;
 		if (scene.CameraIsSet())
 		{

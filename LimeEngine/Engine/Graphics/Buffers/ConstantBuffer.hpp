@@ -79,5 +79,6 @@ namespace LimeEngine
 	struct CB_VS_Coordinates
 	{
 		DirectX::XMMATRIX wvpMatrix;
+		DirectX::XMMATRIX worldMatrix;
 	};
 }

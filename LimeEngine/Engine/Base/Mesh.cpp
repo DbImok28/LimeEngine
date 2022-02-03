@@ -47,6 +47,7 @@ namespace LimeEngine
 	void Mesh::Draw(const CameraComponent& camera, TempTransformMatrix worldMatrix)
 	{
 		cbCoordinates.data.wvpMatrix = XMMatrixTranspose(worldMatrix * camera.GetViewProjectionMatrix());
+		cbCoordinates.data.worldMatrix = XMMatrixTranspose(worldMatrix);
 		GetMaterial()->ApplyConstantBuffer(cbCoordinates);
 		material->Apply();
 		UINT offset = 0;

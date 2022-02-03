@@ -225,7 +225,7 @@ namespace LimeEngine
 		ImGui::Begin("mesh(root)");
 		ImGui::DragFloat3("location", o1.location.GetArray());
 		ImGui::DragFloat3("rotation", o1.rotation.GetArray());
-		ImGui::DragFloat3("scale", o1.scale.GetArray(), 0.1f, 0, 1);
+		ImGui::DragFloat3("scale", o1.scale.GetArray(), 0.1f, 0, 2.0f);
 		engine->scene.maps[0]->objects[0]->rootComponent->SetTransform(o1);
 		ImGui::End();
 
@@ -233,7 +233,7 @@ namespace LimeEngine
 		ImGui::Begin("mesh(sub)");
 		ImGui::DragFloat3("location", t1.location.GetArray());
 		ImGui::DragFloat3("rotation", t1.rotation.GetArray());
-		ImGui::DragFloat3("scale", t1.scale.GetArray(), 0.1f, 0, 1);
+		ImGui::DragFloat3("scale", t1.scale.GetArray(), 0.1f, 0, 2.0f);
 		ImGui::End();
 		engine->scene.maps[0]->objects[0]->rootComponent->components[0]->SetTransform(t1);
 
