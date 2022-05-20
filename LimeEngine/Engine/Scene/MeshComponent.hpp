@@ -8,7 +8,11 @@ namespace LimeEngine
 	{
 	public:
 		MeshComponent(Engine* engine, Transform transform = {}, size_t id = 0) noexcept;
-		void Render() override;
+		// TODO: Remove this
+		void Render(const CameraComponent* camera);
+		void AddToRender();
+		bool RemoveFromRender();
+	protected:
 		size_t id = 0;
 		Mesh* mesh = nullptr;
 	};

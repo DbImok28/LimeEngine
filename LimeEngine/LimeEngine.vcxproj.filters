@@ -186,6 +186,9 @@
     <ClCompile Include="Engine\Scene\DefaultPlayerCameraComponent.cpp">
       <Filter>Engine\Scene\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Graphics\Drawer.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\resource.h">
@@ -340,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Scene\DefaultPlayerCameraComponent.hpp">
       <Filter>Engine\Scene\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Drawer.hpp">
+      <Filter>Engine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

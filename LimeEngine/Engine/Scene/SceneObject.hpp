@@ -9,14 +9,12 @@ namespace LimeEngine
 		// This constructor leaves the object invalid, it just initializes the Engine field
 		SceneObject(Engine* engine) noexcept;
 		virtual void Update();
-		virtual void Render();
 	public:
 		SceneObject(Engine* engine, Transform transform) noexcept;
 		SceneObject(Engine* engine, std::unique_ptr<SceneComponent>&& rootComponent) noexcept;
 		void SetRootComponent(std::unique_ptr<SceneComponent>&& newRootComponent) noexcept;
 		Transform GetObjectTransform() const noexcept;
 		void UpdateObject();
-		void RenderObject();
 		virtual ~SceneObject() noexcept = default;
 	public:
 		std::unique_ptr<SceneComponent> rootComponent = nullptr;

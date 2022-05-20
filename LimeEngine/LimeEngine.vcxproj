@@ -218,6 +218,7 @@
     <ClCompile Include="Engine\Scene\MeshObject.cpp" />
     <ClCompile Include="Engine\Base\Transformable.cpp" />
     <ClCompile Include="Engine\Base\Rotator.cpp" />
+    <ClCompile Include="Engine\Graphics\Drawer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Scene\DefaultPlayerCameraComponent.hpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="Engine\Scene\MeshObject.hpp" />
     <ClInclude Include="Engine\Base\Transformable.hpp" />
     <ClInclude Include="Engine\Base\Rotator.hpp" />
+    <ClInclude Include="Engine\Graphics\Drawer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\LimeEngine.rc" />

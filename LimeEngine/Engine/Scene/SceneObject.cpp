@@ -15,25 +15,12 @@ namespace LimeEngine
 	{
 	}
 
-	void SceneObject::Render()
-	{
-	}
-
 	void SceneObject::UpdateObject()
 	{
 		Update();
 		if (rootComponent != nullptr)
 		{
 			rootComponent->UpdateComponent();
-		}
-	}
-
-	void SceneObject::RenderObject()
-	{
-		Render();
-		if (rootComponent != nullptr)
-		{
-			rootComponent->RenderComponent();
 		}
 	}
 

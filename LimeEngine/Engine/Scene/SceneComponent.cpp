@@ -9,25 +9,12 @@ namespace LimeEngine
 	{
 	}
 
-	void SceneComponent::Render()
-	{
-	}
-
 	void SceneComponent::UpdateComponent()
 	{
 		Update();
 		for (auto&& component : components)
 		{
 			component->UpdateComponent();
-		}
-	}
-
-	void SceneComponent::RenderComponent()
-	{
-		Render();
-		for (auto&& component : components)
-		{
-			component->RenderComponent();
 		}
 	}
 

@@ -30,26 +30,12 @@ namespace LimeEngine
 		//...
 	}
 
-	void Scene::Render()
-	{
-		//...
-	}
-
 	void Scene::UpdateScene()
 	{
 		Update();
 		for (auto&& map : maps)
 		{
 			map->UpdateMap();
-		}
-	}
-
-	void Scene::RenderScene()
-	{
-		Render();
-		for (auto&& map : maps)
-		{
-			map->RenderMap();
 		}
 	}
 

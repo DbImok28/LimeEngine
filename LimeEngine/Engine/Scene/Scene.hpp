@@ -8,14 +8,12 @@ namespace LimeEngine
 	{
 	private:
 		void Update();
-		void Render();
 	public:
 		Scene(Engine* engine);
 		Scene(Engine* engine, bool autoLoad);
 		void Load();
 
 		void UpdateScene();
-		void RenderScene();
 		void AttachMap(std::unique_ptr<SceneMap>&& map);
 		bool CameraIsSet() const noexcept;
 		CameraComponent* GetCamera() const noexcept;

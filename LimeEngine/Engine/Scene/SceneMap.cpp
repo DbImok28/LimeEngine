@@ -10,25 +10,12 @@ namespace LimeEngine
 	{
 	}
 
-	void SceneMap::Render()
-	{
-	}
-
 	void SceneMap::UpdateMap()
 	{
 		Update();
 		for (auto&& object : objects)
 		{
 			object->UpdateObject();
-		}
-	}
-
-	void SceneMap::RenderMap()
-	{
-		Render();
-		for (auto&& object : objects)
-		{
-			object->RenderObject();
 		}
 	}
 

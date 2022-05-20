@@ -7,12 +7,10 @@ namespace LimeEngine
 	{
 	protected:
 		virtual void Update();
-		virtual void Render();
 	public:
 		SceneMap(Engine* engine);
 		virtual void Load();;
 		void UpdateMap();
-		void RenderMap();
 		void AttachObject(std::unique_ptr<SceneObject>&& object);
 		virtual ~SceneMap() noexcept = default;
 	public:

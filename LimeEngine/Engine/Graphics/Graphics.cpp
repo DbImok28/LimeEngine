@@ -183,7 +183,7 @@ namespace LimeEngine
 
 	void Graphics::Processing()
 	{
-		engine->scene.RenderScene();
+		drawer.Render(engine->scene.GetCamera());
 	}
 
 	void Graphics::PostProcessing()

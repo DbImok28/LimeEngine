@@ -8,6 +8,7 @@
 #include <string>
 #include <sstream>
 #include "Shaders.hpp"
+#include "Drawer.hpp"
 #include "../Base/Material.hpp"
 #include "../Scene/CameraComponent.hpp"
 #include "../Exceptions/GraphicsExceptions.hpp"
@@ -61,7 +62,7 @@ namespace LimeEngine
 
 	public:
 		Engine* engine = nullptr;
-
+		Drawer drawer;
 #ifdef IMGUI
 	public:
 		void ImGuiSetup(HWND hWnd);
