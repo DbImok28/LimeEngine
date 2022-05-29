@@ -45,7 +45,7 @@ namespace LimeEngine
 		return wndClassInstance.hInst;
 	}
 
-	Window::Window(Engine* engine, const wchar_t* title, int width, int height) :
+	Window::Window(int width, int height, const wchar_t* title) :
 		width(width),
 		height(height),
 		inputDevice()
@@ -83,8 +83,6 @@ namespace LimeEngine
 			}
 			rawInputInitialized = true;
 		}
-
-		graphics.Initialize(hWnd, engine, width, height);
 	}
 
 	Window::~Window()
@@ -110,6 +108,11 @@ namespace LimeEngine
 			DispatchMessageW(&msg);
 		}
 		return {};
+	}
+
+	HWND Window::GetHWnd() const noexcept
+	{
+		return hWnd;
 	}
 
 	LRESULT Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept

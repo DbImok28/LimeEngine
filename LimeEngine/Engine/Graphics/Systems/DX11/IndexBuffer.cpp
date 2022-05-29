@@ -36,7 +36,7 @@ namespace LimeEngine
 		return *this;
 	}
 
-	HRESULT IndexBuffer::Initialize(ID3D11Device* device, DWORD* data, UINT numVertices) noexcept
+	HRESULT IndexBuffer::Initialize(ID3D11Device* device, const DWORD* data, UINT numVertices) noexcept
 	{
 		bufferSize = numVertices;
 

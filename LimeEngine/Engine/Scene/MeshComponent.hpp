@@ -1,6 +1,6 @@
 #pragma once
 #include "SceneComponent.hpp"
-#include "../Base/Mesh.hpp"
+#include "../Graphics/Base/Mesh.hpp"
 
 namespace LimeEngine
 {
@@ -8,12 +8,10 @@ namespace LimeEngine
 	{
 	public:
 		MeshComponent(Engine* engine, Transform transform = {}, size_t id = 0) noexcept;
-		// TODO: Remove this
-		void Render(const CameraComponent* camera);
 		void AddToRender();
 		bool RemoveFromRender();
-	protected:
-		size_t id = 0;
+
+	public:
 		Mesh* mesh = nullptr;
 	};
 }

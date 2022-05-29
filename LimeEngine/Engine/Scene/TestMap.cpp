@@ -1,13 +1,22 @@
 #include "TestMap.hpp"
 #include "../Engine.hpp"
+#include "../Helpers/Paths.hpp"
 
 #include "MeshObject.hpp"
+
+// TODO: Remove
+#include "../Graphics/Systems/DX11/RenderingSystemDX11.hpp"
 
 namespace LimeEngine
 {
 	void TestMap::Load()
 	{
-		this->engine = engine;
+		if (engine->engineIO.empty()) return;
+		auto& engineInput0 = engine->engineIO.front();
+		// TODO: Remove
+		auto& device = static_cast<RenderingSystemDX11*>(engineInput0.renderIO.renderer->renderSystem)->device;
+		auto& deviceContext = static_cast<RenderingSystemDX11*>(engineInput0.renderIO.renderer->renderSystem)->deviceContext;
+
 		// Loading
 		static VertexShader vertexShader;
 		static PixelShader pixelShader;
@@ -18,8 +27,8 @@ namespace LimeEngine
 			{ "TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0 },	
 		};
 		UINT numElements = ARRAYSIZE(loyout);
-		vertexShader.Initalize(engine->window.graphics.device, Paths::ShaderFolder + L"VertexShader.cso", loyout, numElements);
-		pixelShader.Initalize(engine->window.graphics.device, Paths::ShaderFolder + L"PixelShader.cso");
+		vertexShader.Initalize(device, Paths::ShaderFolder + L"VertexShader.cso", loyout, numElements);
+		pixelShader.Initalize(device, Paths::ShaderFolder + L"PixelShader.cso");
 		
 		static std::vector<Vertex> vertices =
 		{
@@ -62,13 +71,18 @@ namespace LimeEngine
 			19,17,16,18,17,19,
 			22,20,21,23,20,22
 		};
-		auto mesh = engine->gameDataManager.meshes.Create(0, engine->window.graphics.device.Get(), engine->window.graphics.deviceContext.Get(), vertices, indices);
-		auto material = engine->gameDataManager.materials.Create(0, engine->window.graphics.deviceContext.Get(), &vertexShader, &pixelShader);
-		auto texture = engine->gameDataManager.textures2D.Create(0, engine->window.graphics.device.Get(), L"Data\\Textures\\cat.jpg", TextureType::Diffuse);
+		auto mesh = engine->gameDataManager.meshes.Create(0, vertices, indices, 0);
+		auto material = engine->gameDataManager.materials.Create(0, deviceContext.Get(), &vertexShader, &pixelShader);
+		auto texture = engine->gameDataManager.textures2D.Create(0, device.Get(), L"Data\\Textures\\cat.jpg", TextureType::Diffuse);
 
 		material->AddTexture(texture);
 		mesh->SetMaterial(material);
 		// Make Scene
+		auto cameraComponent = std::make_unique<DefaultPlayerCameraComponent>(engine, Transform(0, 5, -10));
+		auto cameraObject = std::make_unique<SceneObject>(engine, std::move(cameraComponent));
+		//engineInput0.sceneIO.camera = cameraComponent.get();
+		AttachObject(std::move(cameraObject));
+
 		auto object = std::make_unique<MeshObject>(engine, Transform(), 0);
 		object->rootComponent->AttachComponent(std::make_unique<MeshComponent>(engine,Transform(0, 10, 0), 0));
 		AttachObject(std::move(object));

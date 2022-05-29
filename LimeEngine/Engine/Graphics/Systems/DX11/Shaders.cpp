@@ -1,5 +1,5 @@
 #include "Shaders.hpp"
-#include "../Exceptions/GraphicsExceptions.hpp"
+#include "../../../Exceptions/GraphicsExceptions.hpp"
 #include <sstream>
 
 namespace LimeEngine

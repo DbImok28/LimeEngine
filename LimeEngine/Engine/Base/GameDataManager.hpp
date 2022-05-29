@@ -1,7 +1,7 @@
 #pragma once
-#include "Mesh.hpp"
-#include "Material.hpp"
-#include "Texture2D.hpp"
+#include "../Graphics/Base/Mesh.hpp"
+#include "../Graphics/Base/Material.hpp"
+#include "../Graphics/Base/Texture2D.hpp"
 #include "GameData.hpp"
 
 namespace LimeEngine

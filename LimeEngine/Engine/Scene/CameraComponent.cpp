@@ -3,7 +3,7 @@
 
 namespace LimeEngine
 {
-	CameraComponent::CameraComponent(Engine* engine, Transform transform, bool autoActivate, float width, float height, ProjectionType projectionType, float fovDegrees, float nearZ, float farZ) noexcept :
+	CameraComponent::CameraComponent(Engine* engine, Transform transform, float width, float height, ProjectionType projectionType, float fovDegrees, float nearZ, float farZ) noexcept :
 		SceneComponent(engine, transform),
 		projectionType(projectionType),
 		width(width),
@@ -27,15 +27,6 @@ namespace LimeEngine
 		}
 		}
 		UpdateViewMatrix();
-		if (autoActivate)
-		{
-			MakeActive();
-		}
-	}
-
-	void CameraComponent::MakeActive() noexcept
-	{
-		engine->scene.SetCamera(this);
 	}
 
 	void CameraComponent::SetPerspective()

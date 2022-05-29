@@ -1,6 +1,6 @@
 #pragma once
-#include "../DirectXDef.hpp"
-#include "../../Base/Vertex.hpp"
+#include "DirectXDef.hpp"
+#include "../../../Base/Vertex.hpp"
 
 namespace LimeEngine
 {
@@ -13,7 +13,7 @@ namespace LimeEngine
 		VertexBuffer& operator=(const VertexBuffer& vb) noexcept;
 		VertexBuffer& operator=(VertexBuffer&& vb) noexcept;
 
-		HRESULT Initialize(ID3D11Device* device, Vertex* data, UINT vertexCount) noexcept;
+		HRESULT Initialize(ID3D11Device* device, const Vertex* data, UINT vertexCount) noexcept;
 		ID3D11Buffer* Get() const noexcept;
 		ID3D11Buffer* const* GetAddressOf() const noexcept;
 		UINT VertexCount() const noexcept;

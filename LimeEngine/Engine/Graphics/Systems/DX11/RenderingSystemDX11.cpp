@@ -1,6 +1,5 @@
-#include "Graphics.hpp"
+#include "RenderingSystemDX11.hpp"
 #include "GraphicAdapter.hpp"
-#include "../Engine.hpp"
 
 #ifdef IMGUI
 #include "ImGui/imgui.h"
@@ -10,19 +9,17 @@
 
 namespace LimeEngine
 {
-	void Graphics::Initialize(HWND hWnd, Engine* engine, int width, int height)
-	{
-		this->engine = engine;
-		windowWidth = width;
-		windowHeight = height;
+	RenderingSystemDX11::RenderingSystemDX11() : RenderingSystem() {}
 
-		InitializeDirectX(hWnd);
-#ifdef IMGUI
-		ImGuiSetup(hWnd);
-#endif // IMGUI
+	void RenderingSystemDX11::Initialize(const Window& window)
+	{
+		InitializeDirectX(window.GetHWnd(), window.width, window.height);
+		#ifdef IMGUI
+		ImGuiSetup(window.GetHWnd());
+		#endif // IMGUI
 	}
 
-	void Graphics::InitializeDirectX(HWND hWnd)
+	void RenderingSystemDX11::InitializeDirectX(HWND hWnd, int width, int height)
 	{
 		/*
 		1  Input Assembler		(IA) Stage
@@ -43,8 +40,8 @@ namespace LimeEngine
 		DXGI_SWAP_CHAIN_DESC scd;
 		ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
 
-		scd.BufferDesc.Width = windowWidth;
-		scd.BufferDesc.Height = windowHeight;
+		scd.BufferDesc.Width = width;
+		scd.BufferDesc.Height = height;
 		scd.BufferDesc.RefreshRate.Numerator = 60;
 		scd.BufferDesc.RefreshRate.Denominator = 1;
 		scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -90,10 +87,12 @@ namespace LimeEngine
 		GFX_ERROR_IF(device->CreateRenderTargetView(backBuffer.Get(), NULL, renderTargetView.GetAddressOf()));
 		//GFX_ERROR_IF_MSG(hr, L"Failed to create RenderTargetView.");
 
+
+
 		// Depth
 		D3D11_TEXTURE2D_DESC depthStencilDesc;
-		depthStencilDesc.Width = windowWidth;
-		depthStencilDesc.Height = windowHeight;
+		depthStencilDesc.Width = width;
+		depthStencilDesc.Height = height;
 		depthStencilDesc.MipLevels = 1;
 		depthStencilDesc.ArraySize = 1;
 		depthStencilDesc.Format = DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -146,29 +145,25 @@ namespace LimeEngine
 
 
 
-
 		// viewport
 		D3D11_VIEWPORT viewport;
 		ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
 		viewport.TopLeftX = 0;
 		viewport.TopLeftY = 0;
-		viewport.Width = static_cast<FLOAT>(windowWidth);
-		viewport.Height = static_cast<FLOAT>(windowHeight);
+		viewport.Width = static_cast<FLOAT>(width);
+		viewport.Height = static_cast<FLOAT>(height);
 		viewport.MinDepth = 0.0f;
 		viewport.MaxDepth = 1.0f;
 
 		deviceContext->RSSetViewports(1, &viewport);
-
 	}
 
-	void Graphics::RenderFrame()
+	void RenderingSystemDX11::Draw(const CameraComponent* cameraComponent, MeshRenderDataDX11& meshRenderData)
 	{
-		PreProcessing();
-		Processing();
-		PostProcessing();
+		meshRenderData.Draw(cameraComponent);
 	}
 
-	void Graphics::PreProcessing()
+	void RenderingSystemDX11::PreProcessing()
 	{
 		float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
 		deviceContext->ClearRenderTargetView(renderTargetView.Get(), bgcolor);
@@ -181,16 +176,11 @@ namespace LimeEngine
 		deviceContext->PSSetSamplers(0, 1, samplerState.GetAddressOf());
 	}
 
-	void Graphics::Processing()
+	void RenderingSystemDX11::PostProcessing()
 	{
-		drawer.Render(engine->scene.GetCamera());
-	}
-
-	void Graphics::PostProcessing()
-	{
-#ifdef IMGUI
+		#ifdef IMGUI
 		ImGuiUpdate();
-#endif // IMGUI
+		#endif // IMGUI
 
 		HRESULT hr;
 		GFX_ERROR_INFO;
@@ -203,8 +193,30 @@ namespace LimeEngine
 		}
 	}
 
+	void RenderingSystemDX11::AddToRender(MeshComponent* meshComponent) noexcept
+	{
+		meshes.emplace_back(device.Get(), deviceContext.Get(), meshComponent);
+	}
+
+	bool RenderingSystemDX11::RemoveFromRender(const MeshComponent* meshComponent) noexcept
+	{
+		return meshes.erase(std::find_if(std::begin(meshes), std::end(meshes), [&meshComponent](MeshRenderDataDX11 meshData) {return meshData.meshComponent == meshComponent; })) != std::end(meshes);
+	}
+
+	void RenderingSystemDX11::Render(const CameraComponent* cameraComponent)
+	{
+		if (cameraComponent == nullptr) return;
+		
+		PreProcessing();
+		for (auto& mesh : meshes)
+		{
+			Draw(cameraComponent, mesh);
+		}
+		PostProcessing();
+	}
+
 #ifdef IMGUI
-	void Graphics::ImGuiSetup(HWND hWnd)
+	void RenderingSystemDX11::ImGuiSetup(HWND hWnd)
 	{
 		// Setup ImGui
 		IMGUI_CHECKVERSION();
@@ -215,13 +227,13 @@ namespace LimeEngine
 		ImGui::StyleColorsDark();
 	}
 
-	void Graphics::ImGuiUpdate()
+	void RenderingSystemDX11::ImGuiUpdate()
 	{
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
-		static Transform o1;
+		/*static Transform o1;
 		ImGui::Begin("mesh(root)");
 		ImGui::DragFloat3("location", o1.location.GetArray());
 		ImGui::DragFloat3("rotation", o1.rotation.GetArray());
@@ -235,7 +247,7 @@ namespace LimeEngine
 		ImGui::DragFloat3("rotation", t1.rotation.GetArray());
 		ImGui::DragFloat3("scale", t1.scale.GetArray(), 0.1f, 0, 2.0f);
 		ImGui::End();
-		engine->scene.maps[0]->objects[0]->rootComponent->components[0]->SetTransform(t1);
+		engine->scene.maps[0]->objects[0]->rootComponent->components[0]->SetTransform(t1);*/
 
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

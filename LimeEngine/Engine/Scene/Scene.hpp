@@ -6,22 +6,18 @@ namespace LimeEngine
 {
 	class Scene
 	{
-	private:
-		void Update();
 	public:
 		Scene(Engine* engine);
-		Scene(Engine* engine, bool autoLoad);
-		void Load();
-
 		void UpdateScene();
 		void AttachMap(std::unique_ptr<SceneMap>&& map);
-		bool CameraIsSet() const noexcept;
-		CameraComponent* GetCamera() const noexcept;
-		void SetCamera(CameraComponent* value) noexcept;
+
+	private:
+		void Update();
+
 	public:
 		std::vector<std::unique_ptr<SceneMap>> maps;
+
 	private:
-		CameraComponent* activeCamera = nullptr;
 		Engine* engine = nullptr;
 	};
 }

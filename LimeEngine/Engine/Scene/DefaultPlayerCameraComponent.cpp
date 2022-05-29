@@ -3,15 +3,24 @@
 
 namespace LimeEngine
 {
-	DefaultPlayerCameraComponent::DefaultPlayerCameraComponent(Engine* engine, Transform transform, bool autoActivate, float cameraMovementSpeed, float cameraRotationSpeed) noexcept
-		: CameraComponent(engine, transform, autoActivate, static_cast<float>(engine->window.width), static_cast<float>(engine->window.height)), cameraMovementSpeed(cameraMovementSpeed), cameraRotationSpeed(cameraRotationSpeed) {}
+	DefaultPlayerCameraComponent::DefaultPlayerCameraComponent(Engine* engine, Transform transform, unsigned Id, float cameraMovementSpeed, float cameraRotationSpeed) noexcept
+		: CameraComponent(engine, transform), Id(Id), window(window), cameraMovementSpeed(cameraMovementSpeed), cameraRotationSpeed(cameraRotationSpeed) 
+	{
+		if (engine->engineIO[Id].sceneIO.camera == nullptr)
+		{
+			AttachIO();
+		}
+	}
 
 	void DefaultPlayerCameraComponent::Update()
 	{
 		CameraComponent::Update();
 
+		if (window == nullptr)
+			return;
+
 		float deltaTime = engine->deltaTime;
-		auto& inputDevice = engine->window.inputDevice;
+		auto& inputDevice = window->inputDevice;
 		while (!inputDevice.mouse.EventBufferIsEmpty())
 		{
 			auto e = inputDevice.mouse.ReadEvent();
@@ -44,5 +53,20 @@ namespace LimeEngine
 		{
 			AddLocation(0.0f, -cameraMovementSpeed * deltaTime, 0.0f);
 		}
+	}
+	void DefaultPlayerCameraComponent::AttachIO()
+	{
+		if (engine->engineIO.size() > Id)
+		{
+			window = engine->engineIO[Id].renderIO.renderer->window;
+			width = static_cast<float>(window->width);
+			height = static_cast<float>(window->height);
+			engine->engineIO[Id].sceneIO.camera = this;
+		}
+	}
+	void DefaultPlayerCameraComponent::AttachIO(unsigned Id)
+	{
+		this->Id = Id;
+		AttachIO();
 	}
 }

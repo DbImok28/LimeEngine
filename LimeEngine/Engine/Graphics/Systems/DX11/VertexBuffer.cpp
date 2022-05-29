@@ -35,7 +35,7 @@ namespace LimeEngine
 		return *this;
 	}
 
-	HRESULT VertexBuffer::Initialize(ID3D11Device* device, Vertex* data, UINT vertexCount) noexcept
+	HRESULT VertexBuffer::Initialize(ID3D11Device* device, const Vertex* data, UINT vertexCount) noexcept
 	{
 		if (buffer.Get() != nullptr)
 			buffer.Reset();

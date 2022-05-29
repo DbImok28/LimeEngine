@@ -1,6 +1,6 @@
 #pragma once
 #include <DirectXMath.h>
-#include "../Exceptions/GraphicsExceptions.hpp"
+#include "../../../Exceptions/GraphicsExceptions.hpp"
 
 namespace LimeEngine
 {

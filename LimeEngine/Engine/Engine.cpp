@@ -2,11 +2,14 @@
 
 namespace LimeEngine
 {
-	Engine::Engine(const wchar_t* windowTitle, int width, int height) :
-		window(this, windowTitle, width, height), gameDataManager(this), scene(this)
+	Engine::Engine() : engineIO(), gameDataManager(this), scene(this) {}
+
+	Engine::Engine(EngineIO&& engineIO) : Engine() 
 	{
-		scene.Load();
+		this->engineIO.push_back(std::move(engineIO));
 	}
+
+	Engine::Engine(std::vector<EngineIO>&& engineIO) : engineIO(std::move(engineIO)), gameDataManager(this), scene(this) {}
 
 	int Engine::Start()
 	{
@@ -16,44 +19,74 @@ namespace LimeEngine
 		{
 			deltaTime = timer.ElapsedTime();
 			timer.Restart();
-			if (exitCode = window.ProcessMessages())
+			if (exitCode = WindowProcessing())
 				return *exitCode;
-			if (exitCode = Processing())
+			if (exitCode = EngineProcessing())
 				return *exitCode;
-			RenderFrame();
+			RenderProcessing();
 		}
 	}
 
-	std::optional<int> Engine::Processing()
+	std::optional<int> Engine::EngineProcessing()
 	{
 		scene.UpdateScene();
-		static std::wostringstream ss;
-		if (scene.CameraIsSet())
-		{
-			auto camera = scene.GetCamera();
-			ss << "pos:" << camera->GetLocation().x
-				<< ",  " << camera->GetLocation().y
-				<< ",  " << camera->GetLocation().z
-				<< " rot:" << camera->GetRotation().roll
-				<< ",  " << camera->GetRotation().pitch
-				<< ",  " << camera->GetRotation().yaw;
-
-			window.SetTitle(ss.str());
-			ss = std::wostringstream{};
-		}
-		else
-		{
-			window.SetTitle(L"Camera is not set");
-		}
-		if (window.inputDevice.keyboard.KeyIsPressed(VK_ESCAPE))
-		{
-			return 0;
-		}
 		return {};
 	}
 
-	void Engine::RenderFrame()
+	std::optional<int> Engine::WindowProcessing()
 	{
-		window.graphics.RenderFrame();
+		std::optional<int> exitCode = 0;
+		for (auto it = std::begin(engineIO); it != std::end(engineIO);)
+		{
+			if (exitCode = it->Process())
+			{
+				if (*exitCode != 0)
+				{
+					return *exitCode;
+				}
+				else
+				{
+					it = engineIO.erase(it);
+				}
+			}
+			else
+			{
+				++it;
+			}
+		}
+		if (exitCode.has_value() && *exitCode != 0)
+			return exitCode;
+		if (engineIO.size() > 0)
+			return {};
+		return 0;
+	}
+
+	void Engine::RenderProcessing()
+	{
+		for (auto& io : engineIO)
+		{
+			io.Render();
+		}
+	}
+
+	void Engine::AddToRender(MeshComponent* meshComponent) noexcept
+	{
+		for (auto& io : engineIO)
+		{
+			io.renderIO.renderer->AddToRender(meshComponent);
+		}
+	}
+
+	bool Engine::RemoveFromRender(const MeshComponent* meshComponent) noexcept
+	{
+		bool isDeleted = false;;
+		for (auto& io : engineIO)
+		{
+			if (io.renderIO.renderer->RemoveFromRender(meshComponent))
+			{
+				isDeleted = true;
+			}
+		}
+		return isDeleted;
 	}
 }

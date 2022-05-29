@@ -28,12 +28,6 @@
     <Filter Include="Engine\Graphics\Resources\Shaders">
       <UniqueIdentifier>{d4f773c0-bed0-41c0-824d-39d148abe15d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\Base">
-      <UniqueIdentifier>{ed0dd5a7-b4ee-4554-9b34-aeb32bcde501}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Graphics\Buffers">
-      <UniqueIdentifier>{6c98179c-6e73-483c-a639-f46e47503b90}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Scene">
       <UniqueIdentifier>{16109484-e514-4e56-a244-498ca46a9ed3}</UniqueIdentifier>
     </Filter>
@@ -57,6 +51,27 @@
     </Filter>
     <Filter Include="Engine\Scene\Objects">
       <UniqueIdentifier>{7e4b3a42-e5ac-4ff3-a3d1-b5d6c62bf162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Systems">
+      <UniqueIdentifier>{1449ff43-61a7-4af8-b882-996027725510}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Systems\DirectX11">
+      <UniqueIdentifier>{dc486e6a-4d13-4995-91c4-c76b1d585c29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Systems\DirectX11\Buffers">
+      <UniqueIdentifier>{6c98179c-6e73-483c-a639-f46e47503b90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Systems\DirectX11\Shaders">
+      <UniqueIdentifier>{ed0dd5a7-b4ee-4554-9b34-aeb32bcde501}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Base">
+      <UniqueIdentifier>{0b32a468-66e1-40c9-a83d-c3771f6ef78f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Systems\DirectX11\Base">
+      <UniqueIdentifier>{3c312344-4d6c-4b87-90a7-e78e4e9b9cb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\IO">
+      <UniqueIdentifier>{77cc0b76-5942-4ea9-adc0-c8a8380126eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,26 +99,20 @@
     <ClCompile Include="Engine\Helpers\Timer.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Graphics.cpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\GraphicAdapter.cpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Helpers\Paths.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Exceptions\GraphicsExceptions.cpp">
       <Filter>Engine\Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Buffers\IndexBuffer.cpp">
-      <Filter>Engine\Graphics\Buffers</Filter>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\IndexBuffer.cpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Buffers\VertexBuffer.cpp">
-      <Filter>Engine\Graphics\Buffers</Filter>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\VertexBuffer.cpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Shaders.cpp">
-      <Filter>Engine\Graphics\Base</Filter>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\Shaders.cpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\Vertex.cpp">
       <Filter>Engine\Base</Filter>
@@ -137,15 +146,6 @@
     </ClCompile>
     <ClCompile Include="Includes\ImGui\imgui_draw.cpp">
       <Filter>Includes\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\Texture2D.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\Material.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\Mesh.cpp">
-      <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\GameDataManager.cpp">
       <Filter>Engine\Base</Filter>
@@ -186,8 +186,38 @@
     <ClCompile Include="Engine\Scene\DefaultPlayerCameraComponent.cpp">
       <Filter>Engine\Scene\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Drawer.cpp">
+    <ClCompile Include="Engine\Graphics\Renderer.cpp">
       <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\RenderingSystem.cpp">
+      <Filter>Engine\Graphics\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.cpp">
+      <Filter>Engine\Graphics\Systems\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Base\Texture2D.cpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Base\Mesh.cpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Base\Material.cpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\MeshRenderDataDX11.cpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicAdapter.cpp">
+      <Filter>Engine\Graphics\Systems\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\IO\EngineIO.cpp">
+      <Filter>Engine\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\IO\SceneIO.cpp">
+      <Filter>Engine\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\IO\RenderIO.cpp">
+      <Filter>Engine\IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,32 +251,23 @@
     <ClInclude Include="Engine\Helpers\Timer.hpp">
       <Filter>Engine\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Graphics.hpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\DirectXDef.hpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\GraphicAdapter.hpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Helpers\Paths.hpp">
       <Filter>Engine\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp">
       <Filter>Engine\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Buffers\IndexBuffer.hpp">
-      <Filter>Engine\Graphics\Buffers</Filter>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\IndexBuffer.hpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Buffers\ConstantBuffer.hpp">
-      <Filter>Engine\Graphics\Buffers</Filter>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\ConstantBuffer.hpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Buffers\VertexBuffer.hpp">
-      <Filter>Engine\Graphics\Buffers</Filter>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\VertexBuffer.hpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Shaders.hpp">
-      <Filter>Engine\Graphics\Base</Filter>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\Shaders.hpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Vertex.hpp">
       <Filter>Engine\Base</Filter>
@@ -289,15 +310,6 @@
     </ClInclude>
     <ClInclude Include="Includes\ImGui\imgui.h">
       <Filter>Includes\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\Texture2D.hpp">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\Mesh.hpp">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\Material.hpp">
-      <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\GameDataManager.hpp">
       <Filter>Engine\Base</Filter>
@@ -344,8 +356,41 @@
     <ClInclude Include="Engine\Scene\DefaultPlayerCameraComponent.hpp">
       <Filter>Engine\Scene\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Drawer.hpp">
+    <ClInclude Include="Engine\Graphics\Renderer.hpp">
       <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\RenderingSystem.hpp">
+      <Filter>Engine\Graphics\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.hpp">
+      <Filter>Engine\Graphics\Systems\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\DirectXDef.hpp">
+      <Filter>Engine\Graphics\Systems\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\Texture2D.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\Mesh.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\Material.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\MeshRenderDataDX11.hpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\GraphicAdapter.hpp">
+      <Filter>Engine\Graphics\Systems\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\IO\SceneIO.hpp">
+      <Filter>Engine\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\IO\EngineIO.hpp">
+      <Filter>Engine\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\IO\RenderIO.hpp">
+      <Filter>Engine\IO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,8 @@
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
 #include "../Engine.hpp"
+#include "../Graphics/Systems/DX11/RenderingSystemDX11.hpp"
+#include "../Scene/TestMap.hpp"
 
 int APIENTRY wWinMain(
 	_In_		HINSTANCE	hInstance,
@@ -15,7 +17,25 @@ int APIENTRY wWinMain(
 		HRESULT hr = CoInitialize(NULL);
 		if (FAILED(hr))
 			throw HR_EXCEPTION(hr);
-		Engine engine;
+
+		// engine io
+		std::unique_ptr<RenderingSystemDX11> renderingSystem = std::make_unique<RenderingSystemDX11>();
+		std::unique_ptr<Window> window = std::make_unique<Window>(1080, 720, L"LimeEngine");
+		Renderer renderer(renderingSystem.get(), window.get());
+
+		RenderIO renderIO(&renderer);
+		SceneIO sceneIO;
+		EngineIO engineIO(std::move(renderIO), std::move(sceneIO));
+
+		Engine engine(std::move(engineIO));
+
+		// load map
+		auto map = std::make_unique<TestMap>(&engine);
+		map->Load();
+		engine.scene.AttachMap(std::move(map));
+
+
+
 		engine.Start();
 		return EXIT_SUCCESS;
 	}

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Graphics/DirectXDef.hpp"
+#include "../Graphics/Systems/DX11/DirectXDef.hpp"
 #include <vector>
 #include <string>
 #include <dxgidebug.h>

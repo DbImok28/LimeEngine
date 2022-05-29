@@ -1,5 +1,5 @@
 #pragma once
-#include "../DirectXDef.hpp"
+#include "DirectXDef.hpp"
 
 namespace LimeEngine
 {
@@ -15,7 +15,7 @@ namespace LimeEngine
 		IndexBuffer& operator=(const IndexBuffer& vb) noexcept;
 		IndexBuffer& operator=(IndexBuffer&& vb) noexcept;
 
-		HRESULT Initialize(ID3D11Device* device, DWORD* data, UINT numVertices) noexcept;
+		HRESULT Initialize(ID3D11Device* device, const DWORD* data, UINT numVertices) noexcept;
 		ID3D11Buffer* Get() const noexcept;
 		ID3D11Buffer* const* GetAddressOf() const noexcept;
 		UINT Count() const noexcept;

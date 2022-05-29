@@ -1,7 +1,7 @@
 #pragma once
 #include "Texture2D.hpp"
-#include "../Graphics/Shaders.hpp"
-#include "../Graphics/Buffers/ConstantBuffer.hpp"
+#include "../Systems/DX11/Shaders.hpp"
+#include "../Systems/DX11/ConstantBuffer.hpp"
 
 namespace LimeEngine
 {
@@ -12,7 +12,7 @@ namespace LimeEngine
 		void SetTextures(std::vector<Texture2D*> textures);
 		void AddTexture(Texture2D* texture);
 		template<typename T>
-		void ApplyConstantBuffer(ConstantBuffer<T>& constantBuffer) noexcept;
+		void ApplyConstantBuffer(ConstantBuffer<T>& constantBuffer);
 		void Apply() const noexcept;
 	private:
 		std::vector<Texture2D*> textures; // TODO: Array and view
@@ -22,7 +22,7 @@ namespace LimeEngine
 	};
 
 	template<typename T>
-	void Material::ApplyConstantBuffer(ConstantBuffer<T>& constantBuffer) noexcept
+	void Material::ApplyConstantBuffer(ConstantBuffer<T>& constantBuffer)
 	{
 		constantBuffer.ApplyChanges();
 		deviceContext->VSSetConstantBuffers(0, 1, constantBuffer.GetAddressOf());
