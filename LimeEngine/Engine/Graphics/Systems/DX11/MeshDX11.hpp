@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "RenderingSystemDX11.hpp"
 #include "VertexBuffer.hpp"
 #include "IndexBuffer.hpp"
 #include "ConstantBuffer.hpp"
@@ -9,14 +10,12 @@ namespace LimeEngine
 {
 	using namespace DirectX;
 
-	class MeshComponent;
 	class Mesh;
-	class Material;
 
 	class MeshDX11
 	{
 	public:
-		MeshDX11(ID3D11Device* device, ID3D11DeviceContext* deviceContext, Mesh* mesh);
+		MeshDX11(const RenderingSystemDX11& renderer, Mesh* mesh);
 		void InitializeBuffers();
 		void ApplyMaterial();
 		void UpdateCB(const CameraComponent* cameraComponent, const TempTransformMatrix worldMatrix) noexcept;
@@ -25,8 +24,7 @@ namespace LimeEngine
 	private:
 		Mesh* mesh = nullptr;
 
-		ID3D11Device* device = nullptr;
-		ID3D11DeviceContext* deviceContext = nullptr;
+		const RenderingSystemDX11& renderer;
 		ConstantBuffer<CB_VS_Coordinates> cbCoordinates;
 		VertexBuffer vertexBuffer;
 		IndexBuffer indexBuffer;

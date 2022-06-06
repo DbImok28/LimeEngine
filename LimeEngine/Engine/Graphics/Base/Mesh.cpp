@@ -2,8 +2,8 @@
 
 namespace LimeEngine
 {
-	Mesh::Mesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices, size_t id) :
-		vertices(vertices), indices(indices), id(id), renderMesh(device, deviceContext, this) {}
+	Mesh::Mesh(const RenderingSystemDX11& renderer, const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices, size_t id) :
+		vertices(vertices), indices(indices), id(id), renderMesh(renderer, this) {}
 
 	void Mesh::SetMaterial(Material* material) noexcept
 	{

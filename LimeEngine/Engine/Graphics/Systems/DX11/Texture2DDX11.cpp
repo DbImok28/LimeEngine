@@ -6,9 +6,10 @@
 
 namespace LimeEngine
 {
-	Texture2DDX11::Texture2DDX11(ID3D11Device* device, const uint8_t* pData, size_t size)
+	Texture2DDX11::Texture2DDX11(const RenderingSystemDX11& renderer, const uint8_t* pData, size_t size)
 	{
 		// TODO: mipmap
+		auto device = renderer.device.Get();
 		HRESULT hr;
 		GFX_ERROR_IF_MSG(
 			DirectX::CreateWICTextureFromMemory(device, pData, size, texture.GetAddressOf(), textureView.GetAddressOf()),
@@ -16,8 +17,9 @@ namespace LimeEngine
 		);
 	}
 
-	Texture2DDX11::Texture2DDX11(ID3D11Device* device, const std::wstring& filePath)
+	Texture2DDX11::Texture2DDX11(const RenderingSystemDX11& renderer, const std::wstring& filePath)
 	{
+		auto device = renderer.device.Get();
 		HRESULT hr;
 		if (Paths::GetFileExtension(filePath) == L".dds")
 		{

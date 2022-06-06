@@ -8,12 +8,9 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include "Shaders.hpp"
-#include "../../Base/Material.hpp"
 #include "../../../Exceptions/GraphicsExceptions.hpp"
 #include "../../../Helpers/Paths.hpp"
 #include "../../../Scene/CameraComponent.hpp"
-#include "../../../Scene/MeshComponent.hpp"
 
 // TODO: Remove
 #ifndef NO_IMGUI

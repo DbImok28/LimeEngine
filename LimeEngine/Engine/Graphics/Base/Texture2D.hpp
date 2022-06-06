@@ -1,6 +1,6 @@
 #pragma once
-#include "../Systems/DX11/Texture2DDX11.hpp"
 #include <string>
+#include "../Systems/DX11/Texture2DDX11.hpp"
 
 namespace LimeEngine
 {
@@ -23,7 +23,7 @@ namespace LimeEngine
 	class Texture2D
 	{
 	public:
-		Texture2D(ID3D11Device* device, const std::wstring& filePath, TextureType type, size_t Id);
+		Texture2D(const RenderingSystemDX11& renderer, const std::wstring& filePath, TextureType type, size_t Id);
 
 		Texture2DDX11 renderTexture;
 		size_t Id;

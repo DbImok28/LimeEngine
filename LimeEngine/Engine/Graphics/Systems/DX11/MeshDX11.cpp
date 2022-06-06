@@ -5,14 +5,16 @@
 
 namespace LimeEngine
 {
-	MeshDX11::MeshDX11(ID3D11Device* device, ID3D11DeviceContext* deviceContext, Mesh* mesh) :
-		device(device), deviceContext(deviceContext), mesh(mesh)
+	MeshDX11::MeshDX11(const RenderingSystemDX11& renderer, Mesh* mesh) :
+		renderer(renderer), mesh(mesh)
 	{
 		InitializeBuffers();
 	}
 
 	void MeshDX11::InitializeBuffers()
 	{
+		auto device = renderer.device.Get();
+		auto deviceContext = renderer.deviceContext.Get();
 		HRESULT hr;
 		GFX_ERROR_IF_MSG(
 			vertexBuffer.Initialize(device, mesh->GetVertices().data(), static_cast<UINT>(mesh->GetVertices().size())),
@@ -46,6 +48,7 @@ namespace LimeEngine
 		UpdateCB(cameraComponent, worldMatrix);
 		ApplyMaterial();
 
+		auto deviceContext = renderer.deviceContext.Get();
 		UINT offset = 0;
 		deviceContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
 		deviceContext->IASetVertexBuffers(0, 1, vertexBuffer.GetAddressOf(), vertexBuffer.StridePtr(), &offset);

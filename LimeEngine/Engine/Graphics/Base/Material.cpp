@@ -2,7 +2,7 @@
 
 namespace LimeEngine
 {
-	Material::Material(ID3D11DeviceContext* deviceContext, VertexShader* vertexShader, PixelShader* pixelShader, size_t Id) noexcept : Id(Id), renderMaterial(deviceContext, this, vertexShader, pixelShader) {}
+	Material::Material(const RenderingSystemDX11& renderer, VertexShader* vertexShader, PixelShader* pixelShader, size_t Id) noexcept : Id(Id), renderMaterial(renderer, this, vertexShader, pixelShader) {}
 
 	void Material::SetTextures(std::vector<Texture2D*> textures) noexcept
 	{
@@ -13,6 +13,7 @@ namespace LimeEngine
 	{
 		this->textures.push_back(texture);
 	}
+
 	const std::vector<Texture2D*>& Material::GetTextures() const noexcept
 	{
 		return textures;

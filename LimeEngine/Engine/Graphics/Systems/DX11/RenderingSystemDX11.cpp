@@ -1,5 +1,6 @@
 #include "RenderingSystemDX11.hpp"
 #include "GraphicAdapter.hpp"
+#include "../../../Scene/MeshComponent.hpp"
 
 #ifdef IMGUI
 #include "ImGui/imgui.h"

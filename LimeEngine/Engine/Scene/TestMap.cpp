@@ -1,7 +1,6 @@
 #include "TestMap.hpp"
 #include "../Engine.hpp"
 #include "../Helpers/Paths.hpp"
-
 #include "MeshObject.hpp"
 
 // TODO: Remove
@@ -14,6 +13,7 @@ namespace LimeEngine
 		if (engine->engineIO.empty()) return;
 		auto& engineInput0 = engine->engineIO.front();
 		// TODO: Remove
+		auto& renderSystem = *static_cast<RenderingSystemDX11*>(engineInput0.renderIO.renderer->renderSystem);
 		auto& device = static_cast<RenderingSystemDX11*>(engineInput0.renderIO.renderer->renderSystem)->device;
 		auto& deviceContext = static_cast<RenderingSystemDX11*>(engineInput0.renderIO.renderer->renderSystem)->deviceContext;
 
@@ -71,9 +71,9 @@ namespace LimeEngine
 			19,17,16,18,17,19,
 			22,20,21,23,20,22
 		};
-		auto mesh = engine->gameDataManager.meshes.Create(0, device.Get(), deviceContext.Get(), vertices, indices, 0);
-		auto material = engine->gameDataManager.materials.Create(0, deviceContext.Get(), &vertexShader, &pixelShader, 0);
-		auto texture = engine->gameDataManager.textures2D.Create(0, device.Get(), L"Data\\Textures\\cat.jpg", TextureType::Diffuse,0);
+		auto mesh = engine->gameDataManager.meshes.Create(0, renderSystem, vertices, indices, 0);
+		auto material = engine->gameDataManager.materials.Create(0, renderSystem, &vertexShader, &pixelShader, 0);
+		auto texture = engine->gameDataManager.textures2D.Create(0, renderSystem, L"Data\\Textures\\cat.jpg", TextureType::Diffuse,0);
 
 		material->AddTexture(texture);
 		mesh->SetMaterial(material);

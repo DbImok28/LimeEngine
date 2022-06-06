@@ -1,10 +1,11 @@
 #pragma once
 #include "../../Window/Window.hpp"
 #include "../../Scene/CameraComponent.hpp"
-#include "../../Scene/MeshComponent.hpp"
 
 namespace LimeEngine
 {
+	class MeshComponent;
+
 	class RenderingSystem
 	{
 		RenderingSystem(const RenderingSystem&) = delete;
