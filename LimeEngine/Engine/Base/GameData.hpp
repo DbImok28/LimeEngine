@@ -9,7 +9,7 @@ namespace LimeEngine
 	{
 	public:
 		template<typename... Args>
-		T* Create(size_t id, Args&&... args) noexcept;
+		T* Create(size_t id, Args&&... args);
 		size_t Register(T* item) noexcept;
 		void Register(size_t id, T* item) noexcept;
 		T* Get(size_t id);
@@ -21,7 +21,7 @@ namespace LimeEngine
 
 	template<typename T>
 	template<typename ...Args>
-	T* GameData<T>::Create(size_t id, Args && ...args) noexcept
+	T* GameData<T>::Create(size_t id, Args && ...args)
 	{
 		T* item = new T(std::forward<Args>(args)...);
 		Register(id, item);

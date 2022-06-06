@@ -71,9 +71,9 @@ namespace LimeEngine
 			19,17,16,18,17,19,
 			22,20,21,23,20,22
 		};
-		auto mesh = engine->gameDataManager.meshes.Create(0, vertices, indices, 0);
-		auto material = engine->gameDataManager.materials.Create(0, deviceContext.Get(), &vertexShader, &pixelShader);
-		auto texture = engine->gameDataManager.textures2D.Create(0, device.Get(), L"Data\\Textures\\cat.jpg", TextureType::Diffuse);
+		auto mesh = engine->gameDataManager.meshes.Create(0, device.Get(), deviceContext.Get(), vertices, indices, 0);
+		auto material = engine->gameDataManager.materials.Create(0, deviceContext.Get(), &vertexShader, &pixelShader, 0);
+		auto texture = engine->gameDataManager.textures2D.Create(0, device.Get(), L"Data\\Textures\\cat.jpg", TextureType::Diffuse,0);
 
 		material->AddTexture(texture);
 		mesh->SetMaterial(material);

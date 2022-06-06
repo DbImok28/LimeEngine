@@ -1,30 +1,21 @@
 #pragma once
 #include "Texture2D.hpp"
-#include "../Systems/DX11/Shaders.hpp"
-#include "../Systems/DX11/ConstantBuffer.hpp"
+#include "../Systems/DX11/MaterialDX11.hpp"
+#include <vector>
 
 namespace LimeEngine
 {
 	class Material
 	{
 	public:
-		Material(ID3D11DeviceContext* deviceContext, VertexShader* vertexShader, PixelShader* pixelShader) noexcept;
-		void SetTextures(std::vector<Texture2D*> textures);
-		void AddTexture(Texture2D* texture);
-		template<typename T>
-		void ApplyConstantBuffer(ConstantBuffer<T>& constantBuffer);
-		void Apply() const noexcept;
-	private:
-		std::vector<Texture2D*> textures; // TODO: Array and view
-		ID3D11DeviceContext* deviceContext;
-		VertexShader* vertexShader;
-		PixelShader* pixelShader;
-	};
+		Material(ID3D11DeviceContext* deviceContext, VertexShader* vertexShader, PixelShader* pixelShader, size_t Id) noexcept;
+		void SetTextures(std::vector<Texture2D*> textures) noexcept;
+		void AddTexture(Texture2D* texture) noexcept;
+		const std::vector<Texture2D*>& GetTextures() const noexcept;
 
-	template<typename T>
-	void Material::ApplyConstantBuffer(ConstantBuffer<T>& constantBuffer)
-	{
-		constantBuffer.ApplyChanges();
-		deviceContext->VSSetConstantBuffers(0, 1, constantBuffer.GetAddressOf());
-	}
+		MaterialDX11 renderMaterial;
+		size_t Id;
+	private:
+		std::vector<Texture2D*> textures;
+	};
 }

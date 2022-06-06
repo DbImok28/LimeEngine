@@ -13,8 +13,7 @@
 #include "../../../Exceptions/GraphicsExceptions.hpp"
 #include "../../../Helpers/Paths.hpp"
 #include "../../../Scene/CameraComponent.hpp"
-
-#include "MeshRenderDataDX11.hpp"
+#include "../../../Scene/MeshComponent.hpp"
 
 // TODO: Remove
 #ifndef NO_IMGUI
@@ -35,7 +34,7 @@ namespace LimeEngine
 		RenderingSystemDX11& operator=(RenderingSystemDX11&&) noexcept = delete;
 		virtual ~RenderingSystemDX11() override = default;
 
-		void Draw(const CameraComponent* cameraComponent, MeshRenderDataDX11& meshRenderData);
+		void Draw(const CameraComponent* cameraComponent, const MeshComponent* meshComponent);
 
 		virtual void AddToRender(MeshComponent* meshComponent) noexcept override;
 		virtual bool RemoveFromRender(const MeshComponent* meshComponent) noexcept override;
@@ -63,7 +62,7 @@ namespace LimeEngine
 		com_ptr<ID3D11DeviceContext> deviceContext;
 
 	public:
-		std::vector<MeshRenderDataDX11> meshes;
+		std::vector<MeshComponent*> meshes;
 
 		// TODO: Remove
 	#ifdef IMGUI

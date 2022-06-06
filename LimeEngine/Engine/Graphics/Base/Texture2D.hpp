@@ -1,6 +1,6 @@
 #pragma once
+#include "../Systems/DX11/Texture2DDX11.hpp"
 #include <string>
-#include "../Systems/DX11/DirectXDef.hpp"
 
 namespace LimeEngine
 {
@@ -23,13 +23,11 @@ namespace LimeEngine
 	class Texture2D
 	{
 	public:
-		Texture2D(ID3D11Device* device, const uint8_t* pData, size_t size, TextureType type);
-		Texture2D(ID3D11Device* device, const std::wstring& filePath, TextureType type);
-		ID3D11ShaderResourceView* GetView();
-		ID3D11ShaderResourceView** GetViewAddress();
+		Texture2D(ID3D11Device* device, const std::wstring& filePath, TextureType type, size_t Id);
+
+		Texture2DDX11 renderTexture;
+		size_t Id;
 	private:
-		com_ptr<ID3D11Resource> texture = nullptr;
-		com_ptr<ID3D11ShaderResourceView> textureView = nullptr;
 		TextureType type = TextureType::Unknown;
 	};
 }

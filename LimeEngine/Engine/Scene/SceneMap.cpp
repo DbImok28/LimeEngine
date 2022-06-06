@@ -6,9 +6,7 @@ namespace LimeEngine
 
 	void SceneMap::Load() {}
 
-	void SceneMap::Update()
-	{
-	}
+	void SceneMap::Update() {}
 
 	void SceneMap::UpdateMap()
 	{

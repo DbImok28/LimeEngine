@@ -204,7 +204,7 @@
     <ClCompile Include="Engine\Graphics\Base\Material.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\MeshRenderDataDX11.cpp">
+    <ClCompile Include="Engine\Graphics\Systems\DX11\MeshDX11.cpp">
       <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicAdapter.cpp">
@@ -218,6 +218,12 @@
     </ClCompile>
     <ClCompile Include="Engine\IO\RenderIO.cpp">
       <Filter>Engine\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\MaterialDX11.cpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\Texture2DDX11.cpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -377,7 +383,7 @@
     <ClInclude Include="Engine\Graphics\Base\Material.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\MeshRenderDataDX11.hpp">
+    <ClInclude Include="Engine\Graphics\Systems\DX11\MeshDX11.hpp">
       <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\Systems\DX11\GraphicAdapter.hpp">
@@ -391,6 +397,12 @@
     </ClInclude>
     <ClInclude Include="Engine\IO\RenderIO.hpp">
       <Filter>Engine\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\MaterialDX11.hpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\Texture2DDX11.hpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -9,8 +9,8 @@ namespace LimeEngine
 	{
 	public:
 		ConstantBuffer() noexcept : data{} {}
-		ConstantBuffer(const ConstantBuffer& cb) noexcept : buffer(cb.buffer), deviceContext(cb.deviceContext), data(data) {}
-		ConstantBuffer(ConstantBuffer&& cb) noexcept : buffer(std::move(cb.buffer)), deviceContext(std::move(cb.deviceContext)), data(data)
+		ConstantBuffer(const ConstantBuffer& cb) noexcept : buffer(cb.buffer), deviceContext(cb.deviceContext), data{} {}
+		ConstantBuffer(ConstantBuffer&& cb) noexcept : buffer(std::move(cb.buffer)), deviceContext(std::move(cb.deviceContext)), data{}
 		{
 			cb.buffer = nullptr;
 			cb.deviceContext = nullptr;

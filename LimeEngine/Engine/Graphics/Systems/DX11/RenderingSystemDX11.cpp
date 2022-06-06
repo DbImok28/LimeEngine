@@ -158,9 +158,9 @@ namespace LimeEngine
 		deviceContext->RSSetViewports(1, &viewport);
 	}
 
-	void RenderingSystemDX11::Draw(const CameraComponent* cameraComponent, MeshRenderDataDX11& meshRenderData)
+	void RenderingSystemDX11::Draw(const CameraComponent* cameraComponent, const MeshComponent* meshComponent)
 	{
-		meshRenderData.Draw(cameraComponent);
+		meshComponent->mesh->renderMesh.Draw(cameraComponent, meshComponent->GetWorldTransformMatrix());
 	}
 
 	void RenderingSystemDX11::PreProcessing()
@@ -195,12 +195,12 @@ namespace LimeEngine
 
 	void RenderingSystemDX11::AddToRender(MeshComponent* meshComponent) noexcept
 	{
-		meshes.emplace_back(device.Get(), deviceContext.Get(), meshComponent);
+		meshes.push_back(meshComponent);
 	}
 
 	bool RenderingSystemDX11::RemoveFromRender(const MeshComponent* meshComponent) noexcept
 	{
-		return meshes.erase(std::find_if(std::begin(meshes), std::end(meshes), [&meshComponent](MeshRenderDataDX11 meshData) {return meshData.meshComponent == meshComponent; })) != std::end(meshes);
+		return meshes.erase(std::find(std::begin(meshes), std::end(meshes), meshComponent)) != std::end(meshes);
 	}
 
 	void RenderingSystemDX11::Render(const CameraComponent* cameraComponent)

@@ -1,19 +1,19 @@
-#include "MeshRenderDataDX11.hpp"
+#include "MeshDX11.hpp"
 #include "../../Base/Mesh.hpp"
+#include "../../../Scene/MeshComponent.hpp"
 #include "../../../Exceptions/GraphicsExceptions.hpp"
 
 namespace LimeEngine
 {
-	MeshRenderDataDX11::MeshRenderDataDX11(ID3D11Device* device, ID3D11DeviceContext* deviceContext, MeshComponent* meshComponent) : 
-		device(device), deviceContext(deviceContext), meshComponent(meshComponent)
+	MeshDX11::MeshDX11(ID3D11Device* device, ID3D11DeviceContext* deviceContext, Mesh* mesh) :
+		device(device), deviceContext(deviceContext), mesh(mesh)
 	{
 		InitializeBuffers();
 	}
 
-	void MeshRenderDataDX11::InitializeBuffers()
+	void MeshDX11::InitializeBuffers()
 	{
 		HRESULT hr;
-		Mesh* mesh = meshComponent->mesh;
 		GFX_ERROR_IF_MSG(
 			vertexBuffer.Initialize(device, mesh->GetVertices().data(), static_cast<UINT>(mesh->GetVertices().size())),
 			L"Failed to initialize vertex buffer."
@@ -28,23 +28,22 @@ namespace LimeEngine
 		);
 	}
 
-	void MeshRenderDataDX11::ApplyMaterial()
+	void MeshDX11::ApplyMaterial()
 	{
-		Material* material = meshComponent->mesh->GetMaterial();
-		material->ApplyConstantBuffer(cbCoordinates);
-		material->Apply();
+		auto renderMaterial = mesh->GetMaterial()->renderMaterial;
+		renderMaterial.ApplyConstantBuffer(cbCoordinates);
+		renderMaterial.ApplyMaterial();
 	}
 
-	void MeshRenderDataDX11::UpdateCB(const CameraComponent* cameraComponent) noexcept
+	void MeshDX11::UpdateCB(const CameraComponent* cameraComponent, const TempTransformMatrix worldMatrix) noexcept
 	{
-		TempTransformMatrix worldMatrix = meshComponent->GetWorldTransformMatrix();
 		cbCoordinates.data.wvpMatrix = XMMatrixTranspose(worldMatrix * cameraComponent->GetViewProjectionMatrix());
 		cbCoordinates.data.worldMatrix = XMMatrixTranspose(worldMatrix);
 	}
 
-	void MeshRenderDataDX11::Draw(const CameraComponent* cameraComponent)
+	void MeshDX11::Draw(const CameraComponent* cameraComponent, const TempTransformMatrix worldMatrix)
 	{
-		UpdateCB(cameraComponent);
+		UpdateCB(cameraComponent, worldMatrix);
 		ApplyMaterial();
 
 		UINT offset = 0;
