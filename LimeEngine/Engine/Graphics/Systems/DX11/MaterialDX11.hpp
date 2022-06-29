@@ -12,7 +12,7 @@ namespace LimeEngine
 	{
 	public:
 		MaterialDX11(const RenderingSystemDX11& renderer, Material* material, VertexShader* vertexShader, PixelShader* pixelShader) noexcept;
-		template<typename T>
+		template <typename T>
 		void ApplyConstantBuffer(ConstantBuffer<T>& constantBuffer);
 		void ApplyMaterial() const noexcept;
 
@@ -25,7 +25,7 @@ namespace LimeEngine
 		PixelShader* pixelShader;
 	};
 
-	template<typename T>
+	template <typename T>
 	void MaterialDX11::ApplyConstantBuffer(ConstantBuffer<T>& constantBuffer)
 	{
 		constantBuffer.ApplyChanges();

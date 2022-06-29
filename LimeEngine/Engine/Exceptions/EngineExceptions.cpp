@@ -6,20 +6,11 @@
 
 namespace LimeEngine
 {
-	EngineException::EngineException(int line, const char* file) noexcept :
-		line(line),
-		file(file)
-	{}
+	EngineException::EngineException(int line, const char* file) noexcept : line(line), file(file) {}
 
-	EngineException::EngineException(int line, const char* file, std::wstring info) noexcept :
-		line(line),
-		file(file),
-		info(info)
-	{}
+	EngineException::EngineException(int line, const char* file, std::wstring info) noexcept : line(line), file(file), info(info) {}
 
-	EngineException::EngineException(int line, const char* file, std::vector<std::wstring> info) noexcept :
-		line(line),
-		file(file)
+	EngineException::EngineException(int line, const char* file, std::vector<std::wstring> info) noexcept : line(line), file(file)
 	{
 		std::wostringstream oss;
 		for (auto&& str : info)
@@ -30,8 +21,7 @@ namespace LimeEngine
 	const wchar_t* EngineException::what() const noexcept
 	{
 		std::wostringstream oss;
-		oss << GetType() << std::endl
-			<< GetErrorLocation().c_str();
+		oss << GetType() << std::endl << GetErrorLocation().c_str();
 		buffer = oss.str();
 		return buffer.c_str();
 	}
@@ -54,15 +44,13 @@ namespace LimeEngine
 	std::wstring EngineException::GetErrorLocation() const noexcept
 	{
 		std::wostringstream oss;
-		oss << L"File: " << file.c_str() << std::endl
-			<< L"Line: " << line << std::endl;
+		oss << L"File: " << file.c_str() << std::endl << L"Line: " << line << std::endl;
 		return oss.str();
 	}
 
 	std::wstring EngineException::GetErrorInfo() const noexcept
 	{
-		if (info.empty())
-			return {};
+		if (info.empty()) return {};
 		std::wostringstream oss;
 		oss << L"Info: " << info << std::endl;
 		return oss.str();
@@ -77,10 +65,7 @@ namespace LimeEngine
 	const wchar_t* EngineHrException::what() const noexcept
 	{
 		std::wostringstream oss;
-		oss << GetType() << std::endl
-			<< GetErrorInfo()
-			<< GetHrErrorString()
-			<< GetErrorLocation();
+		oss << GetType() << std::endl << GetErrorInfo() << GetHrErrorString() << GetErrorLocation();
 		buffer = oss.str();
 		return buffer.c_str();
 	}
@@ -98,7 +83,7 @@ namespace LimeEngine
 	std::wstring EngineHrException::GetHrErrorDescription() const noexcept
 	{
 		wchar_t buf[512];
-#pragma warning(suppress: 6386)
+#pragma warning(suppress : 6386)
 		DXGetErrorDescriptionW(hr, buf, sizeof(buf));
 		return buf;
 	}
@@ -109,15 +94,17 @@ namespace LimeEngine
 		wchar_t* pMsg = nullptr;
 		DWORD len = FormatMessageW(
 			FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-			nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-			reinterpret_cast<LPWSTR>(&pMsg), 0, nullptr);
-		if (len == 0)
-			return L"Unknown hr error code\n";
+			nullptr,
+			hr,
+			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+			reinterpret_cast<LPWSTR>(&pMsg),
+			0,
+			nullptr);
+		if (len == 0) return L"Unknown hr error code\n";
 
 		std::wostringstream oss;
 		oss << L"ErrorCode: " << L" - 0x" << std::hex << std::uppercase << hr << std::dec << L"(" << hr << L")" << std::endl
-			<< L"Description: " << pMsg
-			<< GetHrErrorDescription() << std::endl;
+			<< L"Description: " << pMsg << GetHrErrorDescription() << std::endl;
 		LocalFree(pMsg);
 		return oss.str();
 	}

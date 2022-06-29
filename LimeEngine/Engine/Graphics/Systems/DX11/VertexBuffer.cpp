@@ -5,8 +5,7 @@ namespace LimeEngine
 {
 	VertexBuffer::VertexBuffer(const VertexBuffer& vb) noexcept : buffer(vb.buffer), bufferSize(vb.bufferSize) {}
 
-	VertexBuffer::VertexBuffer(VertexBuffer&& vb) noexcept
-		:buffer(std::move(vb.buffer)), bufferSize(std::move(vb.bufferSize))
+	VertexBuffer::VertexBuffer(VertexBuffer&& vb) noexcept : buffer(std::move(vb.buffer)), bufferSize(std::move(vb.bufferSize))
 	{
 		vb.buffer = nullptr;
 		vb.bufferSize = 0;
@@ -37,8 +36,7 @@ namespace LimeEngine
 
 	HRESULT VertexBuffer::Initialize(ID3D11Device* device, const Vertex* data, UINT vertexCount) noexcept
 	{
-		if (buffer.Get() != nullptr)
-			buffer.Reset();
+		if (buffer.Get() != nullptr) buffer.Reset();
 		bufferSize = vertexCount;
 
 		D3D11_BUFFER_DESC vertexBufferDesc = { 0 };

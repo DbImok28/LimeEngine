@@ -7,8 +7,8 @@ namespace LimeEngine
 	{
 	private:
 		static std::wstring GetPathToExeFolder() noexcept;
-	public:
 
+	public:
 		static std::string GetDirectoryFromPath(const std::string& filePath);
 		static std::wstring GetDirectoryFromPath(const std::wstring& filePath);
 		static std::string GetFileExtension(const std::string& filePath);

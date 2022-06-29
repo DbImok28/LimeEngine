@@ -5,7 +5,7 @@
 #include "resource.h"
 
 #ifdef IMGUI
-	extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 #endif // IMGUI
 
 namespace LimeEngine
@@ -45,28 +45,28 @@ namespace LimeEngine
 		return wndClassInstance.hInst;
 	}
 
-	Window::Window(int width, int height, const wchar_t* title) :
-		width(width),
-		height(height),
-		inputDevice()
+	Window::Window(int width, int height, const wchar_t* title) : width(width), height(height), inputDevice()
 	{
 		RECT wr;
 		wr.left = 100;
 		wr.right = width + wr.left;
 		wr.top = 100;
 		wr.bottom = height + wr.top;
-		if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == NULL)
-			throw WND_LAST_EXCEPTION();
+		if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == NULL) throw WND_LAST_EXCEPTION();
 
 		hWnd = CreateWindowW(
-			WindowClass::GetName(), title,
+			WindowClass::GetName(),
+			title,
 			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-			CW_USEDEFAULT, CW_USEDEFAULT,
-			wr.right - wr.left, wr.bottom - wr.top,
-			nullptr, nullptr, WindowClass::GetInstance(), this
-		);
-		if (hWnd == nullptr)
-			throw WND_LAST_EXCEPTION();
+			CW_USEDEFAULT,
+			CW_USEDEFAULT,
+			wr.right - wr.left,
+			wr.bottom - wr.top,
+			nullptr,
+			nullptr,
+			WindowClass::GetInstance(),
+			this);
+		if (hWnd == nullptr) throw WND_LAST_EXCEPTION();
 		ShowWindow(hWnd, SW_SHOWDEFAULT);
 
 		static bool rawInputInitialized = false;
@@ -92,18 +92,16 @@ namespace LimeEngine
 
 	void Window::SetTitle(const std::wstring& title)
 	{
-		if (!SetWindowTextW(hWnd, title.c_str()))
-			throw WND_LAST_EXCEPTION();
+		if (!SetWindowTextW(hWnd, title.c_str())) throw WND_LAST_EXCEPTION();
 	}
 
 	std::optional<int> Window::ProcessMessages() noexcept
 	{
 		MSG msg;
 		while (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
-			//PM_REMOVE Messages are removed from the queue after processing by PeekMessage.
+		//PM_REMOVE Messages are removed from the queue after processing by PeekMessage.
 		{
-			if (msg.message == WM_QUIT)
-				return static_cast<int>(msg.wParam);;
+			if (msg.message == WM_QUIT) return static_cast<int>(msg.wParam);
 			TranslateMessage(&msg);
 			DispatchMessageW(&msg);
 		}
@@ -143,146 +141,145 @@ namespace LimeEngine
 	LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
 #ifdef IMGUI
-		if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
-			return true;
+		if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam)) return true;
 #endif // IMGUI
 
 		switch (msg)
 		{
-		case WM_CLOSE:
-			PostQuitMessage(0);
-			return 0;
-			// Keyboard
-		case WM_SYSKEYDOWN:
-		case WM_KEYDOWN:
-		{
-			unsigned char keycode = static_cast<unsigned char>(wParam);
-			if (inputDevice.keyboard.IsKeysAutoRepeat())
+			case WM_CLOSE:
+				PostQuitMessage(0);
+				return 0;
+				// Keyboard
+			case WM_SYSKEYDOWN:
+			case WM_KEYDOWN:
 			{
-				inputDevice.keyboard.OnKeyPressed(keycode);
-			}
-			else
-			{
-				const bool wasPressed = lParam & 0x40000000;
-				if (!wasPressed)
+				unsigned char keycode = static_cast<unsigned char>(wParam);
+				if (inputDevice.keyboard.IsKeysAutoRepeat())
 				{
 					inputDevice.keyboard.OnKeyPressed(keycode);
 				}
+				else
+				{
+					const bool wasPressed = lParam & 0x40000000;
+					if (!wasPressed)
+					{
+						inputDevice.keyboard.OnKeyPressed(keycode);
+					}
+				}
+				break;
 			}
-			break;
-		}
-		case WM_SYSKEYUP:
-		case WM_KEYUP:
-		{
-			inputDevice.keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));
-			break;
-		}
-		case WM_CHAR:
-		{
-			char ch = static_cast<char>(wParam);
-			if (inputDevice.keyboard.IsCharsAutoRepeat())
+			case WM_SYSKEYUP:
+			case WM_KEYUP:
 			{
-				inputDevice.keyboard.OnChar(ch);
+				inputDevice.keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));
+				break;
 			}
-			else
+			case WM_CHAR:
 			{
-				const bool wasPressed = lParam & 0x40000000;
-				if (!wasPressed)
+				char ch = static_cast<char>(wParam);
+				if (inputDevice.keyboard.IsCharsAutoRepeat())
 				{
 					inputDevice.keyboard.OnChar(ch);
 				}
-			}
-			break;
-		}
-		case WM_KILLFOCUS:
-		{
-			inputDevice.keyboard.ClearKeyState();
-			break;
-		}
-		// Mouse
-		case WM_MOUSEMOVE:
-		{
-			const POINTS pt = MAKEPOINTS(lParam);
-			inputDevice.mouse.OnMouseMove(pt.x, pt.y);
-			if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height)
-			{
-				if (!inputDevice.mouse.IsInWindow())
+				else
 				{
-					SetCapture(hWnd);
-					inputDevice.mouse.OnMouseEnter();
-				}
-			}
-			else
-			{
-				if (inputDevice.mouse.IsInWindow())
-				{
-					ReleaseCapture();
-					inputDevice.mouse.OnMouseLeave();
-				}
-			}
-			break;
-		}
-		case WM_LBUTTONDOWN:
-		{
-			const POINTS pt = MAKEPOINTS(lParam);
-			inputDevice.mouse.OnLeftPressed(pt.x, pt.y);
-			break;
-		}
-		case WM_RBUTTONDOWN:
-		{
-			const POINTS pt = MAKEPOINTS(lParam);
-			inputDevice.mouse.OnRightPressed(pt.x, pt.y);
-			break;
-		}
-		case WM_MBUTTONDOWN:
-		{
-			const POINTS pt = MAKEPOINTS(lParam);
-			inputDevice.mouse.OnMiddlePressed(pt.x, pt.y);
-			break;
-		}
-		case WM_LBUTTONUP:
-		{
-			const POINTS pt = MAKEPOINTS(lParam);
-			inputDevice.mouse.OnLeftReleased(pt.x, pt.y);
-			break;
-		}
-		case WM_RBUTTONUP:
-		{
-			const POINTS pt = MAKEPOINTS(lParam);
-			inputDevice.mouse.OnRightReleased(pt.x, pt.y);
-			break;
-		}
-		case WM_MBUTTONUP:
-		{
-			const POINTS pt = MAKEPOINTS(lParam);
-			inputDevice.mouse.OnMiddleReleased(pt.x, pt.y);
-			break;
-		}
-		case WM_MOUSEWHEEL:
-		{
-			const POINTS pt = MAKEPOINTS(lParam);
-			const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
-			inputDevice.mouse.OnWheelDelta(pt.x, pt.y, delta);
-			break;
-		}
-		case WM_INPUT:
-		{
-			UINT dataSize = 0u;
-			GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, NULL, &dataSize, sizeof(RAWINPUTHEADER));
-			if (dataSize > 0)
-			{
-				std::unique_ptr<BYTE[]> rawdata = std::make_unique<BYTE[]>(dataSize);
-				if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, rawdata.get(), &dataSize, sizeof(RAWINPUTHEADER)) == dataSize)
-				{
-					RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(rawdata.get());
-					if (raw->header.dwType == RIM_TYPEMOUSE)
+					const bool wasPressed = lParam & 0x40000000;
+					if (!wasPressed)
 					{
-						inputDevice.mouse.OnMouseRawMove(raw->data.mouse.lLastX, raw->data.mouse.lLastY);
+						inputDevice.keyboard.OnChar(ch);
 					}
 				}
+				break;
 			}
-			break;
-		}
+			case WM_KILLFOCUS:
+			{
+				inputDevice.keyboard.ClearKeyState();
+				break;
+			}
+			// Mouse
+			case WM_MOUSEMOVE:
+			{
+				const POINTS pt = MAKEPOINTS(lParam);
+				inputDevice.mouse.OnMouseMove(pt.x, pt.y);
+				if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height)
+				{
+					if (!inputDevice.mouse.IsInWindow())
+					{
+						SetCapture(hWnd);
+						inputDevice.mouse.OnMouseEnter();
+					}
+				}
+				else
+				{
+					if (inputDevice.mouse.IsInWindow())
+					{
+						ReleaseCapture();
+						inputDevice.mouse.OnMouseLeave();
+					}
+				}
+				break;
+			}
+			case WM_LBUTTONDOWN:
+			{
+				const POINTS pt = MAKEPOINTS(lParam);
+				inputDevice.mouse.OnLeftPressed(pt.x, pt.y);
+				break;
+			}
+			case WM_RBUTTONDOWN:
+			{
+				const POINTS pt = MAKEPOINTS(lParam);
+				inputDevice.mouse.OnRightPressed(pt.x, pt.y);
+				break;
+			}
+			case WM_MBUTTONDOWN:
+			{
+				const POINTS pt = MAKEPOINTS(lParam);
+				inputDevice.mouse.OnMiddlePressed(pt.x, pt.y);
+				break;
+			}
+			case WM_LBUTTONUP:
+			{
+				const POINTS pt = MAKEPOINTS(lParam);
+				inputDevice.mouse.OnLeftReleased(pt.x, pt.y);
+				break;
+			}
+			case WM_RBUTTONUP:
+			{
+				const POINTS pt = MAKEPOINTS(lParam);
+				inputDevice.mouse.OnRightReleased(pt.x, pt.y);
+				break;
+			}
+			case WM_MBUTTONUP:
+			{
+				const POINTS pt = MAKEPOINTS(lParam);
+				inputDevice.mouse.OnMiddleReleased(pt.x, pt.y);
+				break;
+			}
+			case WM_MOUSEWHEEL:
+			{
+				const POINTS pt = MAKEPOINTS(lParam);
+				const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+				inputDevice.mouse.OnWheelDelta(pt.x, pt.y, delta);
+				break;
+			}
+			case WM_INPUT:
+			{
+				UINT dataSize = 0u;
+				GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, NULL, &dataSize, sizeof(RAWINPUTHEADER));
+				if (dataSize > 0)
+				{
+					std::unique_ptr<BYTE[]> rawdata = std::make_unique<BYTE[]>(dataSize);
+					if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, rawdata.get(), &dataSize, sizeof(RAWINPUTHEADER)) == dataSize)
+					{
+						RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(rawdata.get());
+						if (raw->header.dwType == RIM_TYPEMOUSE)
+						{
+							inputDevice.mouse.OnMouseRawMove(raw->data.mouse.lLastX, raw->data.mouse.lLastY);
+						}
+					}
+				}
+				break;
+			}
 		}
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}

@@ -6,6 +6,7 @@ namespace LimeEngine
 	class Mouse
 	{
 		friend class Window;
+
 	public:
 		class MouseEvent
 		{
@@ -26,10 +27,12 @@ namespace LimeEngine
 				Leave,
 				Invalid
 			};
+
 		private:
 			EventType type;
 			int x;
 			int y;
+
 		public:
 			MouseEvent() noexcept;
 			MouseEvent(const EventType type, const int x, const int y) noexcept;
@@ -56,6 +59,7 @@ namespace LimeEngine
 		bool EventBufferIsEmpty() const noexcept;
 		MouseEvent ReadEvent() noexcept;
 		void Flush() noexcept;
+
 	private:
 		void OnLeftPressed(int x, int y) noexcept;
 		void OnLeftReleased(int x, int y) noexcept;

@@ -7,6 +7,7 @@ namespace LimeEngine
 	class InputDevice
 	{
 		friend class Window;
+
 	public:
 		// TODO: Add event system
 		Keyboard keyboard;

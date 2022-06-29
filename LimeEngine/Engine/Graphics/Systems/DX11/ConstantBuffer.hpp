@@ -4,7 +4,7 @@
 
 namespace LimeEngine
 {
-	template<class T>
+	template <typename T>
 	class ConstantBuffer
 	{
 	public:
@@ -69,9 +69,11 @@ namespace LimeEngine
 		{
 			return buffer.GetAddressOf();
 		}
+
 	private:
 		com_ptr<ID3D11Buffer> buffer;
 		ID3D11DeviceContext* deviceContext = nullptr;
+
 	public:
 		T data;
 	};

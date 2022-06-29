@@ -11,7 +11,7 @@ namespace LimeEngine
 		void Update() override;
 		void AttachIO();
 		void AttachIO(unsigned Id);
-		
+
 		unsigned Id = 0;
 		Window* window;
 		float cameraMovementSpeed;

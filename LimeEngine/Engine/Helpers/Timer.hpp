@@ -12,6 +12,7 @@ namespace LimeEngine
 		bool Stop() noexcept;
 		bool Start() noexcept;
 		void Restart() noexcept;
+
 	private:
 		bool isRunning = false;
 		std::chrono::time_point<std::chrono::steady_clock> start;

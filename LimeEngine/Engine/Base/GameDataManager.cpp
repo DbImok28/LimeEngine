@@ -4,10 +4,7 @@
 
 namespace LimeEngine
 {
-	GameDataManager::GameDataManager(Engine* engine) noexcept :
-		engine(engine)
-	{
-	}
+	GameDataManager::GameDataManager(Engine* engine) noexcept : engine(engine) {}
 
 	Mesh* GameDataManager::LoadMesh(size_t id)
 	{

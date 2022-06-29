@@ -11,9 +11,7 @@ namespace LimeEngine
 
 	SceneObject::SceneObject(Engine* engine, std::unique_ptr<SceneComponent>&& rootComponent) noexcept : engine(engine), rootComponent(std::move(rootComponent)) {}
 
-	void SceneObject::Update()
-	{
-	}
+	void SceneObject::Update() {}
 
 	void SceneObject::UpdateObject()
 	{

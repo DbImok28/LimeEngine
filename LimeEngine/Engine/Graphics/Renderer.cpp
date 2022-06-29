@@ -2,7 +2,7 @@
 
 namespace LimeEngine
 {
-	Renderer::Renderer(RenderingSystem* renderSystem, Window* window) : renderSystem(renderSystem), window(window) 
+	Renderer::Renderer(RenderingSystem* renderSystem, Window* window) : renderSystem(renderSystem), window(window)
 	{
 		renderSystem->Initialize(*window);
 	}

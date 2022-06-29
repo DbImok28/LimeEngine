@@ -15,6 +15,7 @@ namespace LimeEngine
 
 		MaterialDX11 renderMaterial;
 		size_t Id;
+
 	private:
 		std::vector<Texture2D*> textures;
 	};

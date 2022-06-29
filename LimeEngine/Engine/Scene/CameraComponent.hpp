@@ -11,7 +11,15 @@ namespace LimeEngine
 			Perspective,
 			Orthographic
 		};
-		CameraComponent(Engine* engine, Transform transform, float width = 1080, float height = 720, ProjectionType projectionType = ProjectionType::Perspective, float fovDegrees = 90.0f, float nearZ = 0.001f, float farZ = 10000.0f) noexcept;
+		CameraComponent(
+			Engine* engine,
+			Transform transform,
+			float width = 1080,
+			float height = 720,
+			ProjectionType projectionType = ProjectionType::Perspective,
+			float fovDegrees = 90.0f,
+			float nearZ = 0.001f,
+			float farZ = 10000.0f) noexcept;
 		void SetPerspective();
 		void SetOrthographic();
 
@@ -24,6 +32,7 @@ namespace LimeEngine
 		mutable XMMATRIX viewMatrix = XMMatrixIdentity();
 		mutable XMMATRIX projectionMatrix = XMMatrixIdentity();
 		ProjectionType projectionType = ProjectionType::Perspective;
+
 	public:
 		float width;
 		float height;

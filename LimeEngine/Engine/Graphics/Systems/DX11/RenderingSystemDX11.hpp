@@ -1,4 +1,4 @@
-// Developed by Pavel Jakushik. 
+// Developed by Pavel Jakushik.
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
@@ -17,7 +17,7 @@
 	#ifndef IMGUI
 		#define IMGUI
 	#endif // !IMGUI
-#endif // !NO_IMGUI
+#endif     // !NO_IMGUI
 
 namespace LimeEngine
 {
@@ -62,10 +62,10 @@ namespace LimeEngine
 		std::vector<MeshComponent*> meshes;
 
 		// TODO: Remove
-	#ifdef IMGUI
+#ifdef IMGUI
 	public:
 		void ImGuiSetup(HWND hWnd);
 		void ImGuiUpdate();
-	#endif // IMGUI
+#endif // IMGUI
 	};
 }

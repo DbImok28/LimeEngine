@@ -9,16 +9,12 @@ namespace LimeEngine
 {
 	DxgiInfo::DxgiInfo()
 	{
-		typedef HRESULT(WINAPI* DXGIGetDebugInterface)(REFIID, void**);
+		typedef HRESULT(WINAPI * DXGIGetDebugInterface)(REFIID, void**);
 		const auto hModDxgiDebug = LoadLibraryEx(L"dxgidebug.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
-		if (hModDxgiDebug == nullptr)
-			throw HR_LAST_EXCEPTION();
+		if (hModDxgiDebug == nullptr) throw HR_LAST_EXCEPTION();
 
-		const auto DxgiGetDebugInterface = reinterpret_cast<DXGIGetDebugInterface>(
-			reinterpret_cast<void*>(GetProcAddress(hModDxgiDebug, "DXGIGetDebugInterface"))
-			);
-		if (DxgiGetDebugInterface == nullptr)
-			throw HR_LAST_EXCEPTION();
+		const auto DxgiGetDebugInterface = reinterpret_cast<DXGIGetDebugInterface>(reinterpret_cast<void*>(GetProcAddress(hModDxgiDebug, "DXGIGetDebugInterface")));
+		if (DxgiGetDebugInterface == nullptr) throw HR_LAST_EXCEPTION();
 
 		HRESULT hr = DxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), &pDxgiInfoQueue);
 		ERROR_IF(hr);
@@ -38,7 +34,7 @@ namespace LimeEngine
 		{
 			SIZE_T messageLength;
 
-#pragma warning(suppress: 6001)
+#pragma warning(suppress : 6001)
 			HRESULT hr = pDxgiInfoQueue->GetMessage(DXGI_DEBUG_ALL, i, nullptr, &messageLength);
 			ERROR_IF(hr);
 

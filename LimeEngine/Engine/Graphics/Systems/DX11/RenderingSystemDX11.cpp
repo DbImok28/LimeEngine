@@ -3,9 +3,9 @@
 #include "../../../Scene/MeshComponent.hpp"
 
 #ifdef IMGUI
-#include "ImGui/imgui.h"
-#include "ImGui/imgui_impl_win32.h"
-#include "ImGui/imgui_impl_dx11.h"
+	#include "ImGui/imgui.h"
+	#include "ImGui/imgui_impl_win32.h"
+	#include "ImGui/imgui_impl_dx11.h"
 #endif // IMGUI
 
 namespace LimeEngine
@@ -15,9 +15,9 @@ namespace LimeEngine
 	void RenderingSystemDX11::Initialize(const Window& window)
 	{
 		InitializeDirectX(window.GetHWnd(), window.width, window.height);
-		#ifdef IMGUI
+#ifdef IMGUI
 		ImGuiSetup(window.GetHWnd());
-		#endif // IMGUI
+#endif // IMGUI
 	}
 
 	void RenderingSystemDX11::InitializeDirectX(HWND hWnd, int width, int height)
@@ -35,8 +35,7 @@ namespace LimeEngine
 		10 Output Merger		(OM) Stage
 		*/
 		std::vector<GraphicAdapter> adapters = GraphicAdapter::GetGraphicAdapters();
-		if (adapters.size() < 1)
-			throw GFX_MSG_EXCEPTION(L"No found DXGI Adapters.");
+		if (adapters.size() < 1) throw GFX_MSG_EXCEPTION(L"No found DXGI Adapters.");
 
 		DXGI_SWAP_CHAIN_DESC scd;
 		ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
@@ -65,30 +64,26 @@ namespace LimeEngine
 #endif
 		HRESULT hr;
 		GFX_ERROR_IF(D3D11CreateDeviceAndSwapChain(
-			adapters[0].pAdapter,			// Adapter
-			D3D_DRIVER_TYPE_UNKNOWN,		// DriverType
-			nullptr,						// Software
-			swapFlags,						// Flags
-			nullptr,						// FeatureLevels
-			0,								// FeatureLevels
-			D3D11_SDK_VERSION,				// SDKVersion
-			&scd,							// SwapChainDesc
-			swapchain.GetAddressOf(),		// SwapChain
-			device.GetAddressOf(),			// Device
-			nullptr,						// FeatureLevel
-			deviceContext.GetAddressOf()	// ImmediateContext
-		));
+			adapters[0].pAdapter,        // Adapter
+			D3D_DRIVER_TYPE_UNKNOWN,     // DriverType
+			nullptr,                     // Software
+			swapFlags,                   // Flags
+			nullptr,                     // FeatureLevels
+			0,                           // FeatureLevels
+			D3D11_SDK_VERSION,           // SDKVersion
+			&scd,                        // SwapChainDesc
+			swapchain.GetAddressOf(),    // SwapChain
+			device.GetAddressOf(),       // Device
+			nullptr,                     // FeatureLevel
+			deviceContext.GetAddressOf() // ImmediateContext
+			));
 
 		com_ptr<ID3D11Texture2D> backBuffer;
 		GFX_ERROR_IF(swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backBuffer.GetAddressOf())));
 
-
-
 		// Render Target
 		GFX_ERROR_IF(device->CreateRenderTargetView(backBuffer.Get(), NULL, renderTargetView.GetAddressOf()));
 		//GFX_ERROR_IF_MSG(hr, L"Failed to create RenderTargetView.");
-
-
 
 		// Depth
 		D3D11_TEXTURE2D_DESC depthStencilDesc;
@@ -110,8 +105,6 @@ namespace LimeEngine
 
 		this->deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
 
-
-
 		// Depth Stencil State
 		D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
 		ZeroMemory(&depthStencilStateDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
@@ -121,16 +114,12 @@ namespace LimeEngine
 		depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
 		GFX_ERROR_IF(device->CreateDepthStencilState(&depthStencilStateDesc, depthStencilState.GetAddressOf()));
 
-
-
 		// Rasterizer state
 		D3D11_RASTERIZER_DESC rasterizerDesc;
 		ZeroMemory(&rasterizerDesc, sizeof(D3D11_RASTERIZER_DESC));
 		rasterizerDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID; // Fill the triangles formed by the vertices. Adjacent vertices are not drawn.
-		rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;	 // Do not draw triangles that are back-facing.
+		rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;  // Do not draw triangles that are back-facing.
 		GFX_ERROR_IF(device->CreateRasterizerState(&rasterizerDesc, rasterizerState.GetAddressOf()));
-
-
 
 		// Sampler state
 		D3D11_SAMPLER_DESC sampDesc;
@@ -143,8 +132,6 @@ namespace LimeEngine
 		sampDesc.MinLOD = 0;
 		sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 		GFX_ERROR_IF(device->CreateSamplerState(&sampDesc, samplerState.GetAddressOf()));
-
-
 
 		// viewport
 		D3D11_VIEWPORT viewport;
@@ -179,9 +166,9 @@ namespace LimeEngine
 
 	void RenderingSystemDX11::PostProcessing()
 	{
-		#ifdef IMGUI
+#ifdef IMGUI
 		ImGuiUpdate();
-		#endif // IMGUI
+#endif // IMGUI
 
 		HRESULT hr;
 		GFX_ERROR_INFO;
@@ -207,7 +194,7 @@ namespace LimeEngine
 	void RenderingSystemDX11::Render(const CameraComponent* cameraComponent)
 	{
 		if (cameraComponent == nullptr) return;
-		
+
 		PreProcessing();
 		for (auto& mesh : meshes)
 		{

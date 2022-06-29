@@ -7,6 +7,7 @@ namespace LimeEngine
 	class Keyboard
 	{
 		friend class Window;
+
 	public:
 		class KeyboardEvent
 		{
@@ -23,6 +24,7 @@ namespace LimeEngine
 			bool IsRelease() const noexcept;
 			bool IsValid() const noexcept;
 			unsigned char GetKeyCode() const noexcept;
+
 		private:
 			EventType type;
 			unsigned char key;
@@ -57,7 +59,7 @@ namespace LimeEngine
 		void OnKeyReleased(const unsigned char key);
 		void OnChar(const char key);
 
-		template<typename T>
+		template <typename T>
 		void TrimBuffer(std::queue<T>& buffer) noexcept;
 
 		static constexpr size_t nKeys = 256;

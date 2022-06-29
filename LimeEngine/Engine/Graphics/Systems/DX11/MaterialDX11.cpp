@@ -4,7 +4,8 @@
 namespace LimeEngine
 {
 	MaterialDX11::MaterialDX11(const RenderingSystemDX11& renderer, Material* material, VertexShader* vertexShader, PixelShader* pixelShader) noexcept :
-		material(material), renderer(renderer), vertexShader(vertexShader), pixelShader(pixelShader) {}
+		material(material), renderer(renderer), vertexShader(vertexShader), pixelShader(pixelShader)
+	{}
 
 	void MaterialDX11::ApplyMaterial() const noexcept
 	{

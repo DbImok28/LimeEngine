@@ -3,11 +3,9 @@
 
 namespace LimeEngine
 {
-	IndexBuffer::IndexBuffer(const IndexBuffer& vb) noexcept
-		: buffer(vb.buffer), bufferSize(vb.bufferSize) {}
+	IndexBuffer::IndexBuffer(const IndexBuffer& vb) noexcept : buffer(vb.buffer), bufferSize(vb.bufferSize) {}
 
-	IndexBuffer::IndexBuffer(IndexBuffer&& vb) noexcept
-		:buffer(std::move(vb.buffer)), bufferSize(std::move(vb.bufferSize))
+	IndexBuffer::IndexBuffer(IndexBuffer&& vb) noexcept : buffer(std::move(vb.buffer)), bufferSize(std::move(vb.bufferSize))
 	{
 		vb.buffer = nullptr;
 		vb.bufferSize = 0;

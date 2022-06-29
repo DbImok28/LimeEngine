@@ -3,8 +3,8 @@
 
 namespace LimeEngine
 {
-	DefaultPlayerCameraComponent::DefaultPlayerCameraComponent(Engine* engine, Transform transform, unsigned Id, float cameraMovementSpeed, float cameraRotationSpeed) noexcept
-		: CameraComponent(engine, transform), Id(Id), window(window), cameraMovementSpeed(cameraMovementSpeed), cameraRotationSpeed(cameraRotationSpeed) 
+	DefaultPlayerCameraComponent::DefaultPlayerCameraComponent(Engine* engine, Transform transform, unsigned Id, float cameraMovementSpeed, float cameraRotationSpeed) noexcept :
+		CameraComponent(engine, transform), Id(Id), window(window), cameraMovementSpeed(cameraMovementSpeed), cameraRotationSpeed(cameraRotationSpeed)
 	{
 		if (engine->engineIO[Id].sceneIO.camera == nullptr)
 		{
@@ -16,8 +16,7 @@ namespace LimeEngine
 	{
 		CameraComponent::Update();
 
-		if (window == nullptr)
-			return;
+		if (window == nullptr) return;
 
 		float deltaTime = engine->deltaTime;
 		auto& inputDevice = window->inputDevice;

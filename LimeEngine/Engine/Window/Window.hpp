@@ -1,4 +1,4 @@
-// Developed by Pavel Jakushik. 
+// Developed by Pavel Jakushik.
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
@@ -24,11 +24,13 @@ namespace LimeEngine
 
 			static const wchar_t* GetName() noexcept;
 			static HINSTANCE GetInstance() noexcept;
+
 		private:
 			static constexpr const wchar_t* name = L"LimeEngineWindow";
 			static WindowClass wndClassInstance;
 			HINSTANCE hInst;
 		};
+
 	public:
 		Window(int width, int height, const wchar_t* title);
 		~Window();

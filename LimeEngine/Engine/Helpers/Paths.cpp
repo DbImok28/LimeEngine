@@ -23,16 +23,14 @@ namespace LimeEngine
 	std::string Paths::GetDirectoryFromPath(const std::string& filePath)
 	{
 		size_t pos = filePath.find_last_of("\\/");
-		if (std::string::npos == pos)
-			return "";
+		if (std::string::npos == pos) return "";
 		return filePath.substr(0, pos + 1);
 	}
 
 	std::wstring Paths::GetDirectoryFromPath(const std::wstring& filePath)
 	{
 		size_t pos = filePath.find_last_of(L"\\/");
-		if (std::string::npos == pos)
-			return L"";
+		if (std::string::npos == pos) return L"";
 		return filePath.substr(0, pos + 1);
 	}
 

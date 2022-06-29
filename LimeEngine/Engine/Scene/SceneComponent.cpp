@@ -5,9 +5,7 @@ namespace LimeEngine
 {
 	SceneComponent::SceneComponent(Engine* engine, Transform transform) noexcept : engine(engine), Transformable(transform) {}
 
-	void SceneComponent::Update()
-	{
-	}
+	void SceneComponent::Update() {}
 
 	void SceneComponent::UpdateComponent()
 	{

@@ -1,21 +1,21 @@
 BasedOnStyle: Microsoft
 UseTab: ForContinuationAndIndentation 
-IndentWidth: 4
 TabWidth: 4
+IndentWidth: 4
 ColumnLimit: 180
 AccessModifierOffset: -4
+SpacesBeforeTrailingComments: 1
 SortIncludes: false
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: true
-AllowShortFunctionsOnASingleLine: Inline
 AllowShortIfStatementsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Empty
 AlignAfterOpenBracket: AlwaysBreak
 #AlignAfterOpenBracket: BlockIndent
+AlignConsecutiveMacros: true
 AlignEscapedNewlines: Left
 AlignArrayOfStructures: Left
 PointerAlignment: Left
-BreakBeforeBraces: Allman
-SpacesBeforeTrailingComments: 1
 IndentCaseLabels: true
 AlwaysBreakTemplateDeclarations: Yes
 IndentPPDirectives: BeforeHash
@@ -23,7 +23,15 @@ ReflowComments: false
 FixNamespaceComments: false
 BreakConstructorInitializers: AfterColon
 BreakInheritanceList: AfterColon
+BreakBeforeBinaryOperators: NonAssignment
 BinPackArguments: false
 BinPackParameters: false
 AllowAllArgumentsOnNextLine: true
 NamespaceIndentation: All
+Cpp11BracedListStyle: false
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+  SplitEmptyFunction: false
+  AfterUnion: true
+  AfterCaseLabel: true

@@ -7,8 +7,7 @@ namespace LimeEngine
 
 	std::vector<GraphicAdapter> GraphicAdapter::GetGraphicAdapters()
 	{
-		if (!adapters.empty())
-			return adapters;
+		if (!adapters.empty()) return adapters;
 		com_ptr<IDXGIFactory> pFactory;
 		HRESULT hr = CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(pFactory.GetAddressOf()));
 		GFX_ERROR_IF_NOINFO(hr);

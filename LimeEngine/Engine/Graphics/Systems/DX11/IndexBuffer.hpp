@@ -8,6 +8,7 @@ namespace LimeEngine
 	private:
 		com_ptr<ID3D11Buffer> buffer;
 		UINT bufferSize = 0;
+
 	public:
 		IndexBuffer() noexcept {}
 		IndexBuffer(const IndexBuffer& vb) noexcept;

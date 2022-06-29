@@ -8,8 +8,10 @@ namespace LimeEngine
 	{
 	public:
 		static std::vector<GraphicAdapter> GetGraphicAdapters();
+
 	private:
 		static std::vector<GraphicAdapter> adapters;
+
 	public:
 		GraphicAdapter(IDXGIAdapter* pAdapter);
 		IDXGIAdapter* pAdapter = nullptr;

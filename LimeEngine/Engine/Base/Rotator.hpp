@@ -33,9 +33,9 @@ namespace LimeEngine
 		{
 			struct
 			{
-				float roll;		// x deg
-				float pitch;	// y deg
-				float yaw;		// z deg
+				float roll;  // x deg
+				float pitch; // y deg
+				float yaw;   // z deg
 			};
 			XMFLOAT3 vec3{};
 		};

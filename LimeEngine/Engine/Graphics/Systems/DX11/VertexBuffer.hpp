@@ -19,6 +19,7 @@ namespace LimeEngine
 		UINT VertexCount() const noexcept;
 		const UINT Stride() const noexcept;
 		const UINT* StridePtr() const noexcept;
+
 	private:
 		com_ptr<ID3D11Buffer> buffer;
 		UINT stride = sizeof(Vertex);

@@ -4,7 +4,7 @@ namespace LimeEngine
 {
 	Engine::Engine() : engineIO(), gameDataManager(this), scene(this) {}
 
-	Engine::Engine(EngineIO&& engineIO) : Engine() 
+	Engine::Engine(EngineIO&& engineIO) : Engine()
 	{
 		this->engineIO.push_back(std::move(engineIO));
 	}
@@ -19,10 +19,8 @@ namespace LimeEngine
 		{
 			deltaTime = timer.ElapsedTime();
 			timer.Restart();
-			if (exitCode = WindowProcessing())
-				return *exitCode;
-			if (exitCode = EngineProcessing())
-				return *exitCode;
+			if (exitCode = WindowProcessing()) return *exitCode;
+			if (exitCode = EngineProcessing()) return *exitCode;
 			RenderProcessing();
 		}
 	}
@@ -54,10 +52,8 @@ namespace LimeEngine
 				++it;
 			}
 		}
-		if (exitCode.has_value() && *exitCode != 0)
-			return exitCode;
-		if (engineIO.size() > 0)
-			return {};
+		if (exitCode.has_value() && *exitCode != 0) return exitCode;
+		if (engineIO.size() > 0) return {};
 		return 0;
 	}
 
@@ -79,7 +75,7 @@ namespace LimeEngine
 
 	bool Engine::RemoveFromRender(const MeshComponent* meshComponent) noexcept
 	{
-		bool isDeleted = false;;
+		bool isDeleted = false;
 		for (auto& io : engineIO)
 		{
 			if (io.renderIO.renderer->RemoveFromRender(meshComponent))

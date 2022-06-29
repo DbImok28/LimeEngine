@@ -12,6 +12,7 @@ namespace LimeEngine
 	{
 	protected:
 		virtual void Update();
+
 	public:
 		SceneComponent(Engine* engine, Transform transform = {}) noexcept;
 		virtual ~SceneComponent() noexcept = default;
@@ -21,6 +22,7 @@ namespace LimeEngine
 		TempTransformMatrix GetWorldTransformMatrix() const noexcept override;
 
 		std::vector<std::unique_ptr<SceneComponent>> components;
+
 	protected:
 		Transformable* rootTransform = nullptr;
 		Engine* engine = nullptr;

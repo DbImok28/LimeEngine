@@ -27,6 +27,7 @@ namespace LimeEngine
 
 		Texture2DDX11 renderTexture;
 		size_t Id;
+
 	private:
 		TextureType type = TextureType::Unknown;
 	};

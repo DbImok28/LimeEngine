@@ -2,7 +2,9 @@
 
 namespace LimeEngine
 {
-	Material::Material(const RenderingSystemDX11& renderer, VertexShader* vertexShader, PixelShader* pixelShader, size_t Id) noexcept : Id(Id), renderMaterial(renderer, this, vertexShader, pixelShader) {}
+	Material::Material(const RenderingSystemDX11& renderer, VertexShader* vertexShader, PixelShader* pixelShader, size_t Id) noexcept :
+		Id(Id), renderMaterial(renderer, this, vertexShader, pixelShader)
+	{}
 
 	void Material::SetTextures(std::vector<Texture2D*> textures) noexcept
 	{

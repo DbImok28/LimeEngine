@@ -134,7 +134,7 @@ namespace LimeEngine
 		TrimBuffer(charBuffer);
 	}
 
-	template<typename T>
+	template <typename T>
 	inline void Keyboard::TrimBuffer(std::queue<T>& buffer) noexcept
 	{
 		while (buffer.size() > maxBufferSize)

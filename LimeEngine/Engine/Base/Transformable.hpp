@@ -51,9 +51,11 @@ namespace LimeEngine
 		TempVector GetUpVector() const noexcept;
 
 		virtual ~Transformable() noexcept = default;
+
 	private:
 		mutable TempTransformMatrix transformMatrix = XMMatrixIdentity();
 		Transform transform;
+
 	protected:
 		mutable bool isTransformChange = true;
 	};
