@@ -45,7 +45,10 @@ namespace LimeEngine
 		using EngineException::EngineException;
 
 	public:
-		const wchar_t* GetType() const noexcept override;
+		virtual const char* GetType() const noexcept override
+		{
+			return "GraphicsHrException";
+		}
 	};
 
 	class GraphicsHrException : public EngineHrException
@@ -53,6 +56,9 @@ namespace LimeEngine
 		using EngineHrException::EngineHrException;
 
 	public:
-		const wchar_t* GetType() const noexcept override;
+		virtual const char* GetType() const noexcept override
+		{
+			return "GraphicsHrException";
+		}
 	};
 }

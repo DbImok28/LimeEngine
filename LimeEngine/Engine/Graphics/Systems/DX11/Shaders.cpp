@@ -1,5 +1,6 @@
 #include "Shaders.hpp"
 #include "../../../Exceptions/GraphicsExceptions.hpp"
+#include "../../../Helpers/StringHelper.hpp"
 #include <sstream>
 
 namespace LimeEngine
@@ -9,19 +10,19 @@ namespace LimeEngine
 		HRESULT hr = D3DReadFileToBlob(shaderpath.c_str(), shaderBuffer.GetAddressOf());
 		if (FAILED(hr))
 		{
-			std::wostringstream oss;
-			oss << L"Failed to load vertex shader: " << shaderpath;
+			std::ostringstream oss;
+			oss << "Failed to load vertex shader: " << StringHelper::StringToChar8(shaderpath);
 			throw GFX_MSG_HR_EXCEPTION(hr, oss.str());
 		}
 		hr = device->CreateVertexShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
 		if (FAILED(hr))
 		{
-			std::wostringstream oss;
-			oss << L"Failed to create vertex shader: " << shaderpath;
+			std::ostringstream oss;
+			oss << "Failed to create vertex shader: " << StringHelper::StringToChar8(shaderpath);
 			throw GFX_MSG_HR_EXCEPTION(hr, oss.str());
 		}
 		hr = device->CreateInputLayout(layoutDesc, numElements, shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), inputLoyout.GetAddressOf());
-		GFX_ERROR_IF_MSG(hr, L"Failed to create InputLayout.");
+		GFX_ERROR_IF_MSG(hr, "Failed to create InputLayout.");
 	}
 
 	ID3D11VertexShader* VertexShader::GetShader() const noexcept
@@ -46,15 +47,15 @@ namespace LimeEngine
 		HRESULT hr = D3DReadFileToBlob(shaderpath.c_str(), shaderBuffer.GetAddressOf());
 		if (FAILED(hr))
 		{
-			std::wstringstream oss;
-			oss << L"Failed to load pixel shader: " << shaderpath;
+			std::stringstream oss;
+			oss << "Failed to load pixel shader: " << StringHelper::StringToChar8(shaderpath);
 			throw GFX_MSG_HR_EXCEPTION(hr, oss.str());
 		}
 		hr = device->CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
 		if (FAILED(hr))
 		{
-			std::wstringstream oss;
-			oss << L"Failed to create pixel shader: " << shaderpath;
+			std::stringstream oss;
+			oss << "Failed to create pixel shader: " << StringHelper::StringToChar8(shaderpath);
 			throw GFX_MSG_HR_EXCEPTION(hr, oss.str());
 		}
 	}

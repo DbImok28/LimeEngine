@@ -35,15 +35,15 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
 	}
 	catch (const EngineException& e)
 	{
-		MessageBoxW(nullptr, e.what(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
+		MessageBoxA(nullptr, e.what(), e.GetType(), MB_OK | MB_ICONERROR);
 	}
 	catch (const std::exception& e)
 	{
-		MessageBoxA(nullptr, e.what(), "Standard exception", MB_OK | MB_ICONEXCLAMATION);
+		MessageBoxA(nullptr, e.what(), "Standard exception", MB_OK | MB_ICONERROR);
 	}
 	catch (...)
 	{
-		MessageBoxA(nullptr, "No info", "Unknown exception", MB_OK | MB_ICONEXCLAMATION);
+		MessageBoxA(nullptr, "No info", "Unknown exception", MB_OK | MB_ICONERROR);
 	}
 	return EXIT_FAILURE;
 }

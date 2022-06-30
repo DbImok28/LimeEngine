@@ -181,7 +181,6 @@
     <ClCompile Include="Engine\Scene\CameraComponent.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Exceptions\EngineExceptions.cpp" />
-    <ClCompile Include="Engine\Exceptions\GraphicsExceptions.cpp" />
     <ClCompile Include="Engine\Scene\SceneObject.cpp" />
     <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicAdapter.cpp" />
     <ClCompile Include="Engine\Graphics\Systems\DX11\VertexBuffer.cpp" />
@@ -211,7 +210,6 @@
     <ClCompile Include="Engine\Graphics\Base\Material.cpp" />
     <ClCompile Include="Engine\Graphics\Base\Texture2D.cpp" />
     <ClCompile Include="Engine\Scene\SceneMap.cpp" />
-    <ClCompile Include="Engine\Exceptions\WindowExceptions.cpp" />
     <ClCompile Include="Engine\Scene\SceneComponent.cpp" />
     <ClCompile Include="Engine\Scene\MeshComponent.cpp" />
     <ClCompile Include="Engine\Scene\TestMap.cpp" />

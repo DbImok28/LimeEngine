@@ -35,7 +35,7 @@ namespace LimeEngine
 		10 Output Merger		(OM) Stage
 		*/
 		std::vector<GraphicAdapter> adapters = GraphicAdapter::GetGraphicAdapters();
-		if (adapters.size() < 1) throw GFX_MSG_EXCEPTION(L"No found DXGI Adapters.");
+		if (adapters.size() < 1) throw GFX_MSG_EXCEPTION("No found DXGI Adapters.");
 
 		DXGI_SWAP_CHAIN_DESC scd;
 		ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));

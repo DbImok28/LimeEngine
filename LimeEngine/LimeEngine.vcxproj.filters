@@ -102,9 +102,6 @@
     <ClCompile Include="Engine\Helpers\Paths.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Exceptions\GraphicsExceptions.cpp">
-      <Filter>Engine\Exceptions</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Graphics\Systems\DX11\IndexBuffer.cpp">
       <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
     </ClCompile>
@@ -149,9 +146,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Base\GameDataManager.cpp">
       <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Exceptions\WindowExceptions.cpp">
-      <Filter>Engine\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Scene\TestMap.cpp">
       <Filter>Engine\Scene\Maps</Filter>
@@ -259,9 +253,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Helpers\Paths.hpp">
       <Filter>Engine\Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp">
-      <Filter>Engine\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\Systems\DX11\IndexBuffer.hpp">
       <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
@@ -406,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="Engine\CoreBase.hpp">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp">
+      <Filter>Engine\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

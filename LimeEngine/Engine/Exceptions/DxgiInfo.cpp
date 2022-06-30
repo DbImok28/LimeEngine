@@ -25,9 +25,9 @@ namespace LimeEngine
 		next = pDxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
 	}
 
-	std::vector<std::wstring> DxgiInfo::GetMessages() const
+	std::vector<std::string> DxgiInfo::GetMessages() const
 	{
-		std::vector<std::wstring> messages;
+		std::vector<std::string> messages;
 		const auto end = pDxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
 		std::string msg;
 		for (auto i = next; i < end; i++)
@@ -44,7 +44,7 @@ namespace LimeEngine
 			ERROR_IF(hr);
 
 			msg = pMessage->pDescription;
-			messages.emplace_back(StringHelper::StringToWide(msg));
+			messages.emplace_back(msg);
 		}
 		return messages;
 	}
