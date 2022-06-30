@@ -61,12 +61,13 @@ namespace LimeEngine
             { -1.0f, 1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f, 1.0f},
 		};
 		static std::vector<DWORD> indices = { 3, 1, 0, 2, 1, 3, 6, 4, 5, 7, 4, 6, 11, 9, 8, 10, 9, 11, 14, 12, 13, 15, 12, 14, 19, 17, 16, 18, 17, 19, 22, 20, 21, 23, 20, 22 };
-		auto mesh = engine->gameDataManager.meshes.Create(0, renderSystem, vertices, indices, 0);
+		auto mesh = engine->gameDataManager.meshes.Create(0, vertices, indices, 0);
 		auto material = engine->gameDataManager.materials.Create(0, renderSystem, &vertexShader, &pixelShader, 0);
 		auto texture = engine->gameDataManager.textures2D.Create(0, renderSystem, L"Data\\Textures\\cat.jpg", TextureType::Diffuse, 0);
 
 		material->AddTexture(texture);
 		mesh->SetMaterial(material);
+
 		// Make Scene
 		auto cameraComponent = std::make_unique<DefaultPlayerCameraComponent>(engine, Transform(0, 5, -10));
 		auto cameraObject = std::make_unique<SceneObject>(engine, std::move(cameraComponent));

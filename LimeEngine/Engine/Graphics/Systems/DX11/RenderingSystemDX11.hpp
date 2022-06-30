@@ -5,12 +5,13 @@
 
 #include "DirectXDef.hpp"
 #include "../RenderingSystem.hpp"
-#include <vector>
+#include <map>
 #include <string>
 #include <sstream>
 #include "../../../Exceptions/GraphicsExceptions.hpp"
 #include "../../../Helpers/Paths.hpp"
 #include "../../../Scene/CameraComponent.hpp"
+#include "MeshDX11.hpp"
 
 // TODO: Remove
 #ifndef NO_IMGUI
@@ -29,12 +30,10 @@ namespace LimeEngine
 		RenderingSystemDX11(RenderingSystemDX11&&) noexcept = delete;
 		RenderingSystemDX11& operator=(const RenderingSystemDX11&) = delete;
 		RenderingSystemDX11& operator=(RenderingSystemDX11&&) noexcept = delete;
+
 		virtual ~RenderingSystemDX11() override = default;
-
-		void Draw(const CameraComponent* cameraComponent, const MeshComponent* meshComponent);
-
-		virtual void AddToRender(MeshComponent* meshComponent) noexcept override;
-		virtual bool RemoveFromRender(const MeshComponent* meshComponent) noexcept override;
+		virtual void AddToRender(MeshComponent* meshComponent) override;
+		virtual void RemoveFromRender(const MeshComponent* meshComponent) noexcept override;
 		virtual void Render(const CameraComponent* cameraComponent) override;
 		virtual void Initialize(const Window& window) override;
 
@@ -59,8 +58,7 @@ namespace LimeEngine
 		com_ptr<ID3D11DeviceContext> deviceContext;
 
 	public:
-		std::vector<MeshComponent*> meshes;
-
+		std::map<size_t, MeshDX11> renderMeshes;
 		// TODO: Remove
 #ifdef IMGUI
 	public:

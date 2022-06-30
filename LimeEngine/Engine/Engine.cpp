@@ -65,24 +65,21 @@ namespace LimeEngine
 		}
 	}
 
-	void Engine::AddToRender(MeshComponent* meshComponent) noexcept
+	void Engine::AddToRender(MeshComponent* meshComponent)
 	{
+		if (meshComponent == nullptr) return;
 		for (auto& io : engineIO)
 		{
 			io.renderIO.renderer->AddToRender(meshComponent);
 		}
 	}
 
-	bool Engine::RemoveFromRender(const MeshComponent* meshComponent) noexcept
+	void Engine::RemoveFromRender(const MeshComponent* meshComponent) noexcept
 	{
-		bool isDeleted = false;
+		if (meshComponent == nullptr) return;
 		for (auto& io : engineIO)
 		{
-			if (io.renderIO.renderer->RemoveFromRender(meshComponent))
-			{
-				isDeleted = true;
-			}
+			io.renderIO.renderer->RemoveFromRender(meshComponent);
 		}
-		return isDeleted;
 	}
 }

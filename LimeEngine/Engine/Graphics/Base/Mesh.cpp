@@ -2,9 +2,7 @@
 
 namespace LimeEngine
 {
-	Mesh::Mesh(const RenderingSystemDX11& renderer, const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices, size_t id) :
-		vertices(vertices), indices(indices), id(id), renderMesh(renderer, this)
-	{}
+	Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices, size_t id) : vertices(vertices), indices(indices), id(id) {}
 
 	void Mesh::SetMaterial(Material* material) noexcept
 	{
@@ -24,5 +22,9 @@ namespace LimeEngine
 	const std::vector<DWORD>& Mesh::GetIndices() const noexcept
 	{
 		return indices;
+	}
+	const size_t& Mesh::GetId() const noexcept
+	{
+		return id;
 	}
 }

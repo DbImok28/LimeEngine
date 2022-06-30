@@ -26,8 +26,8 @@ namespace LimeEngine
 		std::optional<int> WindowProcessing();
 		void RenderProcessing();
 
-		void AddToRender(MeshComponent* meshComponent) noexcept;
-		bool RemoveFromRender(const MeshComponent* meshComponent) noexcept;
+		void AddToRender(MeshComponent* meshComponent);
+		void RemoveFromRender(const MeshComponent* meshComponent) noexcept;
 
 	public:
 		std::vector<EngineIO> engineIO;

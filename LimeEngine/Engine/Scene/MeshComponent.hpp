@@ -8,10 +8,16 @@ namespace LimeEngine
 	{
 	public:
 		MeshComponent(Engine* engine, Transform transform = {}, size_t id = 0) noexcept;
-		void AddToRender();
-		bool RemoveFromRender();
+		virtual ~MeshComponent() override;
+		void SetVisibility(bool visibility);
+		void ShowMesh();
+		void HideMesh();
 
 	public:
 		Mesh* mesh = nullptr;
+		Material* material = nullptr;
+
+	private:
+		bool isVisible = false;
 	};
 }

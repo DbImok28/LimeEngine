@@ -1,6 +1,7 @@
 #include "RenderingSystemDX11.hpp"
 #include "GraphicAdapter.hpp"
 #include "../../../Scene/MeshComponent.hpp"
+#include "../../Base/Mesh.hpp"
 
 #ifdef IMGUI
 	#include "ImGui/imgui.h"
@@ -146,11 +147,6 @@ namespace LimeEngine
 		deviceContext->RSSetViewports(1, &viewport);
 	}
 
-	void RenderingSystemDX11::Draw(const CameraComponent* cameraComponent, const MeshComponent* meshComponent)
-	{
-		meshComponent->mesh->renderMesh.Draw(cameraComponent, meshComponent->GetWorldTransformMatrix());
-	}
-
 	void RenderingSystemDX11::PreProcessing()
 	{
 		float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
@@ -181,14 +177,33 @@ namespace LimeEngine
 		}
 	}
 
-	void RenderingSystemDX11::AddToRender(MeshComponent* meshComponent) noexcept
+	void RenderingSystemDX11::AddToRender(MeshComponent* meshComponent)
 	{
-		meshes.push_back(meshComponent);
+		if (meshComponent == nullptr) return;
+
+		auto id = meshComponent->mesh->GetId();
+		auto it = renderMeshes.find(id);
+		if (it != std::end(renderMeshes))
+		{
+			it->second.AddMeshComponent(meshComponent);
+		}
+		else
+		{
+			renderMeshes.insert({ id, MeshDX11(*this, meshComponent) });
+		}
 	}
 
-	bool RenderingSystemDX11::RemoveFromRender(const MeshComponent* meshComponent) noexcept
+	void RenderingSystemDX11::RemoveFromRender(const MeshComponent* meshComponent) noexcept
 	{
-		return meshes.erase(std::find(std::begin(meshes), std::end(meshes), meshComponent)) != std::end(meshes);
+		if (meshComponent == nullptr) return;
+
+		auto id = meshComponent->mesh->GetId();
+		auto it = renderMeshes.find(id);
+		if (it != std::end(renderMeshes))
+		{
+			it->second.RemoveMeshComponent(meshComponent);
+			if (it->second.Empty()) renderMeshes.erase(it);
+		}
 	}
 
 	void RenderingSystemDX11::Render(const CameraComponent* cameraComponent)
@@ -196,9 +211,9 @@ namespace LimeEngine
 		if (cameraComponent == nullptr) return;
 
 		PreProcessing();
-		for (auto& mesh : meshes)
+		for (auto& renderMesh : renderMeshes)
 		{
-			Draw(cameraComponent, mesh);
+			renderMesh.second.Render(cameraComponent);
 		}
 		PostProcessing();
 	}

@@ -183,9 +183,6 @@
     <ClCompile Include="Engine\Graphics\Renderer.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\RenderingSystem.cpp">
-      <Filter>Engine\Graphics\Systems</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.cpp">
       <Filter>Engine\Graphics\Systems\DirectX11</Filter>
     </ClCompile>

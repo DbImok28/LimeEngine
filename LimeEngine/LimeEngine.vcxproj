@@ -197,7 +197,6 @@
     <ClCompile Include="Engine\Window\Window.cpp" />
     <ClCompile Include="Engine\Window\WinMain.cpp" />
     <ClCompile Include="Engine\Base\GameDataManager.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\RenderingSystem.cpp" />
     <ClCompile Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.cpp" />
     <ClCompile Include="Includes\dxerr\dxerr.cpp" />
     <ClCompile Include="Includes\ImGui\imgui.cpp" />

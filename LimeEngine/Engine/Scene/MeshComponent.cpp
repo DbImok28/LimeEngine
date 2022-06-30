@@ -6,14 +6,34 @@ namespace LimeEngine
 	MeshComponent::MeshComponent(Engine* engine, Transform transform, size_t id) noexcept : SceneComponent(engine, transform)
 	{
 		mesh = engine->gameDataManager.LoadMesh(id);
-		AddToRender();
+		ShowMesh();
 	}
-	void MeshComponent::AddToRender()
+	MeshComponent::~MeshComponent()
 	{
+		HideMesh();
+	}
+	void MeshComponent::SetVisibility(bool visibility)
+	{
+		if (isVisible == visibility) return;
+		if (visibility)
+		{
+			ShowMesh();
+		}
+		else
+		{
+			HideMesh();
+		}
+	}
+	void MeshComponent::ShowMesh()
+	{
+		if (isVisible) return;
+		isVisible = true;
 		engine->AddToRender(this);
 	}
-	bool MeshComponent::RemoveFromRender()
+	void MeshComponent::HideMesh()
 	{
-		return engine->RemoveFromRender(this);
+		if (!isVisible) return;
+		isVisible = false;
+		engine->RemoveFromRender(this);
 	}
 }

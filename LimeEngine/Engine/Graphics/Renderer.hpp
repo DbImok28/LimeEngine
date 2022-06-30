@@ -17,8 +17,8 @@ namespace LimeEngine
 		std::optional<int> Process();
 		void Render(const CameraComponent* cameraComponent);
 
-		void AddToRender(MeshComponent* meshComponent) noexcept;
-		bool RemoveFromRender(const MeshComponent* meshComponent) noexcept;
+		void AddToRender(MeshComponent* meshComponent);
+		void RemoveFromRender(const MeshComponent* meshComponent) noexcept;
 		// TODO: private:
 	public:
 		RenderingSystem* renderSystem;

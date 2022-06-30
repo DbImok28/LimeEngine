@@ -7,14 +7,14 @@ namespace LimeEngine
 		renderSystem->Initialize(*window);
 	}
 
-	void Renderer::AddToRender(MeshComponent* meshComponent) noexcept
+	void Renderer::AddToRender(MeshComponent* meshComponent)
 	{
 		renderSystem->AddToRender(meshComponent);
 	}
 
-	bool Renderer::RemoveFromRender(const MeshComponent* meshComponent) noexcept
+	void Renderer::RemoveFromRender(const MeshComponent* meshComponent) noexcept
 	{
-		return renderSystem->RemoveFromRender(meshComponent);
+		renderSystem->RemoveFromRender(meshComponent);
 	}
 
 	std::optional<int> Renderer::Process()
