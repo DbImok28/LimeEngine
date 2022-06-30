@@ -21,21 +21,21 @@ namespace LimeEngine
 		wc.cbClsExtra = 0;
 		wc.cbWndExtra = 0;
 		wc.hInstance = hInst;
-		wc.hIcon = LoadIconW(hInst, LPWSTR(IDI_GAMEICON));
-		wc.hIconSm = LoadIconW(hInst, LPWSTR(IDI_GAMEICON));
+		wc.hIcon = LoadIcon(hInst, LPTSTR(IDI_GAMEICON));
+		wc.hIconSm = LoadIcon(hInst, LPTSTR(IDI_GAMEICON));
 		wc.hCursor = nullptr;
 		wc.hbrBackground = nullptr;
 		wc.lpszMenuName = nullptr;
 		wc.lpszClassName = name;
-		RegisterClassExW(&wc);
+		RegisterClassEx(&wc);
 	}
 
 	Window::WindowClass::~WindowClass()
 	{
-		UnregisterClassW(name, hInst);
+		UnregisterClass(name, hInst);
 	}
 
-	const wchar_t* Window::WindowClass::GetName() noexcept
+	const TCHAR* Window::WindowClass::GetName() noexcept
 	{
 		return name;
 	}
@@ -45,7 +45,7 @@ namespace LimeEngine
 		return wndClassInstance.hInst;
 	}
 
-	Window::Window(int width, int height, const wchar_t* title) : width(width), height(height), inputDevice()
+	Window::Window(int width, int height, const TCHAR* title) : width(width), height(height), inputDevice()
 	{
 		RECT wr;
 		wr.left = 100;
@@ -54,7 +54,7 @@ namespace LimeEngine
 		wr.bottom = height + wr.top;
 		if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == NULL) throw WND_LAST_EXCEPTION();
 
-		hWnd = CreateWindowW(
+		hWnd = CreateWindow(
 			WindowClass::GetName(),
 			title,
 			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
@@ -90,9 +90,9 @@ namespace LimeEngine
 		DestroyWindow(hWnd);
 	}
 
-	void Window::SetTitle(const std::wstring& title)
+	void Window::SetTitle(const tstring& title)
 	{
-		if (!SetWindowTextW(hWnd, title.c_str())) throw WND_LAST_EXCEPTION();
+		if (!SetWindowText(hWnd, title.c_str())) throw WND_LAST_EXCEPTION();
 	}
 
 	std::optional<int> Window::ProcessMessages() noexcept

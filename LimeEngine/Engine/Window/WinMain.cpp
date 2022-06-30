@@ -1,11 +1,12 @@
 // Developed by Pavel Jakushik.
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
+#include "../CoreBase.hpp"
 #include "../Engine.hpp"
 #include "../Graphics/Systems/DX11/RenderingSystemDX11.hpp"
 #include "../Scene/TestMap.hpp"
 
-int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
+int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPTSTR lpCmdLine, _In_ int nCmdShow)
 {
 	using namespace LimeEngine;
 	try
@@ -15,7 +16,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
 		// engine io
 		std::unique_ptr<RenderingSystemDX11> renderingSystem = std::make_unique<RenderingSystemDX11>();
-		std::unique_ptr<Window> window = std::make_unique<Window>(1080, 720, L"LimeEngine");
+		std::unique_ptr<Window> window = std::make_unique<Window>(1080, 720, TEXT("LimeEngine"));
 		Renderer renderer(renderingSystem.get(), window.get());
 
 		RenderIO renderIO(&renderer);
@@ -34,7 +35,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	}
 	catch (const EngineException& e)
 	{
-		MessageBox(nullptr, e.what(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
+		MessageBoxW(nullptr, e.what(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
 	}
 	catch (const std::exception& e)
 	{

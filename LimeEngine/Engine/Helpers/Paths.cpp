@@ -9,7 +9,7 @@ namespace LimeEngine
 		GetModuleFileNameW(NULL, filePath, MAX_PATH);
 
 		int i;
-		for (i = lstrlen(filePath) - 1; i >= 0; i--)
+		for (i = lstrlenW(filePath) - 1; i >= 0; i--)
 		{
 			if (filePath[i] == L'\\' || filePath[i] == L'/')
 			{

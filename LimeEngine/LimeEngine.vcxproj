@@ -44,7 +44,6 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -228,6 +227,7 @@
     <ClCompile Include="Engine\Graphics\Systems\DX11\Texture2DDX11.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\CoreBase.hpp" />
     <ClInclude Include="Engine\IO\EngineIO.hpp" />
     <ClInclude Include="Engine\Scene\DefaultPlayerCameraComponent.hpp" />
     <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp" />

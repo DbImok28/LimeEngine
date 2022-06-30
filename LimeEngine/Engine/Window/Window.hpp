@@ -2,9 +2,9 @@
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
+#include "../CoreBase.hpp"
 #include "WinApi.hpp"
 #include <optional>
-#include <string>
 #include "../Input/InputDevice.hpp"
 
 namespace LimeEngine
@@ -22,24 +22,24 @@ namespace LimeEngine
 			WindowClass& operator=(const WindowClass&) = delete;
 			WindowClass& operator=(WindowClass&&) noexcept = delete;
 
-			static const wchar_t* GetName() noexcept;
+			static const TCHAR* GetName() noexcept;
 			static HINSTANCE GetInstance() noexcept;
 
 		private:
-			static constexpr const wchar_t* name = L"LimeEngineWindow";
+			static constexpr const TCHAR* name = TEXT("LimeEngineWindow");
 			static WindowClass wndClassInstance;
 			HINSTANCE hInst;
 		};
 
 	public:
-		Window(int width, int height, const wchar_t* title);
+		Window(int width, int height, const TCHAR* title);
 		~Window();
 		Window(const Window&) = delete;
 		Window& operator=(const Window&) = delete;
 		Window(Window&&) noexcept = delete;
 		Window& operator=(Window&&) noexcept = delete;
 
-		void SetTitle(const std::wstring& title);
+		void SetTitle(const tstring& title);
 		std::optional<int> ProcessMessages() noexcept;
 		HWND GetHWnd() const noexcept;
 

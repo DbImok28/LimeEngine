@@ -404,6 +404,9 @@
     <ClInclude Include="Engine\Graphics\Systems\DX11\Texture2DDX11.hpp">
       <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\CoreBase.hpp">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\LimeEngine.rc">

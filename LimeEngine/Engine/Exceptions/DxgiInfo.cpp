@@ -10,7 +10,7 @@ namespace LimeEngine
 	DxgiInfo::DxgiInfo()
 	{
 		typedef HRESULT(WINAPI * DXGIGetDebugInterface)(REFIID, void**);
-		const auto hModDxgiDebug = LoadLibraryEx(L"dxgidebug.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
+		const auto hModDxgiDebug = LoadLibraryEx(TEXT("dxgidebug.dll"), nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
 		if (hModDxgiDebug == nullptr) throw HR_LAST_EXCEPTION();
 
 		const auto DxgiGetDebugInterface = reinterpret_cast<DXGIGetDebugInterface>(reinterpret_cast<void*>(GetProcAddress(hModDxgiDebug, "DXGIGetDebugInterface")));
