@@ -12,7 +12,7 @@ namespace LimeEngine
 	{
 		// load game data
 	public:
-		GameDataManager(Engine* engine) noexcept;
+		explicit GameDataManager(Engine* engine) noexcept;
 		Mesh* LoadMesh(size_t id);
 		Material* LoadMaterial(size_t id);
 		Texture2D* LoadTexture2D(size_t id);

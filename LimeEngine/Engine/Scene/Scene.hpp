@@ -7,7 +7,7 @@ namespace LimeEngine
 	class Scene
 	{
 	public:
-		Scene(Engine* engine);
+		explicit Scene(Engine* engine);
 		void UpdateScene();
 		void AttachMap(std::unique_ptr<SceneMap>&& map);
 

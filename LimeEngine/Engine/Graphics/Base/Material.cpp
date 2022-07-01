@@ -6,7 +6,7 @@ namespace LimeEngine
 		Id(Id), renderMaterial(renderer, this, vertexShader, pixelShader)
 	{}
 
-	void Material::SetTextures(std::vector<Texture2D*> textures) noexcept
+	void Material::SetTextures(const std::vector<Texture2D*>& textures) noexcept
 	{
 		this->textures = textures;
 	}

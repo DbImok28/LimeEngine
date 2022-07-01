@@ -13,7 +13,7 @@ namespace LimeEngine
 		static std::vector<GraphicAdapter> adapters;
 
 	public:
-		GraphicAdapter(IDXGIAdapter* pAdapter);
+		explicit GraphicAdapter(IDXGIAdapter* pAdapter);
 		IDXGIAdapter* pAdapter = nullptr;
 		DXGI_ADAPTER_DESC desc;
 	};

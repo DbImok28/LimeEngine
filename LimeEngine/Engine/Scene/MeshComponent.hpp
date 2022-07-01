@@ -7,7 +7,7 @@ namespace LimeEngine
 	class MeshComponent : public SceneComponent
 	{
 	public:
-		MeshComponent(Engine* engine, Transform transform = {}, size_t id = 0) noexcept;
+		explicit MeshComponent(Engine* engine, const Transform& transform = {}, size_t id = 0) noexcept;
 		virtual ~MeshComponent() override;
 		void SetVisibility(bool visibility);
 		void ShowMesh();

@@ -7,6 +7,6 @@ namespace LimeEngine
 	class MeshObject : public SceneObject
 	{
 	public:
-		MeshObject(Engine* engine, Transform transform, size_t id = 0) noexcept;
+		explicit MeshObject(Engine* engine, const Transform& transform = {}, size_t id = 0) noexcept;
 	};
 }

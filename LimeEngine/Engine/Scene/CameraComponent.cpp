@@ -4,7 +4,7 @@
 namespace LimeEngine
 {
 	CameraComponent::CameraComponent(
-		Engine* engine, Transform transform, float width, float height, ProjectionType projectionType, float fovDegrees, float nearZ, float farZ) noexcept :
+		Engine* engine, const Transform& transform, float width, float height, ProjectionType projectionType, float fovDegrees, float nearZ, float farZ) noexcept :
 		SceneComponent(engine, transform),
 		projectionType(projectionType), width(width), height(height), fovRadians((fovDegrees / 360.0f) * XM_2PI), nearZ(nearZ), farZ(farZ), aspectRatio(width / height)
 	{

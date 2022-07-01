@@ -19,8 +19,8 @@ namespace LimeEngine
 	{
 	public:
 		EngineException(int line, const char* file) noexcept;
-		EngineException(int line, const char* file, std::string info) noexcept;
-		EngineException(int line, const char* file, std::vector<std::string> info) noexcept;
+		EngineException(int line, const char* file, const std::string& info) noexcept;
+		EngineException(int line, const char* file, const std::vector<std::string>& info) noexcept;
 
 		virtual const char* what() const noexcept override;
 		virtual const char* GetType() const noexcept;
@@ -42,8 +42,8 @@ namespace LimeEngine
 	{
 	public:
 		EngineHrException(int line, const char* file, HRESULT hr) noexcept;
-		EngineHrException(int line, const char* file, HRESULT hr, std::string info) noexcept;
-		EngineHrException(int line, const char* file, HRESULT hr, std::vector<std::string> info) noexcept;
+		EngineHrException(int line, const char* file, HRESULT hr, const std::string& info) noexcept;
+		EngineHrException(int line, const char* file, HRESULT hr, const std::vector<std::string>& info) noexcept;
 
 		virtual const char* what() const noexcept override;
 		virtual const char* GetType() const noexcept override;

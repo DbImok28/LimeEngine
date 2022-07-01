@@ -11,9 +11,9 @@ namespace LimeEngine
 			Perspective,
 			Orthographic
 		};
-		CameraComponent(
+		explicit CameraComponent(
 			Engine* engine,
-			Transform transform,
+			const Transform& transform = {},
 			float width = 1080,
 			float height = 720,
 			ProjectionType projectionType = ProjectionType::Perspective,

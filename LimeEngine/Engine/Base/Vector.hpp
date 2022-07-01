@@ -11,9 +11,9 @@ namespace LimeEngine
 	{
 	public:
 		Vector() noexcept;
-		Vector(const TempVector& vec) noexcept;
-		Vector(const XMFLOAT3& vec) noexcept;
-		Vector(const float vec[3]) noexcept;
+		explicit Vector(const TempVector& vec) noexcept;
+		explicit Vector(const XMFLOAT3& vec) noexcept;
+		explicit Vector(const float vec[3]) noexcept;
 		Vector(float x, float y, float z) noexcept;
 		Vector(const Vector& other) noexcept;
 		Vector(Vector&& other) noexcept;

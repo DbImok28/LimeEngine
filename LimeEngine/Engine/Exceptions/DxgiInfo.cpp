@@ -29,9 +29,9 @@ namespace LimeEngine
 	{
 		std::vector<std::string> messages;
 		const auto end = pDxgiInfoQueue->GetNumStoredMessages(DXGI_DEBUG_ALL);
-		std::string msg;
 		for (auto i = next; i < end; i++)
 		{
+			std::string msg;
 			SIZE_T messageLength;
 
 #pragma warning(suppress : 6001)

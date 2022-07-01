@@ -9,7 +9,7 @@ namespace LimeEngine
 		virtual void Update();
 
 	public:
-		SceneMap(Engine* engine);
+		explicit SceneMap(Engine* engine);
 		virtual void Load();
 		void UpdateMap();
 		void AttachObject(std::unique_ptr<SceneObject>&& object);

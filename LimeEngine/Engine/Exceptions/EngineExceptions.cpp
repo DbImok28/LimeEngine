@@ -8,9 +8,9 @@ namespace LimeEngine
 {
 	EngineException::EngineException(int line, const char* file) noexcept : line(line), file(file) {}
 
-	EngineException::EngineException(int line, const char* file, std::string info) noexcept : line(line), file(file), info(info) {}
+	EngineException::EngineException(int line, const char* file, const std::string& info) noexcept : line(line), file(file), info(info) {}
 
-	EngineException::EngineException(int line, const char* file, std::vector<std::string> info) noexcept : line(line), file(file)
+	EngineException::EngineException(int line, const char* file, const std::vector<std::string>& info) noexcept : line(line), file(file)
 	{
 		std::ostringstream oss;
 		for (auto&& str : info)
@@ -58,9 +58,9 @@ namespace LimeEngine
 
 	EngineHrException::EngineHrException(int line, const char* file, HRESULT hr) noexcept : EngineException(line, file), hr(hr) {}
 
-	EngineHrException::EngineHrException(int line, const char* file, HRESULT hr, std::string info) noexcept : EngineException(line, file, info), hr(hr) {}
+	EngineHrException::EngineHrException(int line, const char* file, HRESULT hr, const std::string& info) noexcept : EngineException(line, file, info), hr(hr) {}
 
-	EngineHrException::EngineHrException(int line, const char* file, HRESULT hr, std::vector<std::string> info) noexcept : EngineException(line, file, info), hr(hr) {}
+	EngineHrException::EngineHrException(int line, const char* file, HRESULT hr, const std::vector<std::string>& info) noexcept : EngineException(line, file, info), hr(hr) {}
 
 	const char* EngineHrException::what() const noexcept
 	{

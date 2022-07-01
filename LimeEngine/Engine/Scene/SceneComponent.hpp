@@ -14,7 +14,7 @@ namespace LimeEngine
 		virtual void Update();
 
 	public:
-		SceneComponent(Engine* engine, Transform transform = {}) noexcept;
+		explicit SceneComponent(Engine* engine, const Transform& transform = {}) noexcept;
 		virtual ~SceneComponent() noexcept = default;
 		void UpdateComponent();
 		void SetRootTransform(Transformable* rootTransform) noexcept;

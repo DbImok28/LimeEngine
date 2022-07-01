@@ -7,7 +7,7 @@ namespace LimeEngine
 	class RenderIO
 	{
 	public:
-		RenderIO(Renderer* renderSystem);
+		explicit RenderIO(Renderer* renderSystem);
 		std::optional<int> Process();
 		void Render(const CameraComponent* cameraComponent);
 

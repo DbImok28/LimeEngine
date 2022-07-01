@@ -18,8 +18,8 @@ namespace LimeEngine
 		Engine& operator=(const Engine&) = delete;
 		Engine& operator=(Engine&&) noexcept = delete;
 		Engine();
-		Engine(EngineIO&& engineIO);
-		Engine(std::vector<EngineIO>&& engineIO);
+		explicit Engine(EngineIO&& engineIO);
+		explicit Engine(std::vector<EngineIO>&& engineIO);
 
 		int Start();
 		std::optional<int> EngineProcessing();

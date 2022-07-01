@@ -7,7 +7,7 @@ namespace LimeEngine
 	{
 	public:
 		SceneIO();
-		SceneIO(CameraComponent* camera);
+		explicit SceneIO(CameraComponent* camera);
 		CameraComponent* camera;
 	};
 }

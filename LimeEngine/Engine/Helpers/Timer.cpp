@@ -2,18 +2,13 @@
 
 namespace LimeEngine
 {
-	Timer::Timer() noexcept
-	{
-		start = std::chrono::high_resolution_clock::now();
-		stop = std::chrono::high_resolution_clock::now();
-	}
+	Timer::Timer() noexcept : start(std::chrono::high_resolution_clock::now()), stop(std::chrono::high_resolution_clock::now()) {}
 
 	float Timer::ElapsedTime() const noexcept
 	{
-		using namespace std::chrono;
 		if (isRunning)
 		{
-			auto elapsed = std::chrono::duration<float, std::milli>(high_resolution_clock::now() - start);
+			auto elapsed = std::chrono::duration<float, std::milli>(std::chrono::high_resolution_clock::now() - start);
 			return elapsed.count() / 1000.0f;
 		}
 		else
