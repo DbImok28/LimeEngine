@@ -175,6 +175,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Window\Windows\Console\Console.cpp" />
     <ClCompile Include="Engine\IO\EngineIO.cpp" />
     <ClCompile Include="Engine\Scene\DefaultPlayerCameraComponent.cpp" />
     <ClCompile Include="Engine\Exceptions\DxgiInfo.cpp" />
@@ -194,8 +195,8 @@
     <ClCompile Include="Engine\Helpers\Paths.cpp" />
     <ClCompile Include="Engine\Base\Transform.cpp" />
     <ClCompile Include="Engine\Base\Vector.cpp" />
-    <ClCompile Include="Engine\Window\Window.cpp" />
-    <ClCompile Include="Engine\Window\WinMain.cpp" />
+    <ClCompile Include="Engine\Window\Windows\Main\Window.cpp" />
+    <ClCompile Include="Engine\Window\Windows\Main\WinMain.cpp" />
     <ClCompile Include="Engine\Base\GameDataManager.cpp" />
     <ClCompile Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.cpp" />
     <ClCompile Include="Includes\dxerr\dxerr.cpp" />
@@ -224,6 +225,7 @@
     <ClCompile Include="Engine\Graphics\Systems\DX11\Texture2DDX11.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Window\Windows\Console\Console.hpp" />
     <ClInclude Include="Engine\CoreBase.hpp" />
     <ClInclude Include="Engine\IO\EngineIO.hpp" />
     <ClInclude Include="Engine\Scene\DefaultPlayerCameraComponent.hpp" />
@@ -247,10 +249,10 @@
     <ClInclude Include="Engine\Graphics\Systems\DX11\VertexBuffer.hpp" />
     <ClInclude Include="Engine\Base\Transform.hpp" />
     <ClInclude Include="Engine\Base\Vector.hpp" />
-    <ClInclude Include="Engine\Window\WinApi.hpp" />
-    <ClInclude Include="Engine\Window\resource.h" />
+    <ClInclude Include="Engine\Window\Windows\WinApi.hpp" />
+    <ClInclude Include="Engine\Window\Resource\resource.h" />
     <ClInclude Include="Engine\Helpers\StringHelper.hpp" />
-    <ClInclude Include="Engine\Window\Window.hpp" />
+    <ClInclude Include="Engine\Window\Windows\Main\Window.hpp" />
     <ClInclude Include="Engine\Base\GameDataManager.hpp" />
     <ClInclude Include="Engine\Base\GameData.hpp" />
     <ClInclude Include="Engine\Base\Events.hpp" />
@@ -286,10 +288,10 @@
     <ClInclude Include="Engine\Graphics\Systems\DX11\Texture2DDX11.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Engine\Window\LimeEngine.rc" />
+    <ResourceCompile Include="Engine\Window\Resource\LimeEngine.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Engine\Window\cherry.ico" />
+    <Image Include="Engine\Window\Resource\cherry.ico" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

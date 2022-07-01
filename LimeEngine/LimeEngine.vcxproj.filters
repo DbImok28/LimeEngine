@@ -13,9 +13,6 @@
     <Filter Include="Engine\Helpers">
       <UniqueIdentifier>{642d5d0c-4ef4-4349-98b0-0399ffb6f1bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Window\Resources">
-      <UniqueIdentifier>{3b4eec78-24db-4d77-9e0b-8339e22e9f38}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Input">
       <UniqueIdentifier>{065edf82-b98b-4e8b-b622-e4211bf39a0a}</UniqueIdentifier>
     </Filter>
@@ -73,19 +70,28 @@
     <Filter Include="Engine\IO">
       <UniqueIdentifier>{77cc0b76-5942-4ea9-adc0-c8a8380126eb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Log">
+      <UniqueIdentifier>{6c4646f4-b972-4a3d-b8d8-05d4a91fde5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window\Windows">
+      <UniqueIdentifier>{2664aabe-ec08-450b-8482-bccb1f4e00af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window\Windows\Main">
+      <UniqueIdentifier>{55721e96-fdfa-40a2-8cab-61fb53a06584}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window\Windows\Console">
+      <UniqueIdentifier>{260baecb-a1a9-4edd-bf08-3ee4f83bd50f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window\Windows\Resources">
+      <UniqueIdentifier>{3b4eec78-24db-4d77-9e0b-8339e22e9f38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Window\Window.cpp">
-      <Filter>Engine\Window</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Exceptions\EngineExceptions.cpp">
       <Filter>Engine\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Helpers\StringHelper.cpp">
       <Filter>Engine\Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Window\WinMain.cpp">
-      <Filter>Engine\Window</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Input\Keyboard.cpp">
       <Filter>Engine\Input</Filter>
@@ -216,13 +222,19 @@
     <ClCompile Include="Engine\Graphics\Systems\DX11\Texture2DDX11.cpp">
       <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Window\Windows\Console\Console.cpp">
+      <Filter>Engine\Window\Windows\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Window\Windows\Main\Window.cpp">
+      <Filter>Engine\Window\Windows\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Window\Windows\Main\WinMain.cpp">
+      <Filter>Engine\Window\Windows\Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Window\resource.h">
-      <Filter>Engine\Window\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Window\Window.hpp">
-      <Filter>Engine\Window</Filter>
+    <ClInclude Include="Engine\Window\Resource\resource.h">
+      <Filter>Engine\Window\Windows\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Exceptions\EngineExceptions.hpp">
       <Filter>Engine\Exceptions</Filter>
@@ -238,9 +250,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Engine.hpp">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Window\WinApi.hpp">
-      <Filter>Engine\Window</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Input\Mouse.hpp">
       <Filter>Engine\Input</Filter>
@@ -398,15 +407,24 @@
     <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp">
       <Filter>Engine\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Window\Windows\Console\Console.hpp">
+      <Filter>Engine\Window\Windows\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Window\Windows\WinApi.hpp">
+      <Filter>Engine\Window\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Window\Windows\Main\Window.hpp">
+      <Filter>Engine\Window\Windows\Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Engine\Window\LimeEngine.rc">
-      <Filter>Engine\Window\Resources</Filter>
+    <ResourceCompile Include="Engine\Window\Resource\LimeEngine.rc">
+      <Filter>Engine\Window\Windows\Resources</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Engine\Window\cherry.ico">
-      <Filter>Engine\Window\Resources</Filter>
+    <Image Include="Engine\Window\Resource\cherry.ico">
+      <Filter>Engine\Window\Windows\Resources</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

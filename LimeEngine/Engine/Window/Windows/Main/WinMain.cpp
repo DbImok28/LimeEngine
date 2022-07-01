@@ -1,18 +1,22 @@
 // Developed by Pavel Jakushik.
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
-#include "../CoreBase.hpp"
-#include "../Engine.hpp"
-#include "../Graphics/Systems/DX11/RenderingSystemDX11.hpp"
-#include "../Scene/TestMap.hpp"
+#include "../../../CoreBase.hpp"
+#include "../../../Engine.hpp"
+#include "../../../Graphics/Systems/DX11/RenderingSystemDX11.hpp"
+#include "../../../Scene/TestMap.hpp"
+#include "../Console/Console.hpp"
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPTSTR lpCmdLine, _In_ int nCmdShow)
 {
 	using namespace LimeEngine;
 	try
 	{
-		HRESULT hr = CoInitialize(NULL);
-		if (FAILED(hr)) throw HR_EXCEPTION(hr);
+		CHECK_HR(CoInitialize(NULL));
+
+		ConsoleWindows console;
+		if (!console.Open(100, TEXT("Output"))) throw MSG_EXCEPTION("Error open console");
+		std::cout << "hi";
 
 		// engine io
 		std::unique_ptr<RenderingSystemDX11> renderingSystem = std::make_unique<RenderingSystemDX11>();

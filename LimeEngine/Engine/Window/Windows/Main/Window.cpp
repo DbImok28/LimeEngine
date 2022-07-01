@@ -1,8 +1,8 @@
-#include "../Engine.hpp"
+#include "../../../Engine.hpp"
 #include "Window.hpp"
-#include "../Exceptions/WindowExceptions.hpp"
+#include "../../../Exceptions/WindowExceptions.hpp"
 #include <cassert>
-#include "resource.h"
+#include "../../Resource/resource.h"
 
 #ifdef IMGUI
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
