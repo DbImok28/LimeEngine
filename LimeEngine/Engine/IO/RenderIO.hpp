@@ -1,5 +1,4 @@
 #pragma once
-#include "../Window/Window.hpp"
 #include "../Graphics/Renderer.hpp"
 
 namespace LimeEngine

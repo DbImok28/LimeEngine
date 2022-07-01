@@ -36,7 +36,7 @@ namespace LimeEngine
 		10 Output Merger		(OM) Stage
 		*/
 		std::vector<GraphicAdapter> adapters = GraphicAdapter::GetGraphicAdapters();
-		if (adapters.size() < 1) throw GFX_MSG_EXCEPTION("No found DXGI Adapters.");
+		if (adapters.size() < 1) throw GFX_EXCEPTION_MSG("No found DXGI Adapters.");
 
 		DXGI_SWAP_CHAIN_DESC scd;
 		ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
@@ -63,8 +63,7 @@ namespace LimeEngine
 #ifndef NDEBUG
 		swapFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
-		HRESULT hr;
-		GFX_ERROR_IF(D3D11CreateDeviceAndSwapChain(
+		GFX_CHECK_HR(D3D11CreateDeviceAndSwapChain(
 			adapters[0].pAdapter,        // Adapter
 			D3D_DRIVER_TYPE_UNKNOWN,     // DriverType
 			nullptr,                     // Software
@@ -80,10 +79,10 @@ namespace LimeEngine
 			));
 
 		com_ptr<ID3D11Texture2D> backBuffer;
-		GFX_ERROR_IF(swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backBuffer.GetAddressOf())));
+		GFX_CHECK_HR(swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backBuffer.GetAddressOf())));
 
 		// Render Target
-		GFX_ERROR_IF(device->CreateRenderTargetView(backBuffer.Get(), NULL, renderTargetView.GetAddressOf()));
+		GFX_CHECK_HR(device->CreateRenderTargetView(backBuffer.Get(), NULL, renderTargetView.GetAddressOf()));
 		//GFX_ERROR_IF_MSG(hr, L"Failed to create RenderTargetView.");
 
 		// Depth
@@ -100,9 +99,9 @@ namespace LimeEngine
 		depthStencilDesc.CPUAccessFlags = 0;
 		depthStencilDesc.MiscFlags = 0;
 
-		GFX_ERROR_IF(device->CreateTexture2D(&depthStencilDesc, NULL, depthStencilBuffer.GetAddressOf()));
+		GFX_CHECK_HR(device->CreateTexture2D(&depthStencilDesc, NULL, depthStencilBuffer.GetAddressOf()));
 
-		GFX_ERROR_IF(device->CreateDepthStencilView(depthStencilBuffer.Get(), NULL, depthStencilView.GetAddressOf()));
+		GFX_CHECK_HR(device->CreateDepthStencilView(depthStencilBuffer.Get(), NULL, depthStencilView.GetAddressOf()));
 
 		this->deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
 
@@ -113,14 +112,14 @@ namespace LimeEngine
 		depthStencilStateDesc.DepthEnable = true;
 		depthStencilStateDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
 		depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
-		GFX_ERROR_IF(device->CreateDepthStencilState(&depthStencilStateDesc, depthStencilState.GetAddressOf()));
+		GFX_CHECK_HR(device->CreateDepthStencilState(&depthStencilStateDesc, depthStencilState.GetAddressOf()));
 
 		// Rasterizer state
 		D3D11_RASTERIZER_DESC rasterizerDesc;
 		ZeroMemory(&rasterizerDesc, sizeof(D3D11_RASTERIZER_DESC));
 		rasterizerDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID; // Fill the triangles formed by the vertices. Adjacent vertices are not drawn.
 		rasterizerDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;  // Do not draw triangles that are back-facing.
-		GFX_ERROR_IF(device->CreateRasterizerState(&rasterizerDesc, rasterizerState.GetAddressOf()));
+		GFX_CHECK_HR(device->CreateRasterizerState(&rasterizerDesc, rasterizerState.GetAddressOf()));
 
 		// Sampler state
 		D3D11_SAMPLER_DESC sampDesc;
@@ -132,7 +131,7 @@ namespace LimeEngine
 		sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
 		sampDesc.MinLOD = 0;
 		sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-		GFX_ERROR_IF(device->CreateSamplerState(&sampDesc, samplerState.GetAddressOf()));
+		GFX_CHECK_HR(device->CreateSamplerState(&sampDesc, samplerState.GetAddressOf()));
 
 		// viewport
 		D3D11_VIEWPORT viewport;
@@ -171,9 +170,9 @@ namespace LimeEngine
 		if (FAILED(hr = swapchain->Present(1, NULL)))
 		{
 			if (hr == DXGI_ERROR_DEVICE_REMOVED)
-				throw GFX_HR_EXCEPTION(device->GetDeviceRemovedReason());
+				throw GFX_EXCEPTION_HR(device->GetDeviceRemovedReason());
 			else
-				throw GFX_HR_EXCEPTION(hr);
+				throw GFX_EXCEPTION_HR(hr);
 		}
 	}
 

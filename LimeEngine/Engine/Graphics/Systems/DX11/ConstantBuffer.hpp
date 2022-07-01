@@ -56,7 +56,7 @@ namespace LimeEngine
 		{
 			D3D11_MAPPED_SUBRESOURCE mappedResorce;
 			HRESULT hr = deviceContext->Map(buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResorce);
-			GFX_ERROR_IF_MSG(hr, "Failed to map constant buffer.");
+			GFX_CHECK_HR_MSG(hr, "Failed to map constant buffer.");
 
 			CopyMemory(mappedResorce.pData, &data, sizeof(T));
 			deviceContext->Unmap(buffer.Get(), 0);

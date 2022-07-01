@@ -10,8 +10,7 @@ namespace LimeEngine
 	{
 		// TODO: mipmap
 		auto device = renderer.device.Get();
-		HRESULT hr;
-		GFX_ERROR_IF_MSG(DirectX::CreateWICTextureFromMemory(device, pData, size, texture.GetAddressOf(), textureView.GetAddressOf()), "Failed to create texture from memory.");
+		GFX_CHECK_HR_MSG(DirectX::CreateWICTextureFromMemory(device, pData, size, texture.GetAddressOf(), textureView.GetAddressOf()), "Failed to create texture from memory.");
 	}
 
 	Texture2DDX11::Texture2DDX11(const RenderingSystemDX11& renderer, const std::wstring& filePath)

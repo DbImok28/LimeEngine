@@ -1,5 +1,5 @@
 #pragma once
-#include "../Window/Window.hpp"
+#include "../Window/Windows/Main/Window.hpp"
 #include "CameraComponent.hpp"
 
 namespace LimeEngine
@@ -14,7 +14,7 @@ namespace LimeEngine
 		void AttachIO(unsigned Id);
 
 		unsigned Id = 0;
-		Window* window;
+		Window* window; //TODO: Remove Window
 		float cameraMovementSpeed;
 		float cameraRotationSpeed;
 	};

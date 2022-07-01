@@ -12,17 +12,17 @@ namespace LimeEngine
 		{
 			std::ostringstream oss;
 			oss << "Failed to load vertex shader: " << StringHelper::StringToChar8(shaderpath);
-			throw GFX_MSG_HR_EXCEPTION(hr, oss.str());
+			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 		hr = device->CreateVertexShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
 		if (FAILED(hr))
 		{
 			std::ostringstream oss;
 			oss << "Failed to create vertex shader: " << StringHelper::StringToChar8(shaderpath);
-			throw GFX_MSG_HR_EXCEPTION(hr, oss.str());
+			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 		hr = device->CreateInputLayout(layoutDesc, numElements, shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), inputLoyout.GetAddressOf());
-		GFX_ERROR_IF_MSG(hr, "Failed to create InputLayout.");
+		GFX_CHECK_HR_MSG(hr, "Failed to create InputLayout.");
 	}
 
 	ID3D11VertexShader* VertexShader::GetShader() const noexcept
@@ -49,14 +49,14 @@ namespace LimeEngine
 		{
 			std::stringstream oss;
 			oss << "Failed to load pixel shader: " << StringHelper::StringToChar8(shaderpath);
-			throw GFX_MSG_HR_EXCEPTION(hr, oss.str());
+			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 		hr = device->CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
 		if (FAILED(hr))
 		{
 			std::stringstream oss;
 			oss << "Failed to create pixel shader: " << StringHelper::StringToChar8(shaderpath);
-			throw GFX_MSG_HR_EXCEPTION(hr, oss.str());
+			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 	}
 

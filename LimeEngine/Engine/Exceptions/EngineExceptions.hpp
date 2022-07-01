@@ -1,5 +1,5 @@
 #pragma once
-#include "../Window/WinApi.hpp"
+#include "../Window/Windows/WinApi.hpp"
 #include <string>
 #include <vector>
 
@@ -8,10 +8,11 @@
 #define HR_EXCEPTION(hr)          LimeEngine::EngineHrException(__LINE__, __FILE__, hr)
 #define HR_LAST_EXCEPTION()       LimeEngine::EngineHrException(__LINE__, __FILE__, GetLastError())
 
-#define ERROR_IF(hr) \
-	if (FAILED(hr)) throw HR_EXCEPTION(hr)
-#define ERROR_IF_MSG(hr, msg) \
-	if (FAILED(hr)) throw MSG_HR_EXCEPTION(hr, msg)
+#define CHECK_HR(call) \
+	if (HRESULT _hr = (call); FAILED(_hr)) throw HR_EXCEPTION(_hr);
+
+#define CHECK_HR_MSG(call, msg) \
+	if (HRESULT _hr = (call); FAILED(_hr)) throw HR_EXCEPTION(_hr, msg);
 
 namespace LimeEngine
 {

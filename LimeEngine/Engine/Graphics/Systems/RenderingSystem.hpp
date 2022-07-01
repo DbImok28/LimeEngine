@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Window/Window.hpp"
+#include "../../Window/Windows/Main/Window.hpp"
 #include "../../Scene/CameraComponent.hpp"
 
 namespace LimeEngine

@@ -16,8 +16,7 @@ namespace LimeEngine
 		const auto DxgiGetDebugInterface = reinterpret_cast<DXGIGetDebugInterface>(reinterpret_cast<void*>(GetProcAddress(hModDxgiDebug, "DXGIGetDebugInterface")));
 		if (DxgiGetDebugInterface == nullptr) throw HR_LAST_EXCEPTION();
 
-		HRESULT hr = DxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), &pDxgiInfoQueue);
-		ERROR_IF(hr);
+		CHECK_HR(DxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), &pDxgiInfoQueue));
 	}
 
 	void DxgiInfo::Set() noexcept
@@ -35,13 +34,11 @@ namespace LimeEngine
 			SIZE_T messageLength;
 
 #pragma warning(suppress : 6001)
-			HRESULT hr = pDxgiInfoQueue->GetMessage(DXGI_DEBUG_ALL, i, nullptr, &messageLength);
-			ERROR_IF(hr);
+			CHECK_HR(pDxgiInfoQueue->GetMessage(DXGI_DEBUG_ALL, i, nullptr, &messageLength));
 
 			auto bytes = std::make_unique<byte[]>(messageLength);
 			auto pMessage = reinterpret_cast<DXGI_INFO_QUEUE_MESSAGE*>(bytes.get());
-			hr = pDxgiInfoQueue->GetMessage(DXGI_DEBUG_ALL, i, pMessage, &messageLength);
-			ERROR_IF(hr);
+			CHECK_HR(pDxgiInfoQueue->GetMessage(DXGI_DEBUG_ALL, i, pMessage, &messageLength));
 
 			msg = pMessage->pDescription;
 			messages.emplace_back(msg);

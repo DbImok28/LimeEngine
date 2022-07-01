@@ -31,10 +31,9 @@ namespace LimeEngine
 		auto device = renderer.device.Get();
 		auto deviceContext = renderer.deviceContext.Get();
 		auto mesh = meshComponents[0]->mesh;
-		HRESULT hr;
-		GFX_ERROR_IF_MSG(vertexBuffer.Initialize(device, mesh->GetVertices().data(), static_cast<UINT>(mesh->GetVertices().size())), "Failed to initialize vertex buffer.");
-		GFX_ERROR_IF_MSG(indexBuffer.Initialize(device, mesh->GetIndices().data(), static_cast<UINT>(mesh->GetIndices().size())), "Failed to initialize index buffer.");
-		GFX_ERROR_IF_MSG(cbCoordinates.Initialize(device, deviceContext), "Failed to initialize constant buffer Coordinates.");
+		GFX_CHECK_HR_MSG(vertexBuffer.Initialize(device, mesh->GetVertices().data(), static_cast<UINT>(mesh->GetVertices().size())), "Failed to initialize vertex buffer.");
+		GFX_CHECK_HR_MSG(indexBuffer.Initialize(device, mesh->GetIndices().data(), static_cast<UINT>(mesh->GetIndices().size())), "Failed to initialize index buffer.");
+		GFX_CHECK_HR_MSG(cbCoordinates.Initialize(device, deviceContext), "Failed to initialize constant buffer Coordinates.");
 	}
 
 	void MeshDX11::ApplyMaterial(const MeshComponent* component)
