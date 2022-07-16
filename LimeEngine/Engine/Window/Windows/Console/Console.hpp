@@ -1,123 +1,36 @@
 #pragma once
 #include "../WinApi.hpp"
-#include "../../../CoreBase.hpp"
-#include <cstdio>
-#include <fcntl.h>
-#include <io.h>
-#include <iostream>
+#include "../../Base/Console.hpp"
+#include <map>
 
 namespace LimeEngine
 {
-	class ConsoleWindows
+	class ConsoleWindows : public Console
 	{
 	public:
-		bool Open(int16_t minLength)
-		{
-			bool result = false;
-			Close();
-			if (AllocConsole())
-			{
-				AdjustConsoleBuffer(minLength);
-				result = RedirectAllIO();
-			}
-			std::ios::sync_with_stdio();
-			return result;
-		}
-		bool Open(int16_t minLength, const tstring& title)
-		{
-			if (Open(minLength))
-			{
-				SetTitle(title);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		bool Close()
-		{
-			bool result = ReleaseAllIO();
-			if (!static_cast<bool>(FreeConsole())) result = false;
-			return result;
-		}
-		void SetTitle(const tstring& title)
-		{
-			SetConsoleTitle(title.c_str());
-		}
-		void AdjustConsoleBuffer(int16 minLength)
-		{
-			// Set the screen buffer to be big enough to scroll some text
-			CONSOLE_SCREEN_BUFFER_INFO conInfo;
-			GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &conInfo);
-			if (conInfo.dwSize.Y < minLength) conInfo.dwSize.Y = minLength;
-			SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), conInfo.dwSize);
-		}
+		void SetMinLength(int16 minLength) const noexcept;
+
+		virtual bool Open(int16 minLength, const tstring& title) noexcept override;
+		virtual bool Close() noexcept override;
+		virtual void SetTitle(const tstring& title) noexcept override;
+		virtual void Print(tstring_view msg, PrimaryColor color) noexcept override;
 
 	private:
 		// Redirect
-		bool RedirectIO(DWORD stdHandle, const char* fileName, const char* openMode, FILE* stream)
-		{
-			bool result = true;
-			FILE* fp;
-			if (GetStdHandle(stdHandle) != INVALID_HANDLE_VALUE)
-				if (freopen_s(&fp, fileName, openMode, stream) != 0)
-					result = false;
-				else
-					setvbuf(stream, NULL, _IONBF, 0);
-			return result;
-		}
-		bool RedirectSTDOUT()
-		{
-			return RedirectIO(STD_OUTPUT_HANDLE, "CONOUT$", "w", stdout);
-		}
-		bool RedirectSTDIN()
-		{
-			return RedirectIO(STD_INPUT_HANDLE, "CONIN$", "r", stdin);
-		}
-		bool RedirectSTDERR()
-		{
-			return RedirectIO(STD_ERROR_HANDLE, "CONOUT$", "w", stderr);
-		}
-		bool RedirectAllIO()
-		{
-			bool result = true;
-			if (!RedirectSTDOUT()) result = false;
-			if (!RedirectSTDIN()) result = false;
-			if (!RedirectSTDERR()) result = false;
-			return result;
-		}
+		bool RedirectIO(DWORD stdHandle, const char* fileName, const char* openMode, FILE* stream) const noexcept;
+		bool RedirectSTDOUT() const noexcept;
+		bool RedirectSTDIN() const noexcept;
+		bool RedirectSTDERR() const noexcept;
+		bool RedirectAllIO() const noexcept;
 
 		// Release
-		bool ReleaseIO(const char* openMode, FILE* stream)
-		{
-			bool result = true;
-			FILE* fp;
-			if (freopen_s(&fp, "NUL:", openMode, stream) != 0)
-				result = false;
-			else
-				setvbuf(stream, NULL, _IONBF, 0);
-			return result;
-		}
-		bool ReleaseSTDOUT()
-		{
-			return ReleaseIO("w", stdout);
-		}
-		bool ReleaseSTDIN()
-		{
-			return ReleaseIO("r", stdin);
-		}
-		bool ReleaseSTDERR()
-		{
-			return ReleaseIO("w", stderr);
-		}
-		bool ReleaseAllIO()
-		{
-			bool result = true;
-			if (!ReleaseSTDOUT()) result = false;
-			if (!ReleaseSTDIN()) result = false;
-			if (!ReleaseSTDERR()) result = false;
-			return result;
-		}
+		bool ReleaseIO(const char* openMode, FILE* stream) const noexcept;
+		bool ReleaseSTDOUT() const noexcept;
+		bool ReleaseSTDIN() const noexcept;
+		bool ReleaseSTDERR() const noexcept;
+		bool ReleaseAllIO() const noexcept;
+
+	public:
+		HANDLE hConsole = nullptr;
 	};
 }

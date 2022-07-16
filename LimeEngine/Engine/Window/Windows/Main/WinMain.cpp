@@ -6,6 +6,8 @@
 #include "../../../Graphics/Systems/DX11/RenderingSystemDX11.hpp"
 #include "../../../Scene/TestMap.hpp"
 #include "../Console/Console.hpp"
+#include "../../../Log/Logger.hpp"
+#include <iostream>
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPTSTR lpCmdLine, _In_ int nCmdShow)
 {
@@ -14,9 +16,11 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
 	{
 		CHECK_HR(CoInitialize(NULL));
 
-		ConsoleWindows console;
-		if (!console.Open(100, TEXT("Output"))) throw MSG_EXCEPTION("Error open console");
-		std::cout << "hi";
+		// logger
+		auto outWinConsole = ConsoleWindows();
+		Logger logger(&outWinConsole);
+		LogCategory LogEngine(TEXT("Engine"));
+		logger.Log(LogLevel::Trace, LogEngine, TEXT("{}"), 8);
 
 		// engine io
 		std::unique_ptr<RenderingSystemDX11> renderingSystem = std::make_unique<RenderingSystemDX11>();
