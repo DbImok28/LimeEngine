@@ -6,7 +6,7 @@
 #include "../../../Graphics/Systems/DX11/RenderingSystemDX11.hpp"
 #include "../../../Scene/TestMap.hpp"
 #include "../Console/Console.hpp"
-#include "../../../Log/Logger.hpp"
+#include "../../../Logger/Logger.hpp"
 #include <iostream>
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPTSTR lpCmdLine, _In_ int nCmdShow)
