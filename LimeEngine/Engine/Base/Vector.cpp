@@ -3,6 +3,8 @@
 
 namespace LimeEngine
 {
+	using namespace DirectX;
+
 	Vector::Vector() noexcept : x(0.0f), y(0.0f), z(0.0f) {}
 
 	Vector::Vector(const TempVector& vec) noexcept
@@ -10,7 +12,7 @@ namespace LimeEngine
 		XMStoreFloat3(&this->vec, vec);
 	}
 
-	Vector::Vector(const XMFLOAT3& vec) noexcept : vec(vec) {}
+	Vector::Vector(const DirectX::XMFLOAT3& vec) noexcept : vec(vec) {}
 
 	Vector::Vector(const float vec[3]) noexcept : vec(vec) {}
 
@@ -44,7 +46,7 @@ namespace LimeEngine
 		return *this;
 	}
 
-	Vector& Vector::operator=(const XMFLOAT3& vec) noexcept
+	Vector& Vector::operator=(const DirectX::XMFLOAT3& vec) noexcept
 	{
 		this->vec = vec;
 		return *this;
@@ -55,7 +57,7 @@ namespace LimeEngine
 		return XMLoadFloat3(&this->vec);
 	}
 
-	Vector::operator XMFLOAT3() const noexcept
+	Vector::operator DirectX::XMFLOAT3() const noexcept
 	{
 		return vec;
 	}
@@ -129,7 +131,7 @@ namespace LimeEngine
 		return XMLoadFloat3(&this->vec);
 	}
 
-	const XMFLOAT3& Vector::GetFloat3() const noexcept
+	const DirectX::XMFLOAT3& Vector::GetFloat3() const noexcept
 	{
 		return vec;
 	}
@@ -157,5 +159,67 @@ namespace LimeEngine
 	void Vector::Divide(const TempVector& v) noexcept
 	{
 		*this = GetTempVector() / v;
+	}
+
+	TempVector Vector::LengthVec() const noexcept
+	{
+		return Vector::LengthVec(*this);
+	}
+
+	float Vector::Length() const noexcept
+	{
+		return Vector::Length(*this);
+	}
+
+	void Vector::Normalize() noexcept
+	{
+		*this = Vector::Normalize(*this);
+	}
+
+	TempVector Vector::Cross(const TempVector& v) const noexcept
+	{
+		return Vector::Cross(*this, v);
+	}
+
+	TempVector Vector::DotVec(const TempVector& v) const noexcept
+	{
+		return Vector::DotVec(v);
+	}
+
+	float Vector::Dot(const TempVector& v) const noexcept
+	{
+		return Vector::Dot(*this, v);
+	}
+
+	// static
+
+	TempVector Vector::LengthVec(const TempVector& v) noexcept
+	{
+		return XMVector3Length(v);
+	}
+
+	float Vector::Length(const TempVector& v) noexcept
+	{
+		return XMVectorGetX(Vector::LengthVec(v));
+	}
+
+	TempVector Vector::Normalize(const TempVector& v) noexcept
+	{
+		return XMVector3Normalize(v);
+	}
+
+	TempVector Vector::Cross(const TempVector& v1, const TempVector& v2) noexcept
+	{
+		return XMVector3Cross(v1, v2);
+	}
+
+	TempVector Vector::DotVec(const TempVector& v1, const TempVector& v2) noexcept
+	{
+		return XMVector3Dot(v1, v2);
+	}
+
+	float Vector::Dot(const TempVector& v1, const TempVector& v2) noexcept
+	{
+		return XMVectorGetX(Vector::DotVec(v1, v2));
 	}
 }

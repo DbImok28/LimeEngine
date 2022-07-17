@@ -70,9 +70,6 @@
     <Filter Include="Engine\IO">
       <UniqueIdentifier>{77cc0b76-5942-4ea9-adc0-c8a8380126eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Log">
-      <UniqueIdentifier>{6c4646f4-b972-4a3d-b8d8-05d4a91fde5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Window\Windows">
       <UniqueIdentifier>{2664aabe-ec08-450b-8482-bccb1f4e00af}</UniqueIdentifier>
     </Filter>
@@ -84,6 +81,12 @@
     </Filter>
     <Filter Include="Engine\Window\Windows\Resources">
       <UniqueIdentifier>{3b4eec78-24db-4d77-9e0b-8339e22e9f38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window\Base">
+      <UniqueIdentifier>{d785ff9a-0a42-400b-820d-d5978e54e15f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Logger">
+      <UniqueIdentifier>{6c4646f4-b972-4a3d-b8d8-05d4a91fde5e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +233,18 @@
     </ClCompile>
     <ClCompile Include="Engine\Window\Windows\Main\WinMain.cpp">
       <Filter>Engine\Window\Windows\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Logger\Logger.cpp">
+      <Filter>Engine\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Color.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Math.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Primitives.cpp">
+      <Filter>Engine\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -415,6 +430,21 @@
     </ClInclude>
     <ClInclude Include="Engine\Window\Windows\Main\Window.hpp">
       <Filter>Engine\Window\Windows\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Logger\Logger.hpp">
+      <Filter>Engine\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Color.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Window\Base\Console.hpp">
+      <Filter>Engine\Window\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Math.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Primitives.hpp">
+      <Filter>Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

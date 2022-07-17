@@ -3,7 +3,7 @@
 
 namespace LimeEngine
 {
-	MeshComponent::MeshComponent(Engine* engine, const Transform& transform, size_t id) noexcept : SceneComponent(engine, transform)
+	MeshComponent::MeshComponent(Engine* engine, const Transform& transform, size_t id) : SceneComponent(engine, transform)
 	{
 		mesh = engine->gameDataManager.LoadMesh(id);
 		ShowMesh();

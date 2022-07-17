@@ -175,6 +175,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Base\Color.cpp" />
     <ClCompile Include="Engine\Window\Windows\Console\Console.cpp" />
     <ClCompile Include="Engine\IO\EngineIO.cpp" />
     <ClCompile Include="Engine\Scene\DefaultPlayerCameraComponent.cpp" />
@@ -199,6 +200,7 @@
     <ClCompile Include="Engine\Window\Windows\Main\WinMain.cpp" />
     <ClCompile Include="Engine\Base\GameDataManager.cpp" />
     <ClCompile Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.cpp" />
+    <ClCompile Include="Engine\Base\Primitives.cpp" />
     <ClCompile Include="Includes\dxerr\dxerr.cpp" />
     <ClCompile Include="Includes\ImGui\imgui.cpp" />
     <ClCompile Include="Includes\ImGui\imgui_draw.cpp" />
@@ -223,8 +225,12 @@
     <ClCompile Include="Engine\IO\RenderIO.cpp" />
     <ClCompile Include="Engine\Graphics\Systems\DX11\MaterialDX11.cpp" />
     <ClCompile Include="Engine\Graphics\Systems\DX11\Texture2DDX11.cpp" />
+    <ClCompile Include="Engine\Logger\Logger.cpp" />
+    <ClCompile Include="Engine\Base\Math.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Base\Color.hpp" />
+    <ClInclude Include="Engine\Window\Base\Console.hpp" />
     <ClInclude Include="Engine\Window\Windows\Console\Console.hpp" />
     <ClInclude Include="Engine\CoreBase.hpp" />
     <ClInclude Include="Engine\IO\EngineIO.hpp" />
@@ -258,6 +264,7 @@
     <ClInclude Include="Engine\Base\Events.hpp" />
     <ClInclude Include="Engine\Graphics\Systems\RenderingSystem.hpp" />
     <ClInclude Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.hpp" />
+    <ClInclude Include="Engine\Base\Primitives.hpp" />
     <ClInclude Include="Includes\dxerr\dxerr.h" />
     <ClInclude Include="Includes\ImGui\imconfig.h" />
     <ClInclude Include="Includes\ImGui\imgui.h" />
@@ -286,6 +293,8 @@
     <ClInclude Include="Engine\IO\RenderIO.hpp" />
     <ClInclude Include="Engine\Graphics\Systems\DX11\MaterialDX11.hpp" />
     <ClInclude Include="Engine\Graphics\Systems\DX11\Texture2DDX11.hpp" />
+    <ClInclude Include="Engine\Logger\Logger.hpp" />
+    <ClInclude Include="Engine\Base\Math.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\Resource\LimeEngine.rc" />

@@ -14,6 +14,10 @@ namespace LimeEngine
 		void Register(size_t id, T* item) noexcept;
 		T* Get(size_t id);
 		~GameData();
+		size_t GetLastId() const noexcept
+		{
+			return maxId;
+		}
 
 	private:
 		size_t maxId = 0;

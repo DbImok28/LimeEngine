@@ -13,6 +13,8 @@ namespace LimeEngine
 		// load game data
 	public:
 		explicit GameDataManager(Engine* engine) noexcept;
+
+		Mesh* CreateMesh(const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices);
 		Mesh* LoadMesh(size_t id);
 		Material* LoadMaterial(size_t id);
 		Texture2D* LoadTexture2D(size_t id);

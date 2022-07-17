@@ -1,5 +1,5 @@
 #pragma once
-#include <DirectXMath.h>
+#include "Vector.hpp"
 
 namespace LimeEngine
 {
@@ -7,8 +7,9 @@ namespace LimeEngine
 	{
 		Vertex() : pos(0.0f, 0.0f, 0.0f), normal(0.0f, 0.0f, 0.0f), texCoord(0.0f, 0.0f) {}
 		Vertex(float x, float y, float z, float nx, float ny, float nz, float u, float v) : pos(x, y, z), normal(nx, ny, nz), texCoord(u, v) {}
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 normal;
+		Vertex(const Vector& pos, const Vector& normal, const DirectX::XMFLOAT2& texCoord) : pos(pos), normal(normal), texCoord(texCoord) {}
+		Vector pos;
+		Vector normal;
 		DirectX::XMFLOAT2 texCoord;
 	};
 }

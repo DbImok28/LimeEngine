@@ -6,6 +6,11 @@ namespace LimeEngine
 {
 	GameDataManager::GameDataManager(Engine* engine) noexcept : engine(engine) {}
 
+	Mesh* GameDataManager::CreateMesh(const std::vector<Vertex>& vertices, const std::vector<DWORD>& indices)
+	{
+		return meshes.Create(meshes.GetLastId() + 1, vertices, indices, meshes.GetLastId() + 1);
+	}
+
 	Mesh* GameDataManager::LoadMesh(size_t id)
 	{
 		return meshes.Get(id);

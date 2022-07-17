@@ -3,6 +3,7 @@
 #include "../Helpers/Paths.hpp"
 #include "MeshObject.hpp"
 
+#include "../Base/Primitives.hpp"
 // TODO: Remove
 #include "../Graphics/Systems/DX11/RenderingSystemDX11.hpp"
 
@@ -64,9 +65,34 @@ namespace LimeEngine
 		auto mesh = engine->gameDataManager.meshes.Create(0, vertices, indices, 0);
 		auto material = engine->gameDataManager.materials.Create(0, renderSystem, &vertexShader, &pixelShader, 0);
 		auto texture = engine->gameDataManager.textures2D.Create(0, renderSystem, L"Data\\Textures\\cat.jpg", TextureType::Diffuse, 0);
-
 		material->AddTexture(texture);
 		mesh->SetMaterial(material);
+
+		// UVMapping
+		auto UVMappingTexture = engine->gameDataManager.textures2D.Create(1, renderSystem, L"Data\\Textures\\UVMapping.jpg", TextureType::Diffuse, 1);
+		auto UVMappingMaterial = engine->gameDataManager.materials.Create(1, renderSystem, &vertexShader, &pixelShader, 1);
+		UVMappingMaterial->AddTexture(UVMappingTexture);
+
+		// Sphere
+		auto SphereTexture = engine->gameDataManager.textures2D.Create(2, renderSystem, L"Data\\Textures\\Sphere.png", TextureType::Diffuse, 2);
+		auto SphereMaterial = engine->gameDataManager.materials.Create(2, renderSystem, &vertexShader, &pixelShader, 2);
+		SphereMaterial->AddTexture(SphereTexture);
+
+		// Primitives
+		Plane plane(40, 10, 12);
+		auto planeMesh = plane.CreateMesh(engine);
+		planeMesh->SetMaterial(UVMappingMaterial);
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10, 10, 10), planeMesh->GetId())));
+
+		Sphere sphere(10, 16, 16);
+		auto sphereMesh = sphere.CreateMesh(engine);
+		sphereMesh->SetMaterial(SphereMaterial);
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10, 0, 10), sphereMesh->GetId())));
+
+		Cubesphere cubesphere(10, 3);
+		auto cubesphereMesh = cubesphere.CreateMesh(engine);
+		cubesphereMesh->SetMaterial(UVMappingMaterial);
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(-10, 0, 10), cubesphereMesh->GetId())));
 
 		// Make Scene
 		auto cameraComponent = std::make_unique<DefaultPlayerCameraComponent>(engine, Transform(0, 5, -10));

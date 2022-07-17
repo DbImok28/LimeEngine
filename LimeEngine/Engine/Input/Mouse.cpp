@@ -1,5 +1,5 @@
 #include "Mouse.hpp"
-#include "../Window/WinApi.hpp"
+#include "../Window/Windows/WinApi.hpp"
 
 namespace LimeEngine
 {
