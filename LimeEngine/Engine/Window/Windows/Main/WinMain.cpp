@@ -1,12 +1,11 @@
-// Developed by Pavel Jakushik.
-// See LICENSE for copyright and licensing details (standard MIT License).
-// GitHub https://github.com/RubyCircle/LimeEngine
+// Copyright (C) 2022 Pavel Jakushik - All Rights Reserved
+// See file LICENSE for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
 #include "../../../CoreBase.hpp"
 #include "../../../Engine.hpp"
 #include "../../../Graphics/Systems/DX11/RenderingSystemDX11.hpp"
 #include "../../../Scene/TestMap.hpp"
 #include "../Console/Console.hpp"
-#include "../../../Logger/Logger.hpp"
 #include <iostream>
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPTSTR lpCmdLine, _In_ int nCmdShow)
@@ -16,28 +15,23 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
 	{
 		CHECK_HR(CoInitialize(NULL));
 
-		// logger
-		auto outWinConsole = ConsoleWindows();
-		Logger logger(&outWinConsole);
-		LogCategory LogEngine(TEXT("Engine"));
-		logger.Log(LogLevel::Trace, LogEngine, TEXT("{}"), 8);
+		// Log
+		auto logConsole = ConsoleWindows();
 
-		// engine io
-		std::unique_ptr<RenderingSystemDX11> renderingSystem = std::make_unique<RenderingSystemDX11>();
-		std::unique_ptr<Window> window = std::make_unique<Window>(1080, 720, TEXT("LimeEngine"));
-		Renderer renderer(renderingSystem.get(), window.get());
+		// Renderer
+		auto outWindow = Window(1080, 720, TEXT("LimeEngine"));
+		auto renderingSystem = RenderingSystemDX11();
+		Renderer renderer(&renderingSystem, &outWindow);
 
-		RenderIO renderIO(&renderer);
-		SceneIO sceneIO;
-		EngineIO engineIO(std::move(renderIO), std::move(sceneIO));
-
-		Engine engine(std::move(engineIO));
+		// Create Engine
+		Engine engine(EngineIO(RenderIO(&renderer), SceneIO{}), &logConsole);
 
 		// load map
 		auto map = std::make_unique<TestMap>(&engine);
 		map->Load();
 		engine.scene.AttachMap(std::move(map));
 
+		// Start Engine
 		engine.Start();
 		return EXIT_SUCCESS;
 	}

@@ -29,7 +29,7 @@ namespace LimeEngine
 
 	TempTransformMatrix SceneComponent::GetWorldTransformMatrix() const noexcept
 	{
-		if (rootTransform != nullptr)
+		if (rootTransform)
 		{
 			return GetTransform().GetTransformMatrix() * rootTransform->GetWorldTransformMatrix();
 		}

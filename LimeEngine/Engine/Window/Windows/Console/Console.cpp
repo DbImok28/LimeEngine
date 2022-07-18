@@ -39,7 +39,7 @@ namespace LimeEngine
 
 	void ConsoleWindows::Print(tstring_view msg, PrimaryColor color) noexcept
 	{
-		SetConsoleTextAttribute(hConsole, static_cast<DWORD>(color) | FOREGROUND_INTENSITY);
+		SetConsoleTextAttribute(hConsole, static_cast<WORD>(color) | FOREGROUND_INTENSITY);
 		std::cout << msg;
 	}
 

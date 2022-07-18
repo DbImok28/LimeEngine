@@ -11,6 +11,13 @@ namespace LimeEngine
 
 	Engine::Engine(std::vector<EngineIO>&& engineIO) : engineIO(std::move(engineIO)), gameDataManager(this), scene(this) {}
 
+	Engine::Engine(EngineIO&& engineIO, Console* logConsole) : logger(logConsole), gameDataManager(this), scene(this)
+	{
+		this->engineIO.push_back(std::move(engineIO));
+	}
+
+	Engine::Engine(std::vector<EngineIO>&& engineIO, Console* logConsole) : logger(logConsole), engineIO(std::move(engineIO)), gameDataManager(this), scene(this) {}
+
 	int Engine::Start()
 	{
 		timer.Start();
@@ -67,7 +74,7 @@ namespace LimeEngine
 
 	void Engine::AddToRender(MeshComponent* meshComponent)
 	{
-		if (meshComponent == nullptr) return;
+		if (!meshComponent) return;
 		for (auto& io : engineIO)
 		{
 			io.renderIO.renderer->AddToRender(meshComponent);
@@ -76,7 +83,7 @@ namespace LimeEngine
 
 	void Engine::RemoveFromRender(const MeshComponent* meshComponent) noexcept
 	{
-		if (meshComponent == nullptr) return;
+		if (!meshComponent) return;
 		for (auto& io : engineIO)
 		{
 			io.renderIO.renderer->RemoveFromRender(meshComponent);

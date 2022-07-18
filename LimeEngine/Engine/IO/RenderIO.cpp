@@ -6,12 +6,12 @@ namespace LimeEngine
 
 	std::optional<int> RenderIO::Process()
 	{
-		if (renderer != nullptr) return renderer->Process();
+		if (renderer) return renderer->Process();
 		return -1;
 	}
 
 	void RenderIO::Render(const CameraComponent* cameraComponent)
 	{
-		if (renderer != nullptr) renderer->Render(cameraComponent);
+		if (renderer) renderer->Render(cameraComponent);
 	}
 }

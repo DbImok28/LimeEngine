@@ -225,7 +225,7 @@
     <ClCompile Include="Engine\IO\RenderIO.cpp" />
     <ClCompile Include="Engine\Graphics\Systems\DX11\MaterialDX11.cpp" />
     <ClCompile Include="Engine\Graphics\Systems\DX11\Texture2DDX11.cpp" />
-    <ClCompile Include="Engine\Logger\Logger.cpp" />
+    <ClCompile Include="Engine\Diagnostics\Logger.cpp" />
     <ClCompile Include="Engine\Base\Math.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -293,7 +293,7 @@
     <ClInclude Include="Engine\IO\RenderIO.hpp" />
     <ClInclude Include="Engine\Graphics\Systems\DX11\MaterialDX11.hpp" />
     <ClInclude Include="Engine\Graphics\Systems\DX11\Texture2DDX11.hpp" />
-    <ClInclude Include="Engine\Logger\Logger.hpp" />
+    <ClInclude Include="Engine\Diagnostics\Logger.hpp" />
     <ClInclude Include="Engine\Base\Math.hpp" />
   </ItemGroup>
   <ItemGroup>

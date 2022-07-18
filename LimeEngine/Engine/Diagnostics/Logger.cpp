@@ -5,6 +5,11 @@
 
 namespace LimeEngine
 {
+	const LogCategory Logger::LogDebug(TEXT("Debug"));
+	const LogCategory Logger::LogTemp(TEXT("Temp"));
+	const LogCategory Logger::LogEngine(TEXT("Engine"));
+	const LogCategory Logger::LogGraphics(TEXT("Graphics"));
+
 	const std::map<LogLevel, LogLevelDesc> Logger::ToLogLevelDesc = {
 		{LogLevel::Trace,    { TEXT("Trace"), PrimaryColor::Gray }    },
         { LogLevel::Note,    { TEXT("Note"), PrimaryColor::White }    },
@@ -15,13 +20,13 @@ namespace LimeEngine
 
 	Logger::Logger(Console* console) : console(console), fileStream(GetOutFileName())
 	{
-		if (!this->console->Open(TEXT("Output"))) throw MSG_EXCEPTION("Error open console");
+		if (console && !this->console->Open(TEXT("Output"))) throw MSG_EXCEPTION("Error open console");
 		if (!fileStream.is_open()) throw MSG_EXCEPTION("Log file opened fail");
 	}
 
 	Logger::~Logger() noexcept
 	{
-		console->Close();
+		if (console) console->Close();
 		if (fileStream.is_open()) fileStream.close();
 	}
 
@@ -51,23 +56,23 @@ namespace LimeEngine
 
 	void Logger::WriteFormatted(LogLevel level, tstring_view msg) noexcept
 	{
-		auto& logLevelDesc = ToLogLevelDesc.find(level)->second;
-		WriteLog(FormatLog(msg, logLevelDesc), logLevelDesc.color);
+		const auto& logLevelDesc = ToLogLevelDesc.find(level)->second;
+		WriteLog(FormatLogMessage(msg, logLevelDesc), logLevelDesc.color);
 	}
 
 	void Logger::WriteFormatted(LogLevel level, const LogCategory& category, tstring_view msg) noexcept
 	{
-		auto& logLevelDesc = ToLogLevelDesc.find(level)->second;
-		WriteLog(FormatLog(msg, logLevelDesc, category), logLevelDesc.color);
+		const auto& logLevelDesc = ToLogLevelDesc.find(level)->second;
+		WriteLog(FormatLogMessage(msg, logLevelDesc, category), logLevelDesc.color);
 	}
 
-	tstring Logger::FormatLog(tstring_view msg, const LogLevelDesc& logLevelDesc) noexcept
+	tstring Logger::FormatLogMessage(tstring_view msg, const LogLevelDesc& logLevelDesc) const noexcept
 	{
 		const auto now = std::chrono::system_clock::now();
 		return std::format(TEXT("[{:%Y.%m.%d %H:%M:%OS %OM}][{}] {}\n"), now, logLevelDesc.name, msg);
 	}
 
-	tstring Logger::FormatLog(tstring_view msg, const LogLevelDesc& logLevelDesc, const LogCategory& category) noexcept
+	tstring Logger::FormatLogMessage(tstring_view msg, const LogLevelDesc& logLevelDesc, const LogCategory& category) const noexcept
 	{
 		const auto now = std::chrono::system_clock::now();
 		return std::format(TEXT("[{:%Y.%m.%d %H:%M:%OS %OM}][{}]{}: {}\n"), now, logLevelDesc.name, category.name, msg);
@@ -82,7 +87,7 @@ namespace LimeEngine
 
 	void Logger::WriteToConsole(tstring_view msg, PrimaryColor color) noexcept
 	{
-		console->Print(msg, color);
+		if (console) console->Print(msg, color);
 	}
 
 	void Logger::WriteToFile(tstring_view msg) noexcept
@@ -93,7 +98,7 @@ namespace LimeEngine
 	void Logger::WriteToScreen(tstring_view msg) noexcept
 	{
 		// TODO: Add log to screen
-		std::cout << "<Screen> " << msg;
+		if (console) std::cout << "<Screen> " << msg;
 	}
 
 	tstring Logger::GetOutFileName() const noexcept

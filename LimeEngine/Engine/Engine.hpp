@@ -7,6 +7,7 @@
 #include "Helpers/Timer.hpp"
 #include "Scene/Scene.hpp"
 #include "Base/GameDataManager.hpp"
+#include "Diagnostics/Logger.hpp"
 
 namespace LimeEngine
 {
@@ -20,6 +21,8 @@ namespace LimeEngine
 		Engine();
 		explicit Engine(EngineIO&& engineIO);
 		explicit Engine(std::vector<EngineIO>&& engineIO);
+		Engine(EngineIO&& engineIO, Console* logConsole);
+		Engine(std::vector<EngineIO>&& engineIO, Console* logConsole);
 
 		int Start();
 		std::optional<int> EngineProcessing();
@@ -30,6 +33,7 @@ namespace LimeEngine
 		void RemoveFromRender(const MeshComponent* meshComponent) noexcept;
 
 	public:
+		Logger logger;
 		std::vector<EngineIO> engineIO;
 		GameDataManager gameDataManager;
 		Scene scene;

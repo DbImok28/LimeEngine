@@ -23,10 +23,10 @@ namespace LimeEngine
 	class Texture2D
 	{
 	public:
-		Texture2D(const RenderingSystemDX11& renderer, const std::wstring& filePath, TextureType type, size_t Id);
+		Texture2D(const RenderingSystemDX11& renderer, const std::wstring& filePath, TextureType type, size_t id);
 
 		Texture2DDX11 renderTexture;
-		size_t Id;
+		size_t id;
 
 	private:
 		TextureType type = TextureType::Unknown;

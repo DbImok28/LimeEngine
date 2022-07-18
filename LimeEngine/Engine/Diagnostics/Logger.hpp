@@ -1,3 +1,6 @@
+// Copyright (C) 2022 Pavel Jakushik - All Rights Reserved
+// See file LICENSE for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "../CoreBase.hpp"
 #include "../Window/Base/Console.hpp"
@@ -5,7 +8,6 @@
 #include <format>
 #include <map>
 #include <fstream>
-#include <sstream>
 
 namespace LimeEngine
 {
@@ -36,8 +38,17 @@ namespace LimeEngine
 	class Logger
 	{
 	public:
-		Logger(Console* console);
+		static const LogCategory LogDebug;
+		static const LogCategory LogTemp;
+		static const LogCategory LogEngine;
+		static const LogCategory LogGraphics;
+
 		~Logger() noexcept;
+		Logger(const Logger&) = default;
+		Logger(Logger&&) noexcept = default;
+		Logger& operator=(const Logger&) = default;
+		Logger& operator=(Logger&&) noexcept = default;
+		explicit Logger(Console* console = nullptr);
 
 		template <typename... TArgs>
 		void Log(LogLevel level, const _Fmt_tstring<TArgs...> format, TArgs&&... args) noexcept
@@ -64,8 +75,8 @@ namespace LimeEngine
 
 		void WriteFormatted(LogLevel level, tstring_view msg) noexcept;
 		void WriteFormatted(LogLevel level, const LogCategory& category, tstring_view msg) noexcept;
-		tstring FormatLog(tstring_view msg, const LogLevelDesc& logLevelDesc) noexcept;
-		tstring FormatLog(tstring_view msg, const LogLevelDesc& logLevelDesc, const LogCategory& category) noexcept;
+		tstring FormatLogMessage(tstring_view msg, const LogLevelDesc& logLevelDesc) const noexcept;
+		tstring FormatLogMessage(tstring_view msg, const LogLevelDesc& logLevelDesc, const LogCategory& category) const noexcept;
 		void WriteLog(tstring_view msg, PrimaryColor color) noexcept;
 		void WriteToConsole(tstring_view msg, PrimaryColor color) noexcept;
 		void WriteToFile(tstring_view msg) noexcept;
@@ -73,7 +84,7 @@ namespace LimeEngine
 		tstring GetOutFileName() const noexcept;
 
 	private:
-		Console* console;
+		Console* console = nullptr;
 		tofstream fileStream;
 		static const std::map<LogLevel, LogLevelDesc> ToLogLevelDesc;
 	};

@@ -34,10 +34,10 @@ namespace LimeEngine
 		operator TempVector() const noexcept;
 		operator DirectX::XMFLOAT3() const noexcept;
 
-		TempVector operator+(const Vector& v) noexcept;
-		TempVector operator-(const Vector& v) noexcept;
-		TempVector operator*(const Vector& v) noexcept;
-		TempVector operator/(const Vector& v) noexcept;
+		TempVector operator+(const Vector& v) const noexcept;
+		TempVector operator-(const Vector& v) const noexcept;
+		TempVector operator*(const Vector& v) const noexcept;
+		TempVector operator/(const Vector& v) const noexcept;
 		Vector& operator+=(const TempVector& v) noexcept;
 		Vector& operator-=(const TempVector& v) noexcept;
 		Vector& operator*=(const TempVector& v) noexcept;

@@ -3,12 +3,13 @@
 
 namespace LimeEngine
 {
-	VertexBuffer::VertexBuffer(const VertexBuffer& vb) noexcept : buffer(vb.buffer), bufferSize(vb.bufferSize) {}
+	VertexBuffer::VertexBuffer(const VertexBuffer& vb) noexcept : buffer(vb.buffer), bufferSize(vb.bufferSize), stride(vb.stride) {}
 
-	VertexBuffer::VertexBuffer(VertexBuffer&& vb) noexcept : buffer(std::move(vb.buffer)), bufferSize(std::move(vb.bufferSize))
+	VertexBuffer::VertexBuffer(VertexBuffer&& vb) noexcept : buffer(std::move(vb.buffer)), bufferSize(std::move(vb.bufferSize)), stride(std::move(vb.stride))
 	{
 		vb.buffer = nullptr;
 		vb.bufferSize = 0;
+		vb.stride = 0;
 	}
 
 	VertexBuffer& VertexBuffer::operator=(const VertexBuffer& vb) noexcept
@@ -17,6 +18,7 @@ namespace LimeEngine
 		{
 			buffer = vb.buffer;
 			bufferSize = vb.bufferSize;
+			stride = vb.stride;
 		}
 		return *this;
 	}
@@ -27,16 +29,18 @@ namespace LimeEngine
 		{
 			buffer = std::move(vb.buffer);
 			bufferSize = std::move(vb.bufferSize);
+			stride = std::move(vb.stride);
 
 			vb.buffer = nullptr;
 			vb.bufferSize = 0;
+			vb.stride = 0;
 		}
 		return *this;
 	}
 
 	HRESULT VertexBuffer::Initialize(ID3D11Device* device, const Vertex* data, UINT vertexCount) noexcept
 	{
-		if (buffer.Get() != nullptr) buffer.Reset();
+		if (buffer.Get()) buffer.Reset();
 		bufferSize = vertexCount;
 
 		D3D11_BUFFER_DESC vertexBufferDesc = { 0 };

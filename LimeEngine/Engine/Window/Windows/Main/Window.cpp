@@ -14,7 +14,7 @@ namespace LimeEngine
 
 	Window::WindowClass::WindowClass() noexcept : hInst(GetModuleHandle(nullptr))
 	{
-		WNDCLASSEX wc;
+		WNDCLASSEX wc = { 0 };
 		wc.cbSize = sizeof(WNDCLASSEX);
 		wc.style = CS_OWNDC;
 		wc.lpfnWndProc = HandleMsgSetup;
@@ -47,12 +47,12 @@ namespace LimeEngine
 
 	Window::Window(int width, int height, const TCHAR* title) : width(width), height(height), inputDevice()
 	{
-		RECT wr;
+		RECT wr = { 0 };
 		wr.left = 100;
 		wr.right = width + wr.left;
 		wr.top = 100;
 		wr.bottom = height + wr.top;
-		if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == NULL) throw WND_LAST_EXCEPTION();
+		if (!AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE)) throw WND_LAST_EXCEPTION();
 
 		hWnd = CreateWindow(
 			WindowClass::GetName(),
@@ -66,13 +66,13 @@ namespace LimeEngine
 			nullptr,
 			WindowClass::GetInstance(),
 			this);
-		if (hWnd == nullptr) throw WND_LAST_EXCEPTION();
+		if (!hWnd) throw WND_LAST_EXCEPTION();
 		ShowWindow(hWnd, SW_SHOWDEFAULT);
 
 		static bool rawInputInitialized = false;
 		if (!rawInputInitialized)
 		{
-			RAWINPUTDEVICE rid;
+			RAWINPUTDEVICE rid = { 0 };
 			rid.usUsagePage = 0x01;
 			rid.usUsage = 0x02;
 			rid.dwFlags = 0;
@@ -120,7 +120,7 @@ namespace LimeEngine
 		{
 			const CREATESTRUCTW* const pCreateStruct = reinterpret_cast<CREATESTRUCTW*>(lParam);
 			Window* const pWindow = static_cast<Window*>(pCreateStruct->lpCreateParams);
-			if (pWindow == nullptr)
+			if (!pWindow)
 			{
 				assert("Critical Error: pointer to Window is null!(Window::HandleMsgSetup)");
 				exit(-1);

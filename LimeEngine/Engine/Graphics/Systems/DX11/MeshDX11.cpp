@@ -6,7 +6,7 @@
 
 namespace LimeEngine
 {
-	MeshDX11::MeshDX11(const RenderingSystemDX11& renderer, const MeshComponent* mesh) : renderer(renderer), meshComponents{ mesh }
+	MeshDX11::MeshDX11(const RenderingSystemDX11& renderer, const MeshComponent* meshComponents) : renderer(renderer), meshComponents{ meshComponents }
 	{
 		InitializeBuffers();
 	}
@@ -36,15 +36,15 @@ namespace LimeEngine
 		GFX_CHECK_HR_MSG(cbCoordinates.Initialize(device, deviceContext), "Failed to initialize constant buffer Coordinates.");
 	}
 
-	void MeshDX11::ApplyMaterial(const MeshComponent* component)
+	void MeshDX11::ApplyMaterial(const MeshComponent* meshComponents)
 	{
 		Material* material;
-		if (component->material != nullptr)
-			material = component->material;
+		if (meshComponents->material)
+			material = meshComponents->material;
 		else
-			material = component->mesh->GetMaterial();
+			material = meshComponents->mesh->GetMaterial();
 
-		if (material != nullptr)
+		if (material)
 		{
 			// TODO: Material should not store renderMaterial
 			auto renderMaterial = material->renderMaterial;

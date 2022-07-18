@@ -13,7 +13,7 @@ namespace LimeEngine
 	void SceneObject::UpdateObject()
 	{
 		Update();
-		if (rootComponent != nullptr)
+		if (rootComponent)
 		{
 			rootComponent->UpdateComponent();
 		}
@@ -26,7 +26,7 @@ namespace LimeEngine
 
 	Transform SceneObject::GetObjectTransform() const noexcept
 	{
-		if (rootComponent != nullptr)
+		if (rootComponent)
 		{
 			return rootComponent->GetTransform();
 		}

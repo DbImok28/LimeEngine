@@ -85,7 +85,7 @@
     <Filter Include="Engine\Window\Base">
       <UniqueIdentifier>{d785ff9a-0a42-400b-820d-d5978e54e15f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Logger">
+    <Filter Include="Engine\Diagnostics">
       <UniqueIdentifier>{6c4646f4-b972-4a3d-b8d8-05d4a91fde5e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -234,8 +234,8 @@
     <ClCompile Include="Engine\Window\Windows\Main\WinMain.cpp">
       <Filter>Engine\Window\Windows\Main</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Logger\Logger.cpp">
-      <Filter>Engine\Logger</Filter>
+    <ClCompile Include="Engine\Diagnostics\Logger.cpp">
+      <Filter>Engine\Diagnostics</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\Color.cpp">
       <Filter>Engine\Base</Filter>
@@ -431,8 +431,8 @@
     <ClInclude Include="Engine\Window\Windows\Main\Window.hpp">
       <Filter>Engine\Window\Windows\Main</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Logger\Logger.hpp">
-      <Filter>Engine\Logger</Filter>
+    <ClInclude Include="Engine\Diagnostics\Logger.hpp">
+      <Filter>Engine\Diagnostics</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Color.hpp">
       <Filter>Engine\Base</Filter>

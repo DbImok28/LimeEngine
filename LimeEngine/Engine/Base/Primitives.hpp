@@ -26,7 +26,7 @@ namespace LimeEngine
 
 	private:
 		void BuildByCopy(Vector direction, AxisOrder order, size_t vertexCount, size_t indicesCount);
-		std::vector<Vector> ProjectPlane(uint32 vertexCount);
+		std::vector<Vector> ProjectPlane(uint32 vertexCount) const;
 	};
 
 	struct Sphere : public Primitive

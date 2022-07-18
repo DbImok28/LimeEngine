@@ -62,22 +62,22 @@ namespace LimeEngine
 		return vec;
 	}
 
-	TempVector Vector::operator+(const Vector& v) noexcept
+	TempVector Vector::operator+(const Vector& v) const noexcept
 	{
 		return GetTempVector() + v.GetTempVector();
 	}
 
-	TempVector Vector::operator-(const Vector& v) noexcept
+	TempVector Vector::operator-(const Vector& v) const noexcept
 	{
 		return GetTempVector() - v.GetTempVector();
 	}
 
-	TempVector Vector::operator*(const Vector& v) noexcept
+	TempVector Vector::operator*(const Vector& v) const noexcept
 	{
 		return GetTempVector() * v.GetTempVector();
 	}
 
-	TempVector Vector::operator/(const Vector& v) noexcept
+	TempVector Vector::operator/(const Vector& v) const noexcept
 	{
 		return GetTempVector() / v.GetTempVector();
 	}
@@ -183,7 +183,7 @@ namespace LimeEngine
 
 	TempVector Vector::DotVec(const TempVector& v) const noexcept
 	{
-		return Vector::DotVec(v);
+		return Vector::DotVec(*this, v);
 	}
 
 	float Vector::Dot(const TempVector& v) const noexcept

@@ -17,9 +17,9 @@ namespace LimeEngine
 		const size_t& GetId() const noexcept;
 
 	private:
-		size_t id = 0;
-		Material* material = nullptr;
 		std::vector<Vertex> vertices;
 		std::vector<DWORD> indices;
+		size_t id;
+		Material* material = nullptr;
 	};
 }

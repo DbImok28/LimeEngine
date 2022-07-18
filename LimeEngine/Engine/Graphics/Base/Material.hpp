@@ -8,13 +8,13 @@ namespace LimeEngine
 	class Material
 	{
 	public:
-		Material(const RenderingSystemDX11& renderer, VertexShader* vertexShader, PixelShader* pixelShader, size_t Id) noexcept;
+		Material(const RenderingSystemDX11& renderer, VertexShader* vertexShader, PixelShader* pixelShader, size_t id) noexcept;
 		void SetTextures(const std::vector<Texture2D*>& textures) noexcept;
 		void AddTexture(Texture2D* texture) noexcept;
 		const std::vector<Texture2D*>& GetTextures() const noexcept;
 
 		MaterialDX11 renderMaterial;
-		size_t Id;
+		size_t id;
 
 	private:
 		std::vector<Texture2D*> textures;

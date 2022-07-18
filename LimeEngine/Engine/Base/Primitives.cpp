@@ -54,11 +54,10 @@ namespace LimeEngine
 		vertices.reserve(static_cast<size_t>(vertexCountPerRow) * static_cast<size_t>(vertexCountPerRow) * 6u);
 		indices.reserve((static_cast<size_t>(vertexCountPerRow) - 1u) * (static_cast<size_t>(vertexCountPerRow) - 1u) * 6u * 6u);
 
-		uint32 k = 0, k1, k2;
-		for (uint32 i = 0; i < vertexCountPerRow; ++i) // +X
+		for (uint32 i = 0, k = 0; i < vertexCountPerRow; ++i) // +X
 		{
-			k1 = i * vertexCountPerRow;
-			k2 = k1 + vertexCountPerRow;
+			uint32 k1 = i * vertexCountPerRow;
+			uint32 k2 = k1 + vertexCountPerRow;
 			float v = static_cast<float>(i) / static_cast<float>(vertexCountPerRow - 1u);
 
 			for (uint32 j = 0; j < vertexCountPerRow; ++j, ++k, ++k1, ++k2)
@@ -105,9 +104,10 @@ namespace LimeEngine
 		}
 	}
 
-	std::vector<Vector> Cubesphere::ProjectPlane(uint32 vertexCount)
+	std::vector<Vector> Cubesphere::ProjectPlane(uint32 vertexCount) const
 	{
 		std::vector<Vector> result;
+		result.reserve(static_cast<size_t>(vertexCount) * static_cast<size_t>(vertexCount));
 		for (float i = 0.0f; i < vertexCount; ++i)
 		{
 			float a2 = Math::toRad * (45.0f - 90.0f * i / static_cast<float>(vertexCount - 1u)); // normal

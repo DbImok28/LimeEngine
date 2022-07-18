@@ -178,7 +178,7 @@ namespace LimeEngine
 
 	void RenderingSystemDX11::AddToRender(MeshComponent* meshComponent)
 	{
-		if (meshComponent == nullptr) return;
+		if (!meshComponent) return;
 
 		auto id = meshComponent->mesh->GetId();
 		auto it = renderMeshes.find(id);
@@ -194,7 +194,7 @@ namespace LimeEngine
 
 	void RenderingSystemDX11::RemoveFromRender(const MeshComponent* meshComponent) noexcept
 	{
-		if (meshComponent == nullptr) return;
+		if (!meshComponent) return;
 
 		auto id = meshComponent->mesh->GetId();
 		auto it = renderMeshes.find(id);
@@ -207,7 +207,7 @@ namespace LimeEngine
 
 	void RenderingSystemDX11::Render(const CameraComponent* cameraComponent)
 	{
-		if (cameraComponent == nullptr) return;
+		if (!cameraComponent) return;
 
 		PreProcessing();
 		for (auto& renderMesh : renderMeshes)
@@ -223,7 +223,7 @@ namespace LimeEngine
 		// Setup ImGui
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
-		ImGuiIO& io = ImGui::GetIO();
+		const ImGuiIO& io = ImGui::GetIO();
 		ImGui_ImplWin32_Init(hWnd);
 		ImGui_ImplDX11_Init(device.Get(), deviceContext.Get());
 		ImGui::StyleColorsDark();

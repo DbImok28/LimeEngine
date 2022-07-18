@@ -50,7 +50,7 @@ namespace LimeEngine
 		bool IsEquals(const EventHandler<TArgs...>& other) const override final
 		{
 			const type* otherEvent = static_cast<const type*>(&other);
-			if (otherEvent != nullptr) return &object == &otherEvent->object && method == otherEvent->method;
+			if (otherEvent) return &object == &otherEvent->object && method == otherEvent->method;
 			return false;
 		}
 	};
@@ -74,7 +74,7 @@ namespace LimeEngine
 		bool IsEquals(const EventHandler<TArgs...>& other) const override final
 		{
 			const type* otherEvent = static_cast<const type*>(&other);
-			if (otherEvent != nullptr) return fun == otherEvent->fun;
+			if (otherEvent) return fun == otherEvent->fun;
 			return false;
 		}
 	};
@@ -94,15 +94,15 @@ namespace LimeEngine
 		template <typename TObject>
 		void Bind(TObject* const object, void (TObject::*const method)(TArgs...))
 		{
-			assert(object != nullptr && "Object pointer cannot be null");
-			assert(method != nullptr && "Method pointer cannot be null");
+			assert(object && "Object pointer cannot be null");
+			assert(method && "Method pointer cannot be null");
 			auto ptr = std::make_unique<MethodEventHandler<TObject, TArgs...>>(*object, method);
 			assert(FindEventHandler(*ptr) == events.end() && "Ñan't bind the same events");
 			events.push_back(std::move(ptr));
 		}
 		void Bind(void (*func)(TArgs...))
 		{
-			assert(func != nullptr && "Function pointer cannot be null");
+			assert(func && "Function pointer cannot be null");
 			auto ptr = std::make_unique<FunctionEventHandler<TArgs...>>(func);
 			assert(FindEventHandler(*ptr) == events.end() && "Ñan't bind the same events");
 			events.push_back(std::move(ptr));
@@ -110,14 +110,14 @@ namespace LimeEngine
 		template <typename TObject>
 		bool Unbind(TObject* const object, void (TObject::*const method)(TArgs...)) noexcept
 		{
-			assert(object != nullptr && "Object pointer cannot be null");
-			assert(method != nullptr && "Method pointer cannot be null");
+			assert(object && "Object pointer cannot be null");
+			assert(method && "Method pointer cannot be null");
 			MethodEventHandler handler{ *object, method };
 			return Unbind(handler);
 		}
 		bool Unbind(void (*func)(TArgs...)) noexcept
 		{
-			assert(func != nullptr && "Function pointer cannot be null");
+			assert(func && "Function pointer cannot be null");
 			FunctionEventHandler handler{ func };
 			return Unbind(handler);
 		}

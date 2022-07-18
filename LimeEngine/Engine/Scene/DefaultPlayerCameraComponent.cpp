@@ -8,7 +8,7 @@ namespace LimeEngine
 		CameraComponent(engine, transform),
 		Id(Id), window(window), cameraMovementSpeed(cameraMovementSpeed), cameraRotationSpeed(cameraRotationSpeed)
 	{
-		if (engine->engineIO[Id].sceneIO.camera == nullptr)
+		if (!engine->engineIO[Id].sceneIO.camera)
 		{
 			AttachIO();
 		}
@@ -18,7 +18,7 @@ namespace LimeEngine
 	{
 		CameraComponent::Update();
 
-		if (window == nullptr) return;
+		if (!window) return;
 
 		float deltaTime = engine->deltaTime;
 		auto& inputDevice = window->inputDevice;
