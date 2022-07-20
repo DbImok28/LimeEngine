@@ -82,11 +82,11 @@ namespace LimeEngine
 		Plane plane(40, 10, 12);
 		auto planeMesh = plane.CreateMesh(engine);
 		planeMesh->SetMaterial(UVMappingMaterial);
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10, 10, 10), planeMesh->GetId())));
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10, 0, 10), planeMesh->GetId())));
 
 		Sphere sphere(10, 16, 16);
 		auto sphereMesh = sphere.CreateMesh(engine);
-		sphereMesh->SetMaterial(SphereMaterial);
+		sphereMesh->SetMaterial(UVMappingMaterial);
 		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10, 0, 10), sphereMesh->GetId())));
 
 		Cubesphere cubesphere(10, 3);

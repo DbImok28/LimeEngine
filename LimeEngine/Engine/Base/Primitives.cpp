@@ -27,7 +27,7 @@ namespace LimeEngine
 		{
 			for (uint16 j = 0; j < totalWidth; j++)
 			{
-				vertices.push_back({ i * dx * size, static_cast<float>(std::rand() % 5), j * dy * size, 0.0f, 1.0f, 0.0f, i * dx, Math::FlipUV(j * dy) });
+				vertices.push_back({ i * dx * size, 0.0f, j * dy * size, 0.0f, 1.0f, 0.0f, i * dx, Math::FlipUV(j * dy) });
 			}
 		}
 		for (uint16 j = 0; j < totalWidth - 1; j++)
@@ -62,7 +62,7 @@ namespace LimeEngine
 
 			for (uint32 j = 0; j < vertexCountPerRow; ++j, ++k, ++k1, ++k2)
 			{
-				float u = static_cast<float>(j) / static_cast<float>(vertexCountPerRow - 1u);
+				float u = Math::FlipUV(static_cast<float>(j) / static_cast<float>(vertexCountPerRow - 1u));
 				vertices.push_back({
 					projectedVertices[k] * radius, projectedVertices[k], {u, v}
                 });
