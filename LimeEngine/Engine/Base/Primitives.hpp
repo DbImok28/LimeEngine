@@ -8,11 +8,11 @@ namespace LimeEngine
 	class Primitive
 	{
 	public:
-		Mesh* CreateMesh(Engine* engine);
+		Mesh* CreateMesh(const RenderingSystemDX11* renderer, Engine* engine) const;
 
 	protected:
 		std::vector<Vertex> vertices;
-		std::vector<DWORD> indices;
+		std::vector<uint> indices;
 	};
 
 	struct Plane : public Primitive

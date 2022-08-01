@@ -3,13 +3,18 @@
 
 namespace LimeEngine
 {
-	VertexBuffer::VertexBuffer(const VertexBuffer& vb) noexcept : buffer(vb.buffer), bufferSize(vb.bufferSize), stride(vb.stride) {}
+	VertexBuffer::VertexBuffer(const VertexBuffer& vb) noexcept :
+		buffer(vb.buffer), bufferSize(vb.bufferSize), stride(vb.stride), offset(vb.offset), deviceContext(vb.deviceContext)
+	{}
 
-	VertexBuffer::VertexBuffer(VertexBuffer&& vb) noexcept : buffer(std::move(vb.buffer)), bufferSize(std::move(vb.bufferSize)), stride(std::move(vb.stride))
+	VertexBuffer::VertexBuffer(VertexBuffer&& vb) noexcept :
+		buffer(std::move(vb.buffer)), bufferSize(std::move(vb.bufferSize)), stride(std::move(vb.stride)), offset(std::move(vb.offset)), deviceContext(std::move(vb.deviceContext))
 	{
 		vb.buffer = nullptr;
 		vb.bufferSize = 0;
 		vb.stride = 0;
+		vb.offset = 0;
+		vb.deviceContext = nullptr;
 	}
 
 	VertexBuffer& VertexBuffer::operator=(const VertexBuffer& vb) noexcept
@@ -19,6 +24,8 @@ namespace LimeEngine
 			buffer = vb.buffer;
 			bufferSize = vb.bufferSize;
 			stride = vb.stride;
+			offset = vb.offset;
+			deviceContext = vb.deviceContext;
 		}
 		return *this;
 	}
@@ -30,18 +37,26 @@ namespace LimeEngine
 			buffer = std::move(vb.buffer);
 			bufferSize = std::move(vb.bufferSize);
 			stride = std::move(vb.stride);
+			offset = std::move(vb.offset);
+			deviceContext = std::move(vb.deviceContext);
 
 			vb.buffer = nullptr;
 			vb.bufferSize = 0;
 			vb.stride = 0;
+			offset = 0;
+			vb.deviceContext = nullptr;
 		}
 		return *this;
 	}
 
-	HRESULT VertexBuffer::Initialize(ID3D11Device* device, const Vertex* data, UINT vertexCount) noexcept
+	HRESULT VertexBuffer::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const Vertex* data, UINT vertexCount, UINT offset) noexcept
 	{
+		if (!(device && deviceContext)) return E_INVALIDARG;
+
 		if (buffer.Get()) buffer.Reset();
 		bufferSize = vertexCount;
+		this->offset = offset;
+		this->deviceContext = deviceContext;
 
 		D3D11_BUFFER_DESC vertexBufferDesc = { 0 };
 		vertexBufferDesc.ByteWidth = stride * vertexCount;
@@ -55,6 +70,11 @@ namespace LimeEngine
 		vertexBufferData.pSysMem = data;
 
 		return device->CreateBuffer(&vertexBufferDesc, &vertexBufferData, buffer.GetAddressOf());
+	}
+
+	void VertexBuffer::Bind() const
+	{
+		if (deviceContext) deviceContext->IASetVertexBuffers(0, 1, GetAddressOf(), StridePtr(), &offset);
 	}
 
 	ID3D11Buffer* VertexBuffer::Get() const noexcept

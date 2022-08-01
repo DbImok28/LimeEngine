@@ -10,8 +10,8 @@ namespace LimeEngine
 		return -1;
 	}
 
-	void RenderIO::Render(const CameraComponent* cameraComponent)
+	void RenderIO::Render()
 	{
-		if (renderer) renderer->Render(cameraComponent);
+		if (renderer) renderer->Render();
 	}
 }

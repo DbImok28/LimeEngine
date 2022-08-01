@@ -11,7 +11,13 @@ namespace LimeEngine
 
 	void EngineIO::Render()
 	{
-		renderIO.Render(sceneIO.camera);
+		renderIO.Render();
+	}
+
+	void EngineIO::SetInputCamera(CameraComponent* camera)
+	{
+		sceneIO.camera = camera;
+		renderIO.renderer->SetInputCamera(camera);
 	}
 
 	InputDevice& EngineIO::GetInput() noexcept

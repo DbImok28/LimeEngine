@@ -4,7 +4,7 @@
 
 namespace LimeEngine
 {
-	class MeshComponent;
+	class Mesh;
 
 	class RenderingSystem
 	{
@@ -17,8 +17,10 @@ namespace LimeEngine
 		RenderingSystem() = default;
 		virtual ~RenderingSystem() = default;
 		virtual void Initialize(const Window& window) = 0;
-		virtual void Render(const CameraComponent* cameraComponent) = 0;
-		virtual void AddToRender(MeshComponent* meshComponent) = 0;
-		virtual void RemoveFromRender(const MeshComponent* meshComponent) noexcept = 0;
+		virtual void PreProcessing() = 0;
+		virtual void PostProcessing() = 0;
+		virtual void SetInputCamera(CameraComponent* cameraComponent) = 0;
+
+		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) = 0;
 	};
 }

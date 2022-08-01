@@ -8,7 +8,7 @@ namespace LimeEngine
 	public:
 		explicit RenderIO(Renderer* renderer);
 		std::optional<int> Process();
-		void Render(const CameraComponent* cameraComponent);
+		void Render();
 
 		Renderer* renderer = nullptr;
 	};

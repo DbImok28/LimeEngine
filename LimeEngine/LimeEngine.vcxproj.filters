@@ -204,9 +204,6 @@
     <ClCompile Include="Engine\Graphics\Base\Material.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\MeshDX11.cpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicAdapter.cpp">
       <Filter>Engine\Graphics\Systems\DirectX11</Filter>
     </ClCompile>
@@ -218,12 +215,6 @@
     </ClCompile>
     <ClCompile Include="Engine\IO\RenderIO.cpp">
       <Filter>Engine\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\MaterialDX11.cpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\Texture2DDX11.cpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Window\Windows\Console\Console.cpp">
       <Filter>Engine\Window\Windows\Console</Filter>
@@ -245,6 +236,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Base\Primitives.cpp">
       <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Base\RenderQueue.cpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Base\MeshRenderData.cpp">
+      <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -395,9 +392,6 @@
     <ClInclude Include="Engine\Graphics\Base\Material.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\MeshDX11.hpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Graphics\Systems\DX11\GraphicAdapter.hpp">
       <Filter>Engine\Graphics\Systems\DirectX11</Filter>
     </ClInclude>
@@ -409,12 +403,6 @@
     </ClInclude>
     <ClInclude Include="Engine\IO\RenderIO.hpp">
       <Filter>Engine\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\MaterialDX11.hpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\Texture2DDX11.hpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreBase.hpp">
       <Filter>Engine</Filter>
@@ -445,6 +433,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Base\Primitives.hpp">
       <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\IDrawable.hpp">
+      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\RenderQueue.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\MeshRenderData.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -40,6 +40,8 @@ namespace LimeEngine
 		}
 		HRESULT Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext) noexcept
 		{
+			if (!(device && deviceContext)) return E_INVALIDARG;
+
 			this->deviceContext = deviceContext;
 
 			D3D11_BUFFER_DESC desc = { 0 };
@@ -60,6 +62,10 @@ namespace LimeEngine
 
 			CopyMemory(mappedResorce.pData, &data, sizeof(T));
 			deviceContext->Unmap(buffer.Get(), 0);
+		}
+		void Bind() const
+		{
+			deviceContext->VSSetConstantBuffers(0, 1, GetAddressOf());
 		}
 		ID3D11Buffer* Get() const noexcept
 		{

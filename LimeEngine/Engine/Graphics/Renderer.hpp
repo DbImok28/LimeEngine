@@ -3,6 +3,7 @@
 #include "../Scene/CameraComponent.hpp"
 #include "../Scene/MeshComponent.hpp"
 #include "Systems/RenderingSystem.hpp"
+#include "Base/RenderQueue.hpp"
 
 namespace LimeEngine
 {
@@ -15,13 +16,15 @@ namespace LimeEngine
 		Renderer& operator=(Renderer&&) noexcept = delete;
 		Renderer(RenderingSystem* renderSystem, Window* window);
 		std::optional<int> Process();
-		void Render(const CameraComponent* cameraComponent);
+		void SetInputCamera(CameraComponent* cameraComponent);
+		void Render();
 
-		void AddToRender(MeshComponent* meshComponent);
-		void RemoveFromRender(const MeshComponent* meshComponent) noexcept;
+		void AddToRender(IDrawable* drawable);
+		void RemoveFromRender(const IDrawable* drawable) noexcept;
 		// TODO: private:
 	public:
-		RenderingSystem* renderSystem;
+		RenderingSystem* renderingSystem;
 		Window* window;
+		RenderQueue renderQueue;
 	};
 }

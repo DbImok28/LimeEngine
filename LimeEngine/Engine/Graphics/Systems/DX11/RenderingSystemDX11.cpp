@@ -21,6 +21,14 @@ namespace LimeEngine
 #endif // IMGUI
 	}
 
+	void RenderingSystemDX11::Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix)
+	{
+		if (!(inputCamera && mesh.GetMaterial())) return;
+		mesh.meshRenderData.ApplyBuffers();
+		mesh.meshRenderData.ApplyTransformAndMaterial(mesh.GetMaterial(), inputCamera, transformMatrix);
+		deviceContext->DrawIndexed(mesh.meshRenderData.indexBuffer.Count(), 0, 0);
+	}
+
 	void RenderingSystemDX11::InitializeDirectX(HWND hWnd, int width, int height)
 	{
 		/*
@@ -176,45 +184,9 @@ namespace LimeEngine
 		}
 	}
 
-	void RenderingSystemDX11::AddToRender(MeshComponent* meshComponent)
+	void RenderingSystemDX11::SetInputCamera(CameraComponent* cameraComponent)
 	{
-		if (!meshComponent) return;
-
-		auto id = meshComponent->mesh->GetId();
-		auto it = renderMeshes.find(id);
-		if (it != std::end(renderMeshes))
-		{
-			it->second.AddMeshComponent(meshComponent);
-		}
-		else
-		{
-			renderMeshes.insert({ id, MeshDX11(*this, meshComponent) });
-		}
-	}
-
-	void RenderingSystemDX11::RemoveFromRender(const MeshComponent* meshComponent) noexcept
-	{
-		if (!meshComponent) return;
-
-		auto id = meshComponent->mesh->GetId();
-		auto it = renderMeshes.find(id);
-		if (it != std::end(renderMeshes))
-		{
-			it->second.RemoveMeshComponent(meshComponent);
-			if (it->second.Empty()) renderMeshes.erase(it);
-		}
-	}
-
-	void RenderingSystemDX11::Render(const CameraComponent* cameraComponent)
-	{
-		if (!cameraComponent) return;
-
-		PreProcessing();
-		for (auto& renderMesh : renderMeshes)
-		{
-			renderMesh.second.Render(cameraComponent);
-		}
-		PostProcessing();
+		if (cameraComponent) inputCamera = cameraComponent;
 	}
 
 #ifdef IMGUI

@@ -29,8 +29,8 @@ namespace LimeEngine
 		std::optional<int> WindowProcessing();
 		void RenderProcessing();
 
-		void AddToRender(MeshComponent* meshComponent);
-		void RemoveFromRender(const MeshComponent* meshComponent) noexcept;
+		void AddToRender(IDrawable* drawable);
+		void RemoveFromRender(const IDrawable* drawable) noexcept;
 
 	public:
 		Logger logger;

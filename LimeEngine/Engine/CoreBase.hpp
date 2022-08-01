@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include "Exceptions/EngineExceptions.hpp"
+#include "Base/Transform.hpp"
 
 namespace LimeEngine
 {

@@ -72,21 +72,19 @@ namespace LimeEngine
 		}
 	}
 
-	void Engine::AddToRender(MeshComponent* meshComponent)
+	void Engine::AddToRender(IDrawable* drawable)
 	{
-		if (!meshComponent) return;
 		for (auto& io : engineIO)
 		{
-			io.renderIO.renderer->AddToRender(meshComponent);
+			io.renderIO.renderer->AddToRender(drawable);
 		}
 	}
 
-	void Engine::RemoveFromRender(const MeshComponent* meshComponent) noexcept
+	void Engine::RemoveFromRender(const IDrawable* drawable) noexcept
 	{
-		if (!meshComponent) return;
 		for (auto& io : engineIO)
 		{
-			io.renderIO.renderer->RemoveFromRender(meshComponent);
+			io.renderIO.renderer->RemoveFromRender(drawable);
 		}
 	}
 }

@@ -13,7 +13,8 @@ namespace LimeEngine
 		VertexBuffer& operator=(const VertexBuffer& vb) noexcept;
 		VertexBuffer& operator=(VertexBuffer&& vb) noexcept;
 
-		HRESULT Initialize(ID3D11Device* device, const Vertex* data, UINT vertexCount) noexcept;
+		HRESULT Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const Vertex* data, UINT vertexCount, UINT offset = 0) noexcept;
+		void Bind() const;
 		ID3D11Buffer* Get() const noexcept;
 		ID3D11Buffer* const* GetAddressOf() const noexcept;
 		UINT VertexCount() const noexcept;
@@ -24,5 +25,9 @@ namespace LimeEngine
 		com_ptr<ID3D11Buffer> buffer;
 		UINT stride = sizeof(Vertex);
 		UINT bufferSize = 0;
+		ID3D11DeviceContext* deviceContext = nullptr;
+
+	public:
+		UINT offset = 0;
 	};
 }

@@ -11,6 +11,7 @@ namespace LimeEngine
 		std::optional<int> Process();
 		void Render();
 
+		void SetInputCamera(CameraComponent* camera);
 		InputDevice& GetInput() noexcept;
 
 		RenderIO renderIO;

@@ -2,19 +2,19 @@
 
 namespace LimeEngine
 {
-	Renderer::Renderer(RenderingSystem* renderSystem, Window* window) : renderSystem(renderSystem), window(window)
+	Renderer::Renderer(RenderingSystem* renderingSystem, Window* window) : renderingSystem(renderingSystem), window(window)
 	{
-		renderSystem->Initialize(*window);
+		renderingSystem->Initialize(*window);
 	}
 
-	void Renderer::AddToRender(MeshComponent* meshComponent)
+	void Renderer::AddToRender(IDrawable* drawable)
 	{
-		renderSystem->AddToRender(meshComponent);
+		renderQueue.Add(drawable);
 	}
 
-	void Renderer::RemoveFromRender(const MeshComponent* meshComponent) noexcept
+	void Renderer::RemoveFromRender(const IDrawable* drawable) noexcept
 	{
-		renderSystem->RemoveFromRender(meshComponent);
+		renderQueue.Remove(drawable);
 	}
 
 	std::optional<int> Renderer::Process()
@@ -22,8 +22,16 @@ namespace LimeEngine
 		return window->ProcessMessages();
 	}
 
-	void Renderer::Render(const CameraComponent* cameraComponent)
+	void Renderer::SetInputCamera(CameraComponent* cameraComponent)
 	{
-		renderSystem->Render(cameraComponent);
+		renderingSystem->SetInputCamera(cameraComponent);
+	}
+
+	void Renderer::Render()
+	{
+		if (!renderingSystem) return;
+		renderingSystem->PreProcessing();
+		renderQueue.Draw(*renderingSystem);
+		renderingSystem->PostProcessing();
 	}
 }

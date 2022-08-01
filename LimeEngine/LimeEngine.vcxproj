@@ -220,15 +220,15 @@
     <ClCompile Include="Engine\Base\Transformable.cpp" />
     <ClCompile Include="Engine\Base\Rotator.cpp" />
     <ClCompile Include="Engine\Graphics\Renderer.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\MeshDX11.cpp" />
     <ClCompile Include="Engine\IO\SceneIO.cpp" />
     <ClCompile Include="Engine\IO\RenderIO.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\MaterialDX11.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\Texture2DDX11.cpp" />
     <ClCompile Include="Engine\Diagnostics\Logger.cpp" />
     <ClCompile Include="Engine\Base\Math.cpp" />
+    <ClCompile Include="Engine\Graphics\Base\RenderQueue.cpp" />
+    <ClCompile Include="Engine\Graphics\Base\MeshRenderData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Graphics\Base\IDrawable.hpp" />
     <ClInclude Include="Engine\Base\Color.hpp" />
     <ClInclude Include="Engine\Window\Base\Console.hpp" />
     <ClInclude Include="Engine\Window\Windows\Console\Console.hpp" />
@@ -288,13 +288,12 @@
     <ClInclude Include="Engine\Base\Transformable.hpp" />
     <ClInclude Include="Engine\Base\Rotator.hpp" />
     <ClInclude Include="Engine\Graphics\Renderer.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\MeshDX11.hpp" />
     <ClInclude Include="Engine\IO\SceneIO.hpp" />
     <ClInclude Include="Engine\IO\RenderIO.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\MaterialDX11.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\Texture2DDX11.hpp" />
     <ClInclude Include="Engine\Diagnostics\Logger.hpp" />
     <ClInclude Include="Engine\Base\Math.hpp" />
+    <ClInclude Include="Engine\Graphics\Base\RenderQueue.hpp" />
+    <ClInclude Include="Engine\Graphics\Base\MeshRenderData.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\Resource\LimeEngine.rc" />

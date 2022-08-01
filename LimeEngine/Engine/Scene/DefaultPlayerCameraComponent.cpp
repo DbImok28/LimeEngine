@@ -62,7 +62,7 @@ namespace LimeEngine
 			window = engine->engineIO[Id].renderIO.renderer->window;
 			width = static_cast<float>(window->width);
 			height = static_cast<float>(window->height);
-			engine->engineIO[Id].sceneIO.camera = this;
+			engine->engineIO[Id].SetInputCamera(this);
 		}
 	}
 	void DefaultPlayerCameraComponent::AttachIO(unsigned Id)

@@ -5,9 +5,9 @@
 
 namespace LimeEngine
 {
-	Mesh* Primitive::CreateMesh(Engine* engine)
+	Mesh* Primitive::CreateMesh(const RenderingSystemDX11* renderer, Engine* engine) const
 	{
-		return engine->gameDataManager.CreateMesh(vertices, indices);
+		return engine->gameDataManager.CreateMesh(renderer, vertices, indices);
 	}
 
 	Plane::Plane(float size, uint8 segmentsLength, uint8 segmentsWidth)
@@ -23,23 +23,23 @@ namespace LimeEngine
 		const float dx = 1.0f / static_cast<float>(totalLength - 1);
 		const float dy = 1.0f / static_cast<float>(totalWidth - 1);
 
-		for (uint16 i = 0; i < totalLength; i++)
+		for (uint16 i = 0u; i < totalLength; i++)
 		{
-			for (uint16 j = 0; j < totalWidth; j++)
+			for (uint16 j = 0u; j < totalWidth; j++)
 			{
 				vertices.push_back({ i * dx * size, 0.0f, j * dy * size, 0.0f, 1.0f, 0.0f, i * dx, Math::FlipUV(j * dy) });
 			}
 		}
-		for (uint16 j = 0; j < totalWidth - 1; j++)
+		for (uint16 j = 0u; j < totalWidth - 1u; j++)
 		{
-			for (uint16 i = 0; i < totalLength - 1; i++)
+			for (uint16 i = 0u; i < totalLength - 1u; i++)
 			{
-				auto pos = j + i * totalWidth;
-				indices.push_back(pos + totalWidth + 1);
+				uint pos = j + i * totalWidth;
+				indices.push_back(pos + totalWidth + 1u);
 				indices.push_back(pos + totalWidth);
 				indices.push_back(pos);
-				indices.push_back(pos + 1);
-				indices.push_back(pos + totalWidth + 1);
+				indices.push_back(pos + 1u);
+				indices.push_back(pos + totalWidth + 1u);
 				indices.push_back(pos);
 			}
 		}
@@ -54,13 +54,13 @@ namespace LimeEngine
 		vertices.reserve(static_cast<size_t>(vertexCountPerRow) * static_cast<size_t>(vertexCountPerRow) * 6u);
 		indices.reserve((static_cast<size_t>(vertexCountPerRow) - 1u) * (static_cast<size_t>(vertexCountPerRow) - 1u) * 6u * 6u);
 
-		for (uint32 i = 0, k = 0; i < vertexCountPerRow; ++i) // +X
+		for (uint32 i = 0u, k = 0u; i < vertexCountPerRow; ++i) // +X
 		{
-			uint32 k1 = i * vertexCountPerRow;
-			uint32 k2 = k1 + vertexCountPerRow;
+			uint k1 = i * vertexCountPerRow;
+			uint k2 = k1 + vertexCountPerRow;
 			float v = static_cast<float>(i) / static_cast<float>(vertexCountPerRow - 1u);
 
-			for (uint32 j = 0; j < vertexCountPerRow; ++j, ++k, ++k1, ++k2)
+			for (uint32 j = 0u; j < vertexCountPerRow; ++j, ++k, ++k1, ++k2)
 			{
 				float u = Math::FlipUV(static_cast<float>(j) / static_cast<float>(vertexCountPerRow - 1u));
 				vertices.push_back({
@@ -94,11 +94,11 @@ namespace LimeEngine
 	void Cubesphere::BuildByCopy(Vector direction, AxisOrder order, size_t vertexCount, size_t indicesCount)
 	{
 		size_t startIndex = vertices.size();
-		for (size_t i = 0; i < vertexCount; ++i)
+		for (size_t i = 0ull; i < vertexCount; ++i)
 		{
 			vertices.push_back(Vertex{ direction * Vector(vertices[i].pos).GetByOrder(order), direction * Vector(vertices[i].normal).GetByOrder(order), vertices[i].texCoord });
 		}
-		for (size_t i = 0; i < indicesCount; ++i)
+		for (size_t i = 0ull; i < indicesCount; ++i)
 		{
 			indices.push_back(static_cast<DWORD>(startIndex) + indices[i]);
 		}
