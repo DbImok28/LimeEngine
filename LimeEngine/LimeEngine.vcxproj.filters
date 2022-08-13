@@ -111,12 +111,6 @@
     <ClCompile Include="Engine\Helpers\Paths.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\IndexBuffer.cpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\VertexBuffer.cpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Graphics\Systems\DX11\Shaders.cpp">
       <Filter>Engine\Graphics\Systems\DirectX11\Shaders</Filter>
     </ClCompile>
@@ -240,9 +234,11 @@
     <ClCompile Include="Engine\Graphics\Base\RenderQueue.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Base\MeshRenderData.cpp">
+    <ClCompile Include="Engine\Graphics\Base\MeshRenderDataDX11.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\BindableDX11.cpp" />
+    <ClCompile Include="Engine\Graphics\Systems\DX11\Buffers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\Resource\resource.h">
@@ -272,13 +268,7 @@
     <ClInclude Include="Engine\Helpers\Paths.hpp">
       <Filter>Engine\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\IndexBuffer.hpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\ConstantBuffer.hpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\VertexBuffer.hpp">
+    <ClInclude Include="Engine\Graphics\Systems\DX11\ConstantBuffers.hpp">
       <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\Systems\DX11\Shaders.hpp">
@@ -440,9 +430,16 @@
     <ClInclude Include="Engine\Graphics\Base\RenderQueue.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\MeshRenderData.hpp">
+    <ClInclude Include="Engine\Graphics\Base\MeshRenderDataDX11.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\IBindable.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\BindableDX11.hpp">
+      <Filter>Engine\Graphics\Systems\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\Buffers.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine\Window\Resource\LimeEngine.rc">

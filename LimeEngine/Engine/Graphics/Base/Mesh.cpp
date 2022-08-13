@@ -2,7 +2,7 @@
 
 namespace LimeEngine
 {
-	Mesh::Mesh(const RenderingSystemDX11* renderer, const std::vector<Vertex>& vertices, const std::vector<uint>& indices, size_t id) :
+	Mesh::Mesh(RenderingSystemDX11& renderer, const std::vector<Vertex>& vertices, const std::vector<uint>& indices, size_t id) :
 		vertices(vertices), indices(indices), id(id), meshRenderData(renderer, vertices, indices)
 	{}
 

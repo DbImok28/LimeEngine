@@ -2,7 +2,9 @@
 
 namespace LimeEngine
 {
-	Material::Material(VertexShader* vertexShader, PixelShader* pixelShader, size_t id) noexcept : id(id), vertexShader(vertexShader), pixelShader(pixelShader) {}
+	Material::Material(VertexShader* vertexShader, PixelShader* pixelShader, MaterialType type, size_t id) noexcept :
+		id(id), vertexShader(vertexShader), pixelShader(pixelShader), type(type)
+	{}
 
 	void Material::SetTextures(const std::vector<Texture2D*>& textures) noexcept
 	{
@@ -19,16 +21,13 @@ namespace LimeEngine
 		return textures;
 	}
 
-	void Material::ApplyMaterial(const RenderingSystemDX11* renderer) const noexcept
+	void Material::ApplyMaterial(const RenderingSystemDX11& renderer) noexcept
 	{
-		auto deviceContext = renderer->deviceContext.Get();
-
-		deviceContext->IASetInputLayout(vertexShader->GatInputLoyout());
-		deviceContext->VSSetShader(vertexShader->GetShader(), NULL, 0);
-		deviceContext->PSSetShader(pixelShader->GetShader(), NULL, 0);
+		vertexShader->Bind();
+		pixelShader->Bind();
 		for (auto& texture : GetTextures())
 		{
-			deviceContext->PSSetShaderResources(0, 1, texture->GetViewAddress());
+			texture->Bind();
 		}
 	}
 }

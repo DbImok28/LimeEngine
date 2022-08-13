@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "../Systems/DX11/RenderingSystemDX11.hpp"
+#include "../Systems/DX11/BindableDX11.hpp"
 
 namespace LimeEngine
 {
@@ -20,11 +20,14 @@ namespace LimeEngine
 		Unknown
 	};
 
-	class Texture2D
+	class Texture2D : public BindableDX11
 	{
 	public:
-		Texture2D(const RenderingSystemDX11* renderer, const uint8_t* pData, size_t size, TextureType type, size_t id);
-		Texture2D(const RenderingSystemDX11* renderer, const std::wstring& filePath, TextureType type, size_t id);
+		Texture2D(RenderingSystemDX11& renderer, size_t id);
+
+		void Initialize(const uint8_t* pData, size_t size, TextureType type = TextureType::Diffuse);
+		void Initialize(const std::wstring& filePath, TextureType type = TextureType::Diffuse);
+		virtual void Bind() noexcept override;
 		ID3D11ShaderResourceView* GetView() const noexcept;
 		ID3D11ShaderResourceView* const* GetViewAddress() const noexcept;
 

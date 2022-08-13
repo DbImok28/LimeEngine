@@ -6,16 +6,17 @@
 
 namespace LimeEngine
 {
-	Texture2D::Texture2D(const RenderingSystemDX11* renderer, const uint8_t* pData, size_t size, TextureType type, size_t id) : id(id), type(type)
+	Texture2D::Texture2D(RenderingSystemDX11& renderer, size_t id) : BindableDX11(renderer), id(id) {}
+
+	void Texture2D::Initialize(const uint8_t* pData, size_t size, TextureType type)
 	{
-		// TODO: mipmap
-		auto device = renderer->device.Get();
+		auto device = GetDevice();
 		GFX_CHECK_HR_MSG(DirectX::CreateWICTextureFromMemory(device, pData, size, texture.GetAddressOf(), textureView.GetAddressOf()), "Failed to create texture from memory.");
 	}
 
-	Texture2D::Texture2D(const RenderingSystemDX11* renderer, const std::wstring& filePath, TextureType type, size_t id) : id(id), type(type)
+	void Texture2D::Initialize(const std::wstring& filePath, TextureType type)
 	{
-		auto device = renderer->device.Get();
+		auto device = GetDevice();
 		HRESULT hr;
 		if (Paths::GetFileExtension(filePath) == L".dds")
 		{
@@ -34,6 +35,11 @@ namespace LimeEngine
 				// TODO: Unloaded texture
 			}
 		}
+	}
+
+	void Texture2D::Bind() noexcept
+	{
+		GetDeviceContext()->PSSetShaderResources(0, 1, GetViewAddress());
 	}
 
 	ID3D11ShaderResourceView* Texture2D::GetView() const noexcept

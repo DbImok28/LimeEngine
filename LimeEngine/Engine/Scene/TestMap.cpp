@@ -14,21 +14,13 @@ namespace LimeEngine
 		if (engine->engineIO.empty()) return;
 		auto& engineInput0 = engine->engineIO.front();
 		// TODO: Remove
-		auto renderingSystem = static_cast<RenderingSystemDX11*>(engineInput0.renderIO.renderer->renderingSystem);
-		auto& device = renderingSystem->device;
-		auto& deviceContext = renderingSystem->deviceContext;
+		auto& renderingSystem = static_cast<RenderingSystemDX11&>(*engineInput0.renderIO.renderer->renderingSystem);
 
 		// Loading
-		static VertexShader vertexShader;
-		static PixelShader pixelShader;
-		D3D11_INPUT_ELEMENT_DESC loyout[]{
-			{"POSITION",  0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,                            D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{ "NORMAL",   0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0},
-			{ "TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT,    0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0},
-		};
-		UINT numElements = ARRAYSIZE(loyout);
-		vertexShader.Initalize(device, Paths::ShaderFolder + L"VertexShader.cso", loyout, numElements);
-		pixelShader.Initalize(device, Paths::ShaderFolder + L"PixelShader.cso");
+		static VertexShader vertexShader(renderingSystem);
+		static PixelShader pixelShader(renderingSystem);
+		vertexShader.Initalize(Paths::ShaderFolder + L"VertexShader.cso", MaterialType::Solid);
+		pixelShader.Initalize(Paths::ShaderFolder + L"PixelShader.cso");
 
 		static std::vector<Vertex> vertices = {
 			{-1.0f,  1.0f,  -1.0f, 0.0f,  1.0f,  0.0f,  0.0f, 1.0f},
@@ -65,19 +57,22 @@ namespace LimeEngine
 		auto mesh = engine->gameDataManager.meshes.Create(0, renderingSystem, vertices, indices, 0);
 		//auto mesh = engine->gameDataManager.CreateMesh(renderingSystem, vertices, indices);
 
-		auto texture = engine->gameDataManager.textures2D.Create(0, renderingSystem, L"Data\\Textures\\cat.jpg", TextureType::Diffuse, 0);
-		auto material = engine->gameDataManager.materials.Create(0, &vertexShader, &pixelShader, 0);
+		auto texture = engine->gameDataManager.CreateTexture2D(renderingSystem);
+		texture->Initialize(L"Data\\Textures\\cat.jpg");
+		auto material = engine->gameDataManager.materials.Create(0, &vertexShader, &pixelShader, MaterialType::Solid, 0);
 		material->AddTexture(texture);
 		mesh->SetMaterial(material);
 
 		// UVMapping
-		auto UVMappingTexture = engine->gameDataManager.textures2D.Create(1, renderingSystem, L"Data\\Textures\\UVMapping.jpg", TextureType::Diffuse, 1);
-		auto UVMappingMaterial = engine->gameDataManager.materials.Create(1, &vertexShader, &pixelShader, 1);
+		auto UVMappingTexture = engine->gameDataManager.CreateTexture2D(renderingSystem);
+		UVMappingTexture->Initialize(L"Data\\Textures\\UVMapping.jpg");
+		auto UVMappingMaterial = engine->gameDataManager.materials.Create(1, &vertexShader, &pixelShader, MaterialType::Solid, 1);
 		UVMappingMaterial->AddTexture(UVMappingTexture);
 
 		// Sphere
-		auto SphereTexture = engine->gameDataManager.textures2D.Create(2, renderingSystem, L"Data\\Textures\\Sphere.png", TextureType::Diffuse, 2);
-		auto SphereMaterial = engine->gameDataManager.materials.Create(2, &vertexShader, &pixelShader, 2);
+		auto SphereTexture = engine->gameDataManager.CreateTexture2D(renderingSystem);
+		SphereTexture->Initialize(L"Data\\Textures\\Sphere.png");
+		auto SphereMaterial = engine->gameDataManager.materials.Create(2, &vertexShader, &pixelShader, MaterialType::Solid, 2);
 		SphereMaterial->AddTexture(SphereTexture);
 
 		// Primitives

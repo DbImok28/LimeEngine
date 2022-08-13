@@ -5,7 +5,7 @@
 
 namespace LimeEngine
 {
-	Mesh* Primitive::CreateMesh(const RenderingSystemDX11* renderer, Engine* engine) const
+	Mesh* Primitive::CreateMesh(RenderingSystemDX11& renderer, Engine* engine) const
 	{
 		return engine->gameDataManager.CreateMesh(renderer, vertices, indices);
 	}

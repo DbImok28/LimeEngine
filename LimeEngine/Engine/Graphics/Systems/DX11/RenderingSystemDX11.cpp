@@ -24,9 +24,18 @@ namespace LimeEngine
 	void RenderingSystemDX11::Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix)
 	{
 		if (!(inputCamera && mesh.GetMaterial())) return;
-		mesh.meshRenderData.ApplyBuffers();
-		mesh.meshRenderData.ApplyTransformAndMaterial(mesh.GetMaterial(), inputCamera, transformMatrix);
+		mesh.meshRenderData.ApplyAll(mesh.GetMaterial(), inputCamera, transformMatrix);
 		deviceContext->DrawIndexed(mesh.meshRenderData.indexBuffer.Count(), 0, 0);
+	}
+
+	ID3D11Device* RenderingSystemDX11::GetDevice() const noexcept
+	{
+		return device.Get();
+	}
+
+	ID3D11DeviceContext* RenderingSystemDX11::GetDeviceContext() const noexcept
+	{
+		return deviceContext.Get();
 	}
 
 	void RenderingSystemDX11::InitializeDirectX(HWND hWnd, int width, int height)

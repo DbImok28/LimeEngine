@@ -1,0 +1,23 @@
+#pragma once
+#include "DirectXDef.hpp"
+#include "../../Base/IBindable.hpp"
+
+namespace LimeEngine
+{
+	class RenderingSystemDX11;
+
+	class BindableDX11 : public IBindable
+	{
+	public:
+		BindableDX11(RenderingSystemDX11& renderingSystem) : renderingSystem(renderingSystem) {}
+		virtual ~BindableDX11() override = default;
+
+	protected:
+		ID3D11Device* GetDevice() const noexcept;
+		ID3D11DeviceContext* GetDeviceContext() const noexcept;
+		RenderingSystemDX11& GetRenderingSystem() const noexcept;
+
+	private:
+		RenderingSystemDX11& renderingSystem;
+	};
+}

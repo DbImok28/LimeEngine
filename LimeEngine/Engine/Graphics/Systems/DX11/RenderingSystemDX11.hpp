@@ -11,6 +11,7 @@
 #include "../../../Exceptions/GraphicsExceptions.hpp"
 #include "../../../Helpers/Paths.hpp"
 #include "../../../Scene/CameraComponent.hpp"
+#include "BindableDX11.hpp"
 
 // TODO: Remove
 #ifndef NO_IMGUI
@@ -23,6 +24,8 @@ namespace LimeEngine
 {
 	class RenderingSystemDX11 : public RenderingSystem
 	{
+		friend class BindableDX11;
+
 	public:
 		RenderingSystemDX11();
 		RenderingSystemDX11(const RenderingSystemDX11&) = delete;
@@ -35,6 +38,9 @@ namespace LimeEngine
 		virtual void Initialize(const Window& window) override;
 
 		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transform) override;
+
+		ID3D11Device* GetDevice() const noexcept;
+		ID3D11DeviceContext* GetDeviceContext() const noexcept;
 
 	private:
 		void InitializeDirectX(HWND hWnd, int width, int height);
@@ -52,7 +58,6 @@ namespace LimeEngine
 
 		com_ptr<ID3D11SamplerState> samplerState;
 
-	public:
 		com_ptr<ID3D11Device> device;
 		com_ptr<ID3D11DeviceContext> deviceContext;
 

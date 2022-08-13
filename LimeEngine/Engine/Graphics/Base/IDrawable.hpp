@@ -8,5 +8,6 @@ namespace LimeEngine
 	{
 		virtual void Draw(RenderingSystem& renderingSystem) = 0;
 		virtual float GetDistance(const Vector& target) noexcept = 0;
+		virtual ~IDrawable() = default;
 	};
 }
