@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
+#include "Systems/RenderingSystem.hpp"
 #include "../Scene/CameraComponent.hpp"
 #include "../Scene/MeshComponent.hpp"
-#include "Systems/RenderingSystem.hpp"
 #include "Base/RenderQueue.hpp"
 
 namespace LimeEngine

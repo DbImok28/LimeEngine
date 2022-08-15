@@ -2,18 +2,11 @@
 
 namespace LimeEngine
 {
-	Material::Material(VertexShader* vertexShader, PixelShader* pixelShader, MaterialType type, size_t id) noexcept :
-		id(id), vertexShader(vertexShader), pixelShader(pixelShader), type(type)
-	{}
-
-	void Material::SetTextures(const std::vector<Texture2D*>& textures) noexcept
-	{
-		this->textures = textures;
-	}
+	Material::Material(MaterialType type, size_t id) noexcept : type(type), id(id) {}
 
 	void Material::AddTexture(Texture2D* texture) noexcept
 	{
-		this->textures.push_back(texture);
+		textures.push_back(texture);
 	}
 
 	const std::vector<Texture2D*>& Material::GetTextures() const noexcept
@@ -21,7 +14,26 @@ namespace LimeEngine
 		return textures;
 	}
 
-	void Material::ApplyMaterial(const RenderingSystemDX11& renderer) noexcept
+	void Material::SetTextures(const std::vector<Texture2D*>& textures) noexcept
+	{
+		this->textures = textures;
+	}
+
+	MaterialType Material::GetType() const noexcept
+	{
+		return type;
+	}
+
+	size_t Material::GetID() const noexcept
+	{
+		return id;
+	}
+
+	MasterMaterial::MasterMaterial(IBindable* vertexShader, IBindable* pixelShader, MaterialType type, size_t id) noexcept :
+		Material(type, id), vertexShader(vertexShader), pixelShader(pixelShader)
+	{}
+
+	void MasterMaterial::ApplyMaterial() noexcept
 	{
 		vertexShader->Bind();
 		pixelShader->Bind();

@@ -6,11 +6,11 @@
 namespace LimeEngine
 {
 	template <typename T>
-	class VertexBuffer : public BindableDX11
+	class VertexBufferDX11 : public BindableDX11
 	{
 	public:
-		VertexBuffer(RenderingSystemDX11& renderingSystem) noexcept : BindableDX11(renderingSystem) {}
-		virtual ~VertexBuffer() override = default;
+		VertexBufferDX11(RenderingSystemDX11& renderingSystem) noexcept : BindableDX11(renderingSystem) {}
+		virtual ~VertexBufferDX11() override = default;
 
 		HRESULT Initialize(const std::vector<T>& vertices, uint offset = 0u) noexcept
 		{
@@ -65,11 +65,11 @@ namespace LimeEngine
 		uint bufferSize = 0u;
 	};
 
-	class IndexBuffer : public BindableDX11
+	class IndexBufferDX11 : public BindableDX11
 	{
 	public:
-		IndexBuffer(RenderingSystemDX11& renderingSystem) noexcept;
-		virtual ~IndexBuffer() override = default;
+		IndexBufferDX11(RenderingSystemDX11& renderingSystem) noexcept;
+		virtual ~IndexBufferDX11() override = default;
 
 		HRESULT Initialize(const std::vector<uint>& indices) noexcept;
 		virtual void Bind() noexcept override;
@@ -83,11 +83,11 @@ namespace LimeEngine
 	};
 
 	template <typename T>
-	class ConstantBuffer : public BindableDX11
+	class ConstantBufferDX11 : public BindableDX11
 	{
 	public:
-		ConstantBuffer(RenderingSystemDX11& renderer) noexcept : BindableDX11(renderer), data{} {}
-		virtual ~ConstantBuffer() override = default;
+		ConstantBufferDX11(RenderingSystemDX11& renderer) noexcept : BindableDX11(renderer), data{} {}
+		virtual ~ConstantBufferDX11() override = default;
 
 		HRESULT Initialize() noexcept
 		{
@@ -127,12 +127,12 @@ namespace LimeEngine
 	};
 
 	template <typename T>
-	class VertexShaderConstantBuffer : public ConstantBuffer<T>
+	class VertexShaderConstantBufferDX11 : public ConstantBufferDX11<T>
 	{
 	public:
-		using ConstantBuffer<T>::GetAddressOf;
-		using ConstantBuffer<T>::GetDeviceContext;
-		using ConstantBuffer<T>::ConstantBuffer;
+		using ConstantBufferDX11<T>::GetAddressOf;
+		using ConstantBufferDX11<T>::GetDeviceContext;
+		using ConstantBufferDX11<T>::ConstantBufferDX11;
 
 		virtual void Bind() noexcept override
 		{
@@ -141,12 +141,12 @@ namespace LimeEngine
 	};
 
 	template <typename T>
-	class PixelShaderConstantBuffer : public ConstantBuffer<T>
+	class PixelShaderConstantBufferDX11 : public ConstantBufferDX11<T>
 	{
 	public:
-		using ConstantBuffer<T>::GetAddressOf;
-		using ConstantBuffer<T>::GetDeviceContext;
-		using ConstantBuffer<T>::ConstantBuffer;
+		using ConstantBufferDX11<T>::GetAddressOf;
+		using ConstantBufferDX11<T>::GetDeviceContext;
+		using ConstantBufferDX11<T>::ConstantBufferDX11;
 
 		virtual void Bind() noexcept override
 		{

@@ -7,13 +7,14 @@ namespace LimeEngine
 {
 	enum class MaterialType;
 
-	class VertexShader : public BindableDX11
+	class VertexShaderDX11 : public BindableDX11
 	{
 	public:
-		VertexShader(RenderingSystemDX11& renderingSystem) noexcept;
-		virtual ~VertexShader() override = default;
+		VertexShaderDX11(RenderingSystemDX11& renderingSystem) noexcept;
+		VertexShaderDX11(RenderingSystemDX11& renderingSystem, std::wstring path, MaterialType materialType) noexcept;
+		virtual ~VertexShaderDX11() override = default;
 
-		void Initalize(std::wstring shaderpath, MaterialType materialType);
+		void Initialize(std::wstring path, MaterialType materialType);
 		virtual void Bind() noexcept override;
 		std::vector<D3D11_INPUT_ELEMENT_DESC> MakeInputLayout(MaterialType materialType) const;
 		ID3D11VertexShader* GetShader() const noexcept;
@@ -26,13 +27,14 @@ namespace LimeEngine
 		com_ptr<ID3D11InputLayout> inputLoyout = nullptr;
 	};
 
-	class PixelShader : public BindableDX11
+	class PixelShaderDX11 : public BindableDX11
 	{
 	public:
-		PixelShader(RenderingSystemDX11& renderingSystem) noexcept;
-		virtual ~PixelShader() override = default;
+		PixelShaderDX11(RenderingSystemDX11& renderingSystem) noexcept;
+		PixelShaderDX11(RenderingSystemDX11& renderingSystem, std::wstring path) noexcept;
+		virtual ~PixelShaderDX11() override = default;
 
-		void Initalize(std::wstring shaderpath);
+		void Initialize(std::wstring path);
 		virtual void Bind() noexcept override;
 		ID3D11PixelShader* GetShader() const noexcept;
 		ID3D10Blob* GetBuffer() const noexcept;

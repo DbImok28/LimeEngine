@@ -8,7 +8,7 @@ namespace LimeEngine
 	class Primitive
 	{
 	public:
-		Mesh* CreateMesh(RenderingSystemDX11& renderer, Engine* engine) const;
+		Mesh* CreateMesh(const GraphicFactory* graphicFactory, Engine* engine) const;
 
 	protected:
 		std::vector<Vertex> vertices;

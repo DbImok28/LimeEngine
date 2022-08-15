@@ -10,8 +10,8 @@ namespace LimeEngine
 	public:
 		template <typename... Args>
 		T* Create(size_t id, Args&&... args);
-		size_t Register(T* item) noexcept;
-		void Register(size_t id, T* item) noexcept;
+		T* Register(T* item) noexcept;
+		T* Register(size_t id, T* item) noexcept;
 		T* Get(size_t id);
 		~GameData();
 		size_t GetLastId() const noexcept
@@ -34,18 +34,19 @@ namespace LimeEngine
 	}
 
 	template <typename T>
-	size_t GameData<T>::Register(T* item) noexcept
+	T* GameData<T>::Register(T* item) noexcept
 	{
 		++maxId;
 		data.insert({ maxId, item });
-		return maxId;
+		return item;
 	}
 
 	template <typename T>
-	void GameData<T>::Register(size_t id, T* item) noexcept
+	T* GameData<T>::Register(size_t id, T* item) noexcept
 	{
 		maxId = maxId < id ? id : maxId;
 		data.insert({ id, item });
+		return item;
 	}
 
 	template <typename T>

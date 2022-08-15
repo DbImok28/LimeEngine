@@ -2,7 +2,6 @@
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
-
 #include "DirectXDef.hpp"
 #include "../RenderingSystem.hpp"
 #include <map>
@@ -12,6 +11,7 @@
 #include "../../../Helpers/Paths.hpp"
 #include "../../../Scene/CameraComponent.hpp"
 #include "BindableDX11.hpp"
+#include "GraphicFactoryDX11.hpp"
 
 // TODO: Remove
 #ifndef NO_IMGUI
@@ -32,20 +32,24 @@ namespace LimeEngine
 		RenderingSystemDX11(RenderingSystemDX11&&) noexcept = delete;
 		RenderingSystemDX11& operator=(const RenderingSystemDX11&) = delete;
 		RenderingSystemDX11& operator=(RenderingSystemDX11&&) noexcept = delete;
-
 		virtual ~RenderingSystemDX11() override = default;
+
 		virtual void SetInputCamera(CameraComponent* cameraComponent) override;
 		virtual void Initialize(const Window& window) override;
-
 		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transform) override;
-
-		ID3D11Device* GetDevice() const noexcept;
-		ID3D11DeviceContext* GetDeviceContext() const noexcept;
 
 	private:
 		void InitializeDirectX(HWND hWnd, int width, int height);
 		virtual void PreProcessing() override;
 		virtual void PostProcessing() override;
+
+	public:
+		virtual const GraphicFactory* GetGraphicFactory() const noexcept override;
+		ID3D11Device* GetDevice() const noexcept;
+		ID3D11DeviceContext* GetDeviceContext() const noexcept;
+
+	private:
+		GraphicFactoryDX11 graphicFactory;
 
 		com_ptr<IDXGISwapChain> swapchain;
 		com_ptr<ID3D11RenderTargetView> renderTargetView;

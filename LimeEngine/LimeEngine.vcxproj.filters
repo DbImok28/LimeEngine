@@ -1,109 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Engine">
-      <UniqueIdentifier>{ba329b0f-8768-498c-9520-18bff8b96efd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Window">
-      <UniqueIdentifier>{33bf96b8-e7da-4068-9f91-223681ec9396}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Exceptions">
-      <UniqueIdentifier>{4eaf295e-1c90-4949-b131-9aa1c8203eaa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Helpers">
-      <UniqueIdentifier>{642d5d0c-4ef4-4349-98b0-0399ffb6f1bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Input">
-      <UniqueIdentifier>{065edf82-b98b-4e8b-b622-e4211bf39a0a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Graphics">
-      <UniqueIdentifier>{9225a1bc-b0ad-4f9b-ae70-eccbc1974033}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Graphics\Resources">
-      <UniqueIdentifier>{8d5860a3-2445-47cb-8c66-7c7a15667c3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Graphics\Resources\Shaders">
-      <UniqueIdentifier>{d4f773c0-bed0-41c0-824d-39d148abe15d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scene">
-      <UniqueIdentifier>{16109484-e514-4e56-a244-498ca46a9ed3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Base">
-      <UniqueIdentifier>{d0d4a15b-8c0e-46ef-9f39-6a5a96cec5aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Includes">
-      <UniqueIdentifier>{e5656f2e-698b-4c52-aab7-672ea616c678}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Includes\dxerr">
-      <UniqueIdentifier>{fd0a2959-07c6-4920-8d7e-59ef08c79e94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Includes\ImGui">
-      <UniqueIdentifier>{0b8bd258-fd1f-4616-8122-384f5f1b0e12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scene\Maps">
-      <UniqueIdentifier>{944ecbf0-254c-4c4a-acfb-1bb83b829061}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scene\Components">
-      <UniqueIdentifier>{50152d77-33df-43cd-accf-0d257049b5e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Scene\Objects">
-      <UniqueIdentifier>{7e4b3a42-e5ac-4ff3-a3d1-b5d6c62bf162}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Graphics\Systems">
-      <UniqueIdentifier>{1449ff43-61a7-4af8-b882-996027725510}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Graphics\Systems\DirectX11">
-      <UniqueIdentifier>{dc486e6a-4d13-4995-91c4-c76b1d585c29}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Graphics\Systems\DirectX11\Buffers">
-      <UniqueIdentifier>{6c98179c-6e73-483c-a639-f46e47503b90}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Graphics\Systems\DirectX11\Shaders">
-      <UniqueIdentifier>{ed0dd5a7-b4ee-4554-9b34-aeb32bcde501}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Graphics\Base">
-      <UniqueIdentifier>{0b32a468-66e1-40c9-a83d-c3771f6ef78f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Graphics\Systems\DirectX11\Base">
-      <UniqueIdentifier>{3c312344-4d6c-4b87-90a7-e78e4e9b9cb1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\IO">
-      <UniqueIdentifier>{77cc0b76-5942-4ea9-adc0-c8a8380126eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Window\Windows">
-      <UniqueIdentifier>{2664aabe-ec08-450b-8482-bccb1f4e00af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Window\Windows\Main">
-      <UniqueIdentifier>{55721e96-fdfa-40a2-8cab-61fb53a06584}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Window\Windows\Console">
-      <UniqueIdentifier>{260baecb-a1a9-4edd-bf08-3ee4f83bd50f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Window\Windows\Resources">
-      <UniqueIdentifier>{3b4eec78-24db-4d77-9e0b-8339e22e9f38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Window\Base">
-      <UniqueIdentifier>{d785ff9a-0a42-400b-820d-d5978e54e15f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Diagnostics">
-      <UniqueIdentifier>{6c4646f4-b972-4a3d-b8d8-05d4a91fde5e}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="Engine\Engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Window\Windows\Main\Window.cpp">
+      <Filter>Engine\Window\Windows\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Window\Windows\Main\WinMain.cpp">
+      <Filter>Engine\Window\Windows\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Window\Windows\Console\Console.cpp">
+      <Filter>Engine\Window\Windows\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Exceptions\DxgiInfo.cpp">
+      <Filter>Engine\Exceptions</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Exceptions\EngineExceptions.cpp">
       <Filter>Engine\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Helpers\StringHelper.cpp">
       <Filter>Engine\Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Input\Keyboard.cpp">
-      <Filter>Engine\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Engine.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Input\Mouse.cpp">
-      <Filter>Engine\Input</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Helpers\Timer.cpp">
       <Filter>Engine\Helpers</Filter>
@@ -111,23 +28,119 @@
     <ClCompile Include="Engine\Helpers\Paths.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\Shaders.cpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Shaders</Filter>
+    <ClCompile Include="Engine\Input\Keyboard.cpp">
+      <Filter>Engine\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Vertex.cpp">
+    <ClCompile Include="Engine\Input\Mouse.cpp">
+      <Filter>Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Renderer.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\BuffersDX11.cpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\BindableDX11.cpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicAdapter.cpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.cpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\RenderDataDX11.cpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Systems\DX11\ShadersDX11.cpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Base\Mesh.cpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Base\Material.cpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Base\Texture2D.cpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Base\RenderQueue.cpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\Scene.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\SceneMap.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\TestMap.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\DefaultPlayerCameraComponent.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\CameraComponent.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\SceneComponent.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\MeshComponent.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\SceneObject.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\MeshObject.cpp">
+      <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Color.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Vector.cpp">
+    <ClCompile Include="Engine\Base\Vertex.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\Transform.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Base\Vector.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\GameDataManager.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Primitives.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Transformable.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Rotator.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Math.cpp">
+      <Filter>Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\IO\EngineIO.cpp">
+      <Filter>Engine\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\IO\SceneIO.cpp">
+      <Filter>Engine\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\IO\RenderIO.cpp">
+      <Filter>Engine\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Diagnostics\Logger.cpp">
+      <Filter>Engine\Diagnostics</Filter>
+    </ClCompile>
     <ClCompile Include="Includes\dxerr\dxerr.cpp">
       <Filter>Includes\dxerr</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Exceptions\DxgiInfo.cpp">
-      <Filter>Engine\Exceptions</Filter>
+    <ClCompile Include="Includes\ImGui\imgui.cpp">
+      <Filter>Includes\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\ImGui\imgui_draw.cpp">
+      <Filter>Includes\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Includes\ImGui\imgui_impl_dx11.cpp">
       <Filter>Includes\ImGui</Filter>
@@ -141,126 +154,42 @@
     <ClCompile Include="Includes\ImGui\imgui_widgets.cpp">
       <Filter>Includes\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Includes\ImGui\imgui.cpp">
-      <Filter>Includes\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="Includes\ImGui\imgui_draw.cpp">
-      <Filter>Includes\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\GameDataManager.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Scene\TestMap.cpp">
-      <Filter>Engine\Scene\Maps</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Scene\Scene.cpp">
-      <Filter>Engine\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Scene\SceneObject.cpp">
-      <Filter>Engine\Scene\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Scene\SceneMap.cpp">
-      <Filter>Engine\Scene\Maps</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Scene\MeshComponent.cpp">
-      <Filter>Engine\Scene\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Scene\SceneComponent.cpp">
-      <Filter>Engine\Scene\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Scene\MeshObject.cpp">
-      <Filter>Engine\Scene\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\Transformable.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\Rotator.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Scene\CameraComponent.cpp">
-      <Filter>Engine\Scene\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Scene\DefaultPlayerCameraComponent.cpp">
-      <Filter>Engine\Scene\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Renderer.cpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.cpp">
-      <Filter>Engine\Graphics\Systems\DirectX11</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Base\Texture2D.cpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Base\Mesh.cpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Base\Material.cpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicAdapter.cpp">
-      <Filter>Engine\Graphics\Systems\DirectX11</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\IO\EngineIO.cpp">
-      <Filter>Engine\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\IO\SceneIO.cpp">
-      <Filter>Engine\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\IO\RenderIO.cpp">
-      <Filter>Engine\IO</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Window\Windows\Console\Console.cpp">
-      <Filter>Engine\Window\Windows\Console</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Window\Windows\Main\Window.cpp">
-      <Filter>Engine\Window\Windows\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Window\Windows\Main\WinMain.cpp">
-      <Filter>Engine\Window\Windows\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Diagnostics\Logger.cpp">
-      <Filter>Engine\Diagnostics</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\Color.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\Math.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\Primitives.cpp">
-      <Filter>Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Base\RenderQueue.cpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Base\MeshRenderDataDX11.cpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\BindableDX11.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\Buffers.cpp" />
+    <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicFactoryDX11.cpp" />
+    <ClCompile Include="Engine\Graphics\Systems\DX11\Texture2DDX11.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Window\Resource\resource.h">
-      <Filter>Engine\Window\Windows\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Exceptions\EngineExceptions.hpp">
-      <Filter>Engine\Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Helpers\StringHelper.hpp">
-      <Filter>Engine\Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Input\Keyboard.hpp">
-      <Filter>Engine\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Input\InputDevice.hpp">
-      <Filter>Engine\Input</Filter>
+    <ClInclude Include="Engine\CoreBase.hpp">
+      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Engine.hpp">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Input\Mouse.hpp">
-      <Filter>Engine\Input</Filter>
+    <ClInclude Include="Engine\Window\Windows\WinApi.hpp">
+      <Filter>Engine\Window\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Window\Windows\Main\Window.hpp">
+      <Filter>Engine\Window\Windows\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Window\Windows\Console\Console.hpp">
+      <Filter>Engine\Window\Windows\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Window\Resource\resource.h">
+      <Filter>Engine\Window\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Window\Base\Console.hpp">
+      <Filter>Engine\Window\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp">
+      <Filter>Engine\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp">
+      <Filter>Engine\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Exceptions\EngineExceptions.hpp">
+      <Filter>Engine\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Exceptions\WindowExceptions.hpp">
+      <Filter>Engine\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Helpers\Timer.hpp">
       <Filter>Engine\Helpers</Filter>
@@ -268,26 +197,152 @@
     <ClInclude Include="Engine\Helpers\Paths.hpp">
       <Filter>Engine\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Helpers\StringHelper.hpp">
+      <Filter>Engine\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input\InputDevice.hpp">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input\Keyboard.hpp">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input\Mouse.hpp">
+      <Filter>Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Renderer.hpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\RenderingSystem.hpp">
+      <Filter>Engine\Graphics\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\BuffersDX11.hpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\BindableDX11.hpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\GraphicAdapter.hpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\DirectXDef.hpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.hpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\RenderDataDX11.hpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Graphics\Systems\DX11\ConstantBuffers.hpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Buffers</Filter>
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\Shaders.hpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Shaders</Filter>
+    <ClInclude Include="Engine\Graphics\Systems\DX11\ShadersDX11.hpp">
+      <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Vertex.hpp">
+    <ClInclude Include="Engine\Graphics\Base\IDrawable.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\IBindable.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\Mesh.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\Material.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\Texture2D.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\RenderQueue.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\RenderData.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Base\GraphicFactory.hpp">
+      <Filter>Engine\Graphics\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\Scene.hpp">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\SceneMap.hpp">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\TestMap.hpp">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\DefaultPlayerCameraComponent.hpp">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\CameraComponent.hpp">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\SceneComponent.hpp">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\MeshComponent.hpp">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\SceneObject.hpp">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\MeshObject.hpp">
+      <Filter>Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Color.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Vector.hpp">
+    <ClInclude Include="Engine\Base\Vertex.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\Transform.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Base\Vector.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\GameDataManager.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\GameData.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Events.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Primitives.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Transformable.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Rotator.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Math.hpp">
+      <Filter>Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\IO\EngineIO.hpp">
+      <Filter>Engine\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\IO\SceneIO.hpp">
+      <Filter>Engine\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\IO\RenderIO.hpp">
+      <Filter>Engine\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Diagnostics\Logger.hpp">
+      <Filter>Engine\Diagnostics</Filter>
+    </ClInclude>
     <ClInclude Include="Includes\dxerr\dxerr.h">
       <Filter>Includes\dxerr</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp">
-      <Filter>Engine\Exceptions</Filter>
+    <ClInclude Include="Includes\ImGui\imconfig.h">
+      <Filter>Includes\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\ImGui\imgui.h">
+      <Filter>Includes\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Includes\ImGui\imgui_impl_dx11.h">
       <Filter>Includes\ImGui</Filter>
@@ -310,154 +365,12 @@
     <ClInclude Include="Includes\ImGui\imstb_truetype.h">
       <Filter>Includes\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\ImGui\imconfig.h">
-      <Filter>Includes\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\ImGui\imgui.h">
-      <Filter>Includes\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\GameDataManager.hpp">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Exceptions\WindowExceptions.hpp">
-      <Filter>Engine\Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\GameData.hpp">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Scene\TestMap.hpp">
-      <Filter>Engine\Scene\Maps</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Scene\Scene.hpp">
-      <Filter>Engine\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Scene\SceneObject.hpp">
-      <Filter>Engine\Scene\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Scene\SceneMap.hpp">
-      <Filter>Engine\Scene\Maps</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Scene\MeshComponent.hpp">
-      <Filter>Engine\Scene\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Scene\SceneComponent.hpp">
-      <Filter>Engine\Scene\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Scene\MeshObject.hpp">
-      <Filter>Engine\Scene\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\Transformable.hpp">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\Rotator.hpp">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Scene\CameraComponent.hpp">
-      <Filter>Engine\Scene\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\Events.hpp">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Scene\DefaultPlayerCameraComponent.hpp">
-      <Filter>Engine\Scene\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Renderer.hpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\RenderingSystem.hpp">
-      <Filter>Engine\Graphics\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.hpp">
-      <Filter>Engine\Graphics\Systems\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\DirectXDef.hpp">
-      <Filter>Engine\Graphics\Systems\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\Texture2D.hpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\Mesh.hpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\Material.hpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\GraphicAdapter.hpp">
-      <Filter>Engine\Graphics\Systems\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\IO\SceneIO.hpp">
-      <Filter>Engine\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\IO\EngineIO.hpp">
-      <Filter>Engine\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\IO\RenderIO.hpp">
-      <Filter>Engine\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\CoreBase.hpp">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp">
-      <Filter>Engine\Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Window\Windows\Console\Console.hpp">
-      <Filter>Engine\Window\Windows\Console</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Window\Windows\WinApi.hpp">
-      <Filter>Engine\Window\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Window\Windows\Main\Window.hpp">
-      <Filter>Engine\Window\Windows\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Diagnostics\Logger.hpp">
-      <Filter>Engine\Diagnostics</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\Color.hpp">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Window\Base\Console.hpp">
-      <Filter>Engine\Window\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\Math.hpp">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\Primitives.hpp">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\IDrawable.hpp">
-      <Filter>Engine\Graphics\Systems\DirectX11\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\RenderQueue.hpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\MeshRenderDataDX11.hpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\IBindable.hpp">
-      <Filter>Engine\Graphics\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\BindableDX11.hpp">
-      <Filter>Engine\Graphics\Systems\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\Buffers.hpp" />
+    <ClInclude Include="Engine\Graphics\Systems\DX11\GraphicFactoryDX11.hpp" />
+    <ClInclude Include="Engine\Graphics\Systems\DX11\Texture2DDX11.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Engine\Window\Resource\LimeEngine.rc">
-      <Filter>Engine\Window\Windows\Resources</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Engine\Window\Resource\cherry.ico">
-      <Filter>Engine\Window\Windows\Resources</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="PixelShader.hlsl">
-      <Filter>Engine\Graphics\Resources\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="VertexShader.hlsl">
-      <Filter>Engine\Graphics\Resources\Shaders</Filter>
-    </FxCompile>
+    <FxCompile Include="PixelShader.hlsl" />
+    <FxCompile Include="VertexShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Includes\dxerr\DXGetErrorDescription.inl">
@@ -469,5 +382,80 @@
     <None Include="Includes\dxerr\DXTrace.inl">
       <Filter>Includes\dxerr</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{93c2785b-dc57-4e45-9d7f-84e681a0ff3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window">
+      <UniqueIdentifier>{f2190e99-1d54-48e3-a2c4-be4bf3b2a18c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window\Windows">
+      <UniqueIdentifier>{02271acf-71a4-4012-a807-c403bc2119c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window\Windows\Main">
+      <UniqueIdentifier>{57d49e9b-b2fc-4a58-96a5-f7295e949698}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window\Windows\Console">
+      <UniqueIdentifier>{590137bf-2a88-4ee3-9acd-07a4eef3d800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window\Resource">
+      <UniqueIdentifier>{950aabe7-5bb3-4b50-ab22-528b5ad04227}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Window\Base">
+      <UniqueIdentifier>{5786bd24-a5d0-4e1a-a3ee-3c2e71a224cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Exceptions">
+      <UniqueIdentifier>{fc54cf96-a382-47a4-9457-f0e54e56e715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Helpers">
+      <UniqueIdentifier>{d23130cd-b4ab-43b0-ab21-d7c38d64fecc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Input">
+      <UniqueIdentifier>{123d528e-b420-4d5f-b063-af7499004b3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics">
+      <UniqueIdentifier>{5a12a0a0-71dc-4451-af98-bcf1a3d4e82c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Systems">
+      <UniqueIdentifier>{a50e367d-e283-4242-bf0f-91805cef0dd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Systems\DX11">
+      <UniqueIdentifier>{8dc00934-edc3-4c3f-8d7b-025cabda3bbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\Base">
+      <UniqueIdentifier>{60d485a7-2da0-47ff-906b-4ad15cf26117}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene">
+      <UniqueIdentifier>{76cc13ff-cc1e-4b23-b308-81a046ced358}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Base">
+      <UniqueIdentifier>{a24fd088-6dc4-48df-9daf-337855854325}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\IO">
+      <UniqueIdentifier>{74bec30a-55b6-471a-a4cb-45977789460a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Diagnostics">
+      <UniqueIdentifier>{9c2826ef-1944-4e99-91cd-cfe20cfaf594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes">
+      <UniqueIdentifier>{1db57b94-a63c-43a4-86be-cfaeca2af527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\dxerr">
+      <UniqueIdentifier>{97a952cf-c616-42ca-8d6e-06444cd77a56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\ImGui">
+      <UniqueIdentifier>{81207445-84b0-4aa2-b6b3-d109e0c202fd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Engine\Window\Resource\LimeEngine.rc">
+      <Filter>Engine\Window\Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Engine\Window\Resource\cherry.ico">
+      <Filter>Engine\Window\Resource</Filter>
+    </Image>
   </ItemGroup>
 </Project>

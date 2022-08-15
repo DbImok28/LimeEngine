@@ -14,8 +14,7 @@ namespace LimeEngine
 	public:
 		explicit GameDataManager(Engine* engine) noexcept;
 
-		Mesh* CreateMesh(RenderingSystemDX11& renderer, const std::vector<Vertex>& vertices, const std::vector<uint>& indices);
-		Texture2D* CreateTexture2D(RenderingSystemDX11& renderer);
+		Mesh* CreateMesh(const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices);
 		Mesh* LoadMesh(size_t id);
 		Material* LoadMaterial(size_t id);
 		Texture2D* LoadTexture2D(size_t id);

@@ -11,7 +11,7 @@
 
 namespace LimeEngine
 {
-	RenderingSystemDX11::RenderingSystemDX11() : RenderingSystem() {}
+	RenderingSystemDX11::RenderingSystemDX11() : RenderingSystem(), graphicFactory(*this) {}
 
 	void RenderingSystemDX11::Initialize(const Window& window)
 	{
@@ -24,8 +24,13 @@ namespace LimeEngine
 	void RenderingSystemDX11::Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix)
 	{
 		if (!(inputCamera && mesh.GetMaterial())) return;
-		mesh.meshRenderData.ApplyAll(mesh.GetMaterial(), inputCamera, transformMatrix);
-		deviceContext->DrawIndexed(mesh.meshRenderData.indexBuffer.Count(), 0, 0);
+		mesh.BindRenderData(mesh.GetMaterial(), inputCamera, transformMatrix);
+		deviceContext->DrawIndexed(mesh.IndicesCount(), 0, 0);
+	}
+
+	const GraphicFactory* RenderingSystemDX11::GetGraphicFactory() const noexcept
+	{
+		return &graphicFactory;
 	}
 
 	ID3D11Device* RenderingSystemDX11::GetDevice() const noexcept

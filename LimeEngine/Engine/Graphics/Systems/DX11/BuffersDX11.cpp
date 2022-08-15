@@ -1,10 +1,10 @@
-#include "Buffers.hpp"
+#include "BuffersDX11.hpp"
 
 namespace LimeEngine
 {
-	IndexBuffer::IndexBuffer(RenderingSystemDX11& renderingSystem) noexcept : BindableDX11(renderingSystem) {}
+	IndexBufferDX11::IndexBufferDX11(RenderingSystemDX11& renderingSystem) noexcept : BindableDX11(renderingSystem) {}
 
-	HRESULT IndexBuffer::Initialize(const std::vector<uint>& indices) noexcept
+	HRESULT IndexBufferDX11::Initialize(const std::vector<uint>& indices) noexcept
 	{
 		bufferSize = static_cast<uint>(indices.size());
 
@@ -22,22 +22,22 @@ namespace LimeEngine
 		return GetDevice()->CreateBuffer(&indexBufferDesc, &indexBufferData, buffer.GetAddressOf());
 	}
 
-	void IndexBuffer::Bind() noexcept
+	void IndexBufferDX11::Bind() noexcept
 	{
 		GetDeviceContext()->IASetIndexBuffer(Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
 	}
 
-	ID3D11Buffer* IndexBuffer::Get() const noexcept
+	ID3D11Buffer* IndexBufferDX11::Get() const noexcept
 	{
 		return buffer.Get();
 	}
 
-	ID3D11Buffer* const* IndexBuffer::GetAddressOf() const noexcept
+	ID3D11Buffer* const* IndexBufferDX11::GetAddressOf() const noexcept
 	{
 		return buffer.GetAddressOf();
 	}
 
-	uint IndexBuffer::Count() const noexcept
+	uint IndexBufferDX11::Count() const noexcept
 	{
 		return bufferSize;
 	}

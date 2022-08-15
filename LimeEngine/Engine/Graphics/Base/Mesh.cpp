@@ -2,13 +2,23 @@
 
 namespace LimeEngine
 {
-	Mesh::Mesh(RenderingSystemDX11& renderer, const std::vector<Vertex>& vertices, const std::vector<uint>& indices, size_t id) :
-		vertices(vertices), indices(indices), id(id), meshRenderData(renderer, vertices, indices)
+	Mesh::Mesh(const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices, size_t id) :
+		vertices(vertices), indices(indices), id(id), meshRenderData(graphicFactory->CreateMeshRenderData(vertices, indices))
 	{}
 
 	void Mesh::SetMaterial(Material* material) noexcept
 	{
 		this->material = material;
+	}
+
+	void Mesh::BindRenderData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
+	{
+		meshRenderData->BindData(material, cameraComponent, transformMatrix);
+	}
+
+	uint Mesh::IndicesCount() const noexcept
+	{
+		return indices.size();
 	}
 
 	Material* Mesh::GetMaterial() const noexcept

@@ -5,9 +5,9 @@
 
 namespace LimeEngine
 {
-	Mesh* Primitive::CreateMesh(RenderingSystemDX11& renderer, Engine* engine) const
+	Mesh* Primitive::CreateMesh(const GraphicFactory* graphicFactory, Engine* engine) const
 	{
-		return engine->gameDataManager.CreateMesh(renderer, vertices, indices);
+		return engine->gameDataManager.CreateMesh(graphicFactory, vertices, indices);
 	}
 
 	Plane::Plane(float size, uint8 segmentsLength, uint8 segmentsWidth)

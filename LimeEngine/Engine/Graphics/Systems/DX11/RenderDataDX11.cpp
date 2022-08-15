@@ -1,4 +1,4 @@
-#include "MeshRenderDataDX11.hpp"
+#include "RenderDataDX11.hpp"
 
 namespace LimeEngine
 {
@@ -19,23 +19,24 @@ namespace LimeEngine
 
 	void MeshRenderDataDX11::ApplyMaterial(Material* material)
 	{
-		material->ApplyConstantBuffer(renderer, transformConstantBuffer);
-		material->ApplyMaterial(renderer);
+		material->ApplyMaterial();
 	}
 
 	void MeshRenderDataDX11::ApplyTransform(const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix) noexcept
 	{
 		transformConstantBuffer.data.wvpMatrix = XMMatrixTranspose(transformMatrix * cameraComponent->GetViewProjectionMatrix());
 		transformConstantBuffer.data.worldMatrix = XMMatrixTranspose(transformMatrix);
+		transformConstantBuffer.ApplyChanges();
 	}
 
 	void MeshRenderDataDX11::ApplyBuffers() noexcept
 	{
 		indexBuffer.Bind();
 		vertexBuffer.Bind();
+		transformConstantBuffer.Bind();
 	}
 
-	void MeshRenderDataDX11::ApplyAll(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
+	void MeshRenderDataDX11::BindData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
 	{
 		ApplyBuffers();
 		ApplyTransform(cameraComponent, transformMatrix);

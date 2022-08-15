@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Window/Windows/Main/Window.hpp"
 #include "../../Scene/CameraComponent.hpp"
+#include "../Base/GraphicFactory.hpp"
 
 namespace LimeEngine
 {
@@ -20,6 +21,7 @@ namespace LimeEngine
 		virtual void PreProcessing() = 0;
 		virtual void PostProcessing() = 0;
 		virtual void SetInputCamera(CameraComponent* cameraComponent) = 0;
+		virtual const GraphicFactory* GetGraphicFactory() const noexcept = 0;
 
 		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) = 0;
 	};
