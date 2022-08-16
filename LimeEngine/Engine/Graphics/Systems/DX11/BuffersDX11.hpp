@@ -9,7 +9,7 @@ namespace LimeEngine
 	class VertexBufferDX11 : public BindableDX11
 	{
 	public:
-		VertexBufferDX11(RenderingSystemDX11& renderingSystem) noexcept : BindableDX11(renderingSystem) {}
+		VertexBufferDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
 		virtual ~VertexBufferDX11() override = default;
 
 		HRESULT Initialize(const std::vector<T>& vertices, uint offset = 0u) noexcept
@@ -68,7 +68,7 @@ namespace LimeEngine
 	class IndexBufferDX11 : public BindableDX11
 	{
 	public:
-		IndexBufferDX11(RenderingSystemDX11& renderingSystem) noexcept;
+		IndexBufferDX11(RendererDX11& renderer) noexcept;
 		virtual ~IndexBufferDX11() override = default;
 
 		HRESULT Initialize(const std::vector<uint>& indices) noexcept;
@@ -86,7 +86,7 @@ namespace LimeEngine
 	class ConstantBufferDX11 : public BindableDX11
 	{
 	public:
-		ConstantBufferDX11(RenderingSystemDX11& renderer) noexcept : BindableDX11(renderer), data{} {}
+		ConstantBufferDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer), data{} {}
 		virtual ~ConstantBufferDX11() override = default;
 
 		HRESULT Initialize() noexcept

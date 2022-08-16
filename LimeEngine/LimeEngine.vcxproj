@@ -201,7 +201,7 @@
     <ClCompile Include="Engine\Window\Windows\Main\Window.cpp" />
     <ClCompile Include="Engine\Window\Windows\Main\WinMain.cpp" />
     <ClCompile Include="Engine\Base\GameDataManager.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.cpp" />
+    <ClCompile Include="Engine\Graphics\Systems\DX11\RendererDX11.cpp" />
     <ClCompile Include="Engine\Base\Primitives.cpp" />
     <ClCompile Include="Includes\dxerr\dxerr.cpp" />
     <ClCompile Include="Includes\ImGui\imgui.cpp" />
@@ -266,8 +266,7 @@
     <ClInclude Include="Engine\Base\GameDataManager.hpp" />
     <ClInclude Include="Engine\Base\GameData.hpp" />
     <ClInclude Include="Engine\Base\Events.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\RenderingSystem.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.hpp" />
+    <ClInclude Include="Engine\Graphics\Systems\DX11\RendererDX11.hpp" />
     <ClInclude Include="Engine\Base\Primitives.hpp" />
     <ClInclude Include="Engine\Graphics\Base\GraphicFactory.hpp" />
     <ClInclude Include="Includes\dxerr\dxerr.h" />

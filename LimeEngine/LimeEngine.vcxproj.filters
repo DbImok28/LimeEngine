@@ -46,7 +46,7 @@
     <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicAdapter.cpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.cpp">
+    <ClCompile Include="Engine\Graphics\Systems\DX11\RendererDX11.cpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Graphics\Systems\DX11\RenderDataDX11.cpp">
@@ -212,9 +212,6 @@
     <ClInclude Include="Engine\Graphics\Renderer.hpp">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\RenderingSystem.hpp">
-      <Filter>Engine\Graphics\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Graphics\Systems\DX11\BuffersDX11.hpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
@@ -227,7 +224,7 @@
     <ClInclude Include="Engine\Graphics\Systems\DX11\DirectXDef.hpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\RenderingSystemDX11.hpp">
+    <ClInclude Include="Engine\Graphics\Systems\DX11\RendererDX11.hpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\Systems\DX11\RenderDataDX11.hpp">

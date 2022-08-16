@@ -3,13 +3,13 @@
 
 namespace LimeEngine
 {
-	class RenderingSystem;
+	class Renderer;
 	struct IDrawable;
 
 	class RenderQueue
 	{
 	public:
-		void Draw(RenderingSystem& renderingSystem);
+		void Draw(Renderer& renderer);
 		void Sort(const Vector& target);
 		void Add(IDrawable* drawable);
 		bool Remove(const IDrawable* drawable);

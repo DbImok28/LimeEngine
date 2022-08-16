@@ -43,9 +43,9 @@ namespace LimeEngine
 
 	// Inherited via Drawable
 
-	void MeshComponent::Draw(RenderingSystem& renderingSystem)
+	void MeshComponent::Draw(Renderer& renderer)
 	{
-		renderingSystem.Draw(*mesh, GetWorldTransformMatrix());
+		renderer.Draw(*mesh, GetWorldTransformMatrix());
 	}
 
 	float MeshComponent::GetDistance(const Vector& target) noexcept

@@ -1,12 +1,13 @@
 #pragma once
 #include "../../CoreBase.hpp"
-#include "../Renderer.hpp"
 
 namespace LimeEngine
 {
+	class Renderer;
+
 	struct IDrawable
 	{
-		virtual void Draw(RenderingSystem& renderingSystem) = 0;
+		virtual void Draw(Renderer& renderer) = 0;
 		virtual float GetDistance(const Vector& target) noexcept = 0;
 		virtual ~IDrawable() = default;
 	};

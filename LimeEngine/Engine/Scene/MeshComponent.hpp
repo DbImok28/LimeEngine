@@ -15,7 +15,7 @@ namespace LimeEngine
 		void ShowMesh();
 		void HideMesh();
 
-		virtual void Draw(RenderingSystem& renderingSystem) override;
+		virtual void Draw(Renderer& renderer) override;
 		virtual float GetDistance(const Vector& target) noexcept override;
 
 	public:

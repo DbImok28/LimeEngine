@@ -1,5 +1,5 @@
 #include "BindableDX11.hpp"
-#include "RenderingSystemDX11.hpp"
+#include "RendererDX11.hpp"
 
 namespace LimeEngine
 {
@@ -13,7 +13,7 @@ namespace LimeEngine
 		return renderingSystem.deviceContext.Get();
 	}
 
-	RenderingSystemDX11& BindableDX11::GetRenderingSystem() const noexcept
+	RendererDX11& BindableDX11::GetRenderingSystem() const noexcept
 	{
 		return renderingSystem;
 	}

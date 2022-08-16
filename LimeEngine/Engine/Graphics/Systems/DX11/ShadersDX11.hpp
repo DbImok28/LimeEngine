@@ -10,8 +10,8 @@ namespace LimeEngine
 	class VertexShaderDX11 : public BindableDX11
 	{
 	public:
-		VertexShaderDX11(RenderingSystemDX11& renderingSystem) noexcept;
-		VertexShaderDX11(RenderingSystemDX11& renderingSystem, std::wstring path, MaterialType materialType) noexcept;
+		VertexShaderDX11(RendererDX11& renderer) noexcept;
+		VertexShaderDX11(RendererDX11& renderer, std::wstring path, MaterialType materialType) noexcept;
 		virtual ~VertexShaderDX11() override = default;
 
 		void Initialize(std::wstring path, MaterialType materialType);
@@ -30,8 +30,8 @@ namespace LimeEngine
 	class PixelShaderDX11 : public BindableDX11
 	{
 	public:
-		PixelShaderDX11(RenderingSystemDX11& renderingSystem) noexcept;
-		PixelShaderDX11(RenderingSystemDX11& renderingSystem, std::wstring path) noexcept;
+		PixelShaderDX11(RendererDX11& renderer) noexcept;
+		PixelShaderDX11(RendererDX11& renderer, std::wstring path) noexcept;
 		virtual ~PixelShaderDX11() override = default;
 
 		void Initialize(std::wstring path);

@@ -3,12 +3,12 @@
 
 namespace LimeEngine
 {
-	class RenderingSystemDX11;
+	class RendererDX11;
 
 	class GraphicFactoryDX11 : public GraphicFactory
 	{
 	public:
-		GraphicFactoryDX11(RenderingSystemDX11& renderingSystem) : renderingSystem(renderingSystem) {}
+		GraphicFactoryDX11(RendererDX11& renderer) : renderer(renderer) {}
 		virtual ~GraphicFactoryDX11() override = default;
 
 		virtual std::unique_ptr<MeshRenderData> CreateMeshRenderData(const std::vector<Vertex>& vertices, const std::vector<uint>& indices) const override;
@@ -17,6 +17,6 @@ namespace LimeEngine
 		virtual std::unique_ptr<Texture2D> CreateTexture2D(std::wstring path, TextureType type, size_t id) const override;
 
 	private:
-		RenderingSystemDX11& renderingSystem;
+		RendererDX11& renderer;
 	};
 }

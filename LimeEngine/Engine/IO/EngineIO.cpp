@@ -22,6 +22,6 @@ namespace LimeEngine
 
 	InputDevice& EngineIO::GetInput() noexcept
 	{
-		return renderIO.renderer->window->inputDevice;
+		return renderIO.renderer->GetInputDevice();
 	}
 }

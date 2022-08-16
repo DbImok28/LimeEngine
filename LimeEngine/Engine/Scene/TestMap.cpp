@@ -13,8 +13,8 @@ namespace LimeEngine
 		auto& engineInput0 = engine->engineIO.front();
 
 		// Graphic
-		auto renderingSystem = engineInput0.renderIO.renderer->renderingSystem;
-		auto graphicFactory = renderingSystem->GetGraphicFactory();
+		auto renderer = engineInput0.renderIO.renderer;
+		auto graphicFactory = renderer->GetGraphicFactory();
 
 		// Loading
 		static auto vertexShader = graphicFactory->CreateVertexShader(Paths::ShaderFolder + L"VertexShader.cso", MaterialType::Solid);

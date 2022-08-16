@@ -20,8 +20,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
 
 		// Renderer
 		auto outWindow = Window(1080, 720, TEXT("LimeEngine"));
-		auto renderingSystem = RenderingSystemDX11();
-		Renderer renderer(&renderingSystem, &outWindow);
+		auto renderer = RendererDX11(&outWindow);
 
 		// Create Engine
 		Engine engine(EngineIO(RenderIO(&renderer), SceneIO{}), &logConsole);

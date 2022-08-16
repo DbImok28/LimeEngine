@@ -59,7 +59,7 @@ namespace LimeEngine
 	{
 		if (engine->engineIO.size() > Id)
 		{
-			window = engine->engineIO[Id].renderIO.renderer->window;
+			window = engine->engineIO[Id].renderIO.renderer->GetWindow();
 			width = static_cast<float>(window->width);
 			height = static_cast<float>(window->height);
 			engine->engineIO[Id].SetInputCamera(this);

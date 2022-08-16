@@ -1,4 +1,4 @@
-#include "RenderingSystemDX11.hpp"
+#include "RendererDX11.hpp"
 #include "GraphicAdapter.hpp"
 #include "../../../Scene/MeshComponent.hpp"
 #include "../../Base/Mesh.hpp"
@@ -11,9 +11,12 @@
 
 namespace LimeEngine
 {
-	RenderingSystemDX11::RenderingSystemDX11() : RenderingSystem(), graphicFactory(*this) {}
+	RendererDX11::RendererDX11(Window* window) : Renderer(window), graphicFactory(*this)
+	{
+		Initialize(*window);
+	}
 
-	void RenderingSystemDX11::Initialize(const Window& window)
+	void RendererDX11::Initialize(const Window& window)
 	{
 		InitializeDirectX(window.GetHWnd(), window.width, window.height);
 #ifdef IMGUI
@@ -21,29 +24,29 @@ namespace LimeEngine
 #endif // IMGUI
 	}
 
-	void RenderingSystemDX11::Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix)
+	void RendererDX11::Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix)
 	{
 		if (!(inputCamera && mesh.GetMaterial())) return;
 		mesh.BindRenderData(mesh.GetMaterial(), inputCamera, transformMatrix);
 		deviceContext->DrawIndexed(mesh.IndicesCount(), 0, 0);
 	}
 
-	const GraphicFactory* RenderingSystemDX11::GetGraphicFactory() const noexcept
+	const GraphicFactory* RendererDX11::GetGraphicFactory() const noexcept
 	{
 		return &graphicFactory;
 	}
 
-	ID3D11Device* RenderingSystemDX11::GetDevice() const noexcept
+	ID3D11Device* RendererDX11::GetDevice() const noexcept
 	{
 		return device.Get();
 	}
 
-	ID3D11DeviceContext* RenderingSystemDX11::GetDeviceContext() const noexcept
+	ID3D11DeviceContext* RendererDX11::GetDeviceContext() const noexcept
 	{
 		return deviceContext.Get();
 	}
 
-	void RenderingSystemDX11::InitializeDirectX(HWND hWnd, int width, int height)
+	void RendererDX11::InitializeDirectX(HWND hWnd, int width, int height)
 	{
 		/*
 		1  Input Assembler		(IA) Stage
@@ -168,7 +171,7 @@ namespace LimeEngine
 		deviceContext->RSSetViewports(1, &viewport);
 	}
 
-	void RenderingSystemDX11::PreProcessing()
+	void RendererDX11::PreProcessing()
 	{
 		float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
 		deviceContext->ClearRenderTargetView(renderTargetView.Get(), bgcolor);
@@ -181,7 +184,7 @@ namespace LimeEngine
 		deviceContext->PSSetSamplers(0, 1, samplerState.GetAddressOf());
 	}
 
-	void RenderingSystemDX11::PostProcessing()
+	void RendererDX11::PostProcessing()
 	{
 #ifdef IMGUI
 		ImGuiUpdate();
@@ -198,13 +201,13 @@ namespace LimeEngine
 		}
 	}
 
-	void RenderingSystemDX11::SetInputCamera(CameraComponent* cameraComponent)
+	void RendererDX11::SetInputCamera(CameraComponent* cameraComponent)
 	{
 		if (cameraComponent) inputCamera = cameraComponent;
 	}
 
 #ifdef IMGUI
-	void RenderingSystemDX11::ImGuiSetup(HWND hWnd)
+	void RendererDX11::ImGuiSetup(HWND hWnd)
 	{
 		// Setup ImGui
 		IMGUI_CHECKVERSION();
@@ -215,7 +218,7 @@ namespace LimeEngine
 		ImGui::StyleColorsDark();
 	}
 
-	void RenderingSystemDX11::ImGuiUpdate()
+	void RendererDX11::ImGuiUpdate()
 	{
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();

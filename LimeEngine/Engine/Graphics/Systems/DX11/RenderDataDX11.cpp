@@ -2,7 +2,7 @@
 
 namespace LimeEngine
 {
-	MeshRenderDataDX11::MeshRenderDataDX11(RenderingSystemDX11& renderer, const std::vector<Vertex>& vertices, const std::vector<uint>& indices) :
+	MeshRenderDataDX11::MeshRenderDataDX11(RendererDX11& renderer, const std::vector<Vertex>& vertices, const std::vector<uint>& indices) :
 		renderer(renderer), vertexBuffer(renderer), indexBuffer(renderer), transformConstantBuffer(renderer)
 	{
 		InitializeBuffers(vertices, indices);

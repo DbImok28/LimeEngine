@@ -6,9 +6,9 @@
 
 namespace LimeEngine
 {
-	VertexShaderDX11::VertexShaderDX11(RenderingSystemDX11& renderingSystem) noexcept : BindableDX11(renderingSystem) {}
+	VertexShaderDX11::VertexShaderDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
 
-	VertexShaderDX11::VertexShaderDX11(RenderingSystemDX11& renderingSystem, std::wstring path, MaterialType materialType) noexcept : BindableDX11(renderingSystem)
+	VertexShaderDX11::VertexShaderDX11(RendererDX11& renderer, std::wstring path, MaterialType materialType) noexcept : BindableDX11(renderer)
 	{
 		Initialize(path, materialType);
 	}
@@ -73,9 +73,9 @@ namespace LimeEngine
 
 	// --
 
-	PixelShaderDX11::PixelShaderDX11(RenderingSystemDX11& renderingSystem) noexcept : BindableDX11(renderingSystem) {}
+	PixelShaderDX11::PixelShaderDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
 
-	PixelShaderDX11::PixelShaderDX11(RenderingSystemDX11& renderingSystem, std::wstring path) noexcept : BindableDX11(renderingSystem)
+	PixelShaderDX11::PixelShaderDX11(RendererDX11& renderer, std::wstring path) noexcept : BindableDX11(renderer)
 	{
 		Initialize(path);
 	}

@@ -3,7 +3,7 @@
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "DirectXDef.hpp"
-#include "../RenderingSystem.hpp"
+#include "../../Renderer.hpp"
 #include <map>
 #include <string>
 #include <sstream>
@@ -22,21 +22,19 @@
 
 namespace LimeEngine
 {
-	class RenderingSystemDX11 : public RenderingSystem
+	class RendererDX11 : public Renderer
 	{
 		friend class BindableDX11;
 
 	public:
-		RenderingSystemDX11();
-		RenderingSystemDX11(const RenderingSystemDX11&) = delete;
-		RenderingSystemDX11(RenderingSystemDX11&&) noexcept = delete;
-		RenderingSystemDX11& operator=(const RenderingSystemDX11&) = delete;
-		RenderingSystemDX11& operator=(RenderingSystemDX11&&) noexcept = delete;
-		virtual ~RenderingSystemDX11() override = default;
+		RendererDX11(Window* window);
+		virtual ~RendererDX11() override = default;
+		RendererDX11(const RendererDX11&) = delete;
+		RendererDX11(RendererDX11&&) noexcept = delete;
+		RendererDX11& operator=(const RendererDX11&) = delete;
+		RendererDX11& operator=(RendererDX11&&) noexcept = delete;
 
-		virtual void SetInputCamera(CameraComponent* cameraComponent) override;
-		virtual void Initialize(const Window& window) override;
-		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transform) override;
+		void Initialize(const Window& window);
 
 	private:
 		void InitializeDirectX(HWND hWnd, int width, int height);
@@ -44,6 +42,8 @@ namespace LimeEngine
 		virtual void PostProcessing() override;
 
 	public:
+		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transform) override;
+		virtual void SetInputCamera(CameraComponent* cameraComponent) override;
 		virtual const GraphicFactory* GetGraphicFactory() const noexcept override;
 		ID3D11Device* GetDevice() const noexcept;
 		ID3D11DeviceContext* GetDeviceContext() const noexcept;

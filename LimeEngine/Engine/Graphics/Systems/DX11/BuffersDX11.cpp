@@ -2,7 +2,7 @@
 
 namespace LimeEngine
 {
-	IndexBufferDX11::IndexBufferDX11(RenderingSystemDX11& renderingSystem) noexcept : BindableDX11(renderingSystem) {}
+	IndexBufferDX11::IndexBufferDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
 
 	HRESULT IndexBufferDX11::Initialize(const std::vector<uint>& indices) noexcept
 	{

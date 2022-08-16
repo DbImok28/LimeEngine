@@ -3,11 +3,11 @@
 
 namespace LimeEngine
 {
-	void RenderQueue::Draw(RenderingSystem& renderingSystem)
+	void RenderQueue::Draw(Renderer& renderer)
 	{
 		for (auto& drawable : queue)
 		{
-			drawable->Draw(renderingSystem);
+			drawable->Draw(renderer);
 		}
 	}
 	void RenderQueue::Sort(const Vector& target)
