@@ -8,9 +8,9 @@ namespace LimeEngine
 	class Texture2DDX11 : public Texture2D
 	{
 	public:
-		Texture2DDX11(RendererDX11& renderer, TextureType type, size_t id) noexcept;
-		Texture2DDX11(RendererDX11& renderer, const uint8_t* pData, size_t size, TextureType type, size_t id);
-		Texture2DDX11(RendererDX11& renderer, const std::wstring& filePath, TextureType type, size_t id);
+		Texture2DDX11(RendererDX11& renderer, std::string path, TextureType type) noexcept;
+		Texture2DDX11(RendererDX11& renderer, std::string path, const uint8_t* pData, size_t size, TextureType type);
+		Texture2DDX11(RendererDX11& renderer, std::string path, const std::wstring& filePath, TextureType type);
 
 		void Initialize(const uint8_t* pData, size_t size);
 		void Initialize(const std::wstring& filePath);

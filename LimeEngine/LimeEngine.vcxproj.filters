@@ -156,6 +156,8 @@
     </ClCompile>
     <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicFactoryDX11.cpp" />
     <ClCompile Include="Engine\Graphics\Systems\DX11\Texture2DDX11.cpp" />
+    <ClCompile Include="Engine\Base\GameDataLoader.cpp" />
+    <ClCompile Include="Engine\Base\GameResource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\CoreBase.hpp">
@@ -302,9 +304,6 @@
     <ClInclude Include="Engine\Base\GameDataManager.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\GameData.hpp">
-      <Filter>Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Base\Events.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
@@ -364,6 +363,8 @@
     </ClInclude>
     <ClInclude Include="Engine\Graphics\Systems\DX11\GraphicFactoryDX11.hpp" />
     <ClInclude Include="Engine\Graphics\Systems\DX11\Texture2DDX11.hpp" />
+    <ClInclude Include="Engine\Base\GameDataLoader.hpp" />
+    <ClInclude Include="Engine\Base\GameResource.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl" />

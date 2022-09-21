@@ -1,28 +1,25 @@
-#include "../Engine.hpp"
 #include "GameDataManager.hpp"
-#include "../Helpers/Paths.hpp"
+#include "../Engine.hpp"
 
 namespace LimeEngine
 {
-	GameDataManager::GameDataManager(Engine* engine) noexcept : engine(engine) {}
+	GameDataManager::GameDataManager(Engine* engine, const GraphicFactory* graphicFactory) noexcept : engine(engine), graphicFactory(graphicFactory) {}
 
-	Mesh* GameDataManager::CreateMesh(const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices)
+	GameResourceRef<Mesh> GameDataManager::LoadMesh(std::string gamePath)
 	{
-		return meshes.Create(meshes.GetLastId() + 1, graphicFactory, vertices, indices, meshes.GetLastId() + 1);
+		if (auto res = GetStoredResource<Mesh>(gamePath); res) return *res;
+		return Register<Mesh>(gamePath, graphicFactory->CreateMesh(LoadResourceData(gamePath, graphicFactory->GetMeshLoadParams())));
 	}
 
-	Mesh* GameDataManager::LoadMesh(size_t id)
+	GameResourceRef<Material> GameDataManager::LoadMaterial(std::string gamePath)
 	{
-		return meshes.Get(id);
+		if (auto res = GetStoredResource<Material>(gamePath); res) return *res;
+		return Register<Material>(gamePath, graphicFactory->CreateMaterial(LoadResourceData(gamePath, graphicFactory->GetMaterialLoadParams())));
 	}
 
-	Material* GameDataManager::LoadMaterial(size_t id)
+	GameResourceRef<Texture2D> GameDataManager::LoadTexture2D(std::string gamePath)
 	{
-		return materials.Get(id);
-	}
-
-	Texture2D* GameDataManager::LoadTexture2D(size_t id)
-	{
-		return textures2D.Get(id);
+		if (auto res = GetStoredResource<Texture2D>(gamePath); res) return *res;
+		return Register<Texture2D>(gamePath, graphicFactory->CreateTexture2D(LoadResourceData(gamePath, graphicFactory->GetTexture2DLoadParams())));
 	}
 }

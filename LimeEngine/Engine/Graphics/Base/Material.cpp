@@ -2,19 +2,19 @@
 
 namespace LimeEngine
 {
-	Material::Material(MaterialType type, size_t id) noexcept : type(type), id(id) {}
+	Material::Material(std::string path, MaterialType type) noexcept : GameResource(path), type(type) {}
 
-	void Material::AddTexture(Texture2D* texture) noexcept
+	void Material::AddTexture(GameResourceRef<Texture2D> texture) noexcept
 	{
 		textures.push_back(texture);
 	}
 
-	const std::vector<Texture2D*>& Material::GetTextures() const noexcept
+	const std::vector<GameResourceRef<Texture2D>>& Material::GetTextures() const noexcept
 	{
 		return textures;
 	}
 
-	void Material::SetTextures(const std::vector<Texture2D*>& textures) noexcept
+	void Material::SetTextures(const std::vector<GameResourceRef<Texture2D>>& textures) noexcept
 	{
 		this->textures = textures;
 	}
@@ -24,20 +24,15 @@ namespace LimeEngine
 		return type;
 	}
 
-	size_t Material::GetID() const noexcept
-	{
-		return id;
-	}
-
-	MasterMaterial::MasterMaterial(IBindable* vertexShader, IBindable* pixelShader, MaterialType type, size_t id) noexcept :
-		Material(type, id), vertexShader(vertexShader), pixelShader(pixelShader)
+	MasterMaterial::MasterMaterial(std::string path, IBindable* vertexShader, IBindable* pixelShader, MaterialType type) noexcept :
+		Material(path, type), vertexShader(vertexShader), pixelShader(pixelShader)
 	{}
 
 	void MasterMaterial::ApplyMaterial() noexcept
 	{
 		vertexShader->Bind();
 		pixelShader->Bind();
-		for (auto& texture : GetTextures())
+		for (auto& texture : textures)
 		{
 			texture->Bind();
 		}

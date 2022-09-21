@@ -2,10 +2,5 @@
 
 namespace LimeEngine
 {
-	Texture2D::Texture2D(TextureType type, size_t id) noexcept : type(type), id(id) {}
-
-	size_t Texture2D::GetID() const noexcept
-	{
-		return id;
-	}
+	Texture2D::Texture2D(std::string path, TextureType type) noexcept : GameResource(path), type(type) {}
 }

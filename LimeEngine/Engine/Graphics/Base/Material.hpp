@@ -11,31 +11,26 @@ namespace LimeEngine
 		Solid
 	};
 
-	class Material
+	class Material : public GameResource
 	{
 	public:
-		Material(MaterialType type, size_t id) noexcept;
-		virtual ~Material() = default;
+		Material(std::string path, MaterialType type) noexcept;
 
 		virtual void ApplyMaterial() noexcept = 0;
-		void AddTexture(Texture2D* texture) noexcept;
-		const std::vector<Texture2D*>& GetTextures() const noexcept;
-		void SetTextures(const std::vector<Texture2D*>& textures) noexcept;
+		void AddTexture(GameResourceRef<Texture2D> texture) noexcept;
+		const std::vector<GameResourceRef<Texture2D>>& GetTextures() const noexcept;
+		void SetTextures(const std::vector<GameResourceRef<Texture2D>>& textures) noexcept;
 		MaterialType GetType() const noexcept;
-		size_t GetID() const noexcept;
 
 	protected:
-		std::vector<Texture2D*> textures;
+		std::vector<GameResourceRef<Texture2D>> textures;
 		MaterialType type;
-
-	private:
-		size_t id;
 	};
 
 	class MasterMaterial : public Material
 	{
 	public:
-		MasterMaterial(IBindable* vertexShader, IBindable* pixelShader, MaterialType type, size_t id) noexcept;
+		MasterMaterial(std::string path, IBindable* vertexShader, IBindable* pixelShader, MaterialType type) noexcept;
 		virtual void ApplyMaterial() noexcept override;
 
 	private:

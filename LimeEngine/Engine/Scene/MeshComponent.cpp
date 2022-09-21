@@ -3,9 +3,13 @@
 
 namespace LimeEngine
 {
-	MeshComponent::MeshComponent(Engine* engine, const Transform& transform, size_t id) : SceneComponent(engine, transform)
+	MeshComponent::MeshComponent(Engine* engine, const Transform& transform, std::string path) : SceneComponent(engine, transform), mesh(engine->gameDataManager.LoadMesh(path))
 	{
-		mesh = engine->gameDataManager.LoadMesh(id);
+		ShowMesh();
+	}
+
+	MeshComponent::MeshComponent(Engine* engine, const Transform& transform, GameResourceRef<Mesh> mesh) : SceneComponent(engine, transform), mesh(mesh)
+	{
 		ShowMesh();
 	}
 
@@ -45,7 +49,7 @@ namespace LimeEngine
 
 	void MeshComponent::Draw(Renderer& renderer)
 	{
-		renderer.Draw(*mesh, GetWorldTransformMatrix());
+		renderer.Draw(*mesh.Get(), GetWorldTransformMatrix());
 	}
 
 	float MeshComponent::GetDistance(const Vector& target) noexcept

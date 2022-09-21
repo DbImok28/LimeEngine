@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "IBindable.hpp"
+#include "../../Base/GameResource.hpp"
 
 namespace LimeEngine
 {
@@ -20,16 +21,12 @@ namespace LimeEngine
 		Unknown
 	};
 
-	class Texture2D : public IBindable
+	class Texture2D : public IBindable, public GameResource
 	{
 	public:
-		Texture2D(TextureType type, size_t id) noexcept;
-		size_t GetID() const noexcept;
+		Texture2D(std::string path, TextureType type) noexcept;
 
 	protected:
 		TextureType type;
-
-	private:
-		size_t id;
 	};
 }

@@ -2,8 +2,8 @@
 
 namespace LimeEngine
 {
-	Mesh::Mesh(const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices, size_t id) :
-		vertices(vertices), indices(indices), id(id), meshRenderData(graphicFactory->CreateMeshRenderData(vertices, indices))
+	Mesh::Mesh(std::string path, const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices) :
+		GameResource(path), vertices(vertices), indices(indices), meshRenderData(graphicFactory->CreateMeshRenderData(vertices, indices))
 	{}
 
 	void Mesh::SetMaterial(Material* material) noexcept
@@ -34,10 +34,5 @@ namespace LimeEngine
 	const std::vector<uint>& Mesh::GetIndices() const noexcept
 	{
 		return indices;
-	}
-
-	const size_t& Mesh::GetId() const noexcept
-	{
-		return id;
 	}
 }

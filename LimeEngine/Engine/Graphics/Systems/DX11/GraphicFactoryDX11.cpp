@@ -21,8 +21,8 @@ namespace LimeEngine
 		return std::make_unique<PixelShaderDX11>(renderer, path);
 	}
 
-	std::unique_ptr<Texture2D> GraphicFactoryDX11::CreateTexture2D(std::wstring path, TextureType type, size_t id) const
+	std::unique_ptr<Texture2D> GraphicFactoryDX11::CreateTexture2D(std::string gamePath, std::wstring filePath, TextureType type) const
 	{
-		return std::make_unique<Texture2DDX11>(renderer, path, type, id);
+		return std::make_unique<Texture2DDX11>(renderer, gamePath, filePath, type);
 	}
 }

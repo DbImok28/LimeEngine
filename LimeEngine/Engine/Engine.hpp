@@ -18,11 +18,9 @@ namespace LimeEngine
 		Engine(Engine&&) noexcept = delete;
 		Engine& operator=(const Engine&) = delete;
 		Engine& operator=(Engine&&) noexcept = delete;
-		Engine();
-		explicit Engine(EngineIO&& engineIO);
-		explicit Engine(std::vector<EngineIO>&& engineIO);
+
 		Engine(EngineIO&& engineIO, Console* logConsole);
-		Engine(std::vector<EngineIO>&& engineIO, Console* logConsole);
+		//Engine(std::vector<EngineIO>&& engineIO, Console* logConsole);
 
 		int Start();
 		std::optional<int> EngineProcessing();
@@ -35,9 +33,9 @@ namespace LimeEngine
 	public:
 		Logger logger;
 		std::vector<EngineIO> engineIO;
-		GameDataManager gameDataManager;
 		Scene scene;
 		Timer timer;
 		float deltaTime = 0.0f;
+		GameDataManager gameDataManager;
 	};
 }
