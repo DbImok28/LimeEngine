@@ -8,7 +8,7 @@ namespace LimeEngine
 	class Mesh : public GameResource
 	{
 	public:
-		Mesh(std::string path, const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices);
+		Mesh(const std::string& gamePath, const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices);
 
 		void SetMaterial(Material* material) noexcept;
 		void BindRenderData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix);
@@ -17,12 +17,12 @@ namespace LimeEngine
 		const std::vector<Vertex>& GetVertices() const noexcept;
 		const std::vector<uint>& GetIndices() const noexcept;
 
-	public:
-		std::unique_ptr<MeshRenderData> meshRenderData;
-
 	private:
 		std::vector<Vertex> vertices;
 		std::vector<uint> indices;
 		Material* material = nullptr;
+
+	public:
+		std::unique_ptr<MeshRenderData> meshRenderData;
 	};
 }

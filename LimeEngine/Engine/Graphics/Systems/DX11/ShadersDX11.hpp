@@ -10,11 +10,11 @@ namespace LimeEngine
 	class VertexShaderDX11 : public BindableDX11
 	{
 	public:
-		VertexShaderDX11(RendererDX11& renderer) noexcept;
-		VertexShaderDX11(RendererDX11& renderer, std::wstring path, MaterialType materialType) noexcept;
+		explicit VertexShaderDX11(RendererDX11& renderer) noexcept;
+		VertexShaderDX11(RendererDX11& renderer, const std::wstring&, MaterialType materialType);
 		virtual ~VertexShaderDX11() override = default;
 
-		void Initialize(std::wstring path, MaterialType materialType);
+		void Initialize(const std::wstring& filePath, MaterialType materialType);
 		virtual void Bind() noexcept override;
 		std::vector<D3D11_INPUT_ELEMENT_DESC> MakeInputLayout(MaterialType materialType) const;
 		ID3D11VertexShader* GetShader() const noexcept;
@@ -30,11 +30,11 @@ namespace LimeEngine
 	class PixelShaderDX11 : public BindableDX11
 	{
 	public:
-		PixelShaderDX11(RendererDX11& renderer) noexcept;
-		PixelShaderDX11(RendererDX11& renderer, std::wstring path) noexcept;
+		explicit PixelShaderDX11(RendererDX11& renderer) noexcept;
+		PixelShaderDX11(RendererDX11& renderer, const std::wstring& filePath);
 		virtual ~PixelShaderDX11() override = default;
 
-		void Initialize(std::wstring path);
+		void Initialize(const std::wstring& filePath);
 		virtual void Bind() noexcept override;
 		ID3D11PixelShader* GetShader() const noexcept;
 		ID3D10Blob* GetBuffer() const noexcept;

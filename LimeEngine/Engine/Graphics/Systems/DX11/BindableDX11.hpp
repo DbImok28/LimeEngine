@@ -9,7 +9,7 @@ namespace LimeEngine
 	class BindableDX11 : public IBindable
 	{
 	public:
-		BindableDX11(RendererDX11& renderingSystem) : renderingSystem(renderingSystem) {}
+		explicit BindableDX11(RendererDX11& renderingSystem) : renderingSystem(renderingSystem) {}
 		virtual ~BindableDX11() override = default;
 
 	protected:

@@ -27,7 +27,7 @@ namespace LimeEngine
 		friend class BindableDX11;
 
 	public:
-		RendererDX11(Window* window);
+		explicit RendererDX11(Window* window);
 		virtual ~RendererDX11() override = default;
 		RendererDX11(const RendererDX11&) = delete;
 		RendererDX11(RendererDX11&&) noexcept = delete;
@@ -42,7 +42,7 @@ namespace LimeEngine
 		virtual void PostProcessing() override;
 
 	public:
-		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transform) override;
+		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) override;
 		virtual void SetInputCamera(CameraComponent* cameraComponent) override;
 		virtual const GraphicFactory* GetGraphicFactory() const noexcept override;
 		ID3D11Device* GetDevice() const noexcept;

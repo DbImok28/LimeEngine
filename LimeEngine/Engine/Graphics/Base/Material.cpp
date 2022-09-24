@@ -2,7 +2,7 @@
 
 namespace LimeEngine
 {
-	Material::Material(std::string path, MaterialType type) noexcept : GameResource(path), type(type) {}
+	Material::Material(const std::string& gamePath, MaterialType type) noexcept : GameResource(gamePath), type(type) {}
 
 	void Material::AddTexture(GameResourceRef<Texture2D> texture) noexcept
 	{
@@ -24,8 +24,8 @@ namespace LimeEngine
 		return type;
 	}
 
-	MasterMaterial::MasterMaterial(std::string path, IBindable* vertexShader, IBindable* pixelShader, MaterialType type) noexcept :
-		Material(path, type), vertexShader(vertexShader), pixelShader(pixelShader)
+	MasterMaterial::MasterMaterial(const std::string& gamePath, IBindable* vertexShader, IBindable* pixelShader, MaterialType type) noexcept :
+		Material(gamePath, type), vertexShader(vertexShader), pixelShader(pixelShader)
 	{}
 
 	void MasterMaterial::ApplyMaterial() noexcept

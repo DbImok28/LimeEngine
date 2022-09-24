@@ -14,7 +14,7 @@ namespace LimeEngine
 	class Material : public GameResource
 	{
 	public:
-		Material(std::string path, MaterialType type) noexcept;
+		Material(const std::string& gamePath, MaterialType type) noexcept;
 
 		virtual void ApplyMaterial() noexcept = 0;
 		void AddTexture(GameResourceRef<Texture2D> texture) noexcept;
@@ -30,7 +30,7 @@ namespace LimeEngine
 	class MasterMaterial : public Material
 	{
 	public:
-		MasterMaterial(std::string path, IBindable* vertexShader, IBindable* pixelShader, MaterialType type) noexcept;
+		MasterMaterial(const std::string& gamePath, IBindable* vertexShader, IBindable* pixelShader, MaterialType type) noexcept;
 		virtual void ApplyMaterial() noexcept override;
 
 	private:

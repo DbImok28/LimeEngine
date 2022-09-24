@@ -8,7 +8,7 @@ namespace LimeEngine
 	class MeshComponent : public SceneComponent, IDrawable
 	{
 	public:
-		explicit MeshComponent(Engine* engine, const Transform& transform = {}, std::string path = "Engine\\NullMesh");
+		explicit MeshComponent(Engine* engine, const Transform& transform = {}, const std::string& gamePath = "Engine\\NullMesh");
 		MeshComponent(Engine* engine, const Transform& transform, GameResourceRef<Mesh> mesh);
 		virtual ~MeshComponent() override;
 

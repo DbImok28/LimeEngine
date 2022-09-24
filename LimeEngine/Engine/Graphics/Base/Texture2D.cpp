@@ -2,5 +2,5 @@
 
 namespace LimeEngine
 {
-	Texture2D::Texture2D(std::string path, TextureType type) noexcept : GameResource(path), type(type) {}
+	Texture2D::Texture2D(const std::string& gamePath, TextureType type) noexcept : GameResource(gamePath), type(type) {}
 }

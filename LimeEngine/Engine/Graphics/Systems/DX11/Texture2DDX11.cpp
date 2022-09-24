@@ -6,14 +6,14 @@
 
 namespace LimeEngine
 {
-	Texture2DDX11::Texture2DDX11(RendererDX11& renderer, std::string path, TextureType type) noexcept : Texture2D(path, type), renderer(renderer) {}
+	Texture2DDX11::Texture2DDX11(RendererDX11& renderer, const std::string& gamePath, TextureType type) noexcept : Texture2D(gamePath, type), renderer(renderer) {}
 
-	Texture2DDX11::Texture2DDX11(RendererDX11& renderer, std::string path, const uint8_t* pData, size_t size, TextureType type) : Texture2DDX11(renderer, path, type)
+	Texture2DDX11::Texture2DDX11(RendererDX11& renderer, const std::string& gamePath, const uint8_t* pData, size_t size, TextureType type) : Texture2DDX11(renderer, gamePath, type)
 	{
 		Initialize(pData, size);
 	}
 
-	Texture2DDX11::Texture2DDX11(RendererDX11& renderer, std::string path, const std::wstring& filePath, TextureType type) : Texture2DDX11(renderer, path, type)
+	Texture2DDX11::Texture2DDX11(RendererDX11& renderer, const std::string& gamePath, const std::wstring& filePath, TextureType type) : Texture2DDX11(renderer, gamePath, type)
 	{
 		Initialize(filePath);
 	}

@@ -10,8 +10,6 @@ namespace LimeEngine
 
 	void MeshRenderDataDX11::InitializeBuffers(const std::vector<Vertex>& vertices, const std::vector<uint>& indices)
 	{
-		auto device = renderer.GetDevice();
-		auto deviceContext = renderer.GetDeviceContext();
 		GFX_CHECK_HR_MSG(vertexBuffer.Initialize(vertices), "Failed to initialize vertex buffer.");
 		GFX_CHECK_HR_MSG(indexBuffer.Initialize(indices), "Failed to initialize index buffer.");
 		GFX_CHECK_HR_MSG(transformConstantBuffer.Initialize(), "Failed to initialize constant buffer Coordinates.");
@@ -22,7 +20,7 @@ namespace LimeEngine
 		material->ApplyMaterial();
 	}
 
-	void MeshRenderDataDX11::ApplyTransform(const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix) noexcept
+	void MeshRenderDataDX11::ApplyTransform(const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
 	{
 		transformConstantBuffer.data.wvpMatrix = XMMatrixTranspose(transformMatrix * cameraComponent->GetViewProjectionMatrix());
 		transformConstantBuffer.data.worldMatrix = XMMatrixTranspose(transformMatrix);

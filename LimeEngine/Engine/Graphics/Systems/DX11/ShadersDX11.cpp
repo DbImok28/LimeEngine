@@ -8,31 +8,32 @@ namespace LimeEngine
 {
 	VertexShaderDX11::VertexShaderDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
 
-	VertexShaderDX11::VertexShaderDX11(RendererDX11& renderer, std::wstring path, MaterialType materialType) noexcept : BindableDX11(renderer)
+	VertexShaderDX11::VertexShaderDX11(RendererDX11& renderer, const std::wstring& filePath, MaterialType materialType) : BindableDX11(renderer)
 	{
-		Initialize(path, materialType);
+		Initialize(filePath, materialType);
 	}
 
-	void VertexShaderDX11::Initialize(std::wstring path, MaterialType materialType)
+	void VertexShaderDX11::Initialize(const std::wstring& filePath, MaterialType materialType)
 	{
-		HRESULT hr = D3DReadFileToBlob(path.c_str(), shaderBuffer.GetAddressOf());
+		HRESULT hr = D3DReadFileToBlob(filePath.c_str(), shaderBuffer.GetAddressOf());
 		if (FAILED(hr))
 		{
 			std::ostringstream oss;
-			oss << "Failed to load vertex shader: " << StringHelper::StringToChar8(path);
+			oss << "Failed to load vertex shader: " << StringHelper::StringToChar8(filePath);
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 		hr = GetDevice()->CreateVertexShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
 		if (FAILED(hr))
 		{
 			std::ostringstream oss;
-			oss << "Failed to create vertex shader: " << StringHelper::StringToChar8(path);
+			oss << "Failed to create vertex shader: " << StringHelper::StringToChar8(filePath);
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 
 		auto loyout = MakeInputLayout(materialType);
 		GFX_CHECK_HR_MSG(
-			GetDevice()->CreateInputLayout(loyout.data(), loyout.size(), shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), inputLoyout.GetAddressOf()),
+			GetDevice()->CreateInputLayout(
+				loyout.data(), static_cast<uint>(loyout.size()), shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), inputLoyout.GetAddressOf()),
 			"Failed to create InputLayout.");
 	}
 
@@ -75,25 +76,25 @@ namespace LimeEngine
 
 	PixelShaderDX11::PixelShaderDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
 
-	PixelShaderDX11::PixelShaderDX11(RendererDX11& renderer, std::wstring path) noexcept : BindableDX11(renderer)
+	PixelShaderDX11::PixelShaderDX11(RendererDX11& renderer, const std::wstring& filePath) : BindableDX11(renderer)
 	{
-		Initialize(path);
+		Initialize(filePath);
 	}
 
-	void PixelShaderDX11::Initialize(std::wstring path)
+	void PixelShaderDX11::Initialize(const std::wstring& filePath)
 	{
-		HRESULT hr = D3DReadFileToBlob(path.c_str(), shaderBuffer.GetAddressOf());
+		HRESULT hr = D3DReadFileToBlob(filePath.c_str(), shaderBuffer.GetAddressOf());
 		if (FAILED(hr))
 		{
 			std::stringstream oss;
-			oss << "Failed to load pixel shader: " << StringHelper::StringToChar8(path);
+			oss << "Failed to load pixel shader: " << StringHelper::StringToChar8(filePath);
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 		hr = GetDevice()->CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
 		if (FAILED(hr))
 		{
 			std::stringstream oss;
-			oss << "Failed to create pixel shader: " << StringHelper::StringToChar8(path);
+			oss << "Failed to create pixel shader: " << StringHelper::StringToChar8(filePath);
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 	}

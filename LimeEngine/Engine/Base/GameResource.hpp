@@ -106,7 +106,7 @@ namespace LimeEngine
 	class GameResource
 	{
 	public:
-		GameResource(const std::string gamePath) : gamePath(gamePath) {}
+		GameResource(const std::string& gamePath) : gamePath(gamePath) {}
 		virtual ~GameResource() = default;
 
 		uint RefCount() const noexcept

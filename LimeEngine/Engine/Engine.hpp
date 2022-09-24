@@ -32,10 +32,10 @@ namespace LimeEngine
 
 	public:
 		Logger logger;
-		std::vector<EngineIO> engineIO;
+		GameDataManager gameDataManager;
 		Scene scene;
+		std::vector<EngineIO> engineIO;
 		Timer timer;
 		float deltaTime = 0.0f;
-		GameDataManager gameDataManager;
 	};
 }

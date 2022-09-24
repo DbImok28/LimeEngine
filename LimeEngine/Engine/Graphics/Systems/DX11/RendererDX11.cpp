@@ -63,8 +63,7 @@ namespace LimeEngine
 		std::vector<GraphicAdapter> adapters = GraphicAdapter::GetGraphicAdapters();
 		if (adapters.size() < 1) throw GFX_EXCEPTION_MSG("No found DXGI Adapters.");
 
-		DXGI_SWAP_CHAIN_DESC scd;
-		ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
+		DXGI_SWAP_CHAIN_DESC scd = { 0 };
 
 		scd.BufferDesc.Width = width;
 		scd.BufferDesc.Height = height;
@@ -111,7 +110,7 @@ namespace LimeEngine
 		//GFX_ERROR_IF_MSG(hr, L"Failed to create RenderTargetView.");
 
 		// Depth
-		D3D11_TEXTURE2D_DESC depthStencilDesc;
+		D3D11_TEXTURE2D_DESC depthStencilDesc = { 0 };
 		depthStencilDesc.Width = width;
 		depthStencilDesc.Height = height;
 		depthStencilDesc.MipLevels = 1;
@@ -123,17 +122,12 @@ namespace LimeEngine
 		depthStencilDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
 		depthStencilDesc.CPUAccessFlags = 0;
 		depthStencilDesc.MiscFlags = 0;
-
 		GFX_CHECK_HR(device->CreateTexture2D(&depthStencilDesc, NULL, depthStencilBuffer.GetAddressOf()));
-
 		GFX_CHECK_HR(device->CreateDepthStencilView(depthStencilBuffer.Get(), NULL, depthStencilView.GetAddressOf()));
-
 		this->deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
 
 		// Depth Stencil State
-		D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc;
-		ZeroMemory(&depthStencilStateDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
-
+		D3D11_DEPTH_STENCIL_DESC depthStencilStateDesc = { 0 };
 		depthStencilStateDesc.DepthEnable = true;
 		depthStencilStateDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
 		depthStencilStateDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
@@ -159,15 +153,13 @@ namespace LimeEngine
 		GFX_CHECK_HR(device->CreateSamplerState(&sampDesc, samplerState.GetAddressOf()));
 
 		// viewport
-		D3D11_VIEWPORT viewport;
-		ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
+		D3D11_VIEWPORT viewport = { 0 };
 		viewport.TopLeftX = 0;
 		viewport.TopLeftY = 0;
 		viewport.Width = static_cast<FLOAT>(width);
 		viewport.Height = static_cast<FLOAT>(height);
 		viewport.MinDepth = 0.0f;
 		viewport.MaxDepth = 1.0f;
-
 		deviceContext->RSSetViewports(1, &viewport);
 	}
 
