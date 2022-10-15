@@ -1,10 +1,10 @@
 #pragma once
 #include <memory>
-#include "../Window/Windows/Main/Window.hpp"
+#include "Window/Windows/Main/Window.hpp"
 #include "Base/RenderQueue.hpp"
 #include "Base/GraphicFactory.hpp"
-#include "../Scene/CameraComponent.hpp"
-#include "../Scene/MeshComponent.hpp"
+#include "Scene/CameraComponent.hpp"
+#include "Scene/MeshComponent.hpp"
 
 namespace LimeEngine
 {

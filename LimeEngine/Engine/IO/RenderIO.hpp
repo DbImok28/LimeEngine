@@ -1,5 +1,5 @@
 #pragma once
-#include "../Graphics/Renderer.hpp"
+#include "Graphics/Renderer.hpp"
 
 namespace LimeEngine
 {

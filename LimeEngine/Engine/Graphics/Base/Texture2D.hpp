@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "IBindable.hpp"
-#include "../../Base/GameResource.hpp"
+#include "Base/GameResource.hpp"
 
 namespace LimeEngine
 {

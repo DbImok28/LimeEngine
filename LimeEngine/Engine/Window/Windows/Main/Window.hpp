@@ -2,9 +2,9 @@
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
-#include "../WinApi.hpp"
-#include "../../../CoreBase.hpp"
-#include "../../../Input/InputDevice.hpp"
+#include "Window/Windows/WinApi.hpp"
+#include "CoreBase.hpp"
+#include "Input/InputDevice.hpp"
 #include <optional>
 
 namespace LimeEngine

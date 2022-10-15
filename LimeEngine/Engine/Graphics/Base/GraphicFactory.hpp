@@ -1,7 +1,7 @@
 #pragma once
-#include "../../CoreBase.hpp"
+#include "CoreBase.hpp"
 #include <memory>
-#include "../../Base/Vertex.hpp"
+#include "Base/Vertex.hpp"
 #include "RenderData.hpp"
 #include "IBindable.hpp"
 #include "Texture2D.hpp"

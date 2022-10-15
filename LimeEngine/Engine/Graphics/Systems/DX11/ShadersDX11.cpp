@@ -1,7 +1,7 @@
 #include "ShadersDX11.hpp"
-#include "../../../Exceptions/GraphicsExceptions.hpp"
-#include "../../../Helpers/StringHelper.hpp"
-#include "../../Base/Material.hpp"
+#include "Exceptions/GraphicsExceptions.hpp"
+#include "Helpers/StringHelper.hpp"
+#include "Graphics/Base/Material.hpp"
 #include <sstream>
 
 namespace LimeEngine

@@ -3,13 +3,13 @@
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "DirectXDef.hpp"
-#include "../../Renderer.hpp"
+#include "Graphics/Renderer.hpp"
 #include <map>
 #include <string>
 #include <sstream>
-#include "../../../Exceptions/GraphicsExceptions.hpp"
-#include "../../../Helpers/Paths.hpp"
-#include "../../../Scene/CameraComponent.hpp"
+#include "Exceptions/GraphicsExceptions.hpp"
+#include "Helpers/Paths.hpp"
+#include "Scene/CameraComponent.hpp"
 #include "BindableDX11.hpp"
 #include "GraphicFactoryDX11.hpp"
 

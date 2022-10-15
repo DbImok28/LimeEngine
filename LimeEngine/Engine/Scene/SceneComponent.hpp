@@ -2,7 +2,7 @@
 #include <vector>
 #include <memory>
 
-#include "../Base/Transformable.hpp"
+#include "Base/Transformable.hpp"
 
 namespace LimeEngine
 {

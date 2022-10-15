@@ -1,6 +1,6 @@
 #pragma once
 #include "DirectXDef.hpp"
-#include "../../Base/IBindable.hpp"
+#include "Graphics/Base/IBindable.hpp"
 
 namespace LimeEngine
 {

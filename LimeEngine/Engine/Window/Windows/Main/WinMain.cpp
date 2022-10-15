@@ -1,11 +1,11 @@
 // Copyright (C) 2022 Pavel Jakushik - All Rights Reserved
 // See file LICENSE for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
-#include "../../../CoreBase.hpp"
-#include "../../../Engine.hpp"
-#include "../../../Graphics/Systems/DX11/RendererDX11.hpp"
-#include "../../../Scene/TestMap.hpp"
-#include "../Console/Console.hpp"
+#include "CoreBase.hpp"
+#include "Engine.hpp"
+#include "Graphics/Systems/DX11/RendererDX11.hpp"
+#include "Scene/TestMap.hpp"
+#include "Window/Windows/Console/Console.hpp"
 #include <iostream>
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPTSTR lpCmdLine, _In_ int nCmdShow)

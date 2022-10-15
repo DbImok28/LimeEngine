@@ -1,6 +1,6 @@
 #pragma once
-#include "../../CoreBase.hpp"
-#include "../../Base/Color.hpp"
+#include "CoreBase.hpp"
+#include "Base/Color.hpp"
 
 namespace LimeEngine
 {

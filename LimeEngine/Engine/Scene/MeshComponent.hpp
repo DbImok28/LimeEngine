@@ -1,7 +1,7 @@
 #pragma once
 #include "SceneComponent.hpp"
-#include "../Graphics/Base/Mesh.hpp"
-#include "../Graphics/Base/IDrawable.hpp"
+#include "Graphics/Base/Mesh.hpp"
+#include "Graphics/Base/IDrawable.hpp"
 
 namespace LimeEngine
 {

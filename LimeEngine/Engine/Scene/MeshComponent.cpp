@@ -1,5 +1,5 @@
 #include "MeshComponent.hpp"
-#include "../Engine.hpp"
+#include "Engine.hpp"
 
 namespace LimeEngine
 {

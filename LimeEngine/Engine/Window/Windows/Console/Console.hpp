@@ -1,6 +1,6 @@
 #pragma once
-#include "../WinApi.hpp"
-#include "../../Base/Console.hpp"
+#include "Window/Windows/WinApi.hpp"
+#include "Window/Base/Console.hpp"
 #include <map>
 
 namespace LimeEngine

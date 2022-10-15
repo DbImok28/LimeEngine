@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Base/GraphicFactory.hpp"
+#include "Graphics/Base/GraphicFactory.hpp"
 
 namespace LimeEngine
 {

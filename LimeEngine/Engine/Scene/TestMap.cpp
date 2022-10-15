@@ -1,9 +1,9 @@
 #include "TestMap.hpp"
-#include "../Engine.hpp"
-#include "../Helpers/Paths.hpp"
+#include "Engine.hpp"
+#include "Helpers/Paths.hpp"
 #include "MeshObject.hpp"
-#include "../Base/Primitives.hpp"
-#include "../Graphics/Base/GraphicFactory.hpp"
+#include "Base/Primitives.hpp"
+#include "Graphics/Base/GraphicFactory.hpp"
 
 namespace LimeEngine
 {

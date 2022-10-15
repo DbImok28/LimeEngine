@@ -1,7 +1,7 @@
 #include "RendererDX11.hpp"
 #include "GraphicAdapter.hpp"
-#include "../../../Scene/MeshComponent.hpp"
-#include "../../Base/Mesh.hpp"
+#include "Scene/MeshComponent.hpp"
+#include "Graphics/Base/Mesh.hpp"
 
 #ifdef IMGUI
 	#include "ImGui/imgui.h"

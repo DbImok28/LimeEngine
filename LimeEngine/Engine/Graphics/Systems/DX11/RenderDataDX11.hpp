@@ -1,6 +1,6 @@
 #pragma once
-#include "../../Base/RenderData.hpp"
-#include "../../../Base/Vertex.hpp"
+#include "Graphics/Base/RenderData.hpp"
+#include "Base/Vertex.hpp"
 #include "RendererDX11.hpp"
 #include "BuffersDX11.hpp"
 #include "ConstantBuffers.hpp"

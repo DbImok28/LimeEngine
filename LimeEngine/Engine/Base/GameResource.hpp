@@ -1,5 +1,5 @@
 #pragma once
-#include "../CoreBase.hpp"
+#include "CoreBase.hpp"
 #include <concepts>
 
 namespace LimeEngine

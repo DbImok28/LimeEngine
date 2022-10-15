@@ -1,6 +1,6 @@
 #pragma once
 #include "Material.hpp"
-#include "../../Scene/CameraComponent.hpp"
+#include "Scene/CameraComponent.hpp"
 
 namespace LimeEngine
 {

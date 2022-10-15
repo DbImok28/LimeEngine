@@ -1,6 +1,6 @@
 #include "Texture2DDX11.hpp"
-#include "../../../Exceptions/GraphicsExceptions.hpp"
-#include "../../../Helpers/Paths.hpp"
+#include "Exceptions/GraphicsExceptions.hpp"
+#include "Helpers/Paths.hpp"
 #include <DirectXTK/WICTextureLoader.h>
 #include <DirectXTK/DDSTextureLoader.h>
 

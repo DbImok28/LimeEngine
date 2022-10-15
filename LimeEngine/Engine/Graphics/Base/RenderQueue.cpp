@@ -1,5 +1,5 @@
 #include "RenderQueue.hpp"
-#include "../Renderer.hpp"
+#include "Graphics/Renderer.hpp"
 
 namespace LimeEngine
 {

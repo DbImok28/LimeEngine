@@ -1,14 +1,14 @@
 #pragma once
 #include "GameDataLoader.hpp"
-#include "../Graphics/Base/GraphicFactory.hpp"
+#include "Graphics/Base/GraphicFactory.hpp"
 #include <map>
 #include <optional>
 #include <memory>
 #include <concepts>
 
-#include "../Graphics/Base/Mesh.hpp"
-#include "../Graphics/Base/Material.hpp"
-#include "../Graphics/Base/Texture2D.hpp"
+#include "Graphics/Base/Mesh.hpp"
+#include "Graphics/Base/Material.hpp"
+#include "Graphics/Base/Texture2D.hpp"
 
 namespace LimeEngine
 {

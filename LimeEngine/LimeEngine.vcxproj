@@ -72,28 +72,28 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes;$(SolutionDir)$(ProjectName)\Engine</IncludePath>
     <LibraryPath>$(LibraryPath);$(SolutionDir)$(ProjectName)\Libs\$(LibrariesArchitecture)\$(Configuration)</LibraryPath>
     <OutDir>$(SolutionDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>Build\$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes;$(SolutionDir)$(ProjectName)\Engine</IncludePath>
     <LibraryPath>$(LibraryPath);$(SolutionDir)$(ProjectName)\Libs\$(LibrariesArchitecture)\$(Configuration)</LibraryPath>
     <OutDir>$(SolutionDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>Build\$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes;$(SolutionDir)$(ProjectName)\Engine</IncludePath>
     <LibraryPath>$(LibraryPath);$(SolutionDir)$(ProjectName)\Libs\$(LibrariesArchitecture)\$(Configuration)</LibraryPath>
     <OutDir>$(SolutionDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>Build\$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes;$(SolutionDir)$(ProjectName)\Engine</IncludePath>
     <LibraryPath>$(LibraryPath);$(SolutionDir)$(ProjectName)\Libs\$(LibrariesArchitecture)\$(Configuration)</LibraryPath>
     <OutDir>$(SolutionDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>Build\$(PlatformTarget)\$(Configuration)\</IntDir>

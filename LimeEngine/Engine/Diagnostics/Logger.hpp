@@ -2,8 +2,8 @@
 // See file LICENSE for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
-#include "../CoreBase.hpp"
-#include "../Window/Base/Console.hpp"
+#include "CoreBase.hpp"
+#include "Window/Base/Console.hpp"
 #include <type_traits>
 #include <format>
 #include <map>

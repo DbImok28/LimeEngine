@@ -1,7 +1,7 @@
 #include "DxgiInfo.hpp"
 #include "EngineExceptions.hpp"
 #include <memory>
-#include "../Helpers/StringHelper.hpp"
+#include "Helpers/StringHelper.hpp"
 
 #pragma comment(lib, "dxguid.lib")
 

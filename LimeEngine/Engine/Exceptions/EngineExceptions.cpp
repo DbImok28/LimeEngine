@@ -1,6 +1,6 @@
 #include "EngineExceptions.hpp"
-#include "../Helpers/StringHelper.hpp"
-#include "../../Includes/dxerr/dxerr.h"
+#include "Helpers/StringHelper.hpp"
+#include "dxerr/dxerr.h"
 #include <sstream>
 //#include <comdef.h>
 

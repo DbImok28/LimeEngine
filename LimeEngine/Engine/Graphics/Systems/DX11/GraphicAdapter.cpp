@@ -1,5 +1,5 @@
 #include "GraphicAdapter.hpp"
-#include "../../../Exceptions/GraphicsExceptions.hpp"
+#include "Exceptions/GraphicsExceptions.hpp"
 
 namespace LimeEngine
 {
