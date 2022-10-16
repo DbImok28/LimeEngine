@@ -5,9 +5,9 @@
 
 namespace LimeEngine
 {
-	GameResourceRef<Mesh> Primitive::CreateMesh(Engine* engine, const std::string& gamePath) const
+	GameResourceRef<Mesh> Primitive::CreateMesh(Engine* engine, const ResourcePath& resourcePath) const
 	{
-		return engine->gameDataManager.CreateMesh(gamePath, vertices, indices);
+		return engine->gameDataManager.CreateMesh(resourcePath, vertices, indices);
 	}
 
 	Plane::Plane(float size, uint8 segmentsLength, uint8 segmentsWidth)

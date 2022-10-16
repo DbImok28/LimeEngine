@@ -19,7 +19,7 @@ namespace LimeEngine
 		virtual std::unique_ptr<MeshRenderData> CreateMeshRenderData(const std::vector<Vertex>& vertices, const std::vector<uint>& indices) const = 0;
 		virtual std::unique_ptr<IBindable> CreateVertexShader(std::wstring path, MaterialType materialType) const = 0;
 		virtual std::unique_ptr<IBindable> CreatePixelShader(std::wstring path) const = 0;
-		virtual std::unique_ptr<Texture2D> CreateTexture2D(std::string gamePath, std::wstring filePath, TextureType type) const = 0;
+		virtual std::unique_ptr<Texture2D> CreateTexture2D(const ResourcePath& resourcePath, std::wstring filePath, TextureType type) const = 0;
 
 		std::unique_ptr<Material> CreateMaterial(const GameResourceData& data) const
 		{

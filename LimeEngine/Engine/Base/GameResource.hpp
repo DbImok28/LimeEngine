@@ -4,6 +4,8 @@
 
 namespace LimeEngine
 {
+	class GameResource;
+
 	struct GameResourceData
 	{
 		GameResourceData(uint8* data, uint size) : size(size), data(data) {}
@@ -11,7 +13,34 @@ namespace LimeEngine
 		uint8* data;
 	};
 
-	class GameResource;
+	class ResourcePath
+	{
+	public:
+		ResourcePath(const char* path);
+		ResourcePath(const std::string& path);
+		ResourcePath(std::string&& path);
+		ResourcePath& operator=(const std::string& path);
+		ResourcePath& operator=(std::string&& path);
+		ResourcePath& operator=(const char* path);
+
+		ResourcePath(const ResourcePath&) = default;
+		ResourcePath(ResourcePath&&) noexcept = default;
+		ResourcePath& operator=(const ResourcePath&) = default;
+		ResourcePath& operator=(ResourcePath&&) noexcept = default;
+		auto operator<=>(const ResourcePath&) const = default;
+
+		const std::string& GetPath() const noexcept;
+		void SetPath(const std::string& path);
+
+		// The resource path must consist of a set of letters, numbers, '_' or '-' separated by '\', '/' or ':'
+		static bool IsValidPathFormat(const std::string& path) noexcept;
+
+		// The resource path must consist of a set of letters, numbers, '_' or '-' separated by '\', '/' or ':'
+		static bool CheckPathFormat(const std::string& path);
+
+	private:
+		std::string path;
+	};
 
 	template <std::derived_from<GameResource> TResource>
 	class GameResourceRef
@@ -106,7 +135,7 @@ namespace LimeEngine
 	class GameResource
 	{
 	public:
-		GameResource(const std::string& gamePath) : gamePath(gamePath) {}
+		GameResource(const ResourcePath& resourcePath) : resourcePath(resourcePath) {}
 		virtual ~GameResource() = default;
 
 		uint RefCount() const noexcept
@@ -127,13 +156,13 @@ namespace LimeEngine
 		{
 			--refCount;
 		}
-		const std::string& GetPath() const
+		const ResourcePath& GetPath() const
 		{
-			return gamePath;
+			return resourcePath;
 		}
 
 	private:
-		const std::string gamePath;
+		ResourcePath resourcePath;
 		uint refCount = 0u;
 	};
 }

@@ -24,7 +24,7 @@ namespace LimeEngine
 	class Texture2D : public IBindable, public GameResource
 	{
 	public:
-		Texture2D(const std::string& gamePath, TextureType type) noexcept;
+		Texture2D(const ResourcePath& resourcePath, TextureType type) noexcept;
 
 	protected:
 		TextureType type;

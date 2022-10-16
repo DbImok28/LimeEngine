@@ -3,8 +3,8 @@
 
 namespace LimeEngine
 {
-	MeshComponent::MeshComponent(Engine* engine, const Transform& transform, const std::string& gamePath) :
-		SceneComponent(engine, transform), mesh(engine->gameDataManager.LoadMesh(gamePath))
+	MeshComponent::MeshComponent(Engine* engine, const Transform& transform, const ResourcePath& resourcePath) :
+		SceneComponent(engine, transform), mesh(engine->gameDataManager.LoadMesh(resourcePath))
 	{
 		ShowMesh();
 	}

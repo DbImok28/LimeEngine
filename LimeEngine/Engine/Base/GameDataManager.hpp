@@ -22,20 +22,20 @@ namespace LimeEngine
 	public:
 		GameDataManager(Engine* engine, const GraphicFactory* graphicFactory) noexcept;
 
-		GameResourceData LoadResourceData(const std::string& gamePath, const std::string& loadParams) const
+		GameResourceData LoadResourceData(const ResourcePath& resourcePath, const std::string& loadParams) const
 		{
-			return loader.LoadResource(gamePath, loadParams);
+			return loader.LoadResource(resourcePath, loadParams);
 		}
 
-		std::optional<GameResourceRef<GameResource>> GetStoredResource(const std::string& gamePath) const noexcept
+		std::optional<GameResourceRef<GameResource>> GetStoredResource(const ResourcePath& resourcePath) const noexcept
 		{
-			if (auto it = resources.find(gamePath); it != resources.end()) return it->second->GetRef<GameResource>();
+			if (auto it = resources.find(resourcePath); it != resources.end()) return it->second->GetRef<GameResource>();
 			return {};
 		}
 		template <std::derived_from<GameResource> TResource>
-		std::optional<GameResourceRef<TResource>> GetStoredResource(const std::string& gamePath) const noexcept
+		std::optional<GameResourceRef<TResource>> GetStoredResource(const ResourcePath& resourcePath) const noexcept
 		{
-			if (auto it = resources.find(gamePath); it != resources.end()) return it->second->GetRef<TResource>();
+			if (auto it = resources.find(resourcePath); it != resources.end()) return it->second->GetRef<TResource>();
 			return {};
 		}
 		void Release()
@@ -45,42 +45,42 @@ namespace LimeEngine
 		}
 
 		template <std::derived_from<GameResource> TResource, typename... TArgs>
-		[[nodiscard]] GameResourceRef<TResource> Emplace(const std::string& gamePath, TArgs&&... args)
+		[[nodiscard]] GameResourceRef<TResource> Emplace(const ResourcePath& resourcePath, TArgs&&... args)
 		{
-			// TODO:Add gamePath validation
-			return resources.emplace(gamePath, std::make_unique<TResource>(std::forward<TArgs>(args)...)).first->second->GetRef<TResource>();
+			// TODO:Add resourcePath validation
+			return resources.emplace(resourcePath, std::make_unique<TResource>(std::forward<TArgs>(args)...)).first->second->GetRef<TResource>();
 		}
-		[[nodiscard]] GameResourceRef<GameResource> Register(std::string& gamePath, std::unique_ptr<GameResource>&& resource)
+		[[nodiscard]] GameResourceRef<GameResource> Register(const ResourcePath& resourcePath, std::unique_ptr<GameResource>&& resource)
 		{
-			return resources.emplace(gamePath, std::move(resource)).first->second->GetRef<GameResource>();
+			return resources.emplace(resourcePath, std::move(resource)).first->second->GetRef<GameResource>();
 		}
 		template <std::derived_from<GameResource> TResource>
-		[[nodiscard]] GameResourceRef<TResource> Register(const std::string& gamePath, std::unique_ptr<TResource>&& resource)
+		[[nodiscard]] GameResourceRef<TResource> Register(const ResourcePath& resourcePath, std::unique_ptr<TResource>&& resource)
 		{
-			return resources.emplace(gamePath, std::move(resource)).first->second->GetRef<TResource>();
+			return resources.emplace(resourcePath, std::move(resource)).first->second->GetRef<TResource>();
 		}
 
-		[[nodiscard]] GameResourceRef<Mesh> CreateMesh(const std::string& gamePath, const std::vector<Vertex>& vertices, const std::vector<uint>& indices)
+		[[nodiscard]] GameResourceRef<Mesh> CreateMesh(const ResourcePath& resourcePath, const std::vector<Vertex>& vertices, const std::vector<uint>& indices)
 		{
-			return Emplace<Mesh>(gamePath, gamePath, graphicFactory, vertices, indices);
+			return Emplace<Mesh>(resourcePath, resourcePath, graphicFactory, vertices, indices);
 		}
-		[[nodiscard]] GameResourceRef<MasterMaterial> CreateMasterMaterial(const std::string& gamePath, IBindable* vertexShader, IBindable* pixelShader, MaterialType type)
+		[[nodiscard]] GameResourceRef<MasterMaterial> CreateMasterMaterial(const ResourcePath& resourcePath, IBindable* vertexShader, IBindable* pixelShader, MaterialType type)
 		{
-			return Emplace<MasterMaterial>(gamePath, gamePath, vertexShader, pixelShader, type);
+			return Emplace<MasterMaterial>(resourcePath, resourcePath, vertexShader, pixelShader, type);
 		}
-		[[nodiscard]] GameResourceRef<Texture2D> CreateTexture2D(const std::string& gamePath, const std::wstring& filePath, TextureType type)
+		[[nodiscard]] GameResourceRef<Texture2D> CreateTexture2D(const ResourcePath& resourcePath, const std::wstring& filePath, TextureType type)
 		{
-			return Register(gamePath, graphicFactory->CreateTexture2D(gamePath, filePath, type));
+			return Register(resourcePath, graphicFactory->CreateTexture2D(resourcePath, filePath, type));
 		}
 
 		// Load
 
-		GameResourceRef<Mesh> LoadMesh(const std::string& gamePath);
-		GameResourceRef<Material> LoadMaterial(const std::string& gamePath);
-		GameResourceRef<Texture2D> LoadTexture2D(const std::string& gamePath);
+		GameResourceRef<Mesh> LoadMesh(const ResourcePath& resourcePath);
+		GameResourceRef<Material> LoadMaterial(const ResourcePath& resourcePath);
+		GameResourceRef<Texture2D> LoadTexture2D(const ResourcePath& resourcePath);
 
 	private:
-		std::map<std::string, std::unique_ptr<GameResource>> resources;
+		std::map<ResourcePath, std::unique_ptr<GameResource>> resources;
 		const GraphicFactory* graphicFactory;
 		Engine* engine;
 		GameDataLoader loader;
