@@ -21,7 +21,7 @@ namespace LimeEngine
 	const char* EngineException::what() const noexcept
 	{
 		std::ostringstream oss;
-		oss << GetType() << std::endl << GetErrorLocation().c_str();
+		oss << GetType() << std::endl << GetErrorInfo() << GetErrorLocation();
 		buffer = oss.str();
 		return buffer.c_str();
 	}
