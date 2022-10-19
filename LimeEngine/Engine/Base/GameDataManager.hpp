@@ -47,7 +47,6 @@ namespace LimeEngine
 		template <std::derived_from<GameResource> TResource, typename... TArgs>
 		[[nodiscard]] GameResourceRef<TResource> Emplace(const ResourcePath& resourcePath, TArgs&&... args)
 		{
-			// TODO:Add resourcePath validation
 			return resources.emplace(resourcePath, std::make_unique<TResource>(std::forward<TArgs>(args)...)).first->second->GetRef<TResource>();
 		}
 		[[nodiscard]] GameResourceRef<GameResource> Register(const ResourcePath& resourcePath, std::unique_ptr<GameResource>&& resource)
@@ -63,6 +62,10 @@ namespace LimeEngine
 		[[nodiscard]] GameResourceRef<Mesh> CreateMesh(const ResourcePath& resourcePath, const std::vector<Vertex>& vertices, const std::vector<uint>& indices)
 		{
 			return Emplace<Mesh>(resourcePath, resourcePath, graphicFactory, vertices, indices);
+		}
+		[[nodiscard]] GameResourceRef<Mesh> CreateMesh(const ResourcePath& resourcePath, const std::vector<std::pair<std::vector<Vertex>, std::vector<uint>>>& segmentData)
+		{
+			return Emplace<Mesh>(resourcePath, resourcePath, graphicFactory, segmentData);
 		}
 		[[nodiscard]] GameResourceRef<MasterMaterial> CreateMasterMaterial(const ResourcePath& resourcePath, IBindable* vertexShader, IBindable* pixelShader, MaterialType type)
 		{

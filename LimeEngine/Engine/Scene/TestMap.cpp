@@ -60,7 +60,7 @@ namespace LimeEngine
 		auto texture = gameDataManager.CreateTexture2D("EngineContent\\T_Cat", L"Data\\Textures\\cat.jpg", TextureType::Diffuse);
 		auto material = engine->gameDataManager.CreateMasterMaterial("EngineContent\\Cat", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
 		material.Get()->AddTexture(texture);
-		mesh.Get()->SetMaterial(material.Get());
+		mesh->segments[0].SetMaterial(material.Get());
 		auto object = std::make_unique<MeshObject>(engine, Transform(), mesh);
 		object->rootComponent->AttachComponent(std::make_unique<MeshComponent>(engine, Transform(0, 10, 0), mesh));
 		AttachObject(std::move(object));
@@ -78,17 +78,17 @@ namespace LimeEngine
 		// Primitives
 		Plane plane(40, 10, 12);
 		auto planeMesh = plane.CreateMesh(engine, "EngineContent\\Plane");
-		planeMesh.Get()->SetMaterial(UVMappingMaterial.Get());
+		planeMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
 		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10, 0, 10), planeMesh)));
 
 		Sphere sphere(10, 16, 16);
 		auto sphereMesh = sphere.CreateMesh(engine, "EngineContent\\Sphere");
-		sphereMesh.Get()->SetMaterial(UVMappingMaterial.Get());
+		sphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
 		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10, 0, 10), sphereMesh)));
 
 		Cubesphere cubesphere(10, 3);
 		auto cubesphereMesh = cubesphere.CreateMesh(engine, "EngineContent\\Cubesphere");
-		cubesphereMesh.Get()->SetMaterial(UVMappingMaterial.Get());
+		cubesphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
 		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(-10, 0, 10), cubesphereMesh)));
 
 		// Camera

@@ -2,37 +2,59 @@
 
 namespace LimeEngine
 {
-	Mesh::Mesh(const ResourcePath& resourcePath, const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices) :
-		GameResource(resourcePath), vertices(vertices), indices(indices), meshRenderData(graphicFactory->CreateMeshRenderData(vertices, indices))
+	MeshSegment::MeshSegment(const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices) :
+		vertices(vertices), indices(indices), meshRenderData(graphicFactory->CreateMeshRenderData(vertices, indices))
 	{}
 
-	void Mesh::SetMaterial(Material* material) noexcept
+	MeshSegment::MeshSegment(const GraphicFactory* graphicFactory, const std::pair<std::vector<Vertex>, std::vector<uint>>& verticesAndIndices) :
+		vertices(vertices), indices(indices), meshRenderData(graphicFactory->CreateMeshRenderData(verticesAndIndices.first, verticesAndIndices.second))
+	{}
+
+	void MeshSegment::SetMaterial(Material* material) noexcept
 	{
 		this->material = material;
 	}
 
-	void Mesh::BindRenderData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
+	void MeshSegment::BindRenderData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
 	{
 		meshRenderData->BindData(material, cameraComponent, transformMatrix);
 	}
 
-	uint Mesh::IndicesCount() const noexcept
+	uint MeshSegment::IndicesCount() const noexcept
 	{
 		return static_cast<uint>(indices.size());
 	}
 
-	Material* Mesh::GetMaterial() const noexcept
+	Material* MeshSegment::GetMaterial() const noexcept
 	{
 		return material;
 	}
 
-	const std::vector<Vertex>& Mesh::GetVertices() const noexcept
+	const std::vector<Vertex>& MeshSegment::GetVertices() const noexcept
 	{
 		return vertices;
 	}
 
-	const std::vector<uint>& Mesh::GetIndices() const noexcept
+	const std::vector<uint>& MeshSegment::GetIndices() const noexcept
 	{
 		return indices;
+	}
+
+	Mesh::Mesh(const ResourcePath& resourcePath, std::vector<MeshSegment>&& segments) : GameResource(resourcePath), segments(std::move(segments)) {}
+
+	Mesh::Mesh(const ResourcePath& resourcePath, const GraphicFactory* graphicFactory, const std::vector<std::pair<std::vector<Vertex>, std::vector<uint>>>& segmentData) :
+		GameResource(resourcePath), segments()
+	{
+		segments.reserve(segmentData.size());
+		for (auto& [vertices, indices] : segmentData)
+		{
+			segments.emplace_back(graphicFactory, vertices, indices);
+		}
+	}
+
+	Mesh::Mesh(const ResourcePath& resourcePath, const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices) :
+		GameResource(resourcePath), segments()
+	{
+		segments.emplace_back(graphicFactory, vertices, indices);
 	}
 }

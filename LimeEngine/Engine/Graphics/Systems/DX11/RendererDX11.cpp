@@ -26,9 +26,12 @@ namespace LimeEngine
 
 	void RendererDX11::Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix)
 	{
-		if (!(inputCamera && mesh.GetMaterial())) return;
-		mesh.BindRenderData(mesh.GetMaterial(), inputCamera, transformMatrix);
-		deviceContext->DrawIndexed(mesh.IndicesCount(), 0, 0);
+		for (auto& segment : mesh.segments)
+		{
+			if (!(inputCamera && segment.GetMaterial())) return;
+			segment.BindRenderData(segment.GetMaterial(), inputCamera, transformMatrix);
+			deviceContext->DrawIndexed(segment.IndicesCount(), 0, 0);
+		}
 	}
 
 	const GraphicFactory* RendererDX11::GetGraphicFactory() const noexcept
