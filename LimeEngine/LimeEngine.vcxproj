@@ -28,25 +28,25 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -72,37 +72,37 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes;$(SolutionDir)$(ProjectName)\Engine</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes;$(SolutionDir)$(ProjectName)\Source</IncludePath>
     <LibraryPath>$(LibraryPath);$(SolutionDir)$(ProjectName)\Libs\$(LibrariesArchitecture)\$(Configuration)</LibraryPath>
-    <OutDir>$(SolutionDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>Build\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediates\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes;$(SolutionDir)$(ProjectName)\Engine</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes;$(SolutionDir)$(ProjectName)\Source</IncludePath>
     <LibraryPath>$(LibraryPath);$(SolutionDir)$(ProjectName)\Libs\$(LibrariesArchitecture)\$(Configuration)</LibraryPath>
-    <OutDir>$(SolutionDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>Build\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediates\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes;$(SolutionDir)$(ProjectName)\Engine</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes;$(SolutionDir)$(ProjectName)\Source</IncludePath>
     <LibraryPath>$(LibraryPath);$(SolutionDir)$(ProjectName)\Libs\$(LibrariesArchitecture)\$(Configuration)</LibraryPath>
-    <OutDir>$(SolutionDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>Build\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediates\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes;$(SolutionDir)$(ProjectName)\Engine</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)$(ProjectName)\Includes;$(SolutionDir)$(ProjectName)\Source</IncludePath>
     <LibraryPath>$(LibraryPath);$(SolutionDir)$(ProjectName)\Libs\$(LibrariesArchitecture)\$(Configuration)</LibraryPath>
-    <OutDir>$(SolutionDir)Build\$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>Build\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Bin\$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediates\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LE_BUILD_PLATFORM_WINDOWS;LE_BUILD_DLL;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -121,7 +121,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LE_BUILD_PLATFORM_WINDOWS;LE_BUILD_DLL;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -140,7 +140,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LE_BUILD_PLATFORM_WINDOWS;LE_BUILD_DLL;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -159,7 +159,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LE_BUILD_PLATFORM_WINDOWS;LE_BUILD_DLL;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -175,36 +175,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\Base\GameResource.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\BuffersDX11.cpp" />
-    <ClCompile Include="Engine\Base\Color.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\BindableDX11.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicFactoryDX11.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\Texture2DDX11.cpp" />
-    <ClCompile Include="Engine\Window\Windows\Console\Console.cpp" />
-    <ClCompile Include="Engine\IO\EngineIO.cpp" />
-    <ClCompile Include="Engine\Scene\DefaultPlayerCameraComponent.cpp" />
-    <ClCompile Include="Engine\Exceptions\DxgiInfo.cpp" />
-    <ClCompile Include="Engine\Scene\CameraComponent.cpp" />
-    <ClCompile Include="Engine\Engine.cpp" />
-    <ClCompile Include="Engine\Exceptions\EngineExceptions.cpp" />
-    <ClCompile Include="Engine\Scene\SceneObject.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicAdapter.cpp" />
-    <ClCompile Include="Engine\Helpers\StringHelper.cpp" />
-    <ClCompile Include="Engine\Input\Keyboard.cpp" />
-    <ClCompile Include="Engine\Input\Mouse.cpp" />
-    <ClCompile Include="Engine\Helpers\Timer.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\ShadersDX11.cpp" />
-    <ClCompile Include="Engine\Base\Vertex.cpp" />
-    <ClCompile Include="Engine\Helpers\Paths.cpp" />
-    <ClCompile Include="Engine\Base\Transform.cpp" />
-    <ClCompile Include="Engine\Base\Vector.cpp" />
-    <ClCompile Include="Engine\Window\Windows\Main\Window.cpp" />
-    <ClCompile Include="Engine\Window\Windows\Main\WinMain.cpp" />
-    <ClCompile Include="Engine\Base\GameDataManager.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\RendererDX11.cpp" />
-    <ClCompile Include="Engine\Base\Primitives.cpp" />
-    <ClCompile Include="Engine\Base\GameDataLoader.cpp" />
+    <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Base\GameResource.cpp" />
+    <ClCompile Include="Source\Graphics\Systems\DX11\BuffersDX11.cpp" />
+    <ClCompile Include="Source\Base\Color.cpp" />
+    <ClCompile Include="Source\Graphics\Systems\DX11\BindableDX11.cpp" />
+    <ClCompile Include="Source\Graphics\Systems\DX11\GraphicFactoryDX11.cpp" />
+    <ClCompile Include="Source\Graphics\Systems\DX11\Texture2DDX11.cpp" />
+    <ClCompile Include="Source\Window\Windows\Console\Console.cpp" />
+    <ClCompile Include="Source\IO\EngineIO.cpp" />
+    <ClCompile Include="Source\Scene\DefaultPlayerCameraComponent.cpp" />
+    <ClCompile Include="Source\Exceptions\DxgiInfo.cpp" />
+    <ClCompile Include="Source\Scene\CameraComponent.cpp" />
+    <ClCompile Include="Source\Engine.cpp" />
+    <ClCompile Include="Source\Exceptions\EngineExceptions.cpp" />
+    <ClCompile Include="Source\Scene\SceneObject.cpp" />
+    <ClCompile Include="Source\Graphics\Systems\DX11\GraphicAdapter.cpp" />
+    <ClCompile Include="Source\Helpers\StringHelper.cpp" />
+    <ClCompile Include="Source\Input\Keyboard.cpp" />
+    <ClCompile Include="Source\Input\Mouse.cpp" />
+    <ClCompile Include="Source\Helpers\Timer.cpp" />
+    <ClCompile Include="Source\Graphics\Systems\DX11\ShadersDX11.cpp" />
+    <ClCompile Include="Source\Base\Vertex.cpp" />
+    <ClCompile Include="Source\Helpers\Paths.cpp" />
+    <ClCompile Include="Source\Base\Transform.cpp" />
+    <ClCompile Include="Source\Base\Vector.cpp" />
+    <ClCompile Include="Source\Window\Windows\Main\Window.cpp" />
+    <ClCompile Include="Source\Window\Windows\Main\WinMain.cpp" />
+    <ClCompile Include="Source\Base\GameDataManager.cpp" />
+    <ClCompile Include="Source\Graphics\Systems\DX11\RendererDX11.cpp" />
+    <ClCompile Include="Source\Base\Primitives.cpp" />
+    <ClCompile Include="Source\Base\GameDataLoader.cpp" />
     <ClCompile Include="Includes\dxerr\dxerr.cpp" />
     <ClCompile Include="Includes\ImGui\imgui.cpp" />
     <ClCompile Include="Includes\ImGui\imgui_draw.cpp" />
@@ -212,66 +213,69 @@
     <ClCompile Include="Includes\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="Includes\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Includes\ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="Engine\Graphics\Base\Mesh.cpp" />
-    <ClCompile Include="Engine\Graphics\Base\Material.cpp" />
-    <ClCompile Include="Engine\Graphics\Base\Texture2D.cpp" />
-    <ClCompile Include="Engine\Scene\SceneMap.cpp" />
-    <ClCompile Include="Engine\Scene\SceneComponent.cpp" />
-    <ClCompile Include="Engine\Scene\MeshComponent.cpp" />
-    <ClCompile Include="Engine\Scene\TestMap.cpp" />
-    <ClCompile Include="Engine\Scene\Scene.cpp" />
-    <ClCompile Include="Engine\Scene\MeshObject.cpp" />
-    <ClCompile Include="Engine\Base\Transformable.cpp" />
-    <ClCompile Include="Engine\Base\Rotator.cpp" />
-    <ClCompile Include="Engine\Graphics\Renderer.cpp" />
-    <ClCompile Include="Engine\IO\SceneIO.cpp" />
-    <ClCompile Include="Engine\IO\RenderIO.cpp" />
-    <ClCompile Include="Engine\Diagnostics\Logger.cpp" />
-    <ClCompile Include="Engine\Base\Math.cpp" />
-    <ClCompile Include="Engine\Graphics\Base\RenderQueue.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\RenderDataDX11.cpp" />
+    <ClCompile Include="Source\Graphics\Base\Mesh.cpp" />
+    <ClCompile Include="Source\Graphics\Base\Material.cpp" />
+    <ClCompile Include="Source\Graphics\Base\Texture2D.cpp" />
+    <ClCompile Include="Source\Scene\SceneMap.cpp" />
+    <ClCompile Include="Source\Scene\SceneComponent.cpp" />
+    <ClCompile Include="Source\Scene\MeshComponent.cpp" />
+    <ClCompile Include="Source\Scene\TestMap.cpp" />
+    <ClCompile Include="Source\Scene\Scene.cpp" />
+    <ClCompile Include="Source\Scene\MeshObject.cpp" />
+    <ClCompile Include="Source\Base\Transformable.cpp" />
+    <ClCompile Include="Source\Base\Rotator.cpp" />
+    <ClCompile Include="Source\Graphics\Renderer.cpp" />
+    <ClCompile Include="Source\IO\SceneIO.cpp" />
+    <ClCompile Include="Source\IO\RenderIO.cpp" />
+    <ClCompile Include="Source\Diagnostics\Logger.cpp" />
+    <ClCompile Include="Source\Base\Math.cpp" />
+    <ClCompile Include="Source\Graphics\Base\RenderQueue.cpp" />
+    <ClCompile Include="Source\Graphics\Systems\DX11\RenderDataDX11.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\BuffersDX11.hpp" />
-    <ClInclude Include="Engine\Graphics\Base\IBindable.hpp" />
-    <ClInclude Include="Engine\Graphics\Base\IDrawable.hpp" />
-    <ClInclude Include="Engine\Base\Color.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\BindableDX11.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\GraphicFactoryDX11.hpp" />
-    <ClInclude Include="Engine\Window\Base\Console.hpp" />
-    <ClInclude Include="Engine\Window\Windows\Console\Console.hpp" />
-    <ClInclude Include="Engine\CoreBase.hpp" />
-    <ClInclude Include="Engine\IO\EngineIO.hpp" />
-    <ClInclude Include="Engine\Scene\DefaultPlayerCameraComponent.hpp" />
-    <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp" />
-    <ClInclude Include="Engine\Scene\CameraComponent.hpp" />
-    <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp" />
-    <ClInclude Include="Engine\Scene\SceneObject.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\ConstantBuffers.hpp" />
-    <ClInclude Include="Engine\Engine.hpp" />
-    <ClInclude Include="Engine\Exceptions\EngineExceptions.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\GraphicAdapter.hpp" />
-    <ClInclude Include="Engine\Input\InputDevice.hpp" />
-    <ClInclude Include="Engine\Input\Keyboard.hpp" />
-    <ClInclude Include="Engine\Input\Mouse.hpp" />
-    <ClInclude Include="Engine\Helpers\Timer.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\DirectXDef.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\ShadersDX11.hpp" />
-    <ClInclude Include="Engine\Base\Vertex.hpp" />
-    <ClInclude Include="Engine\Helpers\Paths.hpp" />
-    <ClInclude Include="Engine\Base\Transform.hpp" />
-    <ClInclude Include="Engine\Base\Vector.hpp" />
-    <ClInclude Include="Engine\Window\Windows\WinApi.hpp" />
-    <ClInclude Include="Engine\Window\Resource\resource.h" />
-    <ClInclude Include="Engine\Helpers\StringHelper.hpp" />
-    <ClInclude Include="Engine\Window\Windows\Main\Window.hpp" />
-    <ClInclude Include="Engine\Base\GameDataManager.hpp" />
-    <ClInclude Include="Engine\Base\Events.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\RendererDX11.hpp" />
-    <ClInclude Include="Engine\Base\Primitives.hpp" />
-    <ClInclude Include="Engine\Graphics\Base\GraphicFactory.hpp" />
-    <ClInclude Include="Engine\Base\GameDataLoader.hpp" />
-    <ClInclude Include="Engine\Base\GameResource.hpp" />
+    <ClInclude Include="Source\Application.hpp" />
+    <ClInclude Include="Source\EntryPoint.hpp" />
+    <ClInclude Include="Source\Graphics\Systems\DX11\BuffersDX11.hpp" />
+    <ClInclude Include="Source\Graphics\Base\IBindable.hpp" />
+    <ClInclude Include="Source\Graphics\Base\IDrawable.hpp" />
+    <ClInclude Include="Source\Base\Color.hpp" />
+    <ClInclude Include="Source\Graphics\Systems\DX11\BindableDX11.hpp" />
+    <ClInclude Include="Source\Graphics\Systems\DX11\GraphicFactoryDX11.hpp" />
+    <ClInclude Include="Source\LimeEngine.hpp" />
+    <ClInclude Include="Source\Window\Base\Console.hpp" />
+    <ClInclude Include="Source\Window\Windows\Console\Console.hpp" />
+    <ClInclude Include="Source\CoreBase.hpp" />
+    <ClInclude Include="Source\IO\EngineIO.hpp" />
+    <ClInclude Include="Source\Scene\DefaultPlayerCameraComponent.hpp" />
+    <ClInclude Include="Source\Exceptions\DxgiInfo.hpp" />
+    <ClInclude Include="Source\Scene\CameraComponent.hpp" />
+    <ClInclude Include="Source\Exceptions\GraphicsExceptions.hpp" />
+    <ClInclude Include="Source\Scene\SceneObject.hpp" />
+    <ClInclude Include="Source\Graphics\Systems\DX11\ConstantBuffers.hpp" />
+    <ClInclude Include="Source\Engine.hpp" />
+    <ClInclude Include="Source\Exceptions\EngineExceptions.hpp" />
+    <ClInclude Include="Source\Graphics\Systems\DX11\GraphicAdapter.hpp" />
+    <ClInclude Include="Source\Input\InputDevice.hpp" />
+    <ClInclude Include="Source\Input\Keyboard.hpp" />
+    <ClInclude Include="Source\Input\Mouse.hpp" />
+    <ClInclude Include="Source\Helpers\Timer.hpp" />
+    <ClInclude Include="Source\Graphics\Systems\DX11\DirectXDef.hpp" />
+    <ClInclude Include="Source\Graphics\Systems\DX11\ShadersDX11.hpp" />
+    <ClInclude Include="Source\Base\Vertex.hpp" />
+    <ClInclude Include="Source\Helpers\Paths.hpp" />
+    <ClInclude Include="Source\Base\Transform.hpp" />
+    <ClInclude Include="Source\Base\Vector.hpp" />
+    <ClInclude Include="Source\Window\Windows\WinApi.hpp" />
+    <ClInclude Include="Source\Window\Resource\resource.h" />
+    <ClInclude Include="Source\Helpers\StringHelper.hpp" />
+    <ClInclude Include="Source\Window\Windows\Main\Window.hpp" />
+    <ClInclude Include="Source\Base\GameDataManager.hpp" />
+    <ClInclude Include="Source\Base\Events.hpp" />
+    <ClInclude Include="Source\Graphics\Systems\DX11\RendererDX11.hpp" />
+    <ClInclude Include="Source\Base\Primitives.hpp" />
+    <ClInclude Include="Source\Graphics\Base\GraphicFactory.hpp" />
+    <ClInclude Include="Source\Base\GameDataLoader.hpp" />
+    <ClInclude Include="Source\Base\GameResource.hpp" />
     <ClInclude Include="Includes\dxerr\dxerr.h" />
     <ClInclude Include="Includes\ImGui\imconfig.h" />
     <ClInclude Include="Includes\ImGui\imgui.h" />
@@ -282,33 +286,33 @@
     <ClInclude Include="Includes\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Includes\ImGui\imstb_textedit.h" />
     <ClInclude Include="Includes\ImGui\imstb_truetype.h" />
-    <ClInclude Include="Engine\Graphics\Base\Mesh.hpp" />
-    <ClInclude Include="Engine\Graphics\Base\Material.hpp" />
-    <ClInclude Include="Engine\Graphics\Base\Texture2D.hpp" />
-    <ClInclude Include="Engine\Scene\SceneMap.hpp" />
-    <ClInclude Include="Engine\Exceptions\WindowExceptions.hpp" />
-    <ClInclude Include="Engine\Scene\SceneComponent.hpp" />
-    <ClInclude Include="Engine\Scene\MeshComponent.hpp" />
-    <ClInclude Include="Engine\Scene\TestMap.hpp" />
-    <ClInclude Include="Engine\Scene\Scene.hpp" />
-    <ClInclude Include="Engine\Scene\MeshObject.hpp" />
-    <ClInclude Include="Engine\Base\Transformable.hpp" />
-    <ClInclude Include="Engine\Base\Rotator.hpp" />
-    <ClInclude Include="Engine\Graphics\Renderer.hpp" />
-    <ClInclude Include="Engine\IO\SceneIO.hpp" />
-    <ClInclude Include="Engine\IO\RenderIO.hpp" />
-    <ClInclude Include="Engine\Diagnostics\Logger.hpp" />
-    <ClInclude Include="Engine\Base\Math.hpp" />
-    <ClInclude Include="Engine\Graphics\Base\RenderQueue.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\RenderDataDX11.hpp" />
-    <ClInclude Include="Engine\Graphics\Base\RenderData.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\Texture2DDX11.hpp" />
+    <ClInclude Include="Source\Graphics\Base\Mesh.hpp" />
+    <ClInclude Include="Source\Graphics\Base\Material.hpp" />
+    <ClInclude Include="Source\Graphics\Base\Texture2D.hpp" />
+    <ClInclude Include="Source\Scene\SceneMap.hpp" />
+    <ClInclude Include="Source\Exceptions\WindowExceptions.hpp" />
+    <ClInclude Include="Source\Scene\SceneComponent.hpp" />
+    <ClInclude Include="Source\Scene\MeshComponent.hpp" />
+    <ClInclude Include="Source\Scene\TestMap.hpp" />
+    <ClInclude Include="Source\Scene\Scene.hpp" />
+    <ClInclude Include="Source\Scene\MeshObject.hpp" />
+    <ClInclude Include="Source\Base\Transformable.hpp" />
+    <ClInclude Include="Source\Base\Rotator.hpp" />
+    <ClInclude Include="Source\Graphics\Renderer.hpp" />
+    <ClInclude Include="Source\IO\SceneIO.hpp" />
+    <ClInclude Include="Source\IO\RenderIO.hpp" />
+    <ClInclude Include="Source\Diagnostics\Logger.hpp" />
+    <ClInclude Include="Source\Base\Math.hpp" />
+    <ClInclude Include="Source\Graphics\Base\RenderQueue.hpp" />
+    <ClInclude Include="Source\Graphics\Systems\DX11\RenderDataDX11.hpp" />
+    <ClInclude Include="Source\Graphics\Base\RenderData.hpp" />
+    <ClInclude Include="Source\Graphics\Systems\DX11\Texture2DDX11.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Engine\Window\Resource\LimeEngine.rc" />
+    <ResourceCompile Include="Source\Window\Resource\LimeEngine.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Engine\Window\Resource\cherry.ico" />
+    <Image Include="Source\Window\Resource\cherry.ico" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

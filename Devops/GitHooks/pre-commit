@@ -1,8 +1,0 @@
-#!/bin/sh
-
-echo "Format files..."
-for file in `git diff --staged --name-only | grep -i -E '\.(cpp|hpp|h)$'`; do
-    echo ${file}
-    clang-format -i ${file}
-    git add ${file}
-done

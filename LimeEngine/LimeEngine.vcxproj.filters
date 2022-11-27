@@ -1,136 +1,136 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Engine\Engine.cpp">
+    <ClCompile Include="Source\Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Window\Windows\Main\Window.cpp">
+    <ClCompile Include="Source\Window\Windows\Main\Window.cpp">
       <Filter>Engine\Window\Windows\Main</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Window\Windows\Main\WinMain.cpp">
+    <ClCompile Include="Source\Window\Windows\Main\WinMain.cpp">
       <Filter>Engine\Window\Windows\Main</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Window\Windows\Console\Console.cpp">
+    <ClCompile Include="Source\Window\Windows\Console\Console.cpp">
       <Filter>Engine\Window\Windows\Console</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Exceptions\DxgiInfo.cpp">
+    <ClCompile Include="Source\Exceptions\DxgiInfo.cpp">
       <Filter>Engine\Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Exceptions\EngineExceptions.cpp">
+    <ClCompile Include="Source\Exceptions\EngineExceptions.cpp">
       <Filter>Engine\Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Helpers\StringHelper.cpp">
+    <ClCompile Include="Source\Helpers\StringHelper.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Helpers\Timer.cpp">
+    <ClCompile Include="Source\Helpers\Timer.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Helpers\Paths.cpp">
+    <ClCompile Include="Source\Helpers\Paths.cpp">
       <Filter>Engine\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Input\Keyboard.cpp">
+    <ClCompile Include="Source\Input\Keyboard.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Input\Mouse.cpp">
+    <ClCompile Include="Source\Input\Mouse.cpp">
       <Filter>Engine\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Renderer.cpp">
+    <ClCompile Include="Source\Graphics\Renderer.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\BuffersDX11.cpp">
+    <ClCompile Include="Source\Graphics\Systems\DX11\BuffersDX11.cpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\BindableDX11.cpp">
+    <ClCompile Include="Source\Graphics\Systems\DX11\BindableDX11.cpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicAdapter.cpp">
+    <ClCompile Include="Source\Graphics\Systems\DX11\GraphicAdapter.cpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\RendererDX11.cpp">
+    <ClCompile Include="Source\Graphics\Systems\DX11\RendererDX11.cpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\RenderDataDX11.cpp">
+    <ClCompile Include="Source\Graphics\Systems\DX11\RenderDataDX11.cpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\ShadersDX11.cpp">
+    <ClCompile Include="Source\Graphics\Systems\DX11\ShadersDX11.cpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Base\Mesh.cpp">
+    <ClCompile Include="Source\Graphics\Base\Mesh.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Base\Material.cpp">
+    <ClCompile Include="Source\Graphics\Base\Material.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Base\Texture2D.cpp">
+    <ClCompile Include="Source\Graphics\Base\Texture2D.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Base\RenderQueue.cpp">
+    <ClCompile Include="Source\Graphics\Base\RenderQueue.cpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\Scene.cpp">
+    <ClCompile Include="Source\Scene\Scene.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\SceneMap.cpp">
+    <ClCompile Include="Source\Scene\SceneMap.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\TestMap.cpp">
+    <ClCompile Include="Source\Scene\TestMap.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\DefaultPlayerCameraComponent.cpp">
+    <ClCompile Include="Source\Scene\DefaultPlayerCameraComponent.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\CameraComponent.cpp">
+    <ClCompile Include="Source\Scene\CameraComponent.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\SceneComponent.cpp">
+    <ClCompile Include="Source\Scene\SceneComponent.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\MeshComponent.cpp">
+    <ClCompile Include="Source\Scene\MeshComponent.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\SceneObject.cpp">
+    <ClCompile Include="Source\Scene\SceneObject.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\MeshObject.cpp">
+    <ClCompile Include="Source\Scene\MeshObject.cpp">
       <Filter>Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Color.cpp">
+    <ClCompile Include="Source\Base\Color.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Vertex.cpp">
+    <ClCompile Include="Source\Base\Vertex.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Transform.cpp">
+    <ClCompile Include="Source\Base\Transform.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Vector.cpp">
+    <ClCompile Include="Source\Base\Vector.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\GameDataManager.cpp">
+    <ClCompile Include="Source\Base\GameDataManager.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Primitives.cpp">
+    <ClCompile Include="Source\Base\Primitives.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Transformable.cpp">
+    <ClCompile Include="Source\Base\Transformable.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Rotator.cpp">
+    <ClCompile Include="Source\Base\Rotator.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\Math.cpp">
+    <ClCompile Include="Source\Base\Math.cpp">
       <Filter>Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\IO\EngineIO.cpp">
+    <ClCompile Include="Source\IO\EngineIO.cpp">
       <Filter>Engine\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\IO\SceneIO.cpp">
+    <ClCompile Include="Source\IO\SceneIO.cpp">
       <Filter>Engine\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\IO\RenderIO.cpp">
+    <ClCompile Include="Source\IO\RenderIO.cpp">
       <Filter>Engine\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Diagnostics\Logger.cpp">
+    <ClCompile Include="Source\Diagnostics\Logger.cpp">
       <Filter>Engine\Diagnostics</Filter>
     </ClCompile>
     <ClCompile Include="Includes\dxerr\dxerr.cpp">
@@ -154,181 +154,182 @@
     <ClCompile Include="Includes\ImGui\imgui_widgets.cpp">
       <Filter>Includes\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\Systems\DX11\GraphicFactoryDX11.cpp" />
-    <ClCompile Include="Engine\Graphics\Systems\DX11\Texture2DDX11.cpp" />
-    <ClCompile Include="Engine\Base\GameDataLoader.cpp" />
-    <ClCompile Include="Engine\Base\GameResource.cpp" />
+    <ClCompile Include="Source\Graphics\Systems\DX11\GraphicFactoryDX11.cpp" />
+    <ClCompile Include="Source\Graphics\Systems\DX11\Texture2DDX11.cpp" />
+    <ClCompile Include="Source\Base\GameDataLoader.cpp" />
+    <ClCompile Include="Source\Base\GameResource.cpp" />
+    <ClCompile Include="Source\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\CoreBase.hpp">
+    <ClInclude Include="Source\CoreBase.hpp">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Engine.hpp">
+    <ClInclude Include="Source\Engine.hpp">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Window\Windows\WinApi.hpp">
+    <ClInclude Include="Source\Window\Windows\WinApi.hpp">
       <Filter>Engine\Window\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Window\Windows\Main\Window.hpp">
+    <ClInclude Include="Source\Window\Windows\Main\Window.hpp">
       <Filter>Engine\Window\Windows\Main</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Window\Windows\Console\Console.hpp">
+    <ClInclude Include="Source\Window\Windows\Console\Console.hpp">
       <Filter>Engine\Window\Windows\Console</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Window\Resource\resource.h">
+    <ClInclude Include="Source\Window\Resource\resource.h">
       <Filter>Engine\Window\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Window\Base\Console.hpp">
+    <ClInclude Include="Source\Window\Base\Console.hpp">
       <Filter>Engine\Window\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Exceptions\DxgiInfo.hpp">
+    <ClInclude Include="Source\Exceptions\DxgiInfo.hpp">
       <Filter>Engine\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Exceptions\GraphicsExceptions.hpp">
+    <ClInclude Include="Source\Exceptions\GraphicsExceptions.hpp">
       <Filter>Engine\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Exceptions\EngineExceptions.hpp">
+    <ClInclude Include="Source\Exceptions\EngineExceptions.hpp">
       <Filter>Engine\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Exceptions\WindowExceptions.hpp">
+    <ClInclude Include="Source\Exceptions\WindowExceptions.hpp">
       <Filter>Engine\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Helpers\Timer.hpp">
+    <ClInclude Include="Source\Helpers\Timer.hpp">
       <Filter>Engine\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Helpers\Paths.hpp">
+    <ClInclude Include="Source\Helpers\Paths.hpp">
       <Filter>Engine\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Helpers\StringHelper.hpp">
+    <ClInclude Include="Source\Helpers\StringHelper.hpp">
       <Filter>Engine\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Input\InputDevice.hpp">
+    <ClInclude Include="Source\Input\InputDevice.hpp">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Input\Keyboard.hpp">
+    <ClInclude Include="Source\Input\Keyboard.hpp">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Input\Mouse.hpp">
+    <ClInclude Include="Source\Input\Mouse.hpp">
       <Filter>Engine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Renderer.hpp">
+    <ClInclude Include="Source\Graphics\Renderer.hpp">
       <Filter>Engine\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\BuffersDX11.hpp">
+    <ClInclude Include="Source\Graphics\Systems\DX11\BuffersDX11.hpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\BindableDX11.hpp">
+    <ClInclude Include="Source\Graphics\Systems\DX11\BindableDX11.hpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\GraphicAdapter.hpp">
+    <ClInclude Include="Source\Graphics\Systems\DX11\GraphicAdapter.hpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\DirectXDef.hpp">
+    <ClInclude Include="Source\Graphics\Systems\DX11\DirectXDef.hpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\RendererDX11.hpp">
+    <ClInclude Include="Source\Graphics\Systems\DX11\RendererDX11.hpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\RenderDataDX11.hpp">
+    <ClInclude Include="Source\Graphics\Systems\DX11\RenderDataDX11.hpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\ConstantBuffers.hpp">
+    <ClInclude Include="Source\Graphics\Systems\DX11\ConstantBuffers.hpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\ShadersDX11.hpp">
+    <ClInclude Include="Source\Graphics\Systems\DX11\ShadersDX11.hpp">
       <Filter>Engine\Graphics\Systems\DX11</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\IDrawable.hpp">
+    <ClInclude Include="Source\Graphics\Base\IDrawable.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\IBindable.hpp">
+    <ClInclude Include="Source\Graphics\Base\IBindable.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\Mesh.hpp">
+    <ClInclude Include="Source\Graphics\Base\Mesh.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\Material.hpp">
+    <ClInclude Include="Source\Graphics\Base\Material.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\Texture2D.hpp">
+    <ClInclude Include="Source\Graphics\Base\Texture2D.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\RenderQueue.hpp">
+    <ClInclude Include="Source\Graphics\Base\RenderQueue.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\RenderData.hpp">
+    <ClInclude Include="Source\Graphics\Base\RenderData.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Base\GraphicFactory.hpp">
+    <ClInclude Include="Source\Graphics\Base\GraphicFactory.hpp">
       <Filter>Engine\Graphics\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\Scene.hpp">
+    <ClInclude Include="Source\Scene\Scene.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\SceneMap.hpp">
+    <ClInclude Include="Source\Scene\SceneMap.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\TestMap.hpp">
+    <ClInclude Include="Source\Scene\TestMap.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\DefaultPlayerCameraComponent.hpp">
+    <ClInclude Include="Source\Scene\DefaultPlayerCameraComponent.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\CameraComponent.hpp">
+    <ClInclude Include="Source\Scene\CameraComponent.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\SceneComponent.hpp">
+    <ClInclude Include="Source\Scene\SceneComponent.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\MeshComponent.hpp">
+    <ClInclude Include="Source\Scene\MeshComponent.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\SceneObject.hpp">
+    <ClInclude Include="Source\Scene\SceneObject.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Scene\MeshObject.hpp">
+    <ClInclude Include="Source\Scene\MeshObject.hpp">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Color.hpp">
+    <ClInclude Include="Source\Base\Color.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Vertex.hpp">
+    <ClInclude Include="Source\Base\Vertex.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Transform.hpp">
+    <ClInclude Include="Source\Base\Transform.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Vector.hpp">
+    <ClInclude Include="Source\Base\Vector.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\GameDataManager.hpp">
+    <ClInclude Include="Source\Base\GameDataManager.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Events.hpp">
+    <ClInclude Include="Source\Base\Events.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Primitives.hpp">
+    <ClInclude Include="Source\Base\Primitives.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Transformable.hpp">
+    <ClInclude Include="Source\Base\Transformable.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Rotator.hpp">
+    <ClInclude Include="Source\Base\Rotator.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\Math.hpp">
+    <ClInclude Include="Source\Base\Math.hpp">
       <Filter>Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\IO\EngineIO.hpp">
+    <ClInclude Include="Source\IO\EngineIO.hpp">
       <Filter>Engine\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\IO\SceneIO.hpp">
+    <ClInclude Include="Source\IO\SceneIO.hpp">
       <Filter>Engine\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\IO\RenderIO.hpp">
+    <ClInclude Include="Source\IO\RenderIO.hpp">
       <Filter>Engine\IO</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Diagnostics\Logger.hpp">
+    <ClInclude Include="Source\Diagnostics\Logger.hpp">
       <Filter>Engine\Diagnostics</Filter>
     </ClInclude>
     <ClInclude Include="Includes\dxerr\dxerr.h">
@@ -361,10 +362,13 @@
     <ClInclude Include="Includes\ImGui\imstb_truetype.h">
       <Filter>Includes\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\Systems\DX11\GraphicFactoryDX11.hpp" />
-    <ClInclude Include="Engine\Graphics\Systems\DX11\Texture2DDX11.hpp" />
-    <ClInclude Include="Engine\Base\GameDataLoader.hpp" />
-    <ClInclude Include="Engine\Base\GameResource.hpp" />
+    <ClInclude Include="Source\Graphics\Systems\DX11\GraphicFactoryDX11.hpp" />
+    <ClInclude Include="Source\Graphics\Systems\DX11\Texture2DDX11.hpp" />
+    <ClInclude Include="Source\Base\GameDataLoader.hpp" />
+    <ClInclude Include="Source\Base\GameResource.hpp" />
+    <ClInclude Include="Source\Application.hpp" />
+    <ClInclude Include="Source\LimeEngine.hpp" />
+    <ClInclude Include="Source\EntryPoint.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl" />
@@ -447,12 +451,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Engine\Window\Resource\LimeEngine.rc">
+    <ResourceCompile Include="Source\Window\Resource\LimeEngine.rc">
       <Filter>Engine\Window\Resource</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Engine\Window\Resource\cherry.ico">
+    <Image Include="Source\Window\Resource\cherry.ico">
       <Filter>Engine\Window\Resource</Filter>
     </Image>
   </ItemGroup>
