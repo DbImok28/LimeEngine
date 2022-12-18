@@ -1,0 +1,3 @@
+[submodule "LimeEngine/Dependencies/spdlog"]
+	path = LimeEngine/Dependencies/spdlog
+	url = https://github.com/gabime/spdlog

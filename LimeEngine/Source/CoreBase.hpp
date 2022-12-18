@@ -13,16 +13,12 @@
 	#error Platform not supported
 #endif
 
+#define LE_CONSOLE
+#define LE_LOG_FULL
+
 #include <tchar.h>
 #include <string>
 #include <sstream>
-#include "Exceptions/EngineExceptions.hpp"
-#include "Base/Transform.hpp"
-
-//#if defined(DEBUG) || defined(_DEBUG)
-//	#define D_GLIBCXX_DEBUG
-//	#define D_GLIBCXX_DEBUG_PEDANTIC
-//#endif // DEBUG || _DEBUG
 
 namespace LimeEngine
 {
@@ -67,3 +63,7 @@ namespace LimeEngine
 	#define TEXT(quote) __TEXT(quote)
 #endif // !TEXT
 }
+
+#include "Diagnostics/Logger.hpp"
+#include "Exceptions/EngineExceptions.hpp"
+#include "Base/Transform.hpp"

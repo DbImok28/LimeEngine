@@ -7,12 +7,6 @@
     <ClCompile Include="Source\Window\Windows\Main\Window.cpp">
       <Filter>Engine\Window\Windows\Main</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Window\Windows\Main\WinMain.cpp">
-      <Filter>Engine\Window\Windows\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Window\Windows\Console\Console.cpp">
-      <Filter>Engine\Window\Windows\Console</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Exceptions\DxgiInfo.cpp">
       <Filter>Engine\Exceptions</Filter>
     </ClCompile>
@@ -159,6 +153,7 @@
     <ClCompile Include="Source\Base\GameDataLoader.cpp" />
     <ClCompile Include="Source\Base\GameResource.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Window\Base\Console.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\CoreBase.hpp">
@@ -172,9 +167,6 @@
     </ClInclude>
     <ClInclude Include="Source\Window\Windows\Main\Window.hpp">
       <Filter>Engine\Window\Windows\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Window\Windows\Console\Console.hpp">
-      <Filter>Engine\Window\Windows\Console</Filter>
     </ClInclude>
     <ClInclude Include="Source\Window\Resource\resource.h">
       <Filter>Engine\Window\Resource</Filter>

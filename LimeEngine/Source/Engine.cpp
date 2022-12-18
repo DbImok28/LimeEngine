@@ -2,12 +2,10 @@
 
 namespace LimeEngine
 {
-	Engine::Engine(EngineIO&& engineIO, Console* logConsole) : logger(logConsole), gameDataManager(this, engineIO.renderIO.renderer->GetGraphicFactory()), scene(this)
+	Engine::Engine(EngineIO&& engineIO) : gameDataManager(this, engineIO.renderIO.renderer->GetGraphicFactory()), scene(this)
 	{
 		this->engineIO.push_back(std::move(engineIO));
 	}
-
-	//Engine::Engine(std::vector<EngineIO>&& engineIO, Console* logConsole) : logger(logConsole), engineIO(std::move(engineIO)), gameDataManager(this), scene(this) {}
 
 	int Engine::Start()
 	{
