@@ -1,19 +1,41 @@
+// Copyright (C) 2022 Pavel Jakushik - All Rights Reserved
+// See file LICENSE for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
-#include "Base/Color.hpp"
+
+#ifdef LE_CONSOLE
+
+	#include "Base/Color.hpp"
 
 namespace LimeEngine
 {
 	class Console
 	{
 	public:
-		FORCEINLINE bool Open(const tstring& title) noexcept
+		inline static Console GetConsole() noexcept
 		{
-			return Open(300, title);
+			return mainConsole;
 		}
-		virtual bool Open(int16 minLength, const tstring& title) noexcept = 0;
-		virtual bool Close() noexcept = 0;
-		virtual void SetTitle(const tstring& title) noexcept = 0;
-		virtual void Print(tstring_view msg, PrimaryColor color) noexcept = 0;
+
+	private:
+		static Console mainConsole;
+		Console() = default;
+		Console(int16 minLength, const tstring& title);
+
+		bool Open(int16 minLength, const tstring& title) noexcept;
+		bool Close() noexcept;
+		void Print(tstring_view msg, PrimaryColor color = PrimaryColor::Gray) noexcept;
+		void SetTitle(const tstring& title) noexcept;
+		void SetMinLength(int16 minLength) const noexcept;
+
+	private:
+		bool RedirectIO() const noexcept;
+		bool ReleaseIO() const noexcept;
+
+	public:
+		void* hConsole = nullptr;
 	};
 }
+
+#endif

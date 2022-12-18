@@ -108,6 +108,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <FloatingPointModel>Fast</FloatingPointModel>
+      <AdditionalIncludeDirectories>$(SolutionDir)LimeEngine\Dependencies\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,6 +128,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <FloatingPointModel>Fast</FloatingPointModel>
+      <AdditionalIncludeDirectories>$(SolutionDir)LimeEngine\Dependencies\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,6 +148,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <FloatingPointModel>Fast</FloatingPointModel>
+      <AdditionalIncludeDirectories>$(SolutionDir)LimeEngine\Dependencies\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -165,6 +168,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <FloatingPointModel>Fast</FloatingPointModel>
+      <AdditionalIncludeDirectories>$(SolutionDir)LimeEngine\Dependencies\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -182,7 +186,7 @@
     <ClCompile Include="Source\Graphics\Systems\DX11\BindableDX11.cpp" />
     <ClCompile Include="Source\Graphics\Systems\DX11\GraphicFactoryDX11.cpp" />
     <ClCompile Include="Source\Graphics\Systems\DX11\Texture2DDX11.cpp" />
-    <ClCompile Include="Source\Window\Windows\Console\Console.cpp" />
+    <ClCompile Include="Source\Window\Base\Console.cpp" />
     <ClCompile Include="Source\IO\EngineIO.cpp" />
     <ClCompile Include="Source\Scene\DefaultPlayerCameraComponent.cpp" />
     <ClCompile Include="Source\Exceptions\DxgiInfo.cpp" />
@@ -201,7 +205,6 @@
     <ClCompile Include="Source\Base\Transform.cpp" />
     <ClCompile Include="Source\Base\Vector.cpp" />
     <ClCompile Include="Source\Window\Windows\Main\Window.cpp" />
-    <ClCompile Include="Source\Window\Windows\Main\WinMain.cpp" />
     <ClCompile Include="Source\Base\GameDataManager.cpp" />
     <ClCompile Include="Source\Graphics\Systems\DX11\RendererDX11.cpp" />
     <ClCompile Include="Source\Base\Primitives.cpp" />
@@ -243,7 +246,6 @@
     <ClInclude Include="Source\Graphics\Systems\DX11\GraphicFactoryDX11.hpp" />
     <ClInclude Include="Source\LimeEngine.hpp" />
     <ClInclude Include="Source\Window\Base\Console.hpp" />
-    <ClInclude Include="Source\Window\Windows\Console\Console.hpp" />
     <ClInclude Include="Source\CoreBase.hpp" />
     <ClInclude Include="Source\IO\EngineIO.hpp" />
     <ClInclude Include="Source\Scene\DefaultPlayerCameraComponent.hpp" />

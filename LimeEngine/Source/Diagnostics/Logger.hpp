@@ -3,89 +3,129 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
-#include "Window/Base/Console.hpp"
-#include <type_traits>
-#include <format>
-#include <map>
-#include <fstream>
+#include <spdlog/spdlog.h>
 
 namespace LimeEngine
 {
-	// This is the string that checks for correct formatting at compile time (for std::format)
-	template <class... _Args>
-	using _Fmt_tstring = std::_Basic_format_string<TCHAR, std::type_identity_t<_Args>...>;
-
 	enum class LogLevel
 	{
-		Trace,
-		Note,
-		Warning,
-		Error,
-		Debug
+		Trace = SPDLOG_LEVEL_TRACE,
+		Debug = SPDLOG_LEVEL_DEBUG,
+		Info = SPDLOG_LEVEL_INFO,
+		Warning = SPDLOG_LEVEL_WARN,
+		Error = SPDLOG_LEVEL_ERROR,
+		CriticalError = SPDLOG_LEVEL_CRITICAL,
 	};
 
-	struct LogLevelDesc
-	{
-		tstring name;
-		PrimaryColor color;
-	};
-
-	struct LogCategory
-	{
-		tstring name;
-	};
-
-	class Logger
+	class LE_API Logger
 	{
 	public:
-		static const LogCategory LogDebug;
-		static const LogCategory LogTemp;
-		static const LogCategory LogEngine;
-		static const LogCategory LogGraphics;
+		inline static Logger GetCoreLogger() noexcept
+		{
+			return coreLoger;
+		}
+		inline static Logger GetLogger() noexcept
+		{
+			return appLoger;
+		}
+		static void Initialize();
 
-		~Logger() noexcept;
+	private:
+		static Logger coreLoger;
+		static Logger appLoger;
+
+	public:
+		explicit Logger(const std::string& name);
 		Logger(const Logger&) = default;
 		Logger(Logger&&) noexcept = default;
 		Logger& operator=(const Logger&) = default;
 		Logger& operator=(Logger&&) noexcept = default;
-		explicit Logger(Console* console = nullptr);
 
-		template <typename... TArgs>
-		void Log(LogLevel level, const _Fmt_tstring<TArgs...> format, TArgs&&... args) noexcept
+		void Log(LogLevel level, std::string_view msg) noexcept
 		{
-			WriteFormatted(level, std::format(format, std::forward<TArgs>(args)...));
+			spdLogger->log(static_cast<spdlog::level::level_enum>(level), msg);
 		}
 		template <typename... TArgs>
-		void DynamicLog(LogLevel level, tstring_view format, TArgs&&... args)
+		void Log(LogLevel level, spdlog::format_string_t<TArgs...> fmsg, TArgs&&... args) noexcept
 		{
-			WriteFormatted(level, std::vformat(format, std::make_format_args(args...)));
+			spdLogger->log(static_cast<spdlog::level::level_enum>(level), fmsg, std::forward<TArgs>(args)...);
 		}
-		template <typename... TArgs>
-		void Log(LogLevel level, const LogCategory& category, const _Fmt_tstring<TArgs...> format, TArgs&&... args) noexcept
-		{
-			WriteFormatted(level, category, std::format(format, std::forward<TArgs>(args)...));
-		}
-		template <typename... TArgs>
-		void DynamicLog(LogLevel level, const LogCategory& category, tstring_view format, TArgs&&... args)
-		{
-			WriteFormatted(level, category, std::vformat(format, std::make_format_args(args...)));
-		}
-		void CLog(LogLevel level, const TCHAR* format, ...) noexcept;
-		void CLog(LogLevel level, const LogCategory& category, const TCHAR* format, ...) noexcept;
-
-		void WriteFormatted(LogLevel level, tstring_view msg) noexcept;
-		void WriteFormatted(LogLevel level, const LogCategory& category, tstring_view msg) noexcept;
-		tstring FormatLogMessage(tstring_view msg, const LogLevelDesc& logLevelDesc) const noexcept;
-		tstring FormatLogMessage(tstring_view msg, const LogLevelDesc& logLevelDesc, const LogCategory& category) const noexcept;
-		void WriteLog(tstring_view msg, PrimaryColor color) noexcept;
-		void WriteToConsole(tstring_view msg, PrimaryColor color) noexcept;
-		void WriteToFile(tstring_view msg) noexcept;
-		void WriteToScreen(tstring_view msg) noexcept;
-		tstring GetOutFileName() const noexcept;
 
 	private:
-		Console* console = nullptr;
-		tofstream fileStream;
-		static const std::map<LogLevel, LogLevelDesc> ToLogLevelDesc;
+		std::shared_ptr<spdlog::logger> spdLogger;
 	};
 }
+
+#ifdef _DEBUG
+	#define LE_DEBUG(...)      ::LimeEngine::Logger::GetLogger().Log(LogLevel::Debug, __VA_ARGS__)
+	#define LE_CORE_DEBUG(...) ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Debug, __VA_ARGS__)
+#else
+	#define LE_DEBUG(...)      (void)0
+	#define LE_CORE_DEBUG(...) (void)0
+#endif
+
+#if defined(LE_LOG_FULL)
+
+	#define LE_LOG(...)            ::LimeEngine::Logger::GetLogger().Log(__VA_ARGS__)
+	#define LE_TRACE(...)          ::LimeEngine::Logger::GetLogger().Log(LogLevel::Trace, __VA_ARGS__)
+	#define LE_INFO(...)           ::LimeEngine::Logger::GetLogger().Log(LogLevel::Info, __VA_ARGS__)
+	#define LE_WARNING(...)        ::LimeEngine::Logger::GetLogger().Log(LogLevel::Warning, __VA_ARGS__)
+	#define LE_ERROR(...)          ::LimeEngine::Logger::GetLogger().Log(LogLevel::Error, __VA_ARGS__)
+	#define LE_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetLogger().Log(LogLevel::CriticalError, __VA_ARGS__)
+
+	#define LE_CORE(...)                ::LimeEngine::Logger::GetCoreLogger().Log(__VA_ARGS__)
+	#define LE_CORE_TRACE(...)          ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Trace, __VA_ARGS__)
+	#define LE_CORE_INFO(...)           ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Info, __VA_ARGS__)
+	#define LE_CORE_WARNING(...)        ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Warning, __VA_ARGS__)
+	#define LE_CORE_ERROR(...)          ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Error, __VA_ARGS__)
+	#define LE_CORE_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::CriticalError, __VA_ARGS__)
+
+#elif defined(LE_LOG_NOTRACE)
+
+	#define LE_LOG(...)            ::LimeEngine::Logger::GetLogger().Log(__VA_ARGS__)
+	#define LE_TRACE(...)          (void)0
+	#define LE_INFO(...)           ::LimeEngine::Logger::GetLogger().Log(LogLevel::Info, __VA_ARGS__)
+	#define LE_WARNING(...)        ::LimeEngine::Logger::GetLogger().Log(LogLevel::Warning, __VA_ARGS__)
+	#define LE_ERROR(...)          ::LimeEngine::Logger::GetLogger().Log(LogLevel::Error, __VA_ARGS__)
+	#define LE_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetLogger().Log(LogLevel::CriticalError, __VA_ARGS__)
+
+	#define LE_CORE(...)                ::LimeEngine::Logger::GetCoreLogger().Log(__VA_ARGS__)
+	#define LE_CORE_TRACE(...)          (void)0
+	#define LE_CORE_INFO(...)           ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Info, __VA_ARGS__)
+	#define LE_CORE_WARNING(...)        ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Warning, __VA_ARGS__)
+	#define LE_CORE_ERROR(...)          ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Error, __VA_ARGS__)
+	#define LE_CORE_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::CriticalError, __VA_ARGS__)
+
+#elif defined(LE_LOG_WARNINGS_AND_ERRORS)
+
+	#define LE_LOG(...)            ::LimeEngine::Logger::GetLogger().Log(__VA_ARGS__)
+	#define LE_TRACE(...)          (void)0
+	#define LE_INFO(...)           (void)0
+	#define LE_WARNING(...)        ::LimeEngine::Logger::GetLogger().Log(LogLevel::Warning, __VA_ARGS__)
+	#define LE_ERROR(...)          ::LimeEngine::Logger::GetLogger().Log(LogLevel::Error, __VA_ARGS__)
+	#define LE_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetLogger().Log(LogLevel::CriticalError, __VA_ARGS__)
+
+	#define LE_CORE(...)                ::LimeEngine::Logger::GetCoreLogger().Log(__VA_ARGS__)
+	#define LE_CORE_TRACE(...)          (void)0
+	#define LE_CORE_INFO(...)           (void)0
+	#define LE_CORE_WARNING(...)        ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Warning, __VA_ARGS__)
+	#define LE_CORE_ERROR(...)          ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Error, __VA_ARGS__)
+	#define LE_CORE_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::CriticalError, __VA_ARGS__)
+
+#elif defined(LE_NOLOG)
+
+	#define LE_LOG(...)            (void)0
+	#define LE_TRACE(...)          (void)0
+	#define LE_INFO(...)           (void)0
+	#define LE_WARNING(...)        (void)0
+	#define LE_ERROR(...)          (void)0
+	#define LE_CRITICAL_ERROR(...) (void)0
+
+	#define LE_CORE(...)                (void)0
+	#define LE_CORE_TRACE(...)          (void)0
+	#define LE_CORE_INFO(...)           (void)0
+	#define LE_CORE_WARNING(...)        (void)0
+	#define LE_CORE_ERROR(...)          (void)0
+	#define LE_CORE_CRITICAL_ERROR(...) (void)0
+
+#endif

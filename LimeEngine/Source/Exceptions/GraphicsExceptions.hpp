@@ -32,7 +32,7 @@ namespace LimeEngine
 	#define GFX_CHECK_HR_MSG(call, msg) \
 		if (HRESULT _hr = (call); FAILED(_hr)) throw GFX_EXCEPTION_HR_MSG(_hr, msg)
 	#define GFX_CHECK_HR(call) \
-		if (HRESULT _hr = (call); FAILED(_hr)) throw GFX_HR_EXCEPTION(_hr)
+		if (HRESULT _hr = (call); FAILED(_hr)) throw GFX_EXCEPTION_HR(_hr)
 #endif
 
 #define GFX_ERROR_IF_NOINFO(call) \

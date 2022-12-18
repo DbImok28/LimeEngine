@@ -19,8 +19,7 @@ namespace LimeEngine
 		Engine& operator=(const Engine&) = delete;
 		Engine& operator=(Engine&&) noexcept = delete;
 
-		Engine(EngineIO&& engineIO, Console* logConsole);
-		//Engine(std::vector<EngineIO>&& engineIO, Console* logConsole);
+		Engine(EngineIO&& engineIO);
 
 		int Start();
 		std::optional<int> EngineProcessing();
@@ -31,7 +30,6 @@ namespace LimeEngine
 		void RemoveFromRender(const IDrawable* drawable) noexcept;
 
 	public:
-		Logger logger;
 		GameDataManager gameDataManager;
 		Scene scene;
 		std::vector<EngineIO> engineIO;
