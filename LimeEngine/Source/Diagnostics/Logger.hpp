@@ -3,6 +3,8 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
+
+// TODO: Remove dependencies
 #include <spdlog/spdlog.h>
 
 namespace LimeEngine

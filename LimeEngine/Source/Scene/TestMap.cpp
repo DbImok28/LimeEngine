@@ -19,8 +19,8 @@ namespace LimeEngine
 		// Loading
 		auto& gameDataManager = engine->gameDataManager;
 
-		static auto vertexShader = graphicFactory->CreateVertexShader(Paths::ShaderFolder + L"VertexShader.cso", MaterialType::Solid);
-		static auto pixelShader = graphicFactory->CreatePixelShader(Paths::ShaderFolder + L"PixelShader.cso");
+		static auto vertexShader = graphicFactory->CreateVertexShader(Paths::ShaderFolder + L"Shaders\\VertexShader.cso", MaterialType::Solid);
+		static auto pixelShader = graphicFactory->CreatePixelShader(Paths::ShaderFolder + L"Shaders\\PixelShader.cso");
 
 		std::vector<Vertex> vertices = {
 			{-1.0f,  1.0f,  -1.0f, 0.0f,  1.0f,  0.0f,  0.0f, 1.0f},
@@ -57,7 +57,7 @@ namespace LimeEngine
 		auto mesh = gameDataManager.CreateMesh("EngineContent\\Cube", vertices, indices);
 
 		// Box
-		auto texture = gameDataManager.CreateTexture2D("EngineContent\\T_Cat", L"Data\\Textures\\cat.jpg", TextureType::Diffuse);
+		auto texture = gameDataManager.CreateTexture2D("EngineContent\\T_Cat", L"Content\\Textures\\cat.jpg", TextureType::Diffuse);
 		auto material = engine->gameDataManager.CreateMasterMaterial("EngineContent\\Cat", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
 		material.Get()->AddTexture(texture);
 		mesh->segments[0].SetMaterial(material.Get());
@@ -66,12 +66,12 @@ namespace LimeEngine
 		AttachObject(std::move(object));
 
 		// UVMapping
-		auto UVMappingTexture = gameDataManager.CreateTexture2D("EngineContent\\T_UVMapping", L"Data\\Textures\\UVMapping.jpg", TextureType::Diffuse);
+		auto UVMappingTexture = gameDataManager.CreateTexture2D("EngineContent\\T_UVMapping", L"Content\\Textures\\UVMapping.jpg", TextureType::Diffuse);
 		auto UVMappingMaterial = engine->gameDataManager.CreateMasterMaterial("EngineContent\\M_UVMapping", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
 		UVMappingMaterial.Get()->AddTexture(UVMappingTexture);
 
 		// Sphere material
-		auto SphereTexture = gameDataManager.CreateTexture2D("EngineContent\\T_Sphere", L"Data\\Textures\\Sphere.png", TextureType::Diffuse);
+		auto SphereTexture = gameDataManager.CreateTexture2D("EngineContent\\T_Sphere", L"Content\\Textures\\Sphere.png", TextureType::Diffuse);
 		auto SphereMaterial = engine->gameDataManager.CreateMasterMaterial("EngineContent\\M_Sphere", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
 		SphereMaterial.Get()->AddTexture(SphereTexture);
 

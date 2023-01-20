@@ -4,9 +4,9 @@
 #include "Graphics/Base/Mesh.hpp"
 
 #ifdef IMGUI
-	#include "ImGui/imgui.h"
-	#include "ImGui/imgui_impl_win32.h"
-	#include "ImGui/imgui_impl_dx11.h"
+	#include "imgui.h"
+	#include "backends/imgui_impl_win32.h"
+	#include "backends/imgui_impl_dx11.h"
 #endif // IMGUI
 
 namespace LimeEngine
@@ -218,6 +218,11 @@ namespace LimeEngine
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
+
+		ImGui::Begin("mesh(root)");
+		Transform o1;
+		ImGui::DragFloat3("location", o1.location.GetArray());
+		ImGui::End();
 
 		/*static Transform o1;
 		ImGui::Begin("mesh(root)");

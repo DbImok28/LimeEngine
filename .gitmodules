@@ -1,3 +1,6 @@
+[submodule "LimeEngine/Dependencies/imgui"]
+	path = LimeEngine/Dependencies/imgui
+	url = https://github.com/ocornut/imgui
 [submodule "LimeEngine/Dependencies/spdlog"]
 	path = LimeEngine/Dependencies/spdlog
 	url = https://github.com/gabime/spdlog

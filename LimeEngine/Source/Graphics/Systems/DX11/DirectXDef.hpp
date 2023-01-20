@@ -10,5 +10,6 @@ using com_ptr = Microsoft::WRL::ComPtr<T>;
 	#pragma comment(lib, "d3d11.lib")
 	#pragma comment(lib, "D3DCompiler.lib")
 	#pragma comment(lib, "DXGI.lib")
-	#pragma comment(lib, "DirectXTK.lib")
+	#pragma comment(lib, "dxguid.lib")
+//#pragma comment(lib, "DirectXTK.lib")
 #endif // PRAGMA_COMMENT_LIB

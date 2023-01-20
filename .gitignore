@@ -1,10 +1,16 @@
 #Directories
 .vs/
 .vscode/
-Bin/
-Intermediates/
+/[Bb]in/
+/[Bb]uild/
+/[Bb]inaries/
+/[Ii]ntermediates/
+/[Pp]roject[Ff]iles/
 
-#Files
+# CmakeFiles
+CMakeUserPresets.json
+
+# User files
 *.user
 
 #Log files
