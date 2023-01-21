@@ -1,54 +1,54 @@
 {
-    "version": 3,
-    "configurePresets": [
-        {
-            "name": "Base",
-            "description": "Sets Ninja generator, build and install directory",
-            "hidden": true,
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/Intermediates/Build/${presetName}",
-            "installDir": "${sourceDir}/Build/${presetName}",
-            "cacheVariables": {
-                "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/Intermediates/Binaries/${presetName}"
-            }
-        },
-        {
-            "name": "x64-Release",
-            "displayName": "x64 Release",
-            "description": "Sets release build type and x64 architecture",
-            "inherits": "Base",
-            "architecture": {
-                "value": "x64",
-                "strategy": "external"
-            },
-            "cacheVariables": {
-                "CMAKE_CXX_COMPILER": "cl",
-                "CMAKE_BUILD_TYPE": "RELEASE"
-            }
-        },
-        {
-            "name": "x64-Debug",
-            "displayName": "x64 Debug",
-            "description": "Sets debug build type and x64 architecture",
-            "inherits": "x64-Release",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "DEBUG"
-            }
-        }
-    ],
-    "buildPresets": [
-        {
-            "name": "Default-build-windows",
-            "displayName": "Default Build",
-            "description": "Default build on windows",
-            "configurePreset": "x64-Debug"
-        },
-        {
-            "name": "Verbose-build-windows",
-            "displayName": "Verbose Build",
-            "description": "Verbose build on windows",
-            "inherits": "Default-build-windows",
-            "nativeToolOptions": [ "-v" ]
-        }
-    ]
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "Base",
+      "description": "Sets Ninja generator, build and install directory",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/Intermediates/Build/${presetName}",
+      "installDir": "${sourceDir}/Build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/Intermediates/Binaries/${presetName}"
+      }
+    },
+    {
+      "name": "x64-Release",
+      "displayName": "x64 Release",
+      "description": "Sets release build type and x64 architecture",
+      "inherits": "Base",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "cl",
+        "CMAKE_BUILD_TYPE": "RELEASE"
+      }
+    },
+    {
+      "name": "x64-Debug",
+      "displayName": "x64 Debug",
+      "description": "Sets debug build type and x64 architecture",
+      "inherits": "x64-Release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "DEBUG"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "Default-build-windows",
+      "displayName": "Default Build",
+      "description": "Default build on windows",
+      "configurePreset": "x64-Debug"
+    },
+    {
+      "name": "Verbose-build-windows",
+      "displayName": "Verbose Build",
+      "description": "Verbose build on windows",
+      "inherits": "Default-build-windows",
+      "nativeToolOptions": [ "-v" ]
+    }
+  ]
 }
