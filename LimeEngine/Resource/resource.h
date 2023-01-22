@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by GameEngine.rc
+// Used by LimeEngine.rc
 //
 #define IDI_GAMEICON 101
 

@@ -15,6 +15,7 @@
 
 #define LE_CONSOLE
 #define LE_LOG_FULL
+#define IMGUI
 
 #include <tchar.h>
 #include <string>

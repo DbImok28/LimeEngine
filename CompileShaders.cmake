@@ -1,6 +1,6 @@
-# Copyright (C) 2022 Pavel Jakushik - All Rights Reserved
+# Copyright (C) Pavel Jakushik
 # See file LICENSE for copyright and licensing details.
-# GitHub: https://github.com/RubyCircle/LimeEngine
+# https://github.com/RubyCircle/LimeEngine
 if(NOT RENDERER)
     message(FATAL_ERROR "Renderer is not set")
 elseif(RENDERER STREQUAL "DirectX")

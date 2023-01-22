@@ -1,6 +1,6 @@
-# Copyright (C) 2022 Pavel Jakushik - All Rights Reserved
+# Copyright (C) Pavel Jakushik
 # See file LICENSE for copyright and licensing details.
-# GitHub: https://github.com/RubyCircle/LimeEngine
+# https://github.com/RubyCircle/LimeEngine
 cmake_minimum_required(VERSION 3.20)
 
 set(PROJECT_NAME LimeEngine)
@@ -24,6 +24,9 @@ set(HLSL_PIXEL_SHADERS
 )
 include(../CompileShaders.cmake)
 
+# Resources
+target_sources(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/Resource/LimeEngine.rc)
+
 # Include
 target_include_directories(${PROJECT_NAME}
     PUBLIC
@@ -33,7 +36,7 @@ target_include_directories(${PROJECT_NAME}
         ${PROJECT_SOURCE_DIR}/Dependencies/spdlog/include
     PRIVATE
         ${PROJECT_SOURCE_DIR}/Source
-        ${PROJECT_SOURCE_DIR}/External/
+        ${CMAKE_CURRENT_SOURCE_DIR}/Resource
         ${PROJECT_SOURCE_DIR}/Dependencies/DirectXTK/include
         ${PROJECT_SOURCE_DIR}/Dependencies/dxerr/include
         ${PROJECT_SOURCE_DIR}/Dependencies/imgui
@@ -69,6 +72,7 @@ target_sources(${PROJECT_NAME}
     PRIVATE
         ${${PROJECT_NAME}_SOURCES}
 )
+
 
 # Definitions
 target_compile_definitions(${PROJECT_NAME}

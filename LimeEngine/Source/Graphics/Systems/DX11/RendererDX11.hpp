@@ -13,13 +13,6 @@
 #include "BindableDX11.hpp"
 #include "GraphicFactoryDX11.hpp"
 
-// TODO: Remove
-#ifndef NO_IMGUI
-	#ifndef IMGUI
-		#define IMGUI
-	#endif // !IMGUI
-#endif     // !NO_IMGUI
-
 namespace LimeEngine
 {
 	class RendererDX11 : public Renderer
