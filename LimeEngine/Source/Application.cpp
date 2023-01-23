@@ -10,7 +10,7 @@ namespace LimeEngine
 	{
 		CHECK_HR(CoInitialize(NULL));
 
-		Logger::Initialize();
+		Logger::StaticInitialize();
 
 		// Renderer
 		auto outWindow = Window(1080, 720, TEXT("LimeEngine"));
@@ -41,6 +41,12 @@ namespace LimeEngine
 		LE_ERROR("Hi User {0}", 1);
 		LE_CRITICAL_ERROR("Hi User {0}", 1);
 
+		LE_LOG(LogLevel::Info, "Hi User {0}", 1);
+		LE_LOG(LogLevel::Debug, "Hi User {0}", 1);
+		LE_LOG(LogLevel::Trace, "Hi User {0}", 1);
+		LE_LOG(LogLevel::Warning, "Hi User {0}", 1);
+		LE_LOG(LogLevel::Error, "Hi User {0}", 1);
+		LE_LOG(LogLevel::CriticalError, "Hi User {0}", 1);
 		engine.Start();
 	}
 }

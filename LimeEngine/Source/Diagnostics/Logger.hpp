@@ -3,6 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
+#include "Window/Base/Console.hpp"
 
 // TODO: Remove dependencies
 #include <spdlog/spdlog.h>
@@ -24,33 +25,54 @@ namespace LimeEngine
 	public:
 		inline static Logger GetCoreLogger() noexcept
 		{
-			return coreLoger;
+			return coreLogger;
 		}
 		inline static Logger GetLogger() noexcept
 		{
-			return appLoger;
+			return appLogger;
 		}
-		static void Initialize();
+		static void StaticInitialize();
 
 	private:
-		static Logger coreLoger;
-		static Logger appLoger;
+		static Logger coreLogger;
+		static Logger appLogger;
 
 	public:
-		explicit Logger(const std::string& name);
+		Logger() = default;
 		Logger(const Logger&) = default;
 		Logger(Logger&&) noexcept = default;
 		Logger& operator=(const Logger&) = default;
 		Logger& operator=(Logger&&) noexcept = default;
 
+		void Initialize(const std::string& name);
+		bool CheckLogLevel(LogLevel level)
+		{
+			switch (level)
+			{
+#if defined(LE_LOG_NOTRACE)
+				case LimeEngine::LogLevel::Trace: return false; break;
+#elif defined(LE_LOG_WARNINGS_AND_ERRORS)
+				case LimeEngine::LogLevel::Trace: return false; break;
+				case LimeEngine::LogLevel::Info: return false; break;
+#elif defined(LE_NOLOG)
+				case LimeEngine::LogLevel::Trace: return false; break;
+				case LimeEngine::LogLevel::Info: return false; break;
+				case LimeEngine::LogLevel::Debug: return false; break;
+				case LimeEngine::LogLevel::Warning: return false; break;
+				case LimeEngine::LogLevel::Error: return false; break;
+				case LimeEngine::LogLevel::CriticalError: return false; break;
+#endif
+				default: return true;
+			}
+		}
 		void Log(LogLevel level, std::string_view msg) noexcept
 		{
-			spdLogger->log(static_cast<spdlog::level::level_enum>(level), msg);
+			if (CheckLogLevel(level)) spdLogger->log(static_cast<spdlog::level::level_enum>(level), msg);
 		}
 		template <typename... TArgs>
 		void Log(LogLevel level, spdlog::format_string_t<TArgs...> fmsg, TArgs&&... args) noexcept
 		{
-			spdLogger->log(static_cast<spdlog::level::level_enum>(level), fmsg, std::forward<TArgs>(args)...);
+			if (CheckLogLevel(level)) spdLogger->log(static_cast<spdlog::level::level_enum>(level), fmsg, std::forward<TArgs>(args)...);
 		}
 
 	private:

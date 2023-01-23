@@ -4,15 +4,16 @@
 
 namespace LimeEngine
 {
-	Logger Logger::coreLoger = Logger("LimeEngine");
-	Logger Logger::appLoger = Logger("App");
+	Logger Logger::coreLogger{};
+	Logger Logger::appLogger{};
 
-	/*STATIC_INITIALIZE*/ void Logger::Initialize()
+	/*STATIC_INITIALIZE*/ void Logger::StaticInitialize()
 	{
-		spdlog::set_pattern("%^%n[%Y.%m.%d %H:%M:%S %e][%l] %v%$");
+		coreLogger.Initialize("Engine");
+		appLogger.Initialize("App");
 	}
 
-	Logger::Logger(const std::string& name)
+	void Logger::Initialize(const std::string& name)
 	{
 		std::vector<spdlog::sink_ptr> sinks;
 #ifdef LE_CONSOLE
@@ -22,6 +23,7 @@ namespace LimeEngine
 		spdLogger = std::make_shared<spdlog::logger>(name, sinks.begin(), sinks.end());
 		spdLogger->set_level(spdlog::level::trace);
 		spdLogger->flush_on(spdlog::level::trace);
+		spdLogger->set_pattern("%^[%n][%Y.%m.%d %H:%M:%S %e][%l] %v%$");
 		spdlog::register_logger(spdLogger);
 	}
 }

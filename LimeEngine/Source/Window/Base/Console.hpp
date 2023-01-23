@@ -22,6 +22,7 @@ namespace LimeEngine
 		static Console mainConsole;
 		Console() = default;
 		Console(int16 minLength, const tstring& title);
+		~Console();
 
 		bool Open(int16 minLength, const tstring& title) noexcept;
 		bool Close() noexcept;

@@ -14,15 +14,23 @@ namespace LimeEngine
 		Open(minLength, title);
 	}
 
+	Console::~Console()
+	{
+		Close();
+	}
+
 	bool Console::Open(int16 minLength, const tstring& title) noexcept
 	{
+		if (hConsole != nullptr)
+		{
+			Close();
+		}
 		bool result = false;
-		Close();
 		if (AllocConsole())
 		{
+			SetTitle(title);
 			SetMinLength(minLength);
 			result = RedirectIO();
-			SetTitle(title);
 			hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		}
 		std::ios::sync_with_stdio();
