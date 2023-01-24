@@ -27,26 +27,6 @@ namespace LimeEngine
 
 		// Start Engine
 		Logger::GetCoreLogger().Log(LogLevel::Info, "Engine startup");
-
-		LE_CORE_TRACE("Hi Core {0}", 1);
-		LE_CORE_INFO("Hi Core {0}", 1);
-		LE_CORE_DEBUG("Hi Core {0}", 1);
-		LE_CORE_WARNING("Hi Core {0}", 1);
-		LE_CORE_ERROR("Hi Core {0}", 1);
-		LE_CORE_CRITICAL_ERROR("Hi Core {0}", 1);
-		LE_TRACE("Hi User");
-		LE_INFO("Hi User {0}", 1);
-		LE_DEBUG("Hi User {0}", 1);
-		LE_WARNING("Hi User {0}", 1);
-		LE_ERROR("Hi User {0}", 1);
-		LE_CRITICAL_ERROR("Hi User {0}", 1);
-
-		LE_LOG(LogLevel::Info, "Hi User {0}", 1);
-		LE_LOG(LogLevel::Debug, "Hi User {0}", 1);
-		LE_LOG(LogLevel::Trace, "Hi User {0}", 1);
-		LE_LOG(LogLevel::Warning, "Hi User {0}", 1);
-		LE_LOG(LogLevel::Error, "Hi User {0}", 1);
-		LE_LOG(LogLevel::CriticalError, "Hi User {0}", 1);
 		engine.Start();
 	}
 }
