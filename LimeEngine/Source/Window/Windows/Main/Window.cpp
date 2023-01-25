@@ -153,17 +153,17 @@ namespace LimeEngine
 			case WM_SYSKEYDOWN:
 			case WM_KEYDOWN:
 			{
-				unsigned char keycode = static_cast<unsigned char>(wParam);
+				auto key = static_cast<InputKey>(wParam);
 				if (inputDevice.keyboard.IsKeysAutoRepeat())
 				{
-					inputDevice.keyboard.OnKeyPressed(keycode);
+					inputDevice.OnKeyboardKeyPressed(key);
 				}
 				else
 				{
 					const bool wasPressed = lParam & 0x40000000;
 					if (!wasPressed)
 					{
-						inputDevice.keyboard.OnKeyPressed(keycode);
+						inputDevice.OnKeyboardKeyPressed(key);
 					}
 				}
 				break;
@@ -171,7 +171,7 @@ namespace LimeEngine
 			case WM_SYSKEYUP:
 			case WM_KEYUP:
 			{
-				inputDevice.keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));
+				inputDevice.OnKeyboardKeyReleased(static_cast<InputKey>(wParam));
 				break;
 			}
 			case WM_CHAR:
@@ -179,34 +179,35 @@ namespace LimeEngine
 				char ch = static_cast<char>(wParam);
 				if (inputDevice.keyboard.IsCharsAutoRepeat())
 				{
-					inputDevice.keyboard.OnChar(ch);
+					inputDevice.OnKeyboardChar(ch);
 				}
 				else
 				{
 					const bool wasPressed = lParam & 0x40000000;
 					if (!wasPressed)
 					{
-						inputDevice.keyboard.OnChar(ch);
+						inputDevice.OnKeyboardChar(ch);
 					}
 				}
 				break;
 			}
 			case WM_KILLFOCUS:
 			{
-				inputDevice.keyboard.ClearKeyState();
+				// TODO:Add kill focus event
+				inputDevice.ClearKeyState();
 				break;
 			}
 			// Mouse
 			case WM_MOUSEMOVE:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.mouse.OnMouseMove(pt.x, pt.y);
+				inputDevice.OnMouseMove(pt.x, pt.y);
 				if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height)
 				{
 					if (!inputDevice.mouse.IsInWindow())
 					{
 						SetCapture(hWnd);
-						inputDevice.mouse.OnMouseEnter();
+						inputDevice.OnMouseEnter();
 					}
 				}
 				else
@@ -214,7 +215,7 @@ namespace LimeEngine
 					if (inputDevice.mouse.IsInWindow())
 					{
 						ReleaseCapture();
-						inputDevice.mouse.OnMouseLeave();
+						inputDevice.OnMouseLeave();
 					}
 				}
 				break;
@@ -222,44 +223,44 @@ namespace LimeEngine
 			case WM_LBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.mouse.OnLeftPressed(pt.x, pt.y);
+				inputDevice.OnMouseLeftPressed(pt.x, pt.y);
 				break;
 			}
 			case WM_RBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.mouse.OnRightPressed(pt.x, pt.y);
+				inputDevice.OnMouseRightPressed(pt.x, pt.y);
 				break;
 			}
 			case WM_MBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.mouse.OnMiddlePressed(pt.x, pt.y);
+				inputDevice.OnMouseMiddlePressed(pt.x, pt.y);
 				break;
 			}
 			case WM_LBUTTONUP:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.mouse.OnLeftReleased(pt.x, pt.y);
+				inputDevice.OnMouseLeftReleased(pt.x, pt.y);
 				break;
 			}
 			case WM_RBUTTONUP:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.mouse.OnRightReleased(pt.x, pt.y);
+				inputDevice.OnMouseRightReleased(pt.x, pt.y);
 				break;
 			}
 			case WM_MBUTTONUP:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.mouse.OnMiddleReleased(pt.x, pt.y);
+				inputDevice.OnMouseMiddleReleased(pt.x, pt.y);
 				break;
 			}
 			case WM_MOUSEWHEEL:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
 				const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
-				inputDevice.mouse.OnWheelDelta(pt.x, pt.y, delta);
+				inputDevice.OnMouseWheelDelta(pt.x, pt.y, delta);
 				break;
 			}
 			case WM_INPUT:
@@ -274,7 +275,7 @@ namespace LimeEngine
 						RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(rawdata.get());
 						if (raw->header.dwType == RIM_TYPEMOUSE)
 						{
-							inputDevice.mouse.OnMouseRawMove(raw->data.mouse.lLastX, raw->data.mouse.lLastY);
+							inputDevice.OnMouseRawMove(raw->data.mouse.lLastX, raw->data.mouse.lLastY);
 						}
 					}
 				}

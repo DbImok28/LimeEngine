@@ -12,6 +12,19 @@ namespace LimeEngine
 		if (engine->engineIO.empty()) return;
 		auto& engineInput0 = engine->engineIO.front();
 
+		// Configuration
+		engineInput0.GetInput().AddInputAxis({
+			"MoveForward", {{ InputKey::W, 1.0f }, { InputKey::S, -1.0f }}
+        });
+		engineInput0.GetInput().AddInputAxis({
+			"MoveRight", {{ InputKey::D, 1.0f }, { InputKey::A, -1.0f }}
+        });
+		engineInput0.GetInput().AddInputAxis({
+			"MoveUp", {{ InputKey::Space, 1.0f }, { InputKey::Z, -1.0f }}
+        });
+		engineInput0.GetInput().AddInputAxis({ "TurnUp", { { InputKey::MouseMoveY, 1.0f } } });
+		engineInput0.GetInput().AddInputAxis({ "TurnRight", { { InputKey::MouseMoveX, 1.0f } } });
+
 		// Graphic
 		auto renderer = engineInput0.renderIO.renderer;
 		auto graphicFactory = renderer->GetGraphicFactory();

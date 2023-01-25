@@ -12,17 +12,57 @@ namespace LimeEngine
 		{
 			AttachIO();
 		}
+
+		auto& inputDevice = window->inputDevice;
+		inputDevice.BindAxisEvent("MoveForward", this, &DefaultPlayerCameraComponent::MoveForward);
+		inputDevice.BindAxisEvent("MoveRight", this, &DefaultPlayerCameraComponent::MoveRight);
+		inputDevice.BindAxisEvent("MoveUp", this, &DefaultPlayerCameraComponent::MoveUp);
+		inputDevice.BindAxisEvent("TurnUp", this, &DefaultPlayerCameraComponent::TurnUp);
+		inputDevice.BindAxisEvent("TurnRight", this, &DefaultPlayerCameraComponent::TurnRight);
+	}
+
+	void DefaultPlayerCameraComponent::MoveForward(float scale) noexcept
+	{
+		float deltaTime = engine->deltaTime;
+		AddLocation(GetForwardVector() * scale * cameraMovementSpeed * deltaTime);
+	}
+	void DefaultPlayerCameraComponent::MoveRight(float scale) noexcept
+	{
+		float deltaTime = engine->deltaTime;
+		AddLocation(GetRightVector() * scale * cameraMovementSpeed * deltaTime);
+	}
+	void DefaultPlayerCameraComponent::MoveUp(float scale) noexcept
+	{
+		float deltaTime = engine->deltaTime;
+		AddLocation(0.0f, cameraMovementSpeed * scale * deltaTime, 0.0f);
+	}
+	void DefaultPlayerCameraComponent::TurnUp(float scale) noexcept
+	{
+		if (window->inputDevice.mouse.IsRightDown())
+		{
+			float deltaTime = engine->deltaTime;
+			AddRotation(scale, 0.0f, 0.0f);
+		}
+	}
+	void DefaultPlayerCameraComponent::TurnRight(float scale) noexcept
+	{
+		if (window->inputDevice.mouse.IsRightDown())
+		{
+			float deltaTime = engine->deltaTime;
+			AddRotation(0.0f, scale, 0.0f);
+		}
 	}
 
 	void DefaultPlayerCameraComponent::Update()
 	{
 		CameraComponent::Update();
 
-		if (!window) return;
+		/*if (!window) return;
 
 		float deltaTime = engine->deltaTime;
-		auto& inputDevice = window->inputDevice;
-		while (!inputDevice.mouse.EventBufferIsEmpty())
+		auto& inputDevice = window->inputDevice;*/
+
+		/*while (!inputDevice.mouse.EventBufferIsEmpty())
 		{
 			auto e = inputDevice.mouse.ReadEvent();
 			if (inputDevice.mouse.IsRightDown() && e.GetType() == Mouse::MouseEvent::EventType::RawMove)
@@ -53,7 +93,7 @@ namespace LimeEngine
 		if (inputDevice.keyboard.KeyIsPressed('Z'))
 		{
 			AddLocation(0.0f, -cameraMovementSpeed * deltaTime, 0.0f);
-		}
+		}*/
 	}
 	void DefaultPlayerCameraComponent::AttachIO()
 	{

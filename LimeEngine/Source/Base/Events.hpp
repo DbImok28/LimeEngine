@@ -6,10 +6,10 @@
 namespace LimeEngine
 {
 	template <typename... TArgs>
-	class EventHandler
+	class IEventHandler
 	{
 	public:
-		using type = EventHandler<TArgs...>;
+		using type = IEventHandler<TArgs...>;
 		void operator()(TArgs... args)
 		{
 			Call(std::forward<TArgs>(args)...);
@@ -24,14 +24,14 @@ namespace LimeEngine
 		{
 			return !(*this == other);
 		}
-		virtual ~EventHandler() noexcept = default;
+		virtual ~IEventHandler() noexcept = default;
 
 	protected:
-		EventHandler() = default;
+		IEventHandler() = default;
 	};
 
 	template <typename TObject, typename... TArgs>
-	class MethodEventHandler final : public EventHandler<TArgs...>
+	class MethodEventHandler final : public IEventHandler<TArgs...>
 	{
 	public:
 		using TMethod = void (TObject::*const)(TArgs...);
@@ -42,12 +42,12 @@ namespace LimeEngine
 		TMethod method;
 
 	public:
-		MethodEventHandler(TObject& object, TMethod method) : EventHandler<TArgs...>(), object(object), method(method) {}
+		MethodEventHandler(TObject& object, TMethod method) : IEventHandler<TArgs...>(), object(object), method(method) {}
 		void Call(TArgs... args) override final
 		{
 			(object.*method)(args...);
 		}
-		bool IsEquals(const EventHandler<TArgs...>& other) const override final
+		bool IsEquals(const IEventHandler<TArgs...>& other) const override final
 		{
 			const type* otherEvent = static_cast<const type*>(&other);
 			if (otherEvent) return &object == &otherEvent->object && method == otherEvent->method;
@@ -56,7 +56,7 @@ namespace LimeEngine
 	};
 
 	template <typename... TArgs>
-	class FunctionEventHandler final : public EventHandler<TArgs...>
+	class FunctionEventHandler final : public IEventHandler<TArgs...>
 	{
 	public:
 		using TFunction = void (*)(TArgs...);
@@ -66,12 +66,12 @@ namespace LimeEngine
 		TFunction fun;
 
 	public:
-		FunctionEventHandler(TFunction fun) : EventHandler<TArgs...>(), fun(fun) {}
+		FunctionEventHandler(TFunction fun) : IEventHandler<TArgs...>(), fun(fun) {}
 		void Call(TArgs... args) override final
 		{
 			(*fun)(args...);
 		}
-		bool IsEquals(const EventHandler<TArgs...>& other) const override final
+		bool IsEquals(const IEventHandler<TArgs...>& other) const override final
 		{
 			const type* otherEvent = static_cast<const type*>(&other);
 			if (otherEvent) return fun == otherEvent->fun;
@@ -83,11 +83,11 @@ namespace LimeEngine
 	class EventDispatcher
 	{
 	private:
-		std::list<std::unique_ptr<EventHandler<TArgs...>>> events;
+		std::list<std::unique_ptr<IEventHandler<TArgs...>>> events;
 
 	public:
 		EventDispatcher() = default;
-		auto FindEventHandler(const EventHandler<TArgs...>& handler) const noexcept
+		auto FindEventHandler(const IEventHandler<TArgs...>& handler) const noexcept
 		{
 			return std::find_if(std::begin(events), std::end(events), [&handler](auto& item) { return (*item == handler); });
 		}
@@ -121,12 +121,12 @@ namespace LimeEngine
 			FunctionEventHandler handler{ func };
 			return Unbind(handler);
 		}
-		bool Unbind(const EventHandler<TArgs...>& handler) noexcept
+		bool Unbind(const IEventHandler<TArgs...>& handler) noexcept
 		{
 			auto it = FindEventHandler(handler);
 			if (it != std::end(events))
 			{
-				events.erase(it);
+				events.erase(it, std::end(events));
 				return true;
 			}
 			return false;

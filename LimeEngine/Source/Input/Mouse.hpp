@@ -3,47 +3,47 @@
 
 namespace LimeEngine
 {
-	class Mouse
+	class MouseEvent
 	{
-		friend class Window;
+	public:
+		enum class EventType
+		{
+			LPress,
+			LRelease,
+			RPress,
+			RRelease,
+			MPress,
+			MRelease,
+			WheelUp,
+			WheelDown,
+			Move,
+			RawMove,
+			Enter,
+			Leave,
+			Invalid
+		};
+
+	private:
+		EventType type;
+		int x;
+		int y;
 
 	public:
-		class MouseEvent
-		{
-		public:
-			enum class EventType
-			{
-				LPress,
-				LRelease,
-				RPress,
-				RRelease,
-				MPress,
-				MRelease,
-				WheelUp,
-				WheelDown,
-				Move,
-				RawMove,
-				Enter,
-				Leave,
-				Invalid
-			};
+		MouseEvent() noexcept;
+		MouseEvent(const EventType type, const int x, const int y) noexcept;
+		MouseEvent(const EventType type, const std::pair<int, int>& pos) noexcept;
+		bool IsValid() const noexcept;
+		EventType GetType() const noexcept;
+		std::pair<int, int> GetPos() const noexcept;
+		int GetPosX() const noexcept;
+		int GetPosY() const noexcept;
+	};
+	class Mouse
+	{
+		friend class InputDevice;
 
-		private:
-			EventType type;
-			int x;
-			int y;
-
-		public:
-			MouseEvent() noexcept;
-			MouseEvent(const EventType type, const int x, const int y) noexcept;
-			MouseEvent(const EventType type, const std::pair<int, int>& pos) noexcept;
-			bool IsValid() const noexcept;
-			EventType GetType() const noexcept;
-			std::pair<int, int> GetPos() const noexcept;
-			int GetPosX() const noexcept;
-			int GetPosY() const noexcept;
-		};
-		Mouse() = default;
+	public:
+		Mouse() noexcept = default;
 		Mouse(const Mouse&) = delete;
 		Mouse& operator=(const Mouse&) = delete;
 

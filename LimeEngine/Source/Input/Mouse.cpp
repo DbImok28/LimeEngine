@@ -3,33 +3,33 @@
 
 namespace LimeEngine
 {
-	Mouse::MouseEvent::MouseEvent() noexcept : x(0), y(0), type(MouseEvent::EventType::Invalid) {}
+	MouseEvent::MouseEvent() noexcept : x(0), y(0), type(MouseEvent::EventType::Invalid) {}
 
-	Mouse::MouseEvent::MouseEvent(const EventType type, const int x, const int y) noexcept : x(x), y(y), type(type) {}
+	MouseEvent::MouseEvent(const EventType type, const int x, const int y) noexcept : x(x), y(y), type(type) {}
 
-	Mouse::MouseEvent::MouseEvent(const EventType type, const std::pair<int, int>& pos) noexcept : x(pos.first), y(pos.second), type(type) {}
+	MouseEvent::MouseEvent(const EventType type, const std::pair<int, int>& pos) noexcept : x(pos.first), y(pos.second), type(type) {}
 
-	bool Mouse::MouseEvent::IsValid() const noexcept
+	bool MouseEvent::IsValid() const noexcept
 	{
 		return type != MouseEvent::EventType::Invalid;
 	}
 
-	Mouse::MouseEvent::EventType Mouse::MouseEvent::GetType() const noexcept
+	MouseEvent::EventType MouseEvent::GetType() const noexcept
 	{
 		return type;
 	}
 
-	std::pair<int, int> Mouse::MouseEvent::GetPos() const noexcept
+	std::pair<int, int> MouseEvent::GetPos() const noexcept
 	{
 		return { x, y };
 	}
 
-	int Mouse::MouseEvent::GetPosX() const noexcept
+	int MouseEvent::GetPosX() const noexcept
 	{
 		return x;
 	}
 
-	int Mouse::MouseEvent::GetPosY() const noexcept
+	int MouseEvent::GetPosY() const noexcept
 	{
 		return y;
 	}
@@ -74,7 +74,7 @@ namespace LimeEngine
 		return buffer.empty();
 	}
 
-	Mouse::MouseEvent Mouse::ReadEvent() noexcept
+	MouseEvent Mouse::ReadEvent() noexcept
 	{
 		if (!buffer.empty())
 		{
@@ -87,7 +87,7 @@ namespace LimeEngine
 
 	void Mouse::Flush() noexcept
 	{
-		buffer = std::queue<Mouse::MouseEvent>();
+		buffer = std::queue<MouseEvent>();
 	}
 
 	void Mouse::OnLeftPressed(int x, int y) noexcept

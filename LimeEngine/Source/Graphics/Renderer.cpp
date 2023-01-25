@@ -16,7 +16,9 @@ namespace LimeEngine
 
 	std::optional<int> Renderer::Process()
 	{
-		return window->ProcessMessages();
+		auto result = window->ProcessMessages();
+		window->inputDevice.Update();
+		return result;
 	}
 
 	void Renderer::Render()

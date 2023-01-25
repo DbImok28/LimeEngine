@@ -6,7 +6,7 @@ namespace LimeEngine
 {
 	class Keyboard
 	{
-		friend class Window;
+		friend class InputDevice;
 
 	public:
 		class KeyboardEvent
