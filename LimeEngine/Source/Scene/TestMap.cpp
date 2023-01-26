@@ -13,17 +13,17 @@ namespace LimeEngine
 		auto& engineInput0 = engine->engineIO.front();
 
 		// Configuration
-		engineInput0.GetInput().AddInputAxis({
+		engineInput0.GetInput().AddAxisMapping({
 			"MoveForward", {{ InputKey::W, 1.0f }, { InputKey::S, -1.0f }}
         });
-		engineInput0.GetInput().AddInputAxis({
+		engineInput0.GetInput().AddAxisMapping({
 			"MoveRight", {{ InputKey::D, 1.0f }, { InputKey::A, -1.0f }}
         });
-		engineInput0.GetInput().AddInputAxis({
-			"MoveUp", {{ InputKey::Space, 1.0f }, { InputKey::Z, -1.0f }}
+		engineInput0.GetInput().AddAxisMapping({
+			"MoveUp", {{ InputKey::Space, 1.0f }, { InputKey::Z, -1.0f }, { InputKey::Shift, -1.0f }}
         });
-		engineInput0.GetInput().AddInputAxis({ "TurnUp", { { InputKey::MouseMoveY, 1.0f } } });
-		engineInput0.GetInput().AddInputAxis({ "TurnRight", { { InputKey::MouseMoveX, 1.0f } } });
+		engineInput0.GetInput().AddAxisMapping({ "TurnUp", { { InputKey::MouseMoveY, 1.0f } } });
+		engineInput0.GetInput().AddAxisMapping({ "TurnRight", { { InputKey::MouseMoveX, 1.0f } } });
 
 		// Graphic
 		auto renderer = engineInput0.renderIO.renderer;
@@ -108,5 +108,13 @@ namespace LimeEngine
 		auto cameraComponent = std::make_unique<DefaultPlayerCameraComponent>(engine, Transform(0, 5, -10));
 		auto cameraObject = std::make_unique<SceneObject>(engine, std::move(cameraComponent));
 		AttachObject(std::move(cameraObject));
+	}
+	void TestMap::Print1()
+	{
+		LE_DEBUG("Down");
+	}
+	void TestMap::Print3()
+	{
+		LE_DEBUG("Up");
 	}
 }
