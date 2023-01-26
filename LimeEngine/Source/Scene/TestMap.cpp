@@ -109,12 +109,4 @@ namespace LimeEngine
 		auto cameraObject = std::make_unique<SceneObject>(engine, std::move(cameraComponent));
 		AttachObject(std::move(cameraObject));
 	}
-	void TestMap::Print1()
-	{
-		LE_DEBUG("Down");
-	}
-	void TestMap::Print3()
-	{
-		LE_DEBUG("Up");
-	}
 }
