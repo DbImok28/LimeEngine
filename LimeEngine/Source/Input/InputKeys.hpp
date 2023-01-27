@@ -1,3 +1,4 @@
+#pragma once
 enum class InputKey
 {
 	None = 0,

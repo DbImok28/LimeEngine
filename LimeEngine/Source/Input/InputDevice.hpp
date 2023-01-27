@@ -8,38 +8,6 @@
 
 namespace LimeEngine
 {
-	struct InputAxisKey
-	{
-		InputAxisKey(InputKey inputKey, float scale) noexcept;
-
-		InputKey inputKey;
-		float scale;
-	};
-
-	struct InputAxis
-	{
-		InputAxis(const std::string& name, std::vector<InputAxisKey> keys) noexcept;
-
-		std::string name;
-		std::vector<InputAxisKey> keys;
-	};
-
-	class InputAxisKeyHandlers
-	{
-	public:
-		InputAxisKeyHandlers(const std::string& name, float axisScale) noexcept;
-		InputAxisKeyHandlers(const std::string& name, float axisScale, std::shared_ptr<IEventHandler<float>>&& handler);
-
-		void Bind(std::shared_ptr<IEventHandler<float>> handler);
-		void Unbind(const IEventHandler<float>& handler) noexcept;
-		void Call(float inputScale);
-
-	public:
-		std::string name;
-		float axisScale;
-		std::vector<std::shared_ptr<IEventHandler<float>>> handlers;
-	};
-
 	enum class InputActionType
 	{
 		Pressed,
@@ -65,15 +33,44 @@ namespace LimeEngine
 	{
 	public:
 		InputActionKeyHandlers(const std::string& name) noexcept;
-		InputActionKeyHandlers(const std::string& name, InputActionType actionType, std::shared_ptr<IEventHandler<>>&& actionHandler);
 
-		void Bind(InputActionType type, std::shared_ptr<IEventHandler<>> handler);
+		void Bind(InputActionType type, std::unique_ptr<IEventHandler<>>&& handler);
 		void Unbind(InputActionType type, const IEventHandler<>& handler) noexcept;
 		void Call(InputActionType type);
 
 	public:
 		std::string name;
-		std::vector<std::pair<InputActionType, std::shared_ptr<IEventHandler<>>>> handlers;
+		std::vector<std::pair<InputActionType, std::unique_ptr<IEventHandler<>>>> handlers;
+	};
+
+	struct InputAxisKey
+	{
+		InputAxisKey(InputKey inputKey, float scale) noexcept;
+
+		InputKey inputKey;
+		float scale;
+	};
+
+	struct InputAxis
+	{
+		InputAxis(const std::string& name, std::vector<InputAxisKey> keys) noexcept;
+
+		std::string name;
+		std::vector<InputAxisKey> keys;
+	};
+
+	class InputAxisKeyHandlers
+	{
+	public:
+		InputAxisKeyHandlers(const std::string& name) noexcept;
+
+		void Bind(std::unique_ptr<IEventHandler<float>>&& handler);
+		void Unbind(const IEventHandler<float>& handler) noexcept;
+		void Call(float scale);
+
+	public:
+		std::string name;
+		std::vector<std::unique_ptr<IEventHandler<float>>> handlers;
 	};
 
 	class InputDevice
@@ -89,10 +86,10 @@ namespace LimeEngine
 		template <typename TObject>
 		void BindActionEvent(const std::string& actionName, InputActionType type, TObject* const object, void (TObject::*const method)())
 		{
-			BindActionEvent(actionName, type, std::make_shared<MethodEventHandler<TObject>>(*object, method));
+			BindActionEvent(actionName, type, std::make_unique<MethodEventHandler<TObject>>(*object, method));
 		}
 		void BindActionEvent(const std::string& actionName, InputActionType type, void (*func)());
-		void BindActionEvent(const std::string& actionName, InputActionType type, std::shared_ptr<IEventHandler<>> handler);
+		void BindActionEvent(const std::string& actionName, InputActionType type, std::unique_ptr<IEventHandler<>>&& handler);
 		template <typename TObject>
 		void UnbindActionEvent(const std::string& actionName, InputActionType type, TObject* const object, void (TObject::*const method)()) noexcept
 		{
@@ -115,9 +112,9 @@ namespace LimeEngine
 		template <typename TObject>
 		void BindAxisEvent(const std::string& axisName, TObject* const object, void (TObject::*const method)(float))
 		{
-			BindAxisEvent(axisName, std::make_shared<MethodEventHandler<TObject, float>>(*object, method));
+			BindAxisEvent(axisName, std::make_unique<MethodEventHandler<TObject, float>>(*object, method));
 		}
-		void BindAxisEvent(const std::string& axisName, std::shared_ptr<IEventHandler<float>> handler);
+		void BindAxisEvent(const std::string& axisName, std::unique_ptr<IEventHandler<float>>&& handler);
 		template <typename TObject>
 		void UnbindAxisEvent(const std::string& axisName, TObject* const object, void (TObject::*const method)(float)) noexcept
 		{
@@ -165,8 +162,8 @@ namespace LimeEngine
 		Mouse mouse;
 
 	private:
-		std::multimap<InputKey, InputAxisKeyHandlers> keyAxisEvents;
-		std::multimap<InputKey, InputActionKeyHandlers> keyActionEvents;
+		std::multimap<InputKey, std::pair<float, std::shared_ptr<InputAxisKeyHandlers>>> keyAxisEvents;
+		std::multimap<InputKey, std::shared_ptr<InputActionKeyHandlers>> keyActionEvents;
 		std::list<InputKey> pressedKeys;
 		std::queue<std::pair<InputKey, float>> axisKeyActions;
 		std::queue<std::pair<InputActionType, InputKey>> keyActions;

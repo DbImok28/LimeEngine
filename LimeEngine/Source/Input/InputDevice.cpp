@@ -9,13 +9,9 @@ namespace LimeEngine
 
 	InputActionKeyHandlers::InputActionKeyHandlers(const std::string& name) noexcept : name(name) {}
 
-	InputActionKeyHandlers::InputActionKeyHandlers(const std::string& name, InputActionType actionType, std::shared_ptr<IEventHandler<>>&& actionHandler) :
-		name(name), handlers({ std::make_pair(actionType, actionHandler) })
-	{}
-
-	void InputActionKeyHandlers::Bind(InputActionType type, std::shared_ptr<IEventHandler<>> handler)
+	void InputActionKeyHandlers::Bind(InputActionType type, std::unique_ptr<IEventHandler<>>&& handler)
 	{
-		handlers.push_back(std::make_pair(type, handler));
+		handlers.push_back(std::make_pair(type, std::move(handler)));
 	}
 
 	void InputActionKeyHandlers::Unbind(InputActionType type, const IEventHandler<>& handler) noexcept
@@ -39,15 +35,11 @@ namespace LimeEngine
 
 	InputAxis::InputAxis(const std::string& name, std::vector<InputAxisKey> keys) noexcept : name(name), keys(keys) {}
 
-	InputAxisKeyHandlers::InputAxisKeyHandlers(const std::string& name, float axisScale) noexcept : name(name), axisScale(axisScale) {}
+	InputAxisKeyHandlers::InputAxisKeyHandlers(const std::string& name) noexcept : name(name) {}
 
-	InputAxisKeyHandlers::InputAxisKeyHandlers(const std::string& name, float axisScale, std::shared_ptr<IEventHandler<float>>&& handler) :
-		name(name), axisScale(axisScale), handlers({ std::move(handler) })
-	{}
-
-	void InputAxisKeyHandlers::Bind(std::shared_ptr<IEventHandler<float>> handler)
+	void InputAxisKeyHandlers::Bind(std::unique_ptr<IEventHandler<float>>&& handler)
 	{
-		handlers.push_back(handler);
+		handlers.push_back(std::move(handler));
 	}
 
 	void InputAxisKeyHandlers::Unbind(const IEventHandler<float>& handler) noexcept
@@ -55,11 +47,11 @@ namespace LimeEngine
 		handlers.erase(std::find_if(std::begin(handlers), std::end(handlers), [&handler](auto& item) { return (*item == handler); }), std::end(handlers));
 	}
 
-	void InputAxisKeyHandlers::Call(float inputScale)
+	void InputAxisKeyHandlers::Call(float scale)
 	{
 		for (auto& handler : handlers)
 		{
-			handler->Call(axisScale * inputScale);
+			handler->Call(scale);
 		}
 	}
 
@@ -70,9 +62,10 @@ namespace LimeEngine
 
 	void InputDevice::AddActionMapping(const std::string& actionName, std::vector<InputActionKey> actionKeys)
 	{
+		auto ptr = std::make_shared<InputActionKeyHandlers>(actionName);
 		for (auto& key : actionKeys)
 		{
-			keyActionEvents.emplace(key.inputKey, InputActionKeyHandlers{ actionName });
+			keyActionEvents.emplace(key.inputKey, ptr);
 		}
 	}
 
@@ -84,14 +77,14 @@ namespace LimeEngine
 	void InputDevice::RemoveActionMapping(const std::string& actionName) noexcept
 	{
 		keyActionEvents.erase(
-			std::find_if(std::begin(keyActionEvents), std::end(keyActionEvents), [&actionName](auto& item) { return item.second.name == actionName; }), std::end(keyActionEvents));
+			std::find_if(std::begin(keyActionEvents), std::end(keyActionEvents), [&actionName](auto& item) { return item.second->name == actionName; }), std::end(keyActionEvents));
 	}
 
 	void InputDevice::RebindActionKey(const std::string& actionName, InputKey oldKey, InputKey newKey) noexcept
 	{
 		for (auto it = std::begin(keyActionEvents); it != std::end(keyActionEvents); it++)
 		{
-			if (it->first == oldKey && it->second.name == actionName)
+			if (it->first == oldKey && it->second->name == actionName)
 			{
 				auto node = keyActionEvents.extract(it);
 				node.key() = newKey;
@@ -101,20 +94,21 @@ namespace LimeEngine
 		}
 	}
 
-	void InputDevice::BindActionEvent(const std::string& actionName, InputActionType type, std::shared_ptr<IEventHandler<>> handler)
+	void InputDevice::BindActionEvent(const std::string& actionName, InputActionType type, void (*func)())
+	{
+		BindActionEvent(actionName, type, std::make_unique<FunctionEventHandler<>>(func));
+	}
+
+	void InputDevice::BindActionEvent(const std::string& actionName, InputActionType type, std::unique_ptr<IEventHandler<>>&& handler)
 	{
 		for (auto& keyActionEvent : keyActionEvents)
 		{
-			if (keyActionEvent.second.name == actionName)
+			if (keyActionEvent.second->name == actionName)
 			{
-				keyActionEvent.second.Bind(type, handler);
+				keyActionEvent.second->Bind(type, std::move(handler));
+				break;
 			}
 		}
-	}
-
-	void InputDevice::BindActionEvent(const std::string& actionName, InputActionType type, void (*func)())
-	{
-		BindActionEvent(actionName, type, std::make_shared<FunctionEventHandler<>>(func));
 	}
 
 	void InputDevice::UnbindActionEvent(const std::string& actionName, InputActionType type, void (*func)()) noexcept
@@ -126,9 +120,10 @@ namespace LimeEngine
 	{
 		for (auto& keyActionEvent : keyActionEvents)
 		{
-			if (keyActionEvent.second.name == actionName)
+			if (keyActionEvent.second->name == actionName)
 			{
-				keyActionEvent.second.Unbind(type, handler);
+				keyActionEvent.second->Unbind(type, handler);
+				break;
 			}
 		}
 	}
@@ -138,7 +133,7 @@ namespace LimeEngine
 		auto actionEventsIt = keyActionEvents.equal_range(key);
 		for (auto& it = actionEventsIt.first; it != actionEventsIt.second; it++)
 		{
-			it->second.Call(type);
+			it->second->Call(type);
 		}
 	}
 
@@ -151,9 +146,10 @@ namespace LimeEngine
 
 	void InputDevice::AddAxisMapping(const std::string& axisName, std::vector<InputAxisKey> axisKeys) noexcept
 	{
+		auto ptr = std::make_shared<InputAxisKeyHandlers>(axisName);
 		for (auto& key : axisKeys)
 		{
-			keyAxisEvents.emplace(key.inputKey, InputAxisKeyHandlers{ axisName, key.scale });
+			keyAxisEvents.emplace(key.inputKey, std::make_pair(key.scale, ptr));
 		}
 	}
 
@@ -165,14 +161,14 @@ namespace LimeEngine
 	void InputDevice::RemoveAxisMapping(const std::string& axisName) noexcept
 	{
 		keyAxisEvents.erase(
-			std::find_if(std::begin(keyAxisEvents), std::end(keyAxisEvents), [&axisName](auto& item) { return item.second.name == axisName; }), std::end(keyAxisEvents));
+			std::find_if(std::begin(keyAxisEvents), std::end(keyAxisEvents), [&axisName](auto& item) { return item.second.second->name == axisName; }), std::end(keyAxisEvents));
 	}
 
 	void InputDevice::RebindAxisKey(const std::string& axisName, InputKey oldKey, InputKey newKey) noexcept
 	{
 		for (auto it = std::begin(keyAxisEvents); it != std::end(keyAxisEvents); it++)
 		{
-			if (it->first == oldKey && it->second.name == axisName)
+			if (it->first == oldKey && it->second.second->name == axisName)
 			{
 				auto node = keyAxisEvents.extract(it);
 				node.key() = newKey;
@@ -184,16 +180,17 @@ namespace LimeEngine
 
 	void InputDevice::BindAxisEvent(const std::string& axisName, void (*func)(float))
 	{
-		BindAxisEvent(axisName, std::make_shared<FunctionEventHandler<float>>(func));
+		BindAxisEvent(axisName, std::make_unique<FunctionEventHandler<float>>(func));
 	}
 
-	void InputDevice::BindAxisEvent(const std::string& axisName, std::shared_ptr<IEventHandler<float>> handler)
+	void InputDevice::BindAxisEvent(const std::string& axisName, std::unique_ptr<IEventHandler<float>>&& handler)
 	{
 		for (auto& keyAxisEvent : keyAxisEvents)
 		{
-			if (keyAxisEvent.second.name == axisName)
+			if (keyAxisEvent.second.second->name == axisName)
 			{
-				keyAxisEvent.second.Bind(handler);
+				keyAxisEvent.second.second->Bind(std::move(handler));
+				break;
 			}
 		}
 	}
@@ -207,9 +204,10 @@ namespace LimeEngine
 	{
 		for (auto& keyAxisEvent : keyAxisEvents)
 		{
-			if (keyAxisEvent.second.name == axisName)
+			if (keyAxisEvent.second.second->name == axisName)
 			{
-				keyAxisEvent.second.Unbind(handler);
+				keyAxisEvent.second.second->Unbind(handler);
+				break;
 			}
 		}
 	}
@@ -219,9 +217,11 @@ namespace LimeEngine
 		auto axisEventsIt = keyAxisEvents.equal_range(key);
 		for (auto& it = axisEventsIt.first; it != axisEventsIt.second; it++)
 		{
-			it->second.Call(inputScale);
+			it->second.second->Call(it->second.first * inputScale);
 		}
 	}
+
+	// ---
 
 	void InputDevice::OnKeyPressed(InputKey key) noexcept
 	{
@@ -252,7 +252,7 @@ namespace LimeEngine
 		keyActions.push(std::make_pair(type, key));
 	}
 
-	// ---------
+	// ---
 
 	void InputDevice::ClearKeyState() noexcept
 	{
@@ -318,11 +318,11 @@ namespace LimeEngine
 		mouse.OnWheelDelta(x, y, delta);
 		if (delta >= WHEEL_DELTA)
 		{
-			OnKeyAxis(InputKey::WheelUp, delta);
+			OnKeyAxis(InputKey::WheelUp, static_cast<float>(delta));
 		}
 		else
 		{
-			OnKeyAxis(InputKey::WheelDown, delta);
+			OnKeyAxis(InputKey::WheelDown, static_cast<float>(delta));
 		}
 	}
 
