@@ -128,7 +128,7 @@ namespace LimeEngine
 		}
 	}
 
-	void InputDevice::CallActionEvent(InputActionType type, InputKey key) noexcept
+	void InputDevice::CallActionEvent(InputActionType type, InputKey key)
 	{
 		auto actionEventsIt = keyActionEvents.equal_range(key);
 		for (auto& it = actionEventsIt.first; it != actionEventsIt.second; it++)
@@ -144,7 +144,7 @@ namespace LimeEngine
 		AddAxisMapping(inputAxis.name, inputAxis.keys);
 	}
 
-	void InputDevice::AddAxisMapping(const std::string& axisName, std::vector<InputAxisKey> axisKeys) noexcept
+	void InputDevice::AddAxisMapping(const std::string& axisName, std::vector<InputAxisKey> axisKeys)
 	{
 		auto ptr = std::make_shared<InputAxisKeyHandlers>(axisName);
 		for (auto& key : axisKeys)
@@ -212,7 +212,7 @@ namespace LimeEngine
 		}
 	}
 
-	void InputDevice::CallAxisEvent(InputKey key, float inputScale) noexcept
+	void InputDevice::CallAxisEvent(InputKey key, float inputScale)
 	{
 		auto axisEventsIt = keyAxisEvents.equal_range(key);
 		for (auto& it = axisEventsIt.first; it != axisEventsIt.second; it++)
@@ -229,7 +229,7 @@ namespace LimeEngine
 		OnKeyAction(InputActionType::Pressed, key);
 	}
 
-	void InputDevice::OnKeyReleased(InputKey key)
+	void InputDevice::OnKeyReleased(InputKey key) noexcept
 	{
 		for (auto it = std::begin(pressedKeys); it != std::end(pressedKeys); it++)
 		{
@@ -247,7 +247,7 @@ namespace LimeEngine
 		axisKeyActions.push({ actionKey, scale });
 	}
 
-	void InputDevice::OnKeyAction(InputActionType type, InputKey key)
+	void InputDevice::OnKeyAction(InputActionType type, InputKey key) noexcept
 	{
 		keyActions.push(std::make_pair(type, key));
 	}

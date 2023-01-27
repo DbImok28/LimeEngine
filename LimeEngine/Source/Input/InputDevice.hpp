@@ -99,12 +99,12 @@ namespace LimeEngine
 		void UnbindActionEvent(const std::string& actionName, InputActionType type, const IEventHandler<>& handler) noexcept;
 
 	private:
-		void CallActionEvent(InputActionType type, InputKey key) noexcept;
+		void CallActionEvent(InputActionType type, InputKey key);
 
 	public:
 		//-----
 		void AddAxisMapping(const InputAxis& inputAxis);
-		void AddAxisMapping(const std::string& axisName, std::vector<InputAxisKey> axisKeys) noexcept;
+		void AddAxisMapping(const std::string& axisName, std::vector<InputAxisKey> axisKeys);
 		void RemoveAxisMapping(const InputAxis& inputAxis) noexcept;
 		void RemoveAxisMapping(const std::string& axisName) noexcept;
 		void RebindAxisKey(const std::string& axisName, InputKey oldKey, InputKey newKey) noexcept;
@@ -124,13 +124,13 @@ namespace LimeEngine
 		void UnbindAxisEvent(const std::string& axisName, const IEventHandler<float>& handler) noexcept;
 
 	private:
-		void CallAxisEvent(InputKey key, float inputScale = 1.0f) noexcept;
+		void CallAxisEvent(InputKey key, float inputScale = 1.0f);
 
 	private:
 		void OnKeyPressed(InputKey key) noexcept;
-		void OnKeyReleased(InputKey key);
+		void OnKeyReleased(InputKey key) noexcept;
 		void OnKeyAxis(InputKey actionKey, float scale) noexcept;
-		void OnKeyAction(InputActionType type, InputKey key);
+		void OnKeyAction(InputActionType type, InputKey key) noexcept;
 
 		// ---------
 		void ClearKeyState() noexcept;
