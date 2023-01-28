@@ -1,7 +1,5 @@
 #pragma once
 #include "Graphics/Systems/DX11/DirectXDef.hpp"
-#include <vector>
-#include <string>
 #include <dxgidebug.h>
 
 namespace LimeEngine

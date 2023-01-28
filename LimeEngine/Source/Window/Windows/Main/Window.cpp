@@ -1,7 +1,7 @@
+#include "lepch.hpp"
 #include "Engine.hpp"
 #include "Window.hpp"
 #include "Exceptions/WindowExceptions.hpp"
-#include <cassert>
 #include "resource.h"
 
 #ifdef IMGUI

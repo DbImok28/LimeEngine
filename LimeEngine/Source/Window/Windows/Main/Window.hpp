@@ -5,7 +5,6 @@
 #include "Window/Windows/WinApi.hpp"
 #include "CoreBase.hpp"
 #include "Input/InputDevice.hpp"
-#include <optional>
 
 namespace LimeEngine
 {

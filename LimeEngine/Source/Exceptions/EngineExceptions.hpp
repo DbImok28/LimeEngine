@@ -1,7 +1,5 @@
 #pragma once
 #include "Window/Windows/WinApi.hpp"
-#include <string>
-#include <vector>
 
 #define MSG_EXCEPTION(msg)        LimeEngine::EngineException(__LINE__, __FILE__, msg)
 #define MSG_HR_EXCEPTION(hr, msg) LimeEngine::EngineHrException(__LINE__, __FILE__, hr, msg)

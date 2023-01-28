@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include "Graphics/Base/Texture2D.hpp"
 #include "RendererDX11.hpp"
 

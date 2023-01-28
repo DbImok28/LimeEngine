@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include "GraphicFactory.hpp"
 #include "Material.hpp"
 

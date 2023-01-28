@@ -1,3 +1,4 @@
+#include "lepch.hpp"
 #include "Texture2DDX11.hpp"
 #include "Exceptions/GraphicsExceptions.hpp"
 #include "Helpers/Paths.hpp"

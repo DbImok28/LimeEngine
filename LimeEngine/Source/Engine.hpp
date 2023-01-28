@@ -2,12 +2,10 @@
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
-#include <vector>
 #include "IO/EngineIO.hpp"
 #include "Helpers/Timer.hpp"
 #include "Scene/Scene.hpp"
 #include "Base/GameDataManager.hpp"
-#include "Diagnostics/Logger.hpp"
 
 namespace LimeEngine
 {

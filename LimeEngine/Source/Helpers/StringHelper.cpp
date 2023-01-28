@@ -1,3 +1,4 @@
+#include "lepch.hpp"
 #include "StringHelper.hpp"
 
 namespace LimeEngine

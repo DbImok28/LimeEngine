@@ -1,9 +1,11 @@
+#include "lepch.hpp"
 #include "DxgiInfo.hpp"
 #include "EngineExceptions.hpp"
-#include <memory>
 #include "Helpers/StringHelper.hpp"
 
-#pragma comment(lib, "dxguid.lib")
+#ifdef PRAGMA_COMMENT_LIB
+	#pragma comment(lib, "dxguid.lib")
+#endif // PRAGMA_COMMENT_LIB
 
 namespace LimeEngine
 {

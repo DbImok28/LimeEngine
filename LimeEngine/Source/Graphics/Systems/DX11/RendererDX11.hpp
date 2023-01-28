@@ -4,9 +4,6 @@
 #pragma once
 #include "DirectXDef.hpp"
 #include "Graphics/Renderer.hpp"
-#include <map>
-#include <string>
-#include <sstream>
 #include "Exceptions/GraphicsExceptions.hpp"
 #include "Helpers/Paths.hpp"
 #include "Scene/CameraComponent.hpp"

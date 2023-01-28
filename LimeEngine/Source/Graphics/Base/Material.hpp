@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include "Texture2D.hpp"
 #include "IBindable.hpp"
 

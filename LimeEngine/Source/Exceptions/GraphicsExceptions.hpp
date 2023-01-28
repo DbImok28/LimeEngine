@@ -1,9 +1,6 @@
 #pragma once
 #include "EngineExceptions.hpp"
 #include "DxgiInfo.hpp"
-#include <vector>
-#include <string>
-#include <sstream>
 
 #define GFX_EXCEPTION_MSG(msg)        LimeEngine::GraphicsException(__LINE__, __FILE__, msg)
 #define GFX_EXCEPTION_HR_MSG(hr, msg) LimeEngine::GraphicsHrException(__LINE__, __FILE__, hr, msg)

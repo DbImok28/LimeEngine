@@ -1,3 +1,4 @@
+#include "lepch.hpp"
 #include "Primitives.hpp"
 #include "Vertex.hpp"
 #include "Math.hpp"

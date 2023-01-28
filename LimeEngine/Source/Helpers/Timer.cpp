@@ -1,3 +1,4 @@
+#include "lepch.hpp"
 #include "Timer.hpp"
 
 namespace LimeEngine

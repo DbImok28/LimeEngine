@@ -1,7 +1,4 @@
 #pragma once
-#include <vector>
-#include <memory>
-
 #include "Base/Transformable.hpp"
 
 namespace LimeEngine

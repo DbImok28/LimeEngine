@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 #include "Window/Windows/Main/Window.hpp"
 #include "Base/RenderQueue.hpp"
 #include "Base/GraphicFactory.hpp"

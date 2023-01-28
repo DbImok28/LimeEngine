@@ -1,3 +1,4 @@
+#include "lepch.hpp"
 #include "TestMap.hpp"
 #include "Engine.hpp"
 #include "Helpers/Paths.hpp"
@@ -24,7 +25,8 @@ namespace LimeEngine
         });
 		engineInput0.GetInput().AddAxisMapping({ "TurnUp", { { InputKey::MouseMoveY, 1.0f } } });
 		engineInput0.GetInput().AddAxisMapping({ "TurnRight", { { InputKey::MouseMoveX, 1.0f } } });
-
+		engineInput0.GetInput().AddActionMapping({ "ad", { InputKey::F } });
+		engineInput0.GetInput().BindActionEvent("ad", InputActionType::Pressed, []() { LE_DEBUG("Press"); });
 		// Graphic
 		auto renderer = engineInput0.renderIO.renderer;
 		auto graphicFactory = renderer->GetGraphicFactory();

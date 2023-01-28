@@ -1,6 +1,5 @@
 #pragma once
 #include "DirectXDef.hpp"
-#include <vector>
 
 namespace LimeEngine
 {

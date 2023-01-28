@@ -1,6 +1,4 @@
 #pragma once
-#include <memory>
-#include <map>
 #include "InputKeys.hpp"
 #include "Keyboard.hpp"
 #include "Mouse.hpp"

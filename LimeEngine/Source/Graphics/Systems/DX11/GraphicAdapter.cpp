@@ -1,3 +1,4 @@
+#include "lepch.hpp"
 #include "GraphicAdapter.hpp"
 #include "Exceptions/GraphicsExceptions.hpp"
 

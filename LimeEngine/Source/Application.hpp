@@ -3,7 +3,6 @@
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
-#include <memory>
 
 namespace LimeEngine
 {

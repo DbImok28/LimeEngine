@@ -42,6 +42,8 @@ target_include_directories(${PROJECT_NAME}
         ${PROJECT_SOURCE_DIR}/Dependencies/imgui
 )
 
+target_precompile_headers(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/Source/lepch.hpp)
+
 # Sources
 file(GLOB_RECURSE ${PROJECT_NAME}_SOURCES 
     LIST_DIRECTORIES FALSE
@@ -68,6 +70,7 @@ source_group(
     FILES 
         ${${PROJECT_NAME}_SOURCES}
 )
+
 target_sources(${PROJECT_NAME}
     PRIVATE
         ${${PROJECT_NAME}_SOURCES}
