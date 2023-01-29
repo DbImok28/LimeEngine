@@ -19,9 +19,9 @@ namespace LimeEngine
 
 	void RendererDX11::Initialize(const Window& window)
 	{
-		InitializeDirectX(window.GetHWnd(), window.width, window.height);
+		InitializeDirectX(reinterpret_cast<HWND>(window.GetHandle()), window.GetWidth(), window.GetHeight());
 #ifdef IMGUI
-		ImGuiSetup(window.GetHWnd());
+		ImGuiSetup(window.GetHandle());
 #endif // IMGUI
 	}
 
@@ -50,7 +50,7 @@ namespace LimeEngine
 		return deviceContext.Get();
 	}
 
-	void RendererDX11::InitializeDirectX(HWND hWnd, int width, int height)
+	void RendererDX11::InitializeDirectX(void* hWnd, int width, int height)
 	{
 		/*
 		1  Input Assembler		(IA) Stage
@@ -82,7 +82,7 @@ namespace LimeEngine
 
 		scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		scd.BufferCount = 1;
-		scd.OutputWindow = hWnd;
+		scd.OutputWindow = reinterpret_cast<HWND>(hWnd);
 		scd.Windowed = TRUE;
 		scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 		scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
@@ -203,13 +203,13 @@ namespace LimeEngine
 	}
 
 #ifdef IMGUI
-	void RendererDX11::ImGuiSetup(HWND hWnd)
+	void RendererDX11::ImGuiSetup(void* hWnd)
 	{
 		// Setup ImGui
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		const ImGuiIO& io = ImGui::GetIO();
-		ImGui_ImplWin32_Init(hWnd);
+		ImGui_ImplWin32_Init(reinterpret_cast<HWND>(hWnd));
 		ImGui_ImplDX11_Init(device.Get(), deviceContext.Get());
 		ImGui::StyleColorsDark();
 	}

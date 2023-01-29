@@ -5,53 +5,35 @@ namespace LimeEngine
 {
 	Engine::Engine(EngineIO&& engineIO) : gameDataManager(this, engineIO.renderIO.renderer->GetGraphicFactory()), scene(this)
 	{
+		engineIO.renderIO.renderer->GetWindow()->CloseEvent.Bind(this, &Engine::Close);
 		this->engineIO.push_back(std::move(engineIO));
 	}
 
 	int Engine::Start()
 	{
 		timer.Start();
-		std::optional<int> exitCode = 0;
-		while (true)
+		while (!exitCode.has_value())
 		{
 			deltaTime = timer.ElapsedTime();
 			timer.Restart();
-			if (exitCode = WindowProcessing()) return *exitCode;
-			if (exitCode = EngineProcessing()) return *exitCode;
+			WindowProcessing();
+			EngineProcessing();
 			RenderProcessing();
 		}
+		return *exitCode;
 	}
 
-	std::optional<int> Engine::EngineProcessing()
+	void Engine::EngineProcessing()
 	{
 		scene.UpdateScene();
-		return {};
 	}
 
-	std::optional<int> Engine::WindowProcessing()
+	void Engine::WindowProcessing()
 	{
-		std::optional<int> exitCode = 0;
-		for (auto it = std::begin(engineIO); it != std::end(engineIO);)
+		for (auto it = std::begin(engineIO); it != std::end(engineIO); it++)
 		{
-			if (exitCode = it->Process())
-			{
-				if (*exitCode != 0)
-				{
-					return *exitCode;
-				}
-				else
-				{
-					it = engineIO.erase(it);
-				}
-			}
-			else
-			{
-				++it;
-			}
+			it->Process();
 		}
-		if (exitCode.has_value() && *exitCode != 0) return exitCode;
-		if (engineIO.size() > 0) return {};
-		return 0;
 	}
 
 	void Engine::RenderProcessing()
@@ -60,6 +42,11 @@ namespace LimeEngine
 		{
 			io.Render();
 		}
+	}
+
+	void Engine::Close(int exitCode)
+	{
+		this->exitCode = exitCode;
 	}
 
 	void Engine::AddToRender(IDrawable* drawable)

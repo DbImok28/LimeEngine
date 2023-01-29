@@ -5,9 +5,9 @@ namespace LimeEngine
 {
 	EngineIO::EngineIO(RenderIO&& renderIO, SceneIO&& sceneIO) : renderIO(std::move(renderIO)), sceneIO(std::move(sceneIO)) {}
 
-	std::optional<int> EngineIO::Process()
+	void EngineIO::Process()
 	{
-		return renderIO.Process();
+		renderIO.Process();
 	}
 
 	void EngineIO::Render()

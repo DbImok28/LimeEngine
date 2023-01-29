@@ -2,13 +2,13 @@
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
-#include "Window/Windows/WinApi.hpp"
+#include "Window/Base/Window.hpp"
+#include "WinApi.hpp"
 #include "CoreBase.hpp"
-#include "Input/InputDevice.hpp"
 
 namespace LimeEngine
 {
-	class Window
+	class WindowsWindow : public Window
 	{
 	private:
 		class WindowClass
@@ -31,16 +31,26 @@ namespace LimeEngine
 		};
 
 	public:
-		Window(int width, int height, const TCHAR* title);
-		~Window();
-		Window(const Window&) = delete;
-		Window& operator=(const Window&) = delete;
-		Window(Window&&) noexcept = delete;
-		Window& operator=(Window&&) noexcept = delete;
+		WindowsWindow() = default;
+		WindowsWindow(const WindowsWindow&) = delete;
+		WindowsWindow& operator=(const WindowsWindow&) = delete;
+		WindowsWindow(WindowsWindow&&) noexcept = delete;
+		WindowsWindow& operator=(WindowsWindow&&) noexcept = delete;
+		virtual ~WindowsWindow();
 
-		void SetTitle(const tstring& title);
-		std::optional<int> ProcessMessages() noexcept;
-		HWND GetHWnd() const noexcept;
+		void Init(WindowArgs args) override;
+		void OnUpdate() override;
+		void SetTitle(const tstring& title) override;
+		uint GetWidth() const noexcept override
+		{
+			return width;
+		}
+		uint GetHeight() const noexcept override
+		{
+			return height;
+		}
+		void* GetHandle() const noexcept override;
+		InputDevice& GetInputDevice() noexcept override;
 
 	private:
 		static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;

@@ -73,7 +73,8 @@ namespace LimeEngine
 
 	class InputDevice
 	{
-		friend class Window;
+		// TODO: Change
+		friend class WindowsWindow;
 
 	public:
 		void AddActionMapping(const InputAction& inputAction);
@@ -153,7 +154,7 @@ namespace LimeEngine
 		void OnMouseEnter() noexcept;
 
 	public:
-		void Update() noexcept;
+		void OnUpdate() noexcept;
 
 	public:
 		Keyboard keyboard;

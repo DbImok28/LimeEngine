@@ -14,7 +14,7 @@ namespace LimeEngine
 			AttachIO();
 		}
 
-		auto& inputDevice = window->inputDevice;
+		auto& inputDevice = window->GetInputDevice();
 		inputDevice.BindAxisEvent("MoveForward", this, &DefaultPlayerCameraComponent::MoveForward);
 		inputDevice.BindAxisEvent("MoveRight", this, &DefaultPlayerCameraComponent::MoveRight);
 		inputDevice.BindAxisEvent("MoveUp", this, &DefaultPlayerCameraComponent::MoveUp);
@@ -39,7 +39,7 @@ namespace LimeEngine
 	}
 	void DefaultPlayerCameraComponent::TurnUp(float scale) noexcept
 	{
-		if (window->inputDevice.mouse.IsRightDown())
+		if (window->GetInputDevice().mouse.IsRightDown())
 		{
 			float deltaTime = engine->deltaTime;
 			AddRotation(scale, 0.0f, 0.0f);
@@ -47,7 +47,7 @@ namespace LimeEngine
 	}
 	void DefaultPlayerCameraComponent::TurnRight(float scale) noexcept
 	{
-		if (window->inputDevice.mouse.IsRightDown())
+		if (window->GetInputDevice().mouse.IsRightDown())
 		{
 			float deltaTime = engine->deltaTime;
 			AddRotation(0.0f, scale, 0.0f);
@@ -57,52 +57,14 @@ namespace LimeEngine
 	void DefaultPlayerCameraComponent::Update()
 	{
 		CameraComponent::Update();
-
-		/*if (!window) return;
-
-		float deltaTime = engine->deltaTime;
-		auto& inputDevice = window->inputDevice;*/
-
-		/*while (!inputDevice.mouse.EventBufferIsEmpty())
-		{
-			auto e = inputDevice.mouse.ReadEvent();
-			if (inputDevice.mouse.IsRightDown() && e.GetType() == Mouse::MouseEvent::EventType::RawMove)
-			{
-				AddRotation(e.GetPosY() * cameraRotationSpeed, e.GetPosX() * cameraRotationSpeed, 0.0f);
-			}
-		}
-		if (inputDevice.keyboard.KeyIsPressed('W'))
-		{
-			AddLocation(GetForwardVector() * cameraMovementSpeed * deltaTime);
-		}
-		if (inputDevice.keyboard.KeyIsPressed('S'))
-		{
-			AddLocation(GetForwardVector() * -cameraMovementSpeed * deltaTime);
-		}
-		if (inputDevice.keyboard.KeyIsPressed('A'))
-		{
-			AddLocation(GetRightVector() * -cameraMovementSpeed * deltaTime);
-		}
-		if (inputDevice.keyboard.KeyIsPressed('D'))
-		{
-			AddLocation(GetRightVector() * cameraMovementSpeed * deltaTime);
-		}
-		if (inputDevice.keyboard.KeyIsPressed(VK_SPACE))
-		{
-			AddLocation(0.0f, cameraMovementSpeed * deltaTime, 0.0f);
-		}
-		if (inputDevice.keyboard.KeyIsPressed('Z'))
-		{
-			AddLocation(0.0f, -cameraMovementSpeed * deltaTime, 0.0f);
-		}*/
 	}
 	void DefaultPlayerCameraComponent::AttachIO()
 	{
 		if (engine->engineIO.size() > Id)
 		{
 			window = engine->engineIO[Id].renderIO.renderer->GetWindow();
-			width = static_cast<float>(window->width);
-			height = static_cast<float>(window->height);
+			width = static_cast<float>(window->GetWidth());
+			height = static_cast<float>(window->GetHeight());
 			engine->engineIO[Id].SetInputCamera(this);
 		}
 	}

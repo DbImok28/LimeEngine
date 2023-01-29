@@ -1,6 +1,9 @@
+// Developed by Pavel Jakushik.
+// See LICENSE for copyright and licensing details (standard MIT License).
+// GitHub https://github.com/RubyCircle/LimeEngine
 #include "lepch.hpp"
+#include "WindowsWindow.hpp"
 #include "Engine.hpp"
-#include "Window.hpp"
 #include "Exceptions/WindowExceptions.hpp"
 #include "resource.h"
 
@@ -10,9 +13,9 @@ extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT uMsg, WPARAM wPara
 
 namespace LimeEngine
 {
-	Window::WindowClass Window::WindowClass::wndClassInstance;
+	WindowsWindow::WindowClass WindowsWindow::WindowClass::wndClassInstance;
 
-	Window::WindowClass::WindowClass() noexcept : hInst(GetModuleHandle(nullptr))
+	WindowsWindow::WindowClass::WindowClass() noexcept : hInst(GetModuleHandle(nullptr))
 	{
 		WNDCLASSEX wc = { 0 };
 		wc.cbSize = sizeof(WNDCLASSEX);
@@ -30,23 +33,31 @@ namespace LimeEngine
 		RegisterClassEx(&wc);
 	}
 
-	Window::WindowClass::~WindowClass()
+	WindowsWindow::WindowClass::~WindowClass()
 	{
 		UnregisterClass(name, hInst);
 	}
 
-	const TCHAR* Window::WindowClass::GetName() noexcept
+	const TCHAR* WindowsWindow::WindowClass::GetName() noexcept
 	{
 		return name;
 	}
 
-	HINSTANCE Window::WindowClass::GetInstance() noexcept
+	HINSTANCE WindowsWindow::WindowClass::GetInstance() noexcept
 	{
 		return wndClassInstance.hInst;
 	}
 
-	Window::Window(int width, int height, const TCHAR* title) : width(width), height(height), inputDevice()
+	WindowsWindow::~WindowsWindow()
 	{
+		DestroyWindow(hWnd);
+	}
+
+	void WindowsWindow::Init(WindowArgs args)
+	{
+		width = args.width;
+		height = args.height;
+
 		RECT wr = { 0 };
 		wr.left = 100;
 		wr.right = width + wr.left;
@@ -56,7 +67,7 @@ namespace LimeEngine
 
 		hWnd = CreateWindow(
 			WindowClass::GetName(),
-			title,
+			args.title.c_str(),
 			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
@@ -85,60 +96,63 @@ namespace LimeEngine
 		}
 	}
 
-	Window::~Window()
+	void WindowsWindow::OnUpdate()
 	{
-		DestroyWindow(hWnd);
+		MSG msg;
+		while (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
+		// PM_REMOVE Messages are removed from the queue after processing by PeekMessage.
+		{
+			if (msg.message == WM_QUIT)
+			{
+				CloseEvent(static_cast<int>(msg.wParam));
+				return;
+			}
+			TranslateMessage(&msg);
+			DispatchMessageW(&msg);
+		}
 	}
 
-	void Window::SetTitle(const tstring& title)
+	void WindowsWindow::SetTitle(const tstring& title)
 	{
 		if (!SetWindowText(hWnd, title.c_str())) throw WND_LAST_EXCEPTION();
 	}
 
-	std::optional<int> Window::ProcessMessages() noexcept
+	void* WindowsWindow::GetHandle() const noexcept
 	{
-		MSG msg;
-		while (PeekMessageW(&msg, nullptr, 0, 0, PM_REMOVE))
-		//PM_REMOVE Messages are removed from the queue after processing by PeekMessage.
-		{
-			if (msg.message == WM_QUIT) return static_cast<int>(msg.wParam);
-			TranslateMessage(&msg);
-			DispatchMessageW(&msg);
-		}
-		return {};
+		return reinterpret_cast<void*>(hWnd);
 	}
 
-	HWND Window::GetHWnd() const noexcept
+	InputDevice& WindowsWindow::GetInputDevice() noexcept
 	{
-		return hWnd;
+		return inputDevice;
 	}
 
-	LRESULT Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+	LRESULT WindowsWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
 		// WM_NCCREATE - message when a window is first created.
 		if (msg == WM_NCCREATE)
 		{
 			const CREATESTRUCTW* const pCreateStruct = reinterpret_cast<CREATESTRUCTW*>(lParam);
-			Window* const pWindow = static_cast<Window*>(pCreateStruct->lpCreateParams);
+			WindowsWindow* const pWindow = static_cast<WindowsWindow*>(pCreateStruct->lpCreateParams);
 			if (!pWindow)
 			{
 				assert("Critical Error: pointer to Window is null!(Window::HandleMsgSetup)");
 				exit(-1);
 			}
 			SetWindowLongPtrW(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWindow)); // Set window ptr
-			SetWindowLongPtrW(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Window::HandleMsgForwarding));
+			SetWindowLongPtrW(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&WindowsWindow::HandleMsgForwarding));
 			return pWindow->HandleMsg(hWnd, msg, wParam, lParam);
 		}
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	LRESULT CALLBACK Window::HandleMsgForwarding(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+	LRESULT CALLBACK WindowsWindow::HandleMsgForwarding(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
-		Window* const pWindow = reinterpret_cast<Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+		WindowsWindow* const pWindow = reinterpret_cast<WindowsWindow*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 		return pWindow->HandleMsg(hWnd, msg, wParam, lParam);
 	}
 
-	LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+	LRESULT WindowsWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
 #ifdef IMGUI
 		if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam)) return true;

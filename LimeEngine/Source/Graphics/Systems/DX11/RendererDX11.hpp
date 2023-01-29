@@ -27,7 +27,7 @@ namespace LimeEngine
 		void Initialize(const Window& window);
 
 	private:
-		void InitializeDirectX(HWND hWnd, int width, int height);
+		void InitializeDirectX(void* hWnd, int width, int height);
 		virtual void PreProcessing() override;
 		virtual void PostProcessing() override;
 
@@ -60,7 +60,7 @@ namespace LimeEngine
 		// TODO: Remove
 #ifdef IMGUI
 	public:
-		void ImGuiSetup(HWND hWnd);
+		void ImGuiSetup(void* hWnd);
 		void ImGuiUpdate();
 #endif // IMGUI
 	};

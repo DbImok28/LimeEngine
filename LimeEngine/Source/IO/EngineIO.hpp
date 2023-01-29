@@ -8,7 +8,7 @@ namespace LimeEngine
 	{
 	public:
 		EngineIO(RenderIO&& renderIO, SceneIO&& sceneIO);
-		std::optional<int> Process();
+		void Process();
 		void Render();
 
 		void SetInputCamera(CameraComponent* camera);

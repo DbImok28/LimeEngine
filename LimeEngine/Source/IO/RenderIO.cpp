@@ -5,10 +5,9 @@ namespace LimeEngine
 {
 	RenderIO::RenderIO(Renderer* renderer) : renderer(renderer) {}
 
-	std::optional<int> RenderIO::Process()
+	void RenderIO::Process()
 	{
-		if (renderer) return renderer->Process();
-		return -1;
+		renderer->Process();
 	}
 
 	void RenderIO::Render()

@@ -12,7 +12,7 @@
 //--------------------------------------------------------------------------------------
 
 #pragma once
-#include "Window/Windows/WinApi.hpp"
+#include "Window/Platform/Windows/WinApi.hpp"
 #include <sal.h>
 
 #ifdef __cplusplus

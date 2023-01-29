@@ -7,7 +7,7 @@ namespace LimeEngine
 	{
 	public:
 		explicit RenderIO(Renderer* renderer);
-		std::optional<int> Process();
+		void Process();
 		void Render();
 
 		Renderer* renderer = nullptr;

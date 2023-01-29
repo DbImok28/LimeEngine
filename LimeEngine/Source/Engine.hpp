@@ -20,12 +20,17 @@ namespace LimeEngine
 		Engine(EngineIO&& engineIO);
 
 		int Start();
-		std::optional<int> EngineProcessing();
-		std::optional<int> WindowProcessing();
+		void EngineProcessing();
+		void WindowProcessing();
 		void RenderProcessing();
+
+		void Close(int exitCode);
 
 		void AddToRender(IDrawable* drawable);
 		void RemoveFromRender(const IDrawable* drawable) noexcept;
+
+	private:
+		std::optional<int> exitCode;
 
 	public:
 		GameDataManager gameDataManager;

@@ -15,11 +15,10 @@ namespace LimeEngine
 		renderQueue.Remove(drawable);
 	}
 
-	std::optional<int> Renderer::Process()
+	void Renderer::Process()
 	{
-		auto result = window->ProcessMessages();
-		window->inputDevice.Update();
-		return result;
+		window->OnUpdate();
+		window->GetInputDevice().OnUpdate();
 	}
 
 	void Renderer::Render()

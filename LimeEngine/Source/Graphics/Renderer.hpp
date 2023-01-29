@@ -1,5 +1,5 @@
 #pragma once
-#include "Window/Windows/Main/Window.hpp"
+#include "Window/Base/Window.hpp"
 #include "Base/RenderQueue.hpp"
 #include "Base/GraphicFactory.hpp"
 #include "Scene/CameraComponent.hpp"
@@ -17,8 +17,8 @@ namespace LimeEngine
 		Renderer(Renderer&&) noexcept = delete;
 		Renderer& operator=(Renderer&&) noexcept = delete;
 
+		void Process();
 		void Render();
-		std::optional<int> Process();
 
 	protected:
 		virtual void PreProcessing() = 0;
@@ -33,7 +33,7 @@ namespace LimeEngine
 		void RemoveFromRender(const IDrawable* drawable) noexcept;
 		InputDevice& GetInputDevice() const noexcept
 		{
-			return window->inputDevice;
+			return window->GetInputDevice();
 		}
 		Window* GetWindow() const noexcept
 		{

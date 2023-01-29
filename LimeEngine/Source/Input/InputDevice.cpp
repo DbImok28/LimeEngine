@@ -1,6 +1,6 @@
 #include "lepch.hpp"
 #include "InputDevice.hpp"
-#include "Window/Windows/WinApi.hpp"
+#include "Window/Platform/Windows/WinApi.hpp"
 
 namespace LimeEngine
 {
@@ -355,7 +355,7 @@ namespace LimeEngine
 		mouse.OnMouseEnter();
 	}
 
-	void InputDevice::Update() noexcept
+	void InputDevice::OnUpdate() noexcept
 	{
 		while (!keyActions.empty())
 		{

@@ -1,6 +1,6 @@
 #include "lepch.hpp"
 #include "Mouse.hpp"
-#include "Window/Windows/WinApi.hpp"
+#include "Window/Platform/Windows/WinApi.hpp"
 
 namespace LimeEngine
 {
