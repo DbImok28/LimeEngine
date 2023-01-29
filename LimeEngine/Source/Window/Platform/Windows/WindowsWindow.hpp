@@ -32,13 +32,14 @@ namespace LimeEngine
 
 	public:
 		WindowsWindow() = default;
+		WindowsWindow(const WindowArgs& args);
 		WindowsWindow(const WindowsWindow&) = delete;
 		WindowsWindow& operator=(const WindowsWindow&) = delete;
 		WindowsWindow(WindowsWindow&&) noexcept = delete;
 		WindowsWindow& operator=(WindowsWindow&&) noexcept = delete;
 		virtual ~WindowsWindow();
 
-		void Init(WindowArgs args) override;
+		void Init(const WindowArgs& args) override;
 		void Destroy() override;
 		void OnUpdate() override;
 		void SetTitle(const tstring& title) override;
@@ -64,6 +65,6 @@ namespace LimeEngine
 		InputDevice inputDevice;
 
 	private:
-		HWND hWnd;
+		HWND hWnd = nullptr;
 	};
 }

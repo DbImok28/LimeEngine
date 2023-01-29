@@ -48,12 +48,17 @@ namespace LimeEngine
 		return wndClassInstance.hInst;
 	}
 
+	WindowsWindow::WindowsWindow(const WindowArgs& args)
+	{
+		Init(args);
+	}
+
 	WindowsWindow::~WindowsWindow()
 	{
 		Destroy();
 	}
 
-	void WindowsWindow::Init(WindowArgs args)
+	void WindowsWindow::Init(const WindowArgs& args)
 	{
 		if (hWnd != nullptr) Destroy();
 

@@ -5,8 +5,6 @@
 #include "Graphics/Systems/DX11/RendererDX11.hpp"
 #include "Scene/TestMap.hpp"
 
-#include "Window/Platform/Windows/WindowsWindow.hpp"
-
 namespace LimeEngine
 {
 	void Application::Run()
@@ -16,9 +14,8 @@ namespace LimeEngine
 		Logger::StaticInitialize();
 
 		// Renderer
-		auto outWindow = WindowsWindow{};
-		outWindow.Init(WindowArgs(TEXT("LimeEngine"), 1080, 720));
-		auto renderer = RendererDX11(&outWindow);
+		auto outWindow = Window::Create({ TEXT("LimeEngine"), 1080, 720 });
+		auto renderer = RendererDX11(outWindow.get());
 
 		// Create Engine
 		Engine engine(EngineIO(RenderIO(&renderer), SceneIO{}));

@@ -10,6 +10,7 @@ namespace LimeEngine
 {
 	struct WindowArgs
 	{
+		WindowArgs() = default;
 		WindowArgs(tstring title, uint width = 1080, uint height = 720) : title(title), width(width), height(height) {}
 
 		tstring title = "LimeEngine";
@@ -20,9 +21,12 @@ namespace LimeEngine
 	class Window
 	{
 	public:
+		static std::unique_ptr<Window> Create(const WindowArgs& args = WindowArgs());
+
+	public:
 		virtual ~Window() {}
 
-		virtual void Init(WindowArgs args) = 0;
+		virtual void Init(const WindowArgs& args) = 0;
 		virtual void Destroy() = 0;
 		virtual void OnUpdate() = 0;
 		virtual void SetTitle(const tstring& title) = 0;
