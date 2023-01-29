@@ -50,11 +50,13 @@ namespace LimeEngine
 
 	WindowsWindow::~WindowsWindow()
 	{
-		DestroyWindow(hWnd);
+		Destroy();
 	}
 
 	void WindowsWindow::Init(WindowArgs args)
 	{
+		if (hWnd != nullptr) Destroy();
+
 		width = args.width;
 		height = args.height;
 
@@ -94,6 +96,16 @@ namespace LimeEngine
 			}
 			rawInputInitialized = true;
 		}
+	}
+
+	void WindowsWindow::Destroy()
+	{
+		if (hWnd == nullptr) return;
+		if (!DestroyWindow(hWnd))
+		{
+			throw WND_LAST_EXCEPTION();
+		}
+		hWnd = nullptr;
 	}
 
 	void WindowsWindow::OnUpdate()

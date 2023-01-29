@@ -23,6 +23,7 @@ namespace LimeEngine
 		virtual ~Window() {}
 
 		virtual void Init(WindowArgs args) = 0;
+		virtual void Destroy() = 0;
 		virtual void OnUpdate() = 0;
 		virtual void SetTitle(const tstring& title) = 0;
 		virtual uint GetWidth() const noexcept = 0;

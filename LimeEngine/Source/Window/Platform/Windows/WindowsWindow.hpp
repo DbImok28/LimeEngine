@@ -39,6 +39,7 @@ namespace LimeEngine
 		virtual ~WindowsWindow();
 
 		void Init(WindowArgs args) override;
+		void Destroy() override;
 		void OnUpdate() override;
 		void SetTitle(const tstring& title) override;
 		uint GetWidth() const noexcept override
