@@ -7,12 +7,19 @@ namespace LimeEngine
 	{
 	public:
 		using type = IEventHandler<TArgs...>;
+
+	protected:
+		IEventHandler() = default;
+
+	public:
+		virtual ~IEventHandler() noexcept = default;
+
+		virtual void Call(TArgs... args) = 0;
+		virtual bool IsEquals(const type& other) const = 0;
 		void operator()(TArgs... args)
 		{
 			Call(std::forward<TArgs>(args)...);
 		}
-		virtual void Call(TArgs... args) = 0;
-		virtual bool IsEquals(const type& other) const = 0;
 		bool operator==(const type& other) const
 		{
 			return IsEquals(other);
@@ -21,10 +28,6 @@ namespace LimeEngine
 		{
 			return !(*this == other);
 		}
-		virtual ~IEventHandler() noexcept = default;
-
-	protected:
-		IEventHandler() = default;
 	};
 
 	template <typename TObject, typename... TArgs>
@@ -34,12 +37,10 @@ namespace LimeEngine
 		using TMethod = void (TObject::*const)(TArgs...);
 		using type = MethodEventHandler<TObject, TArgs...>;
 
-	private:
-		TObject& object;
-		TMethod method;
-
 	public:
 		MethodEventHandler(TObject& object, TMethod method) : IEventHandler<TArgs...>(), object(object), method(method) {}
+		virtual ~MethodEventHandler() {}
+
 		void Call(TArgs... args) override final
 		{
 			(object.*method)(args...);
@@ -50,6 +51,10 @@ namespace LimeEngine
 			if (otherEvent) return &object == &otherEvent->object && method == otherEvent->method;
 			return false;
 		}
+
+	private:
+		TObject& object;
+		TMethod method;
 	};
 
 	template <typename... TArgs>
@@ -59,11 +64,10 @@ namespace LimeEngine
 		using TFunction = void (*)(TArgs...);
 		using type = FunctionEventHandler<TArgs...>;
 
-	private:
-		TFunction fun;
-
 	public:
 		FunctionEventHandler(TFunction fun) : IEventHandler<TArgs...>(), fun(fun) {}
+		virtual ~FunctionEventHandler() {}
+
 		void Call(TArgs... args) override final
 		{
 			(*fun)(args...);
@@ -74,64 +78,17 @@ namespace LimeEngine
 			if (otherEvent) return fun == otherEvent->fun;
 			return false;
 		}
+
+	private:
+		TFunction fun;
 	};
 
 	template <typename... TArgs>
 	class EventDispatcher
 	{
-	private:
-		std::list<std::unique_ptr<IEventHandler<TArgs...>>> events;
-
 	public:
 		EventDispatcher() = default;
-		auto FindEventHandler(const IEventHandler<TArgs...>& handler) const noexcept
-		{
-			return std::find_if(std::begin(events), std::end(events), [&handler](auto& item) { return (*item == handler); });
-		}
-		template <typename TObject>
-		void Bind(TObject* const object, void (TObject::*const method)(TArgs...))
-		{
-			assert(object && "Object pointer cannot be null");
-			assert(method && "Method pointer cannot be null");
-			auto ptr = std::make_unique<MethodEventHandler<TObject, TArgs...>>(*object, method);
-			assert(FindEventHandler(*ptr) == events.end() && "Ñan't bind the same events");
-			events.push_back(std::move(ptr));
-		}
-		void Bind(void (*func)(TArgs...))
-		{
-			assert(func && "Function pointer cannot be null");
-			auto ptr = std::make_unique<FunctionEventHandler<TArgs...>>(func);
-			assert(FindEventHandler(*ptr) == events.end() && "Ñan't bind the same events");
-			events.push_back(std::move(ptr));
-		}
-		template <typename TObject>
-		bool Unbind(TObject* const object, void (TObject::*const method)(TArgs...)) noexcept
-		{
-			assert(object && "Object pointer cannot be null");
-			assert(method && "Method pointer cannot be null");
-			MethodEventHandler handler{ *object, method };
-			return Unbind(handler);
-		}
-		bool Unbind(void (*func)(TArgs...)) noexcept
-		{
-			assert(func && "Function pointer cannot be null");
-			FunctionEventHandler handler{ func };
-			return Unbind(handler);
-		}
-		bool Unbind(const IEventHandler<TArgs...>& handler) noexcept
-		{
-			auto it = FindEventHandler(handler);
-			if (it != std::end(events))
-			{
-				events.erase(it, std::end(events));
-				return true;
-			}
-			return false;
-		}
-		void Clear() noexcept
-		{
-			events.clear();
-		}
+
 		void operator()(TArgs... args)
 		{
 			auto it = events.begin();
@@ -142,5 +99,56 @@ namespace LimeEngine
 				(*it_last)->Call(std::forward<TArgs>(args)...);
 			}
 		}
+		auto FindEventHandler(const IEventHandler<TArgs...>& handler) const noexcept
+		{
+			return std::find_if(std::begin(events), std::end(events), [&handler](auto& item) { return (*item == handler); });
+		}
+		void Bind(std::unique_ptr<IEventHandler<TArgs...>>&& handler)
+		{
+			LE_CORE_ASSERT(FindEventHandler(*handler) == events.end(), "Ñan't bind the same events");
+			events.push_back(std::move(handler));
+		}
+		template <typename TObject>
+		void Bind(TObject* const object, void (TObject::*const method)(TArgs...))
+		{
+			LE_CORE_ASSERT(object, "Object pointer cannot be null");
+			LE_CORE_ASSERT(method, "Method pointer cannot be null");
+			Bind(std::make_unique<MethodEventHandler<TObject, TArgs...>>(*object, method));
+		}
+		void Bind(void (*func)(TArgs...))
+		{
+			LE_CORE_ASSERT(!func, "Function pointer cannot be null");
+			Bind(std::make_unique<FunctionEventHandler<TArgs...>>(func));
+		}
+
+		bool Unbind(const IEventHandler<TArgs...>& handler) noexcept
+		{
+			auto it = FindEventHandler(handler);
+			if (it != std::end(events))
+			{
+				events.erase(it, std::end(events));
+				return true;
+			}
+			return false;
+		}
+		template <typename TObject>
+		bool Unbind(TObject* const object, void (TObject::*const method)(TArgs...)) noexcept
+		{
+			LE_CORE_ASSERT(object, "Object pointer cannot be null");
+			LE_CORE_ASSERT(method, "Method pointer cannot be null");
+			return Unbind(MethodEventHandler{ *object, method });
+		}
+		bool Unbind(void (*func)(TArgs...)) noexcept
+		{
+			LE_CORE_ASSERT(func, "Function pointer cannot be null");
+			return Unbind(FunctionEventHandler{ func });
+		}
+		void Clear() noexcept
+		{
+			events.clear();
+		}
+
+	private:
+		std::list<std::unique_ptr<IEventHandler<TArgs...>>> events;
 	};
 }

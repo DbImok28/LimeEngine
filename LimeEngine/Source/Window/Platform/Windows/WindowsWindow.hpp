@@ -16,10 +16,6 @@ namespace LimeEngine
 		public:
 			WindowClass() noexcept;
 			~WindowClass();
-			WindowClass(const WindowClass&) = delete;
-			WindowClass(WindowClass&&) noexcept = delete;
-			WindowClass& operator=(const WindowClass&) = delete;
-			WindowClass& operator=(WindowClass&&) noexcept = delete;
 
 			static const TCHAR* GetName() noexcept;
 			static HINSTANCE GetInstance() noexcept;
@@ -33,10 +29,6 @@ namespace LimeEngine
 	public:
 		WindowsWindow() = default;
 		WindowsWindow(const WindowArgs& args);
-		WindowsWindow(const WindowsWindow&) = delete;
-		WindowsWindow& operator=(const WindowsWindow&) = delete;
-		WindowsWindow(WindowsWindow&&) noexcept = delete;
-		WindowsWindow& operator=(WindowsWindow&&) noexcept = delete;
 		virtual ~WindowsWindow();
 
 		void Init(const WindowArgs& args) override;

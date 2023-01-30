@@ -71,13 +71,21 @@ namespace LimeEngine
 #include "Base/Transform.hpp"
 
 #ifdef LE_ENABLE_ASSERTION
-	#define LE_CORE_ASSERT(call, ...)                                                           \
-		{                                                                                       \
-			if (!(call){LE_CORE_CRITICAL_ERROR("Assertion: {0}", __VA_ARGS__); __debugbreak();} \
+	#define LE_CORE_ASSERT(call, ...)                         \
+		{                                                     \
+			if (!(call))                                      \
+			{                                                 \
+				LE_CORE_ERROR("Assertion: {0}", __VA_ARGS__); \
+				__debugbreak();                               \
+			}                                                 \
 		}
-	#define LE_ASSERT(call, ...)                                                           \
-		{                                                                                  \
-			if (!(call){LE_CRITICAL_ERROR("Assertion: {0}", __VA_ARGS__); __debugbreak();} \
+	#define LE_ASSERT(call, ...)                         \
+		{                                                \
+			if (!(call))                                 \
+			{                                            \
+				LE_ERROR("Assertion: {0}", __VA_ARGS__); \
+				__debugbreak();                          \
+			}                                            \
 		}
 #else
 	#define LE_CORE_ASSERT(call, ...)
