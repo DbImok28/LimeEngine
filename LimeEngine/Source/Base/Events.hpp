@@ -151,4 +151,78 @@ namespace LimeEngine
 	private:
 		std::list<std::unique_ptr<IEventHandler<TArgs...>>> events;
 	};
+
+	template <typename TKey, typename... TArgs>
+	class MultiEventDispatcher
+	{
+	public:
+		MultiEventDispatcher() = default;
+
+		void operator()(TKey key, TArgs... args)
+		{
+			auto range = events.equal_range(key);
+			for (auto& it = range.first; it != range.second;)
+			{
+				auto it_last = it++;
+				it_last->second->Call(std::forward<TArgs>(args)...);
+			}
+		}
+		auto FindEventHandler(TKey key, const IEventHandler<TArgs...>& handler) const noexcept
+		{
+			auto range = events.equal_range(key);
+			return std::find_if(range.first, range.second, [&handler](auto& item) { return (*item.second == handler); });
+		}
+		void Bind(TKey key, std::unique_ptr<IEventHandler<TArgs...>>&& handler)
+		{
+			LE_CORE_ASSERT(FindEventHandler(*handler) == events.end(), "Ñan't bind the same events");
+			events.emplace(key, std::move(handler));
+		}
+		template <typename TObject>
+		void Bind(TKey key, TObject* const object, void (TObject::*const method)(TArgs...))
+		{
+			LE_CORE_ASSERT(object, "Object pointer cannot be null");
+			LE_CORE_ASSERT(method, "Method pointer cannot be null");
+			Bind(key, std::make_unique<MethodEventHandler<TObject, TArgs...>>(*object, method));
+		}
+		void Bind(TKey key, void (*func)(TArgs...))
+		{
+			LE_CORE_ASSERT(!func, "Function pointer cannot be null");
+			Bind(key, std::make_unique<FunctionEventHandler<TArgs...>>(func));
+		}
+
+		bool Unbind(TKey key, const IEventHandler<TArgs...>& handler) noexcept
+		{
+			auto it = FindEventHandler(key, handler);
+			if (it != std::end(events))
+			{
+				events.erase(it);
+				return true;
+			}
+			return false;
+		}
+		template <typename TObject>
+		bool Unbind(TKey key, TObject* const object, void (TObject::*const method)(TArgs...)) noexcept
+		{
+			LE_CORE_ASSERT(object, "Object pointer cannot be null");
+			LE_CORE_ASSERT(method, "Method pointer cannot be null");
+			return Unbind(key, MethodEventHandler{ *object, method });
+		}
+		bool Unbind(TKey key, void (*func)(TArgs...)) noexcept
+		{
+			LE_CORE_ASSERT(func, "Function pointer cannot be null");
+			return Unbind(key, FunctionEventHandler{ func });
+		}
+		void Clear(TKey key) noexcept
+		{
+			auto range = events.equal_range(key);
+			events.erase(range.first, range.second);
+		}
+		void Clear() noexcept
+		{
+			events.clear();
+		}
+
+	private:
+		std::multimap<TKey, std::unique_ptr<IEventHandler<TArgs...>>> events;
+	};
 }
