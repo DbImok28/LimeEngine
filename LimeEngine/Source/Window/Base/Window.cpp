@@ -13,7 +13,8 @@ namespace LimeEngine
 #if defined(LE_BUILD_PLATFORM_WINDOWS)
 		return std::make_unique<WindowsWindow>(args);
 #else
-		LE_CORE_ASSERT(false, "Unknown platform. Failed to create window.")
+		LE_CORE_ASSERT(false, "Unknown platform. Failed to create window.");
+		return nullptr;
 #endif
 	}
 }
