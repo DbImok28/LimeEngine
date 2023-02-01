@@ -3,11 +3,35 @@
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
-#include "Base/Events.hpp"
+#include "Base/Event.hpp"
 #include "Input/InputDevice.hpp"
 
 namespace LimeEngine
 {
+	enum class WindowEventType
+	{
+		Close,
+		Resize
+	};
+	class CloseWindowEvent : public Event
+	{
+		EVENT_TYPE(CloseWindowEvent);
+
+	public:
+		CloseWindowEvent(int exitCode) : exitCode(exitCode) {}
+		int exitCode;
+	};
+	class ResizeWindowEvent : public Event
+	{
+		EVENT_TYPE(ResizeWindowEvent);
+
+	public:
+		ResizeWindowEvent(uint width, uint height) : width(width), height(height) {}
+
+		uint width;
+		uint height;
+	};
+
 	struct WindowArgs
 	{
 		WindowArgs() = default;
@@ -37,6 +61,6 @@ namespace LimeEngine
 		virtual InputDevice& GetInputDevice() noexcept = 0;
 
 	public:
-		EventDispatcher<int> CloseEvent;
+		MultiEventDispatcher<WindowEventType, const Event&> events;
 	};
 }

@@ -2,7 +2,7 @@
 #include "InputKeys.hpp"
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
-#include "Base/Events.hpp"
+#include "Base/Event.hpp"
 
 namespace LimeEngine
 {
@@ -32,13 +32,13 @@ namespace LimeEngine
 	public:
 		InputActionKeyHandlers(const std::string& name) noexcept;
 
-		void Bind(InputActionType type, std::unique_ptr<IEventHandler<>>&& handler);
-		void Unbind(InputActionType type, const IEventHandler<>& handler) noexcept;
+		void Bind(InputActionType type, std::unique_ptr<EventHandler<>>&& handler);
+		void Unbind(InputActionType type, const EventHandler<>& handler) noexcept;
 		void Call(InputActionType type);
 
 	public:
 		std::string name;
-		std::vector<std::pair<InputActionType, std::unique_ptr<IEventHandler<>>>> handlers;
+		std::vector<std::pair<InputActionType, std::unique_ptr<EventHandler<>>>> handlers;
 	};
 
 	struct InputAxisKey
@@ -62,13 +62,13 @@ namespace LimeEngine
 	public:
 		InputAxisKeyHandlers(const std::string& name) noexcept;
 
-		void Bind(std::unique_ptr<IEventHandler<float>>&& handler);
-		void Unbind(const IEventHandler<float>& handler) noexcept;
+		void Bind(std::unique_ptr<EventHandler<float>>&& handler);
+		void Unbind(const EventHandler<float>& handler) noexcept;
 		void Call(float scale);
 
 	public:
 		std::string name;
-		std::vector<std::unique_ptr<IEventHandler<float>>> handlers;
+		std::vector<std::unique_ptr<EventHandler<float>>> handlers;
 	};
 
 	class InputDevice
@@ -88,14 +88,14 @@ namespace LimeEngine
 			BindActionEvent(actionName, type, std::make_unique<MethodEventHandler<TObject>>(*object, method));
 		}
 		void BindActionEvent(const std::string& actionName, InputActionType type, void (*func)());
-		void BindActionEvent(const std::string& actionName, InputActionType type, std::unique_ptr<IEventHandler<>>&& handler);
+		void BindActionEvent(const std::string& actionName, InputActionType type, std::unique_ptr<EventHandler<>>&& handler);
 		template <typename TObject>
 		void UnbindActionEvent(const std::string& actionName, InputActionType type, TObject* const object, void (TObject::*const method)()) noexcept
 		{
 			UnbindActionEvent(actionName, type, MethodEventHandler<TObject>(*object, method));
 		}
 		void UnbindActionEvent(const std::string& actionName, InputActionType type, void (*func)()) noexcept;
-		void UnbindActionEvent(const std::string& actionName, InputActionType type, const IEventHandler<>& handler) noexcept;
+		void UnbindActionEvent(const std::string& actionName, InputActionType type, const EventHandler<>& handler) noexcept;
 
 	private:
 		void CallActionEvent(InputActionType type, InputKey key);
@@ -113,14 +113,14 @@ namespace LimeEngine
 		{
 			BindAxisEvent(axisName, std::make_unique<MethodEventHandler<TObject, float>>(*object, method));
 		}
-		void BindAxisEvent(const std::string& axisName, std::unique_ptr<IEventHandler<float>>&& handler);
+		void BindAxisEvent(const std::string& axisName, std::unique_ptr<EventHandler<float>>&& handler);
 		template <typename TObject>
 		void UnbindAxisEvent(const std::string& axisName, TObject* const object, void (TObject::*const method)(float)) noexcept
 		{
 			UnbindAxisEvent(axisName, MethodEventHandler<TObject, float>(*object, method));
 		}
 		void UnbindAxisEvent(const std::string& axisName, void (*func)(float)) noexcept;
-		void UnbindAxisEvent(const std::string& axisName, const IEventHandler<float>& handler) noexcept;
+		void UnbindAxisEvent(const std::string& axisName, const EventHandler<float>& handler) noexcept;
 
 	private:
 		void CallAxisEvent(InputKey key, float inputScale = 1.0f);

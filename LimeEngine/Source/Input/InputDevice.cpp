@@ -10,12 +10,12 @@ namespace LimeEngine
 
 	InputActionKeyHandlers::InputActionKeyHandlers(const std::string& name) noexcept : name(name) {}
 
-	void InputActionKeyHandlers::Bind(InputActionType type, std::unique_ptr<IEventHandler<>>&& handler)
+	void InputActionKeyHandlers::Bind(InputActionType type, std::unique_ptr<EventHandler<>>&& handler)
 	{
 		handlers.push_back(std::make_pair(type, std::move(handler)));
 	}
 
-	void InputActionKeyHandlers::Unbind(InputActionType type, const IEventHandler<>& handler) noexcept
+	void InputActionKeyHandlers::Unbind(InputActionType type, const EventHandler<>& handler) noexcept
 	{
 		handlers.erase(
 			std::find_if(std::begin(handlers), std::end(handlers), [&type, &handler](auto& item) { return (item.first == type && *item.second == handler); }), std::end(handlers));
@@ -38,12 +38,12 @@ namespace LimeEngine
 
 	InputAxisKeyHandlers::InputAxisKeyHandlers(const std::string& name) noexcept : name(name) {}
 
-	void InputAxisKeyHandlers::Bind(std::unique_ptr<IEventHandler<float>>&& handler)
+	void InputAxisKeyHandlers::Bind(std::unique_ptr<EventHandler<float>>&& handler)
 	{
 		handlers.push_back(std::move(handler));
 	}
 
-	void InputAxisKeyHandlers::Unbind(const IEventHandler<float>& handler) noexcept
+	void InputAxisKeyHandlers::Unbind(const EventHandler<float>& handler) noexcept
 	{
 		handlers.erase(std::find_if(std::begin(handlers), std::end(handlers), [&handler](auto& item) { return (*item == handler); }), std::end(handlers));
 	}
@@ -100,7 +100,7 @@ namespace LimeEngine
 		BindActionEvent(actionName, type, std::make_unique<FunctionEventHandler<>>(func));
 	}
 
-	void InputDevice::BindActionEvent(const std::string& actionName, InputActionType type, std::unique_ptr<IEventHandler<>>&& handler)
+	void InputDevice::BindActionEvent(const std::string& actionName, InputActionType type, std::unique_ptr<EventHandler<>>&& handler)
 	{
 		for (auto& keyActionEvent : keyActionEvents)
 		{
@@ -117,7 +117,7 @@ namespace LimeEngine
 		UnbindActionEvent(actionName, type, FunctionEventHandler<>(func));
 	}
 
-	void InputDevice::UnbindActionEvent(const std::string& actionName, InputActionType type, const IEventHandler<>& handler) noexcept
+	void InputDevice::UnbindActionEvent(const std::string& actionName, InputActionType type, const EventHandler<>& handler) noexcept
 	{
 		for (auto& keyActionEvent : keyActionEvents)
 		{
@@ -184,7 +184,7 @@ namespace LimeEngine
 		BindAxisEvent(axisName, std::make_unique<FunctionEventHandler<float>>(func));
 	}
 
-	void InputDevice::BindAxisEvent(const std::string& axisName, std::unique_ptr<IEventHandler<float>>&& handler)
+	void InputDevice::BindAxisEvent(const std::string& axisName, std::unique_ptr<EventHandler<float>>&& handler)
 	{
 		for (auto& keyAxisEvent : keyAxisEvents)
 		{
@@ -201,7 +201,7 @@ namespace LimeEngine
 		UnbindAxisEvent(axisName, FunctionEventHandler<float>(func));
 	}
 
-	void InputDevice::UnbindAxisEvent(const std::string& axisName, const IEventHandler<float>& handler) noexcept
+	void InputDevice::UnbindAxisEvent(const std::string& axisName, const EventHandler<float>& handler) noexcept
 	{
 		for (auto& keyAxisEvent : keyAxisEvents)
 		{

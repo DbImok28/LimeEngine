@@ -65,17 +65,23 @@ namespace LimeEngine
 		width = args.width;
 		height = args.height;
 
+		auto style = WS_SIZEBOX       // Sizing border
+					 | WS_MAXIMIZEBOX // Maximize button
+					 | WS_MINIMIZEBOX // Minimize button
+					 | WS_CAPTION     // Title bar
+					 | WS_SYSMENU;    // Menu in title bar
+
 		RECT wr = { 0 };
 		wr.left = 100;
 		wr.right = width + wr.left;
 		wr.top = 100;
 		wr.bottom = height + wr.top;
-		if (!AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE)) throw WND_LAST_EXCEPTION();
+		if (!AdjustWindowRect(&wr, style, FALSE)) throw WND_LAST_EXCEPTION();
 
 		hWnd = CreateWindow(
 			WindowClass::GetName(),
 			args.title.c_str(),
-			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+			style,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
 			wr.right - wr.left,
@@ -121,7 +127,7 @@ namespace LimeEngine
 		{
 			if (msg.message == WM_QUIT)
 			{
-				CloseEvent(static_cast<int>(msg.wParam));
+				events(WindowEventType::Close, CloseWindowEvent(static_cast<int>(msg.wParam)));
 				return;
 			}
 			TranslateMessage(&msg);
@@ -177,9 +183,25 @@ namespace LimeEngine
 
 		switch (msg)
 		{
-			case WM_CLOSE:
-				PostQuitMessage(0);
-				return 0;
+			case WM_CLOSE: PostQuitMessage(0); return 0;
+			case WM_SIZE:
+			{
+				UINT width = LOWORD(lParam);
+				UINT height = HIWORD(lParam);
+				events(WindowEventType::Resize, ResizeWindowEvent(width, height));
+				switch (wParam)
+				{
+					case SIZE_MAXIMIZED:
+					{
+						break;
+					}
+					case SIZE_MINIMIZED:
+					{
+						break;
+					}
+				}
+				break;
+			}
 				// Keyboard
 			case WM_SYSKEYDOWN:
 			case WM_KEYDOWN:

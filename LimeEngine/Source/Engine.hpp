@@ -24,7 +24,7 @@ namespace LimeEngine
 		void WindowProcessing();
 		void RenderProcessing();
 
-		void Close(int exitCode);
+		void Close(const Event& e);
 
 		void AddToRender(IDrawable* drawable);
 		void RemoveFromRender(const IDrawable* drawable) noexcept;

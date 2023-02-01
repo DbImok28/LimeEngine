@@ -5,7 +5,11 @@ namespace LimeEngine
 {
 	Engine::Engine(EngineIO&& engineIO) : gameDataManager(this, engineIO.renderIO.renderer->GetGraphicFactory()), scene(this)
 	{
-		engineIO.renderIO.renderer->GetWindow()->CloseEvent.Bind(this, &Engine::Close);
+		auto& window = *engineIO.renderIO.renderer->GetWindow();
+		window.events.Bind(WindowEventType::Close, this, &Engine::Close);
+		window.events.Bind(WindowEventType::Resize, [](const Event& e) {
+			LE_DEBUG("Resize {},{}", static_cast<const ResizeWindowEvent&>(e).width, static_cast<const ResizeWindowEvent&>(e).height);
+		});
 		this->engineIO.push_back(std::move(engineIO));
 	}
 
@@ -44,9 +48,9 @@ namespace LimeEngine
 		}
 	}
 
-	void Engine::Close(int exitCode)
+	void Engine::Close(const Event& e)
 	{
-		this->exitCode = exitCode;
+		this->exitCode = static_cast<const CloseWindowEvent&>(e).exitCode;
 	}
 
 	void Engine::AddToRender(IDrawable* drawable)
