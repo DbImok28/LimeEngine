@@ -61,6 +61,6 @@ namespace LimeEngine
 		virtual InputDevice& GetInputDevice() noexcept = 0;
 
 	public:
-		MultiEventDispatcher<WindowEventType, const Event&> events;
+		MultiEventDispatcher<WindowEventType> events;
 	};
 }

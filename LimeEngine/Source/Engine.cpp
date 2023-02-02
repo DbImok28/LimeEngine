@@ -7,9 +7,8 @@ namespace LimeEngine
 	{
 		auto& window = *engineIO.renderIO.renderer->GetWindow();
 		window.events.Bind(WindowEventType::Close, this, &Engine::Close);
-		window.events.Bind(WindowEventType::Resize, [](const Event& e) {
-			LE_DEBUG("Resize {},{}", static_cast<const ResizeWindowEvent&>(e).width, static_cast<const ResizeWindowEvent&>(e).height);
-		});
+		window.events.Bind(
+			WindowEventType::Resize, [](const Event& e) { LE_DEBUG("Resize {},{}", CastEvent<ResizeWindowEvent>(e).width, CastEvent<ResizeWindowEvent>(e).height); });
 		this->engineIO.push_back(std::move(engineIO));
 	}
 
@@ -50,7 +49,7 @@ namespace LimeEngine
 
 	void Engine::Close(const Event& e)
 	{
-		this->exitCode = static_cast<const CloseWindowEvent&>(e).exitCode;
+		this->exitCode = CastEvent<CloseWindowEvent>(e).exitCode;
 	}
 
 	void Engine::AddToRender(IDrawable* drawable)

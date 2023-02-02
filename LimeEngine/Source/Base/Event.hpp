@@ -6,10 +6,13 @@ namespace LimeEngine
 	{
 	public:
 		virtual ~Event() = default;
-
-		virtual const char* GetType() const noexcept
+		static const char* GetStaticType()
 		{
 			return "Event";
+		}
+		virtual const char* GetType() const noexcept
+		{
+			return GetStaticType();
 		}
 		bool IsType(const std::string& isType) const noexcept
 		{
@@ -28,9 +31,20 @@ namespace LimeEngine
 
 #define EVENT_TYPE(eventType)                     \
 public:                                           \
-	const char* GetType() const noexcept override \
+	static const char* GetStaticType()            \
 	{                                             \
 		return #eventType;                        \
+	}                                             \
+	const char* GetType() const noexcept override \
+	{                                             \
+		return GetStaticType();                   \
+	}
+
+	template <typename TEvent>
+	const TEvent& CastEvent(const Event& e)
+	{
+		LE_CORE_ASSERT(e.IsType(TEvent::GetStaticType()), "Event cast failed - event types do not match. Type is {}, expected {}", e.GetType(), TEvent::GetStaticType());
+		return static_cast<const TEvent&>(e);
 	}
 
 	template <typename... TArgs>
@@ -74,7 +88,7 @@ public:                                           \
 
 		void Call(TArgs... args) override final
 		{
-			(object.*method)(args...);
+			(object.*method)(std::forward<TArgs>(args)...);
 		}
 		bool IsEquals(const EventHandler<TArgs...>& other) const override final
 		{
@@ -101,7 +115,7 @@ public:                                           \
 
 		void Call(TArgs... args) override final
 		{
-			(*fun)(args...);
+			(*fun)(std::forward<TArgs>(args)...);
 		}
 		bool IsEquals(const EventHandler<TArgs...>& other) const override final
 		{
@@ -184,10 +198,10 @@ public:                                           \
 	};
 
 	template <typename TKey, typename... TArgs>
-	class MultiEventDispatcher
+	class CustomMultiEventDispatcher
 	{
 	public:
-		MultiEventDispatcher() = default;
+		CustomMultiEventDispatcher() = default;
 
 		void operator()(TKey key, TArgs... args)
 		{
@@ -256,4 +270,7 @@ public:                                           \
 	private:
 		std::multimap<TKey, std::unique_ptr<EventHandler<TArgs...>>> events;
 	};
+
+	template <typename TKey>
+	using MultiEventDispatcher = CustomMultiEventDispatcher<TKey, const Event&>;
 }
