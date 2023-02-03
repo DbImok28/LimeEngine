@@ -1,7 +1,7 @@
 #pragma once
-#include "Window/Base/Window.hpp"
-#include "Base/RenderQueue.hpp"
-#include "Base/GraphicFactory.hpp"
+#include "Window/Window.hpp"
+#include "RenderQueue.hpp"
+#include "GraphicFactory.hpp"
 #include "Scene/CameraComponent.hpp"
 #include "Scene/MeshComponent.hpp"
 

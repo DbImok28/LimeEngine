@@ -2,7 +2,7 @@
 // See file LICENSE for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
-#include "Window/Base/Console.hpp"
+#include "Window/Console.hpp"
 
 namespace LimeEngine
 {

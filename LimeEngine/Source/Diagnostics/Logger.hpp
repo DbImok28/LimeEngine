@@ -3,7 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
-#include "Window/Base/Console.hpp"
+#include "Window/Console.hpp"
 
 // TODO: Remove dependencies
 #include <spdlog/spdlog.h>

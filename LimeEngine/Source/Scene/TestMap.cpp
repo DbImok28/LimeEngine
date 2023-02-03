@@ -4,7 +4,7 @@
 #include "Helpers/Paths.hpp"
 #include "MeshObject.hpp"
 #include "Base/Primitives.hpp"
-#include "Graphics/Base/GraphicFactory.hpp"
+#include "Graphics/GraphicFactory.hpp"
 
 namespace LimeEngine
 {

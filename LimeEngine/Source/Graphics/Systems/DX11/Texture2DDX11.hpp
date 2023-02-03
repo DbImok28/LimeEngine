@@ -1,5 +1,5 @@
 #pragma once
-#include "Graphics/Base/Texture2D.hpp"
+#include "Graphics/Texture2D.hpp"
 #include "RendererDX11.hpp"
 
 namespace LimeEngine

@@ -2,7 +2,7 @@
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
-#include "Window/Base/Window.hpp"
+#include "Window/Window.hpp"
 #include "WinApi.hpp"
 #include "CoreBase.hpp"
 

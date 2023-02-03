@@ -1,5 +1,5 @@
 #pragma once
-#include "Graphics/Base/RenderData.hpp"
+#include "Graphics/RenderData.hpp"
 #include "Base/Vertex.hpp"
 #include "RendererDX11.hpp"
 #include "BuffersDX11.hpp"

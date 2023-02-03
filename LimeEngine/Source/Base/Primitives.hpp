@@ -1,6 +1,6 @@
 #pragma once
 #include "CoreBase.hpp"
-#include "Graphics/Base/Mesh.hpp"
+#include "Graphics/Mesh.hpp"
 
 namespace LimeEngine
 {

@@ -1,9 +1,9 @@
 #pragma once
 #include "GameDataLoader.hpp"
-#include "Graphics/Base/GraphicFactory.hpp"
-#include "Graphics/Base/Mesh.hpp"
-#include "Graphics/Base/Material.hpp"
-#include "Graphics/Base/Texture2D.hpp"
+#include "Graphics/GraphicFactory.hpp"
+#include "Graphics/Mesh.hpp"
+#include "Graphics/Material.hpp"
+#include "Graphics/Texture2D.hpp"
 
 namespace LimeEngine
 {
