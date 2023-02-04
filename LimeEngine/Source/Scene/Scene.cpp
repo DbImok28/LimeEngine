@@ -11,7 +11,7 @@ namespace LimeEngine
 		// ...
 	}
 
-	void Scene::UpdateScene()
+	void Scene::OnUpdate()
 	{
 		Update();
 		for (auto&& map : maps)

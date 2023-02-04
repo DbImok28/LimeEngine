@@ -10,26 +10,24 @@ namespace LimeEngine
 {
 	void TestMap::Load()
 	{
-		if (engine->engineIO.empty()) return;
-		auto& engineInput0 = engine->engineIO.front();
+		auto& inputDevice = engine->inputLayer.GetInputDevice();
 
 		// Configuration
-		engineInput0.GetInput().AddAxisMapping({
+		inputDevice.AddAxisMapping({
 			"MoveForward", {{ InputKey::W, 1.0f }, { InputKey::S, -1.0f }}
         });
-		engineInput0.GetInput().AddAxisMapping({
+		inputDevice.AddAxisMapping({
 			"MoveRight", {{ InputKey::D, 1.0f }, { InputKey::A, -1.0f }}
         });
-		engineInput0.GetInput().AddAxisMapping({
+		inputDevice.AddAxisMapping({
 			"MoveUp", {{ InputKey::Space, 1.0f }, { InputKey::Z, -1.0f }, { InputKey::Shift, -1.0f }}
         });
-		engineInput0.GetInput().AddAxisMapping({ "TurnUp", { { InputKey::MouseMoveY, 1.0f } } });
-		engineInput0.GetInput().AddAxisMapping({ "TurnRight", { { InputKey::MouseMoveX, 1.0f } } });
-		engineInput0.GetInput().AddActionMapping({ "ad", { InputKey::F } });
-		engineInput0.GetInput().BindActionEvent("ad", InputActionType::Pressed, []() { LE_DEBUG("Press"); });
+		inputDevice.AddAxisMapping({ "TurnUp", { { InputKey::MouseMoveY, 1.0f } } });
+		inputDevice.AddAxisMapping({ "TurnRight", { { InputKey::MouseMoveX, 1.0f } } });
+		inputDevice.AddActionMapping({ "ad", { InputKey::F } });
+		inputDevice.BindActionEvent("ad", InputActionType::Pressed, []() { LE_DEBUG("Press"); });
 		// Graphic
-		auto renderer = engineInput0.renderIO.renderer;
-		auto graphicFactory = renderer->GetGraphicFactory();
+		auto graphicFactory = engine->renderLayer.GetGraphicFactory();
 
 		// Loading
 		auto& gameDataManager = engine->gameDataManager;

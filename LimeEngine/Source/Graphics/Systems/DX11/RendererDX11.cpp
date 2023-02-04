@@ -29,8 +29,8 @@ namespace LimeEngine
 	{
 		for (auto& segment : mesh.segments)
 		{
-			if (!(inputCamera && segment.GetMaterial())) return;
-			segment.BindRenderData(segment.GetMaterial(), inputCamera, transformMatrix);
+			if (!(camera && segment.GetMaterial())) return;
+			segment.BindRenderData(segment.GetMaterial(), camera, transformMatrix);
 			deviceContext->DrawIndexed(segment.IndicesCount(), 0, 0);
 		}
 	}
@@ -195,11 +195,6 @@ namespace LimeEngine
 			else
 				throw GFX_EXCEPTION_HR(hr);
 		}
-	}
-
-	void RendererDX11::SetInputCamera(CameraComponent* cameraComponent)
-	{
-		if (cameraComponent) inputCamera = cameraComponent;
 	}
 
 #ifdef IMGUI

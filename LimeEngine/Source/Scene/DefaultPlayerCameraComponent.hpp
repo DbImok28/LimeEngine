@@ -1,5 +1,4 @@
 #pragma once
-#include "Window/Window.hpp"
 #include "CameraComponent.hpp"
 
 namespace LimeEngine
@@ -8,18 +7,17 @@ namespace LimeEngine
 	{
 	public:
 		explicit DefaultPlayerCameraComponent(
-			Engine* engine, const Transform& transform = {}, unsigned Id = 0, float cameraMovementSpeed = 20.0f, float cameraRotationSpeed = 0.4f) noexcept;
+			Engine* engine, const Transform& transform = {}, size_t id = 0, float cameraMovementSpeed = 20.0f, float cameraRotationSpeed = 0.4f) noexcept;
 		void MoveForward(float scale) noexcept;
 		void MoveRight(float scale) noexcept;
 		void MoveUp(float scale) noexcept;
 		void TurnUp(float scale) noexcept;
 		void TurnRight(float scale) noexcept;
 		void Update() override;
-		void AttachIO();
-		void AttachIO(unsigned Id);
+		void AttachCamera() noexcept;
+		void AttachCamera(size_t id) noexcept;
 
-		unsigned Id = 0;
-		Window* window; //TODO: Remove Window
+		size_t id = 0;
 		float cameraMovementSpeed;
 		float cameraRotationSpeed;
 	};

@@ -1,5 +1,5 @@
 #pragma once
-#include "Window/Window.hpp"
+#include "RenderPreset.hpp"
 #include "RenderQueue.hpp"
 #include "GraphicFactory.hpp"
 #include "Scene/CameraComponent.hpp"
@@ -10,37 +10,27 @@ namespace LimeEngine
 	class Renderer
 	{
 	public:
-		Renderer(Window* window);
+		explicit Renderer(Window* window);
 		virtual ~Renderer() = default;
 		Renderer(const Renderer&) = delete;
 		Renderer& operator=(const Renderer&) = delete;
 		Renderer(Renderer&&) noexcept = delete;
 		Renderer& operator=(Renderer&&) noexcept = delete;
 
-		void Process();
-		void Render();
-
 	protected:
 		virtual void PreProcessing() = 0;
 		virtual void PostProcessing() = 0;
 
 	public:
+		void Render(RenderPreset& preset);
 		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) = 0;
-		virtual void SetInputCamera(CameraComponent* cameraComponent) = 0;
 		virtual const GraphicFactory* GetGraphicFactory() const noexcept = 0;
 
 		void AddToRender(IDrawable* drawable);
 		void RemoveFromRender(const IDrawable* drawable) noexcept;
-		InputDevice& GetInputDevice() const noexcept
-		{
-			return window->GetInputDevice();
-		}
-		Window* GetWindow() const noexcept
-		{
-			return window;
-		}
 
-	private:
+	protected:
+		CameraComponent* camera = nullptr;
 		Window* window;
 		RenderQueue renderQueue;
 	};

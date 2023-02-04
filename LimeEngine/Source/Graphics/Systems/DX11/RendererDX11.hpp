@@ -6,7 +6,6 @@
 #include "Graphics/Renderer.hpp"
 #include "Exceptions/GraphicsExceptions.hpp"
 #include "Helpers/Paths.hpp"
-#include "Scene/CameraComponent.hpp"
 #include "BindableDX11.hpp"
 #include "GraphicFactoryDX11.hpp"
 
@@ -25,6 +24,7 @@ namespace LimeEngine
 		RendererDX11& operator=(RendererDX11&&) noexcept = delete;
 
 		void Initialize(const Window& window);
+		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) override;
 
 	private:
 		void InitializeDirectX(void* hWnd, int width, int height);
@@ -32,8 +32,6 @@ namespace LimeEngine
 		virtual void PostProcessing() override;
 
 	public:
-		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) override;
-		virtual void SetInputCamera(CameraComponent* cameraComponent) override;
 		virtual const GraphicFactory* GetGraphicFactory() const noexcept override;
 		ID3D11Device* GetDevice() const noexcept;
 		ID3D11DeviceContext* GetDeviceContext() const noexcept;
@@ -55,8 +53,6 @@ namespace LimeEngine
 		com_ptr<ID3D11Device> device;
 		com_ptr<ID3D11DeviceContext> deviceContext;
 
-	public:
-		CameraComponent* inputCamera = nullptr;
 		// TODO: Remove
 #ifdef IMGUI
 	public:

@@ -4,17 +4,17 @@
 
 namespace LimeEngine
 {
-	DefaultPlayerCameraComponent::DefaultPlayerCameraComponent(
-		Engine* engine, const Transform& transform, unsigned Id, float cameraMovementSpeed, float cameraRotationSpeed) noexcept :
+	DefaultPlayerCameraComponent::DefaultPlayerCameraComponent(Engine* engine, const Transform& transform, size_t id, float cameraMovementSpeed, float cameraRotationSpeed) noexcept
+		:
 		CameraComponent(engine, transform),
-		Id(Id), window(window), cameraMovementSpeed(cameraMovementSpeed), cameraRotationSpeed(cameraRotationSpeed)
+		id(id), cameraMovementSpeed(cameraMovementSpeed), cameraRotationSpeed(cameraRotationSpeed)
 	{
-		if (!engine->engineIO[Id].sceneIO.camera)
+		if (!engine->renderLayer.GetRenderCamera(0))
 		{
-			AttachIO();
+			AttachCamera();
 		}
 
-		auto& inputDevice = window->GetInputDevice();
+		auto& inputDevice = engine->inputLayer.GetInputDevice();
 		inputDevice.BindAxisEvent("MoveForward", this, &DefaultPlayerCameraComponent::MoveForward);
 		inputDevice.BindAxisEvent("MoveRight", this, &DefaultPlayerCameraComponent::MoveRight);
 		inputDevice.BindAxisEvent("MoveUp", this, &DefaultPlayerCameraComponent::MoveUp);
@@ -39,7 +39,7 @@ namespace LimeEngine
 	}
 	void DefaultPlayerCameraComponent::TurnUp(float scale) noexcept
 	{
-		if (window->GetInputDevice().mouse.IsRightDown())
+		if (engine->inputLayer.GetInputDevice().mouse.IsRightDown())
 		{
 			float deltaTime = engine->deltaTime;
 			AddRotation(scale, 0.0f, 0.0f);
@@ -47,7 +47,7 @@ namespace LimeEngine
 	}
 	void DefaultPlayerCameraComponent::TurnRight(float scale) noexcept
 	{
-		if (window->GetInputDevice().mouse.IsRightDown())
+		if (engine->inputLayer.GetInputDevice().mouse.IsRightDown())
 		{
 			float deltaTime = engine->deltaTime;
 			AddRotation(0.0f, scale, 0.0f);
@@ -58,19 +58,18 @@ namespace LimeEngine
 	{
 		CameraComponent::Update();
 	}
-	void DefaultPlayerCameraComponent::AttachIO()
+	void DefaultPlayerCameraComponent::AttachCamera() noexcept
 	{
-		if (engine->engineIO.size() > Id)
+		if (engine->renderLayer.SetRenderCamera(id, this))
 		{
-			window = engine->engineIO[Id].renderIO.renderer->GetWindow();
+			auto window = engine->windowLayer.GetWindow();
 			width = static_cast<float>(window->GetWidth());
 			height = static_cast<float>(window->GetHeight());
-			engine->engineIO[Id].SetInputCamera(this);
 		}
 	}
-	void DefaultPlayerCameraComponent::AttachIO(unsigned Id)
+	void DefaultPlayerCameraComponent::AttachCamera(size_t id) noexcept
 	{
-		this->Id = Id;
-		AttachIO();
+		this->id = id;
+		AttachCamera();
 	}
 }

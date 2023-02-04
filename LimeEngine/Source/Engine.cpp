@@ -3,13 +3,11 @@
 
 namespace LimeEngine
 {
-	Engine::Engine(EngineIO&& engineIO) : gameDataManager(this, engineIO.renderIO.renderer->GetGraphicFactory()), scene(this)
+	Engine::Engine(std::unique_ptr<Window>&& window, std::unique_ptr<Renderer>&& renderer) :
+		gameDataManager(this, renderer->GetGraphicFactory()), windowLayer(this, std::move(window)), inputLayer(this, windowLayer.GetWindow()->GetInputDevice()),
+		renderLayer(this, std::move(renderer), RenderPreset(nullptr, windowLayer.GetWindow())), sceneLayer(this)
 	{
-		auto& window = *engineIO.renderIO.renderer->GetWindow();
-		window.events.Bind(WindowEventType::Close, this, &Engine::Close);
-		window.events.Bind(
-			WindowEventType::Resize, [](const Event& e) { LE_DEBUG("Resize {},{}", CastEvent<ResizeWindowEvent>(e).width, CastEvent<ResizeWindowEvent>(e).height); });
-		this->engineIO.push_back(std::move(engineIO));
+		windowLayer.GetWindow()->events.Bind(WindowEventType::Close, this, &Engine::Close);
 	}
 
 	int Engine::Start()
@@ -19,52 +17,21 @@ namespace LimeEngine
 		{
 			deltaTime = timer.ElapsedTime();
 			timer.Restart();
-			WindowProcessing();
-			EngineProcessing();
-			RenderProcessing();
+			UpdateLayers();
 		}
 		return *exitCode;
 	}
 
-	void Engine::EngineProcessing()
+	void Engine::UpdateLayers()
 	{
-		scene.UpdateScene();
-	}
-
-	void Engine::WindowProcessing()
-	{
-		for (auto it = std::begin(engineIO); it != std::end(engineIO); it++)
-		{
-			it->Process();
-		}
-	}
-
-	void Engine::RenderProcessing()
-	{
-		for (auto& io : engineIO)
-		{
-			io.Render();
-		}
+		windowLayer.Update();
+		inputLayer.Update();
+		sceneLayer.Update();
+		renderLayer.Update();
 	}
 
 	void Engine::Close(const Event& e)
 	{
 		this->exitCode = CastEvent<CloseWindowEvent>(e).exitCode;
-	}
-
-	void Engine::AddToRender(IDrawable* drawable)
-	{
-		for (auto& io : engineIO)
-		{
-			io.renderIO.renderer->AddToRender(drawable);
-		}
-	}
-
-	void Engine::RemoveFromRender(const IDrawable* drawable) noexcept
-	{
-		for (auto& io : engineIO)
-		{
-			io.renderIO.renderer->RemoveFromRender(drawable);
-		}
 	}
 }

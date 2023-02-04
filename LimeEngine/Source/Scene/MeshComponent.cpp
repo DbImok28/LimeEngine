@@ -37,14 +37,14 @@ namespace LimeEngine
 	{
 		if (isVisible) return;
 		isVisible = true;
-		engine->AddToRender(this);
+		engine->renderLayer.AddToRender(this);
 	}
 
 	void MeshComponent::HideMesh()
 	{
 		if (!isVisible) return;
 		isVisible = false;
-		engine->RemoveFromRender(this);
+		engine->renderLayer.RemoveFromRender(this);
 	}
 
 	// Inherited via Drawable

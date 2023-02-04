@@ -15,14 +15,9 @@ namespace LimeEngine
 		renderQueue.Remove(drawable);
 	}
 
-	void Renderer::Process()
+	void Renderer::Render(RenderPreset& preset)
 	{
-		window->OnUpdate();
-		window->GetInputDevice().OnUpdate();
-	}
-
-	void Renderer::Render()
-	{
+		if (!(camera = preset.camera)) return;
 		PreProcessing();
 		renderQueue.Draw(*this);
 		PostProcessing();
