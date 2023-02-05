@@ -1,6 +1,5 @@
 #include "lepch.hpp"
 #include "InputDevice.hpp"
-#include "Window/Platform/Windows/WinApi.hpp"
 
 namespace LimeEngine
 {
@@ -136,6 +135,7 @@ namespace LimeEngine
 		{
 			it->second->Call(type);
 		}
+		LE_CORE_DEBUG("Action key: {}, type: {}", InputKeyToString(key), type == InputActionType::Pressed ? "Pressed" : "Released");
 	}
 
 	//-----
@@ -220,9 +220,8 @@ namespace LimeEngine
 		{
 			it->second.second->Call(it->second.first * inputScale);
 		}
+		LE_CORE_DEBUG("Axis key: {}, scale: {}", InputKeyToString(key), inputScale);
 	}
-
-	// ---
 
 	void InputDevice::OnKeyPressed(InputKey key) noexcept
 	{
@@ -278,46 +277,33 @@ namespace LimeEngine
 		keyboard.OnKeyReleased(static_cast<unsigned char>(key));
 	}
 
-	void InputDevice::OnMouseLeftPressed(int x, int y) noexcept
+	void InputDevice::OnMouseKeyPressed(InputKey key, int x, int y) noexcept
 	{
-		mouse.OnLeftPressed(x, y);
-		OnKeyPressed(InputKey::LeftMouseButton);
+		switch (key)
+		{
+			case InputKey::LeftMouseButton: mouse.OnLeftPressed(x, y); break;
+			case InputKey::RightMouseButton: mouse.OnRightPressed(x, y); break;
+			case InputKey::MiddleMouseButton: mouse.OnMiddlePressed(x, y); break;
+			default: break;
+		}
+		OnKeyPressed(key);
 	}
 
-	void InputDevice::OnMouseLeftReleased(int x, int y) noexcept
+	void InputDevice::OnMouseKeyReleased(InputKey key, int x, int y) noexcept
 	{
-		mouse.OnLeftReleased(x, y);
-		OnKeyReleased(InputKey::LeftMouseButton);
-	}
-
-	void InputDevice::OnMouseRightPressed(int x, int y) noexcept
-	{
-		mouse.OnRightPressed(x, y);
-		OnKeyPressed(InputKey::RightMouseButton);
-	}
-
-	void InputDevice::OnMouseRightReleased(int x, int y) noexcept
-	{
-		mouse.OnRightReleased(x, y);
-		OnKeyReleased(InputKey::RightMouseButton);
-	}
-
-	void InputDevice::OnMouseMiddlePressed(int x, int y) noexcept
-	{
-		mouse.OnMiddlePressed(x, y);
-		OnKeyPressed(InputKey::MiddleMouseButton);
-	}
-
-	void InputDevice::OnMouseMiddleReleased(int x, int y) noexcept
-	{
-		mouse.OnMiddleReleased(x, y);
-		OnKeyReleased(InputKey::MiddleMouseButton);
+		switch (key)
+		{
+			case InputKey::LeftMouseButton: mouse.OnLeftReleased(x, y); break;
+			case InputKey::RightMouseButton: mouse.OnRightReleased(x, y); break;
+			case InputKey::MiddleMouseButton: mouse.OnMiddleReleased(x, y); break;
+			default: break;
+		}
+		OnKeyReleased(key);
 	}
 
 	void InputDevice::OnMouseWheelDelta(int x, int y, int delta) noexcept
 	{
-		mouse.OnWheelDelta(x, y, delta);
-		if (delta >= WHEEL_DELTA)
+		if (delta > 0)
 		{
 			OnKeyAxis(InputKey::WheelUp, static_cast<float>(delta));
 		}
@@ -325,24 +311,27 @@ namespace LimeEngine
 		{
 			OnKeyAxis(InputKey::WheelDown, static_cast<float>(delta));
 		}
+		mouse.OnWheelDelta(x, y, delta);
 	}
 
 	void InputDevice::OnMouseMove(int x, int y) noexcept
 	{
+		int deltaX = x - mouse.GetPosX();
+		if (deltaX != 0)
+		{
+			OnKeyAxis(InputKey::MouseMoveX, deltaX);
+		}
+		int deltaY = y - mouse.GetPosY();
+		if (deltaY != 0)
+		{
+			OnKeyAxis(InputKey::MouseMoveY, deltaY);
+		}
 		mouse.OnMouseMove(x, y);
 	}
 
 	void InputDevice::OnMouseRawMove(int x, int y) noexcept
 	{
 		mouse.OnMouseRawMove(x, y);
-		if (x != 0)
-		{
-			OnKeyAxis(InputKey::MouseMoveX, x);
-		}
-		if (y != 0)
-		{
-			OnKeyAxis(InputKey::MouseMoveY, y);
-		}
 	}
 
 	void InputDevice::OnMouseLeave() noexcept
@@ -357,6 +346,10 @@ namespace LimeEngine
 
 	void InputDevice::OnUpdate() noexcept
 	{
+		if (!keyActions.empty() || !pressedKeys.empty() || !axisKeyActions.empty())
+		{
+			LE_CORE_DEBUG("-----------OnUpdate-----------");
+		}
 		while (!keyActions.empty())
 		{
 			auto action = keyActions.front();

@@ -276,43 +276,43 @@ namespace LimeEngine
 			case WM_LBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseLeftPressed(pt.x, pt.y);
+				inputDevice.OnMouseKeyPressed(InputKey::LeftMouseButton, pt.x, pt.y);
 				break;
 			}
 			case WM_RBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseRightPressed(pt.x, pt.y);
+				inputDevice.OnMouseKeyPressed(InputKey::RightMouseButton, pt.x, pt.y);
 				break;
 			}
 			case WM_MBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseMiddlePressed(pt.x, pt.y);
+				inputDevice.OnMouseKeyPressed(InputKey::MiddleMouseButton, pt.x, pt.y);
 				break;
 			}
 			case WM_LBUTTONUP:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseLeftReleased(pt.x, pt.y);
+				inputDevice.OnMouseKeyReleased(InputKey::LeftMouseButton, pt.x, pt.y);
 				break;
 			}
 			case WM_RBUTTONUP:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseRightReleased(pt.x, pt.y);
+				inputDevice.OnMouseKeyReleased(InputKey::RightMouseButton, pt.x, pt.y);
 				break;
 			}
 			case WM_MBUTTONUP:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseMiddleReleased(pt.x, pt.y);
+				inputDevice.OnMouseKeyReleased(InputKey::MiddleMouseButton, pt.x, pt.y);
 				break;
 			}
 			case WM_MOUSEWHEEL:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+				const int delta = GET_WHEEL_DELTA_WPARAM(wParam) / WHEEL_DELTA;
 				inputDevice.OnMouseWheelDelta(pt.x, pt.y, delta);
 				break;
 			}

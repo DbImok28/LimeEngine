@@ -101,7 +101,6 @@ namespace LimeEngine
 		void CallActionEvent(InputActionType type, InputKey key);
 
 	public:
-		//-----
 		void AddAxisMapping(const InputAxis& inputAxis);
 		void AddAxisMapping(const std::string& axisName, std::vector<InputAxisKey> axisKeys);
 		void RemoveAxisMapping(const InputAxis& inputAxis) noexcept;
@@ -137,14 +136,8 @@ namespace LimeEngine
 		void OnKeyboardKeyPressed(InputKey key) noexcept;
 		void OnKeyboardKeyReleased(InputKey key) noexcept;
 
-		void OnMouseLeftPressed(int x, int y) noexcept;
-		void OnMouseLeftReleased(int x, int y) noexcept;
-
-		void OnMouseRightPressed(int x, int y) noexcept;
-		void OnMouseRightReleased(int x, int y) noexcept;
-
-		void OnMouseMiddlePressed(int x, int y) noexcept;
-		void OnMouseMiddleReleased(int x, int y) noexcept;
+		void OnMouseKeyPressed(InputKey key, int x, int y) noexcept;
+		void OnMouseKeyReleased(InputKey key, int x, int y) noexcept;
 		void OnMouseWheelDelta(int x, int y, int delta) noexcept;
 
 		void OnMouseMove(int x, int y) noexcept;

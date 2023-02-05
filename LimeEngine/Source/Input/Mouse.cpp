@@ -1,6 +1,5 @@
 #include "lepch.hpp"
 #include "Mouse.hpp"
-#include "Window/Platform/Windows/WinApi.hpp"
 
 namespace LimeEngine
 {
@@ -148,14 +147,14 @@ namespace LimeEngine
 	void Mouse::OnWheelDelta(int x, int y, int delta) noexcept
 	{
 		wheelDelta += delta;
-		while (wheelDelta >= WHEEL_DELTA)
+		while (wheelDelta > 1)
 		{
-			wheelDelta -= WHEEL_DELTA;
+			wheelDelta -= 1;
 			OnWheelUp(x, y);
 		}
-		while (wheelDelta <= -WHEEL_DELTA)
+		while (wheelDelta < 1)
 		{
-			wheelDelta += WHEEL_DELTA;
+			wheelDelta += 1;
 			OnWheelDown(x, y);
 		}
 	}
