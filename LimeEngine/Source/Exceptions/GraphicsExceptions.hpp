@@ -32,7 +32,7 @@ namespace LimeEngine
 		if (HRESULT _hr = (call); FAILED(_hr)) throw GFX_EXCEPTION_HR(_hr)
 #endif
 
-#define GFX_ERROR_IF_NOINFO(call) \
+#define GFX_CHECK_HR_NOINFO(call) \
 	if (FAILED(hr = (call))) throw LimeEngine::GraphicsHrException(__LINE__, __FILE__, hr)
 
 namespace LimeEngine

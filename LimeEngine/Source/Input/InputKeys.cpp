@@ -3,7 +3,6 @@
 
 namespace LimeEngine
 {
-
 	std::string InputKeyToString(InputKey key) noexcept
 	{
 		switch (key)

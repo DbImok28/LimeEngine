@@ -4,12 +4,11 @@
 #include "lepch.hpp"
 #include "WindowsWindow.hpp"
 #include "Engine.hpp"
-#include "Exceptions/WindowExceptions.hpp"
 #include "resource.h"
 
 #ifdef IMGUI
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-#endif // IMGUI
+#endif
 
 namespace LimeEngine
 {
@@ -179,7 +178,7 @@ namespace LimeEngine
 	{
 #ifdef IMGUI
 		if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam)) return true;
-#endif // IMGUI
+#endif
 
 		switch (msg)
 		{

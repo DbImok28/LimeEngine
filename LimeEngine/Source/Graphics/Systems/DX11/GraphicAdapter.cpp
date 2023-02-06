@@ -11,7 +11,7 @@ namespace LimeEngine
 		if (!adapters.empty()) return adapters;
 		com_ptr<IDXGIFactory> pFactory;
 		HRESULT hr = CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(pFactory.GetAddressOf()));
-		GFX_ERROR_IF_NOINFO(hr);
+		GFX_CHECK_HR_NOINFO(hr);
 
 		IDXGIAdapter* pAdapter;
 		UINT index = 0;
@@ -26,6 +26,6 @@ namespace LimeEngine
 	GraphicAdapter::GraphicAdapter(IDXGIAdapter* pAdapter) : pAdapter(pAdapter)
 	{
 		HRESULT hr = pAdapter->GetDesc(&desc);
-		GFX_ERROR_IF_NOINFO(hr);
+		GFX_CHECK_HR_NOINFO(hr);
 	}
 }

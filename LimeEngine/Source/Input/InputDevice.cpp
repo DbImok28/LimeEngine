@@ -135,7 +135,6 @@ namespace LimeEngine
 		{
 			it->second->Call(type);
 		}
-		LE_CORE_DEBUG("Action key: {}, type: {}", InputKeyToString(key), type == InputActionType::Pressed ? "Pressed" : "Released");
 	}
 
 	//-----
@@ -220,7 +219,6 @@ namespace LimeEngine
 		{
 			it->second.second->Call(it->second.first * inputScale);
 		}
-		LE_CORE_DEBUG("Axis key: {}, scale: {}", InputKeyToString(key), inputScale);
 	}
 
 	void InputDevice::OnKeyPressed(InputKey key) noexcept
@@ -346,13 +344,9 @@ namespace LimeEngine
 
 	void InputDevice::OnUpdate() noexcept
 	{
-		if (!keyActions.empty() || !pressedKeys.empty() || !axisKeyActions.empty())
-		{
-			LE_CORE_DEBUG("-----------OnUpdate-----------");
-		}
 		while (!keyActions.empty())
 		{
-			auto action = keyActions.front();
+			auto& action = keyActions.front();
 			CallActionEvent(action.first, action.second);
 			keyActions.pop();
 		}
@@ -364,7 +358,7 @@ namespace LimeEngine
 
 		while (!axisKeyActions.empty())
 		{
-			auto action = axisKeyActions.front();
+			auto& action = axisKeyActions.front();
 			CallAxisEvent(action.first, action.second);
 			axisKeyActions.pop();
 		}
