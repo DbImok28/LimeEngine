@@ -3,26 +3,19 @@
 #include "GraphicAdapter.hpp"
 #include "Scene/MeshComponent.hpp"
 #include "Graphics/Mesh.hpp"
-
-#ifdef IMGUI
-	#include "imgui.h"
-	#include "backends/imgui_impl_win32.h"
-	#include "backends/imgui_impl_dx11.h"
-#endif // IMGUI
+#include "Diagnostics/RuntimeEditor.hpp"
 
 namespace LimeEngine
 {
 	RendererDX11::RendererDX11(Window* window) : Renderer(window), graphicFactory(*this)
 	{
 		Initialize(*window);
+		RuntimeEditor::Init(window->GetHandle(), device.Get(), deviceContext.Get());
 	}
 
 	void RendererDX11::Initialize(const Window& window)
 	{
 		InitializeDirectX(reinterpret_cast<HWND>(window.GetHandle()), window.GetWidth(), window.GetHeight());
-#ifdef IMGUI
-		ImGuiSetup(window.GetHandle());
-#endif // IMGUI
 	}
 
 	void RendererDX11::Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix)
@@ -182,9 +175,7 @@ namespace LimeEngine
 
 	void RendererDX11::PostProcessing()
 	{
-#ifdef IMGUI
-		ImGuiUpdate();
-#endif // IMGUI
+		RuntimeEditor::Render();
 
 		HRESULT hr;
 		GFX_ERROR_INFO;
@@ -196,48 +187,4 @@ namespace LimeEngine
 				throw GFX_EXCEPTION_HR(hr);
 		}
 	}
-
-#ifdef IMGUI
-	void RendererDX11::ImGuiSetup(void* hWnd)
-	{
-		// Setup ImGui
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
-		const ImGuiIO& io = ImGui::GetIO();
-		ImGui_ImplWin32_Init(reinterpret_cast<HWND>(hWnd));
-		ImGui_ImplDX11_Init(device.Get(), deviceContext.Get());
-		ImGui::StyleColorsDark();
-	}
-
-	void RendererDX11::ImGuiUpdate()
-	{
-		ImGui_ImplDX11_NewFrame();
-		ImGui_ImplWin32_NewFrame();
-		ImGui::NewFrame();
-
-		ImGui::Begin("mesh(root)");
-		Transform o1;
-		ImGui::DragFloat3("location", o1.location.GetArray());
-		ImGui::End();
-
-		/*static Transform o1;
-		ImGui::Begin("mesh(root)");
-		ImGui::DragFloat3("location", o1.location.GetArray());
-		ImGui::DragFloat3("rotation", o1.rotation.GetArray());
-		ImGui::DragFloat3("scale", o1.scale.GetArray(), 0.1f, 0, 2.0f);
-		engine->scene.maps[0]->objects[0]->rootComponent->SetTransform(o1);
-		ImGui::End();
-
-		static Transform t1({ 0,5,0 }, { 0,0,90 }, { 1,1,1 });
-		ImGui::Begin("mesh(sub)");
-		ImGui::DragFloat3("location", t1.location.GetArray());
-		ImGui::DragFloat3("rotation", t1.rotation.GetArray());
-		ImGui::DragFloat3("scale", t1.scale.GetArray(), 0.1f, 0, 2.0f);
-		ImGui::End();
-		engine->scene.maps[0]->objects[0]->rootComponent->components[0]->SetTransform(t1);*/
-
-		ImGui::Render();
-		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-	}
-#endif // IMGUI
 }

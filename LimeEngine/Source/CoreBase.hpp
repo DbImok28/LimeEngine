@@ -67,6 +67,7 @@ namespace LimeEngine
 }
 
 #include "Diagnostics/Logger.hpp"
+#include "Diagnostics/RuntimeEditor.hpp"
 #include "Exceptions/EngineExceptions.hpp"
 #include "Base/Transform.hpp"
 

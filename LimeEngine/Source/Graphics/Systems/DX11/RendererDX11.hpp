@@ -52,12 +52,5 @@ namespace LimeEngine
 
 		com_ptr<ID3D11Device> device;
 		com_ptr<ID3D11DeviceContext> deviceContext;
-
-		// TODO: Remove
-#ifdef IMGUI
-	public:
-		void ImGuiSetup(void* hWnd);
-		void ImGuiUpdate();
-#endif // IMGUI
 	};
 }

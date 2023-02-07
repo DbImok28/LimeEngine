@@ -24,6 +24,7 @@ namespace LimeEngine
 
 	void Engine::UpdateLayers()
 	{
+		RuntimeEditor::Processing();
 		windowLayer.Update();
 		inputLayer.Update();
 		sceneLayer.Update();
