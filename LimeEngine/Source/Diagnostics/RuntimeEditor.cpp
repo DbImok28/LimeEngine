@@ -20,6 +20,7 @@ namespace LimeEngine
 		ImGui_ImplDX11_Init(device, deviceContext);
 		ImGui::StyleColorsDark();
 	}
+
 	void RuntimeEditor::NewPanel(const char* name)
 	{
 		if (inPanel)
@@ -29,6 +30,7 @@ namespace LimeEngine
 		ImGui::Begin(name);
 		inPanel = true;
 	}
+
 	void RuntimeEditor::Processing()
 	{
 		ImGui_ImplDX11_NewFrame();
@@ -36,6 +38,7 @@ namespace LimeEngine
 		ImGui::NewFrame();
 		inPanel = false;
 	}
+
 	void RuntimeEditor::Render()
 	{
 		if (inPanel)
@@ -46,14 +49,69 @@ namespace LimeEngine
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	}
 
-	void RuntimeEditor::Drag(const char* label, int& var)
+	void RuntimeEditor::Drag(const char* label, char& var, char min, char max, float speed)
 	{
 		if (!inPanel) NewPanel("None");
-		ImGui::DragInt(label, &var);
+		ImGui::DragScalar(label, ImGuiDataType_S8, &var, speed, &min, &max);
 	}
-	void RuntimeEditor::Drag(const char* label, float& var)
+
+	void RuntimeEditor::Drag(const char* label, int8& var, int8 min, int8 max, float speed)
 	{
 		if (!inPanel) NewPanel("None");
-		ImGui::DragFloat(label, &var);
+		ImGui::DragScalar(label, ImGuiDataType_S8, &var, speed, &min, &max);
+	}
+
+	void RuntimeEditor::Drag(const char* label, int16& var, int16 min, int16 max, float speed)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::DragScalar(label, ImGuiDataType_S16, &var, speed, &min, &max);
+	}
+
+	void RuntimeEditor::Drag(const char* label, int32& var, int32 min, int32 max, float speed)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::DragScalar(label, ImGuiDataType_S32, &var, speed, &min, &max);
+	}
+
+	void RuntimeEditor::Drag(const char* label, int64& var, int64 min, int64 max, float speed)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::DragScalar(label, ImGuiDataType_S64, &var, speed, &min, &max);
+	}
+
+	void RuntimeEditor::Drag(const char* label, uint8& var, uint8 min, uint8 max, float speed)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::DragScalar(label, ImGuiDataType_U8, &var, speed, &min, &max);
+	}
+
+	void RuntimeEditor::Drag(const char* label, uint16& var, uint16 min, uint16 max, float speed)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::DragScalar(label, ImGuiDataType_U16, &var, speed, &min, &max);
+	}
+
+	void RuntimeEditor::Drag(const char* label, uint32& var, uint32 min, uint32 max, float speed)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::DragScalar(label, ImGuiDataType_U32, &var, speed, &min, &max);
+	}
+
+	void RuntimeEditor::Drag(const char* label, uint64& var, uint64 min, uint64 max, float speed)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::DragScalar(label, ImGuiDataType_U64, &var, speed, &min, &max);
+	}
+
+	void RuntimeEditor::Drag(const char* label, float& var, float min, float max, float speed)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::DragScalar(label, ImGuiDataType_Float, &var, speed, &min, &max);
+	}
+
+	void RuntimeEditor::Drag(const char* label, double& var, double min, double max, float speed)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::DragScalar(label, ImGuiDataType_Double, &var, speed, &min, &max);
 	}
 }
