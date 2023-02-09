@@ -3,7 +3,17 @@
 
 namespace LimeEngine
 {
-	Renderer::Renderer(Window* window) : window(window) {}
+	Renderer::Renderer(std::unique_ptr<RenderOutput>&& renderOutput) : renderOutput(std::move(renderOutput)) {}
+
+	void Renderer::SetCamera(CameraComponent* camera) noexcept
+	{
+		this->camera = camera;
+	}
+
+	const CameraComponent* Renderer::GetCamera() noexcept
+	{
+		return camera;
+	}
 
 	void Renderer::AddToRender(IDrawable* drawable)
 	{
@@ -13,13 +23,5 @@ namespace LimeEngine
 	void Renderer::RemoveFromRender(const IDrawable* drawable) noexcept
 	{
 		renderQueue.Remove(drawable);
-	}
-
-	void Renderer::Render(RenderPreset& preset)
-	{
-		if (!(camera = preset.camera)) return;
-		PreProcessing();
-		renderQueue.Draw(*this);
-		PostProcessing();
 	}
 }

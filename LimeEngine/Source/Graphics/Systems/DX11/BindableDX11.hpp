@@ -9,15 +9,15 @@ namespace LimeEngine
 	class BindableDX11 : public IBindable
 	{
 	public:
-		explicit BindableDX11(RendererDX11& renderingSystem) : renderingSystem(renderingSystem) {}
+		explicit BindableDX11(RendererDX11& renderer) : renderer(renderer) {}
 		virtual ~BindableDX11() override = default;
 
 	protected:
 		ID3D11Device* GetDevice() const noexcept;
 		ID3D11DeviceContext* GetDeviceContext() const noexcept;
-		RendererDX11& GetRenderingSystem() const noexcept;
+		RendererDX11& GetRenderer() const noexcept;
 
 	private:
-		RendererDX11& renderingSystem;
+		RendererDX11& renderer;
 	};
 }

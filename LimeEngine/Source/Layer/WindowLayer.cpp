@@ -11,8 +11,8 @@ namespace LimeEngine
 		window->OnUpdate();
 	}
 
-	Window* WindowLayer::GetWindow() noexcept
+	Window& WindowLayer::GetWindow() noexcept
 	{
-		return window.get();
+		return *window.get();
 	}
 }

@@ -15,21 +15,31 @@ namespace LimeEngine
 	{
 		friend class BindableDX11;
 
-	public:
-		explicit RendererDX11(Window* window);
-		virtual ~RendererDX11() override = default;
 		RendererDX11(const RendererDX11&) = delete;
 		RendererDX11(RendererDX11&&) noexcept = delete;
 		RendererDX11& operator=(const RendererDX11&) = delete;
 		RendererDX11& operator=(RendererDX11&&) noexcept = delete;
 
-		void Initialize(const Window& window);
+	public:
+		explicit RendererDX11(Window& window);
+		virtual ~RendererDX11() override = default;
+
+	public:
 		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) override;
+		void SetOutputBuffer(ID3D11Texture2D* buffer);
 
 	private:
-		void InitializeDirectX(void* hWnd, int width, int height);
-		virtual void PreProcessing() override;
-		virtual void PostProcessing() override;
+		void Init();
+		void CreateDevice();
+		void CreateDepthStencil();
+		void CreateDepthStencilState();
+		void CreateRasterizerState();
+		void CreateSamplerState();
+		void CreateViewport();
+
+		void Render() override;
+		void PreProcessing();
+		void PostProcessing();
 
 	public:
 		virtual const GraphicFactory* GetGraphicFactory() const noexcept override;

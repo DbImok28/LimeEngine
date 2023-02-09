@@ -10,7 +10,7 @@ namespace LimeEngine
 		WindowLayer(Engine* engine, std::unique_ptr<Window>&& window);
 
 		void Update() override;
-		Window* GetWindow() noexcept;
+		Window& GetWindow() noexcept;
 
 	private:
 		std::unique_ptr<Window> window;

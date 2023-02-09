@@ -16,7 +16,7 @@ namespace LimeEngine
 
 		// Renderer
 		auto outWindow = Window::Create({ TEXT("LimeEngine"), 1080, 720 });
-		auto renderer = std::make_unique<RendererDX11>(outWindow.get());
+		auto renderer = std::make_unique<RendererDX11>(*outWindow.get());
 
 		// Create Engine
 		Engine engine(std::move(outWindow), std::move(renderer));

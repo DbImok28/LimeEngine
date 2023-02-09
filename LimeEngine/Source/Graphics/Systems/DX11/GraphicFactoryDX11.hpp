@@ -15,6 +15,7 @@ namespace LimeEngine
 		virtual std::unique_ptr<IBindable> CreateVertexShader(std::wstring path, MaterialType materialType) const override;
 		virtual std::unique_ptr<IBindable> CreatePixelShader(std::wstring path) const override;
 		virtual std::unique_ptr<Texture2D> CreateTexture2D(const ResourcePath& resourcePath, std::wstring filePath, TextureType type) const override;
+		virtual std::unique_ptr<WindowRenderOutput> CreateRenderOutput(Window& window) const override;
 
 	private:
 		RendererDX11& renderer;

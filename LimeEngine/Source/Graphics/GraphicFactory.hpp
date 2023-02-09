@@ -4,12 +4,14 @@
 #include "RenderData.hpp"
 #include "IBindable.hpp"
 #include "Texture2D.hpp"
+#include "Window/Window.hpp"
 
 namespace LimeEngine
 {
 	class Mesh;
 	class Material;
 	class Texture2D;
+	class WindowRenderOutput;
 
 	class GraphicFactory
 	{
@@ -19,6 +21,7 @@ namespace LimeEngine
 		virtual std::unique_ptr<IBindable> CreateVertexShader(std::wstring path, MaterialType materialType) const = 0;
 		virtual std::unique_ptr<IBindable> CreatePixelShader(std::wstring path) const = 0;
 		virtual std::unique_ptr<Texture2D> CreateTexture2D(const ResourcePath& resourcePath, std::wstring filePath, TextureType type) const = 0;
+		virtual std::unique_ptr<WindowRenderOutput> CreateRenderOutput(Window& window) const = 0;
 
 		std::unique_ptr<Material> CreateMaterial(const GameResourceData& data) const
 		{

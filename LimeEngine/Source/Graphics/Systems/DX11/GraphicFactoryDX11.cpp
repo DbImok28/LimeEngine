@@ -4,6 +4,7 @@
 #include "RenderDataDX11.hpp"
 #include "ShadersDX11.hpp"
 #include "Texture2DDX11.hpp"
+#include "RenderOutputDX11.hpp"
 
 namespace LimeEngine
 {
@@ -25,5 +26,10 @@ namespace LimeEngine
 	std::unique_ptr<Texture2D> GraphicFactoryDX11::CreateTexture2D(const ResourcePath& resourcePath, std::wstring filePath, TextureType type) const
 	{
 		return std::make_unique<Texture2DDX11>(renderer, resourcePath, filePath, type);
+	}
+
+	std::unique_ptr<WindowRenderOutput> GraphicFactoryDX11::CreateRenderOutput(Window& window) const
+	{
+		return std::make_unique<WindowRenderOutputDX11>(renderer, window);
 	}
 }
