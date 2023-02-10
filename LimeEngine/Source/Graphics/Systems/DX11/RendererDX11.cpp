@@ -23,8 +23,8 @@ namespace LimeEngine
 	{
 		CreateDevice();
 		renderOutput->Init();
-		renderOutput->Bind();
 		CreateDepthStencil();
+		renderOutput->Bind();
 		CreateDepthStencilState();
 		CreateRasterizerState();
 		CreateSamplerState();
