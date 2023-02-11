@@ -3,6 +3,7 @@
 
 #ifdef IMGUI
 	#include "imgui.h"
+	#include "misc/cpp/imgui_stdlib.h"
 	#include "backends/imgui_impl_win32.h"
 	#include "backends/imgui_impl_dx11.h"
 #endif // IMGUI
@@ -113,5 +114,47 @@ namespace LimeEngine
 	{
 		if (!inPanel) NewPanel("None");
 		ImGui::DragScalar(label, ImGuiDataType_Double, &var, speed, &min, &max);
+	}
+
+	void RuntimeEditor::TextField(const char* label, std::string& var)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::InputText(label, &var);
+	}
+
+	void RuntimeEditor::TextField(const char* label, char* buf, size_t bufSize)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::InputText(label, buf, bufSize);
+	}
+
+	void RuntimeEditor::TextField(const char* label, const char* hint, std::string& var)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::InputTextWithHint(label, hint, &var);
+	}
+
+	void RuntimeEditor::TextField(const char* label, const char* hint, char* buf, size_t bufSize)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::InputTextWithHint(label, hint, buf, bufSize);
+	}
+
+	void RuntimeEditor::MultilineTextField(const char* label, std::string& var)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::InputTextMultiline(label, &var);
+	}
+
+	void RuntimeEditor::MultilineTextField(const char* label, char* buf, size_t bufSize)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::InputText(label, buf, bufSize);
+	}
+
+	void RuntimeEditor::CheckBox(const char* label, bool& var)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::Checkbox(label, &var);
 	}
 }

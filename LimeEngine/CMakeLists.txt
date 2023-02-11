@@ -63,6 +63,7 @@ set(${PROJECT_NAME}_SOURCES
     ${PROJECT_SOURCE_DIR}/Dependencies/imgui/imgui_widgets.cpp
     ${PROJECT_SOURCE_DIR}/Dependencies/imgui/backends/imgui_impl_win32.cpp
     ${PROJECT_SOURCE_DIR}/Dependencies/imgui/backends/imgui_impl_dx11.cpp
+    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/misc/cpp/imgui_stdlib.cpp
 )
 source_group(
     TREE 

@@ -29,6 +29,14 @@ namespace LimeEngine
 		static void Drag(const char* label, float& var, float min = 0, float max = 0, float speed = 1.0f);
 		static void Drag(const char* label, double& var, double min = 0, double max = 0, float speed = 1.0f);
 
+		static void TextField(const char* label, std::string& var);
+		static void TextField(const char* label, char* buf, size_t bufSize);
+		static void TextField(const char* label, const char* hint, std::string& var);
+		static void TextField(const char* label, const char* hint, char* buf, size_t bufSize);
+		static void MultilineTextField(const char* label, std::string& var);
+		static void MultilineTextField(const char* label, char* buf, size_t bufSize);
+		static void CheckBox(const char* label, bool& var);
+
 	private:
 		static bool inPanel;
 	};
