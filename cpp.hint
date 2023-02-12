@@ -1,0 +1,7 @@
+// Hint files help the Visual Studio IDE interpret Visual C++ identifiers
+// such as names of functions and macros.
+// For more information see https://go.microsoft.com/fwlink/?linkid=865984
+
+#define LE_DELETE_COPY(ClassName) ClassName(const ClassName&) = delete; ClassName& operator=(const ClassName&) = delete;
+#define LE_DELETE_MOVE(ClassName) ClassName(ClassName&&) = delete; ClassName& operator=(ClassName&&) = delete;
+#define LE_DELETE_MOVE_COPY(ClassName) ClassName(ClassName&&) = delete; ClassName& operator=(ClassName&&) = delete; ClassName(const ClassName&) = delete; ClassName& operator=(const ClassName&) = delete;

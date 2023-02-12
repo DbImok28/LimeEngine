@@ -9,10 +9,7 @@ namespace LimeEngine
 {
 	class Renderer
 	{
-		Renderer(const Renderer&) = delete;
-		Renderer& operator=(const Renderer&) = delete;
-		Renderer(Renderer&&) noexcept = delete;
-		Renderer& operator=(Renderer&&) noexcept = delete;
+		LE_DELETE_MOVE_COPY(Renderer)
 
 	public:
 		explicit Renderer(std::unique_ptr<RenderOutput>&& renderOutput);

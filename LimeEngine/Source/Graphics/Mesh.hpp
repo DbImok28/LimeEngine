@@ -6,35 +6,14 @@ namespace LimeEngine
 {
 	class MeshSegment
 	{
+		LE_DELETE_COPY(MeshSegment);
+
 	public:
 		MeshSegment() = default;
+		MeshSegment(MeshSegment&& other) noexcept;
+		MeshSegment& operator=(MeshSegment&& other) noexcept;
 		MeshSegment(const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices);
 		MeshSegment(const GraphicFactory* graphicFactory, const std::pair<std::vector<Vertex>, std::vector<uint>>& verticesAndIndices);
-		MeshSegment(const MeshSegment&) = delete;
-		MeshSegment& operator=(const MeshSegment&) = delete;
-		MeshSegment(MeshSegment&& other) noexcept
-		{
-			vertices = std::move(other.vertices);
-			indices = std::move(other.indices);
-			material = std::move(other.material);
-			meshRenderData = std::move(other.meshRenderData);
-		}
-		MeshSegment& operator=(MeshSegment&& other) noexcept
-		{
-			if (this != &other)
-			{
-				vertices = std::move(other.vertices);
-				indices = std::move(other.indices);
-				material = std::move(other.material);
-				meshRenderData = std::move(other.meshRenderData);
-
-				other.vertices = {};
-				other.indices = {};
-				other.material = nullptr;
-				other.meshRenderData = nullptr;
-			}
-			return *this;
-		}
 
 		void SetMaterial(Material* material) noexcept;
 		void BindRenderData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix);

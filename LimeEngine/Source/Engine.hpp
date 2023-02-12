@@ -2,6 +2,7 @@
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
+#include "CoreBase.hpp"
 #include "Helpers/Timer.hpp"
 #include "Base/GameDataManager.hpp"
 #include "Layer/WindowLayer.hpp"
@@ -13,12 +14,10 @@ namespace LimeEngine
 {
 	class Engine
 	{
+		LE_DELETE_MOVE_COPY(Engine)
+
 	public:
 		Engine(std::unique_ptr<Window>&& window, std::unique_ptr<Renderer>&& renderer);
-		Engine(const Engine&) = delete;
-		Engine(Engine&&) noexcept = delete;
-		Engine& operator=(const Engine&) = delete;
-		Engine& operator=(Engine&&) noexcept = delete;
 
 		int Start();
 		void UpdateLayers();

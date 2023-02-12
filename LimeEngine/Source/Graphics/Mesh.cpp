@@ -3,6 +3,31 @@
 
 namespace LimeEngine
 {
+	MeshSegment::MeshSegment(MeshSegment&& other) noexcept
+	{
+		vertices = std::move(other.vertices);
+		indices = std::move(other.indices);
+		material = std::move(other.material);
+		meshRenderData = std::move(other.meshRenderData);
+	}
+
+	MeshSegment& MeshSegment::operator=(MeshSegment&& other) noexcept
+	{
+		if (this != &other)
+		{
+			vertices = std::move(other.vertices);
+			indices = std::move(other.indices);
+			material = std::move(other.material);
+			meshRenderData = std::move(other.meshRenderData);
+
+			other.vertices = {};
+			other.indices = {};
+			other.material = nullptr;
+			other.meshRenderData = nullptr;
+		}
+		return *this;
+	}
+
 	MeshSegment::MeshSegment(const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices) :
 		vertices(vertices), indices(indices), meshRenderData(graphicFactory->CreateMeshRenderData(vertices, indices))
 	{}

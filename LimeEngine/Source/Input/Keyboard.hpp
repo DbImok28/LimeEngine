@@ -4,9 +4,6 @@ namespace LimeEngine
 {
 	class Keyboard
 	{
-		friend class InputDevice;
-
-	public:
 		class KeyboardEvent
 		{
 		public:
@@ -27,9 +24,14 @@ namespace LimeEngine
 			EventType type;
 			unsigned char key;
 		};
+
+	private:
+		friend class InputDevice;
+
+		LE_DELETE_COPY(Keyboard)
+
+	public:
 		Keyboard() = default;
-		Keyboard(const Keyboard&) = delete;
-		Keyboard& operator=(const Keyboard&) = delete;
 
 		bool KeyIsPressed(const unsigned char keycode) const noexcept;
 

@@ -15,10 +15,7 @@ namespace LimeEngine
 	{
 		friend class BindableDX11;
 
-		RendererDX11(const RendererDX11&) = delete;
-		RendererDX11(RendererDX11&&) noexcept = delete;
-		RendererDX11& operator=(const RendererDX11&) = delete;
-		RendererDX11& operator=(RendererDX11&&) noexcept = delete;
+		LE_DELETE_MOVE_COPY(RendererDX11)
 
 	public:
 		explicit RendererDX11(Window& window);

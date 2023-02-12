@@ -110,3 +110,15 @@ namespace LimeEngine
 	#define LE_CORE_CRITICAL_ASSERT(call, exception, ...)
 	#define LE_CRITICAL_ASSERT(call, exception, ...)
 #endif
+
+#define LE_DELETE_COPY(ClassName)         \
+	ClassName(const ClassName&) = delete; \
+	ClassName& operator=(const ClassName&) = delete;
+
+#define LE_DELETE_MOVE(ClassName)    \
+	ClassName(ClassName&&) = delete; \
+	ClassName& operator=(ClassName&&) = delete;
+
+#define LE_DELETE_MOVE_COPY(ClassName) \
+	LE_DELETE_COPY(ClassName)          \
+	LE_DELETE_MOVE(ClassName)\

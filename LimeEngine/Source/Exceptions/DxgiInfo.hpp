@@ -6,10 +6,10 @@ namespace LimeEngine
 {
 	class DxgiInfo
 	{
+		LE_DELETE_COPY(DxgiInfo);
+
 	public:
 		DxgiInfo();
-		DxgiInfo(const DxgiInfo&) = delete;
-		DxgiInfo& operator=(const DxgiInfo&) = delete;
 		void Set() noexcept;
 		std::vector<std::string> GetMessages() const;
 

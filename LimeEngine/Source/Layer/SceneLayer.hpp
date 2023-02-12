@@ -6,10 +6,10 @@ namespace LimeEngine
 {
 	class SceneLayer : public EngineLayer
 	{
+		LE_DELETE_COPY(SceneLayer)
+
 	public:
 		explicit SceneLayer(Engine* engine);
-		SceneLayer(const SceneLayer&) = delete;
-		SceneLayer& operator=(const SceneLayer&) = delete;
 
 		void Update() override;
 		Scene& GetScene() noexcept;

@@ -41,11 +41,10 @@ namespace LimeEngine
 	{
 		friend class InputDevice;
 
+		LE_DELETE_COPY(Mouse)
+
 	public:
 		Mouse() noexcept = default;
-		Mouse(const Mouse&) = delete;
-		Mouse& operator=(const Mouse&) = delete;
-
 		bool IsInWindow() const noexcept;
 		bool IsLeftDown() const noexcept;
 		bool IsRightDown() const noexcept;
