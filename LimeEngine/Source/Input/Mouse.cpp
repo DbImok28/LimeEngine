@@ -3,20 +3,11 @@
 
 namespace LimeEngine
 {
-	MouseEvent::MouseEvent() noexcept : x(0), y(0), type(MouseEvent::EventType::Invalid) {}
+	MouseEvent::MouseEvent(MouseEventType mouseEventType, int x, int y) noexcept : mouseEventType(mouseEventType), x(x), y(y) {}
 
-	MouseEvent::MouseEvent(const EventType type, const int x, const int y) noexcept : x(x), y(y), type(type) {}
-
-	MouseEvent::MouseEvent(const EventType type, const std::pair<int, int>& pos) noexcept : x(pos.first), y(pos.second), type(type) {}
-
-	bool MouseEvent::IsValid() const noexcept
+	MouseEventType MouseEvent::GetMouseEventType() const noexcept
 	{
-		return type != MouseEvent::EventType::Invalid;
-	}
-
-	MouseEvent::EventType MouseEvent::GetType() const noexcept
-	{
-		return type;
+		return mouseEventType;
 	}
 
 	std::pair<int, int> MouseEvent::GetPos() const noexcept
@@ -32,6 +23,16 @@ namespace LimeEngine
 	int MouseEvent::GetPosY() const noexcept
 	{
 		return y;
+	}
+
+	void Mouse::Update() noexcept
+	{
+		while (!buffer.empty())
+		{
+			const auto& e = buffer.front();
+			events(e.GetMouseEventType(), e);
+			buffer.pop();
+		}
 	}
 
 	bool Mouse::IsInWindow() const noexcept
@@ -69,78 +70,57 @@ namespace LimeEngine
 		return y;
 	}
 
-	bool Mouse::EventBufferIsEmpty() const noexcept
+	void Mouse::OnButtonPressed(MouseButton button, int x, int y) noexcept
 	{
-		return buffer.empty();
-	}
-
-	MouseEvent Mouse::ReadEvent() noexcept
-	{
-		if (!buffer.empty())
+		switch (button)
 		{
-			auto e = buffer.front();
-			buffer.pop();
-			return e;
+			case LimeEngine::MouseButton::Left:
+				buffer.emplace(MouseEventType::LPress, x, y);
+				leftIsDown = true;
+				break;
+			case LimeEngine::MouseButton::Right:
+				buffer.emplace(MouseEventType::RPress, x, y);
+				rightIsDown = true;
+				break;
+			case LimeEngine::MouseButton::Middle:
+				buffer.emplace(MouseEventType::MPress, x, y);
+				middleIsDown = true;
+				break;
+			default: break;
 		}
-		return MouseEvent();
-	}
-
-	void Mouse::Flush() noexcept
-	{
-		buffer = std::queue<MouseEvent>();
-	}
-
-	void Mouse::OnLeftPressed(int x, int y) noexcept
-	{
-		leftIsDown = true;
-		buffer.push(MouseEvent(MouseEvent::EventType::LPress, x, y));
 		TrimBuffer();
 	}
 
-	void Mouse::OnLeftReleased(int x, int y) noexcept
+	void Mouse::OnButtonReleased(MouseButton button, int x, int y) noexcept
 	{
-		leftIsDown = false;
-		buffer.push(MouseEvent(MouseEvent::EventType::LRelease, x, y));
-		TrimBuffer();
-	}
-
-	void Mouse::OnRightPressed(int x, int y) noexcept
-	{
-		rightIsDown = true;
-		buffer.push(MouseEvent(MouseEvent::EventType::RPress, x, y));
-		TrimBuffer();
-	}
-
-	void Mouse::OnRightReleased(int x, int y) noexcept
-	{
-		rightIsDown = false;
-		buffer.push(MouseEvent(MouseEvent::EventType::RRelease, x, y));
-		TrimBuffer();
-	}
-
-	void Mouse::OnMiddlePressed(int x, int y) noexcept
-	{
-		middleIsDown = true;
-		buffer.push(MouseEvent(MouseEvent::EventType::MPress, x, y));
-		TrimBuffer();
-	}
-
-	void Mouse::OnMiddleReleased(int x, int y) noexcept
-	{
-		middleIsDown = false;
-		buffer.push(MouseEvent(MouseEvent::EventType::MRelease, x, y));
+		switch (button)
+		{
+			case LimeEngine::MouseButton::Left:
+				buffer.emplace(MouseEventType::LRelease, x, y);
+				leftIsDown = false;
+				break;
+			case LimeEngine::MouseButton::Right:
+				buffer.emplace(MouseEventType::RRelease, x, y);
+				rightIsDown = false;
+				break;
+			case LimeEngine::MouseButton::Middle:
+				buffer.emplace(MouseEventType::MRelease, x, y);
+				middleIsDown = false;
+				break;
+			default: break;
+		}
 		TrimBuffer();
 	}
 
 	void Mouse::OnWheelUp(int x, int y) noexcept
 	{
-		buffer.push(MouseEvent(MouseEvent::EventType::WheelUp, x, y));
+		buffer.emplace(MouseEventType::WheelUp, x, y);
 		TrimBuffer();
 	}
 
 	void Mouse::OnWheelDown(int x, int y) noexcept
 	{
-		buffer.push(MouseEvent(MouseEvent::EventType::WheelDown, x, y));
+		buffer.emplace(MouseEventType::WheelDown, x, y);
 		TrimBuffer();
 	}
 
@@ -163,27 +143,27 @@ namespace LimeEngine
 	{
 		this->x = x;
 		this->y = y;
-		buffer.push(MouseEvent(MouseEvent::EventType::Move, x, y));
+		buffer.push(MouseEvent(MouseEventType::Move, x, y));
 		TrimBuffer();
 	}
 
 	void Mouse::OnMouseRawMove(int x, int y) noexcept
 	{
-		buffer.push(MouseEvent(MouseEvent::EventType::RawMove, x, y));
+		buffer.push(MouseEvent(MouseEventType::RawMove, x, y));
 		TrimBuffer();
 	}
 
 	void Mouse::OnMouseLeave() noexcept
 	{
 		isInWindow = false;
-		buffer.push(MouseEvent(MouseEvent::EventType::Leave, x, y));
+		buffer.push(MouseEvent(MouseEventType::Leave, x, y));
 		TrimBuffer();
 	}
 
 	void Mouse::OnMouseEnter() noexcept
 	{
 		isInWindow = true;
-		buffer.push(MouseEvent(MouseEvent::EventType::Enter, x, y));
+		buffer.push(MouseEvent(MouseEventType::Enter, x, y));
 		TrimBuffer();
 	}
 

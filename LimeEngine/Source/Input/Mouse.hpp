@@ -1,42 +1,50 @@
 #pragma once
+#include "Base/Event.hpp"
 
 namespace LimeEngine
 {
-	class MouseEvent
+	enum class MouseButton
 	{
-	public:
-		enum class EventType
-		{
-			LPress,
-			LRelease,
-			RPress,
-			RRelease,
-			MPress,
-			MRelease,
-			WheelUp,
-			WheelDown,
-			Move,
-			RawMove,
-			Enter,
-			Leave,
-			Invalid
-		};
+		Left,
+		Right,
+		Middle,
+	};
 
-	private:
-		EventType type;
-		int x;
-		int y;
+	enum class MouseEventType
+	{
+		LPress,
+		LRelease,
+		RPress,
+		RRelease,
+		MPress,
+		MRelease,
+		WheelUp,
+		WheelDown,
+		Move,
+		RawMove,
+		Enter,
+		Leave,
+		Invalid
+	};
+
+	class MouseEvent : public Event
+	{
+		EVENT_TYPE(MouseEvent);
 
 	public:
-		MouseEvent() noexcept;
-		MouseEvent(const EventType type, const int x, const int y) noexcept;
-		MouseEvent(const EventType type, const std::pair<int, int>& pos) noexcept;
-		bool IsValid() const noexcept;
-		EventType GetType() const noexcept;
+		MouseEvent(MouseEventType mouseEventType, int x, int y) noexcept;
+
+		MouseEventType GetMouseEventType() const noexcept;
 		std::pair<int, int> GetPos() const noexcept;
 		int GetPosX() const noexcept;
 		int GetPosY() const noexcept;
+
+	private:
+		MouseEventType mouseEventType;
+		int x;
+		int y;
 	};
+
 	class Mouse
 	{
 		friend class InputDevice;
@@ -45,6 +53,9 @@ namespace LimeEngine
 
 	public:
 		Mouse() noexcept = default;
+
+		void Update() noexcept;
+
 		bool IsInWindow() const noexcept;
 		bool IsLeftDown() const noexcept;
 		bool IsRightDown() const noexcept;
@@ -54,19 +65,9 @@ namespace LimeEngine
 		int GetPosX() const noexcept;
 		int GetPosY() const noexcept;
 
-		bool EventBufferIsEmpty() const noexcept;
-		MouseEvent ReadEvent() noexcept;
-		void Flush() noexcept;
-
 	private:
-		void OnLeftPressed(int x, int y) noexcept;
-		void OnLeftReleased(int x, int y) noexcept;
-
-		void OnRightPressed(int x, int y) noexcept;
-		void OnRightReleased(int x, int y) noexcept;
-
-		void OnMiddlePressed(int x, int y) noexcept;
-		void OnMiddleReleased(int x, int y) noexcept;
+		void OnButtonPressed(MouseButton button, int x, int y) noexcept;
+		void OnButtonReleased(MouseButton button, int x, int y) noexcept;
 
 		void OnWheelUp(int x, int y) noexcept;
 		void OnWheelDown(int x, int y) noexcept;
@@ -80,6 +81,12 @@ namespace LimeEngine
 
 		void TrimBuffer() noexcept;
 
+		MouseEvent ReadEvent() noexcept;
+
+	public:
+		MultiEventDispatcher<MouseEventType> events;
+
+	private:
 		std::queue<MouseEvent> buffer;
 		bool leftIsDown = false;
 		bool rightIsDown = false;

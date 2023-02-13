@@ -279,9 +279,9 @@ namespace LimeEngine
 	{
 		switch (key)
 		{
-			case InputKey::LeftMouseButton: mouse.OnLeftPressed(x, y); break;
-			case InputKey::RightMouseButton: mouse.OnRightPressed(x, y); break;
-			case InputKey::MiddleMouseButton: mouse.OnMiddlePressed(x, y); break;
+			case InputKey::LeftMouseButton: mouse.OnButtonPressed(MouseButton::Left, x, y); break;
+			case InputKey::RightMouseButton: mouse.OnButtonPressed(MouseButton::Right, x, y); break;
+			case InputKey::MiddleMouseButton: mouse.OnButtonPressed(MouseButton::Middle, x, y); break;
 			default: break;
 		}
 		OnKeyPressed(key);
@@ -291,9 +291,9 @@ namespace LimeEngine
 	{
 		switch (key)
 		{
-			case InputKey::LeftMouseButton: mouse.OnLeftReleased(x, y); break;
-			case InputKey::RightMouseButton: mouse.OnRightReleased(x, y); break;
-			case InputKey::MiddleMouseButton: mouse.OnMiddleReleased(x, y); break;
+			case InputKey::LeftMouseButton: mouse.OnButtonReleased(MouseButton::Left, x, y); break;
+			case InputKey::RightMouseButton: mouse.OnButtonReleased(MouseButton::Right, x, y); break;
+			case InputKey::MiddleMouseButton: mouse.OnButtonReleased(MouseButton::Middle, x, y); break;
 			default: break;
 		}
 		OnKeyReleased(key);
@@ -362,5 +362,7 @@ namespace LimeEngine
 			CallAxisEvent(action.first, action.second);
 			axisKeyActions.pop();
 		}
+
+		mouse.Update();
 	}
 }
