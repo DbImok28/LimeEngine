@@ -266,13 +266,13 @@ namespace LimeEngine
 	void InputDevice::OnKeyboardKeyPressed(InputKey key) noexcept
 	{
 		OnKeyPressed(key);
-		keyboard.OnKeyPressed(static_cast<unsigned char>(key));
+		keyboard.OnKeyPressed(key);
 	}
 
 	void InputDevice::OnKeyboardKeyReleased(InputKey key) noexcept
 	{
 		OnKeyReleased(key);
-		keyboard.OnKeyReleased(static_cast<unsigned char>(key));
+		keyboard.OnKeyReleased(key);
 	}
 
 	void InputDevice::OnMouseKeyPressed(InputKey key, int x, int y) noexcept
@@ -363,6 +363,7 @@ namespace LimeEngine
 			axisKeyActions.pop();
 		}
 
+		keyboard.Update();
 		mouse.Update();
 	}
 }

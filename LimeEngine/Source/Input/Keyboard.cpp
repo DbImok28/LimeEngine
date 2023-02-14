@@ -1,83 +1,45 @@
 #include "lepch.hpp"
 #include "Keyboard.hpp"
+#include "InputDevice.hpp"
 
 namespace LimeEngine
 {
-	Keyboard::KeyboardEvent::KeyboardEvent() : type(EventType::Invalid), key(-1) {}
+	KeyboardEvent::KeyboardEvent(const InputActionType type, const InputKey key) : type(type), key(key) {}
 
-	Keyboard::KeyboardEvent::KeyboardEvent(const EventType type, const unsigned char key) : type(type), key(key) {}
-
-	bool Keyboard::KeyboardEvent::IsPress() const noexcept
+	bool KeyboardEvent::IsPressed() const noexcept
 	{
-		return type == EventType::Press;
+		return type == InputActionType::Pressed;
 	}
 
-	bool Keyboard::KeyboardEvent::IsRelease() const noexcept
+	bool KeyboardEvent::IsReleased() const noexcept
 	{
-		return type == EventType::Release;
+		return type == InputActionType::Released;
 	}
 
-	bool Keyboard::KeyboardEvent::IsValid() const noexcept
-	{
-		return type != EventType::Invalid;
-	}
-
-	unsigned char Keyboard::KeyboardEvent::GetKeyCode() const noexcept
+	InputKey KeyboardEvent::GetInputKey() const noexcept
 	{
 		return key;
 	}
 
-	bool Keyboard::KeyIsPressed(const unsigned char keycode) const noexcept
+	bool Keyboard::KeyIsPressed(const InputKey key) const noexcept
 	{
-		return keyStates[keycode];
+		return keyStates[static_cast<int>(key)];
 	}
 
-	bool Keyboard::KeyBufferIsEmpty() const noexcept
-	{
-		return keyBuffer.empty();
-	}
-
-	bool Keyboard::CharBufferIsEmpty() const noexcept
-	{
-		return charBuffer.empty();
-	}
-
-	Keyboard::KeyboardEvent Keyboard::ReadKey() noexcept
+	void Keyboard::Update() noexcept
 	{
 		if (!keyBuffer.empty())
 		{
-			KeyboardEvent k = keyBuffer.front();
+			const auto& e = keyBuffer.front();
+			keyEvents(e.GetInputKey(), e);
 			keyBuffer.pop();
-			return k;
 		}
-		return KeyboardEvent();
-	}
-
-	char Keyboard::ReadChar() noexcept
-	{
 		if (!charBuffer.empty())
 		{
 			char c = charBuffer.front();
+			charEvents(c);
 			charBuffer.pop();
-			return c;
 		}
-		return 0u;
-	}
-
-	void Keyboard::FlushKey() noexcept
-	{
-		keyBuffer = std::queue<Keyboard::KeyboardEvent>();
-	}
-
-	void Keyboard::FlushChar() noexcept
-	{
-		charBuffer = std::queue<char>();
-	}
-
-	void Keyboard::Flush() noexcept
-	{
-		FlushKey();
-		FlushChar();
 	}
 
 	void Keyboard::EnableAutoRepeatKeys() noexcept
@@ -115,17 +77,17 @@ namespace LimeEngine
 		keyStates.reset();
 	}
 
-	void Keyboard::OnKeyPressed(const unsigned char key)
+	void Keyboard::OnKeyPressed(const InputKey key)
 	{
-		keyStates[key] = true;
-		keyBuffer.push(KeyboardEvent(KeyboardEvent::EventType::Press, key));
+		keyStates[static_cast<int>(key)] = true;
+		keyBuffer.push(KeyboardEvent(InputActionType::Pressed, key));
 		TrimBuffer(keyBuffer);
 	}
 
-	void Keyboard::OnKeyReleased(const unsigned char key)
+	void Keyboard::OnKeyReleased(const InputKey key)
 	{
-		keyStates[key] = false;
-		keyBuffer.push(KeyboardEvent(KeyboardEvent::EventType::Release, key));
+		keyStates[static_cast<int>(key)] = false;
+		keyBuffer.push(KeyboardEvent(InputActionType::Released, key));
 		TrimBuffer(keyBuffer);
 	}
 

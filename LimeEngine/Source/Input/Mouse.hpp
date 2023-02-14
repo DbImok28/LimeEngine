@@ -81,8 +81,6 @@ namespace LimeEngine
 
 		void TrimBuffer() noexcept;
 
-		MouseEvent ReadEvent() noexcept;
-
 	public:
 		MultiEventDispatcher<MouseEventType> events;
 
