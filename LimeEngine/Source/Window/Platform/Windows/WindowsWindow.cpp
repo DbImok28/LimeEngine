@@ -228,7 +228,7 @@ namespace LimeEngine
 			}
 			case WM_CHAR:
 			{
-				char ch = static_cast<char>(wParam);
+				auto ch = static_cast<wchar_t>(wParam);
 				if (inputDevice.keyboard.IsCharsAutoRepeat())
 				{
 					inputDevice.OnKeyboardChar(ch);

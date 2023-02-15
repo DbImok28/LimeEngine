@@ -47,14 +47,14 @@ namespace LimeEngine
 
 		void OnKeyPressed(const InputKey key);
 		void OnKeyReleased(const InputKey key);
-		void OnChar(const char key);
+		void OnChar(const wchar_t key);
 
 		template <typename T>
 		void TrimBuffer(std::queue<T>& buffer) noexcept;
 
 	public:
 		MultiEventDispatcher<InputKey> keyEvents;
-		EventDispatcher<char> charEvents;
+		EventDispatcher<wchar_t> charEvents;
 
 	private:
 		static constexpr size_t nKeys = 256;
@@ -64,6 +64,6 @@ namespace LimeEngine
 		bool autoRepeatChars = true;
 		std::bitset<nKeys> keyStates = false;
 		std::queue<KeyboardEvent> keyBuffer;
-		std::queue<char> charBuffer;
+		std::queue<wchar_t> charBuffer;
 	};
 }

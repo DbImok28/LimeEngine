@@ -258,7 +258,7 @@ namespace LimeEngine
 		pressedKeys.clear();
 	}
 
-	void InputDevice::OnKeyboardChar(char key) noexcept
+	void InputDevice::OnKeyboardChar(wchar_t key) noexcept
 	{
 		keyboard.OnChar(key);
 	}

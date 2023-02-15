@@ -36,7 +36,7 @@ namespace LimeEngine
 		}
 		if (!charBuffer.empty())
 		{
-			char c = charBuffer.front();
+			const auto c = charBuffer.front();
 			charEvents(c);
 			charBuffer.pop();
 		}
@@ -91,7 +91,7 @@ namespace LimeEngine
 		TrimBuffer(keyBuffer);
 	}
 
-	void Keyboard::OnChar(const char key)
+	void Keyboard::OnChar(const wchar_t key)
 	{
 		charBuffer.push(key);
 		TrimBuffer(charBuffer);

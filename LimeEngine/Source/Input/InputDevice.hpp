@@ -132,7 +132,7 @@ namespace LimeEngine
 
 		// ---------
 		void ClearKeyState() noexcept;
-		void OnKeyboardChar(char key) noexcept;
+		void OnKeyboardChar(wchar_t key) noexcept;
 		void OnKeyboardKeyPressed(InputKey key) noexcept;
 		void OnKeyboardKeyReleased(InputKey key) noexcept;
 
