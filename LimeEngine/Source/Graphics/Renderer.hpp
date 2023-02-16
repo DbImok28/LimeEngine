@@ -1,4 +1,5 @@
 #pragma once
+#include "RenderAPI.hpp"
 #include "RenderOutput.hpp"
 #include "RenderQueue.hpp"
 #include "GraphicFactory.hpp"
@@ -10,6 +11,8 @@ namespace LimeEngine
 	class Renderer
 	{
 		LE_DELETE_MOVE_COPY(Renderer)
+	public:
+		static std::unique_ptr<Renderer> Create(RenderAPI api, Window& window);
 
 	public:
 		explicit Renderer(std::unique_ptr<RenderOutput>&& renderOutput);

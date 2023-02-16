@@ -17,6 +17,7 @@
 #define LE_LOG_FULL
 #define LE_ENABLE_ASSERTION
 #define IMGUI
+#define ENABLE_RENDER_API_DX11
 
 #include <tchar.h>
 #include <string>

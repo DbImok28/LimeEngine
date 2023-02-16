@@ -3,7 +3,6 @@
 #include "CoreBase.hpp"
 #include "Engine.hpp"
 
-#include "Graphics/Systems/DX11/RendererDX11.hpp"
 #include "Scene/TestMap.hpp"
 
 namespace LimeEngine
@@ -15,13 +14,13 @@ namespace LimeEngine
 		Logger::StaticInitialize();
 
 		// Renderer
-		auto outWindow = Window::Create({ TEXT("LimeEngine"), 1080, 720 });
-		auto renderer = std::make_unique<RendererDX11>(*outWindow.get());
+		auto window = Window::Create({ TEXT("LimeEngine"), 1080, 720 });
+		auto renderer = Renderer::Create(RenderAPI::Auto, *window.get());
 
 		// Create Engine
-		Engine engine(std::move(outWindow), std::move(renderer));
+		Engine engine(std::move(window), std::move(renderer));
 
-		// load map
+		// Load map
 		Logger::GetCoreLogger().Log(LogLevel::Info, "Load map");
 		auto map = std::make_unique<TestMap>(&engine);
 		map->Load();

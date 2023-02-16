@@ -1,5 +1,7 @@
 #pragma once
-#include "Window/Platform/Windows/WinApi.hpp"
+#if defined(LE_BUILD_PLATFORM_WINDOWS)
+	#include "Window/Platform/Windows/WinApi.hpp"
+#endif
 
 #define MSG_EXCEPTION(msg) LimeEngine::EngineException(__LINE__, __FILE__, msg)
 
