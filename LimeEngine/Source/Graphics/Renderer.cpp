@@ -2,7 +2,7 @@
 #include "Renderer.hpp"
 
 #ifdef ENABLE_RENDER_API_DX11
-	#include "Graphics/Systems/DX11/RendererDX11.hpp"
+	#include "Graphics/API/DX11/RendererDX11.hpp"
 #endif
 
 namespace LimeEngine

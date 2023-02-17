@@ -3,7 +3,8 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
-#include "Graphics/Systems/DX11/DirectXDef.hpp"
+// TODO: Remove dependence
+#include "Graphics/API/DX11/DirectXDef.hpp"
 
 namespace LimeEngine
 {
