@@ -30,7 +30,7 @@ namespace LimeEngine
 		auto graphicFactory = engine->renderLayer.GetGraphicFactory();
 
 		// Loading
-		auto& gameDataManager = engine->gameDataManager;
+		auto& gameDataManager = engine->dataLayer.GetGameDataManager();
 
 		static auto vertexShader = graphicFactory->CreateVertexShader(Paths::ShaderFolder + L"Shaders\\VertexShader.cso", MaterialType::Solid);
 		static auto pixelShader = graphicFactory->CreatePixelShader(Paths::ShaderFolder + L"Shaders\\PixelShader.cso");
@@ -71,7 +71,7 @@ namespace LimeEngine
 
 		// Box
 		auto texture = gameDataManager.CreateTexture2D("EngineContent\\T_Cat", L"Content\\Textures\\cat.jpg", TextureType::Diffuse);
-		auto material = engine->gameDataManager.CreateMasterMaterial("EngineContent\\Cat", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
+		auto material = gameDataManager.CreateMasterMaterial("EngineContent\\Cat", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
 		material.Get()->AddTexture(texture);
 		mesh->segments[0].SetMaterial(material.Get());
 		auto object = std::make_unique<MeshObject>(engine, Transform(), mesh);
@@ -80,12 +80,12 @@ namespace LimeEngine
 
 		// UVMapping
 		auto UVMappingTexture = gameDataManager.CreateTexture2D("EngineContent\\T_UVMapping", L"Content\\Textures\\UVMapping.jpg", TextureType::Diffuse);
-		auto UVMappingMaterial = engine->gameDataManager.CreateMasterMaterial("EngineContent\\M_UVMapping", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
+		auto UVMappingMaterial = gameDataManager.CreateMasterMaterial("EngineContent\\M_UVMapping", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
 		UVMappingMaterial.Get()->AddTexture(UVMappingTexture);
 
 		// Sphere material
 		auto SphereTexture = gameDataManager.CreateTexture2D("EngineContent\\T_Sphere", L"Content\\Textures\\Sphere.png", TextureType::Diffuse);
-		auto SphereMaterial = engine->gameDataManager.CreateMasterMaterial("EngineContent\\M_Sphere", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
+		auto SphereMaterial = gameDataManager.CreateMasterMaterial("EngineContent\\M_Sphere", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
 		SphereMaterial.Get()->AddTexture(SphereTexture);
 
 		// Primitives

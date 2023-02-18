@@ -1,12 +1,11 @@
 #include "lepch.hpp"
 #include "Engine.hpp"
-#include <iostream>
 
 namespace LimeEngine
 {
 	Engine::Engine(std::unique_ptr<Window>&& window, std::unique_ptr<Renderer>&& renderer) :
-		gameDataManager(this, renderer->GetGraphicFactory()), windowLayer(this, std::move(window)), inputLayer(this, windowLayer.GetWindow().GetInputDevice()),
-		renderLayer(this, std::move(renderer), windowLayer.GetWindow()), sceneLayer(this)
+		windowLayer(this, std::move(window)), inputLayer(this, windowLayer.GetWindow().GetInputDevice()), renderLayer(this, std::move(renderer), windowLayer.GetWindow()),
+		dataLayer(this, renderLayer.GetGraphicFactory()), sceneLayer(this)
 	{
 		windowLayer.GetWindow().events.Bind(WindowEventType::Close, this, &Engine::Close);
 	}
@@ -26,6 +25,7 @@ namespace LimeEngine
 	void Engine::UpdateLayers()
 	{
 		RuntimeEditor::Processing();
+		dataLayer.Update();
 		windowLayer.Update();
 		inputLayer.Update();
 		sceneLayer.Update();

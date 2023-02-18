@@ -4,7 +4,7 @@
 #pragma once
 #include "CoreBase.hpp"
 #include "Helpers/Timer.hpp"
-#include "Base/GameDataManager.hpp"
+#include "Layer/DataLayer.hpp"
 #include "Layer/WindowLayer.hpp"
 #include "Layer/InputLayer.hpp"
 #include "Layer/RenderLayer.hpp"
@@ -28,10 +28,10 @@ namespace LimeEngine
 		std::optional<int> exitCode;
 
 	public:
-		GameDataManager gameDataManager;
 		WindowLayer windowLayer;
 		InputLayer inputLayer;
 		RenderLayer renderLayer;
+		DataLayer dataLayer;
 		SceneLayer sceneLayer;
 		Timer timer;
 		float deltaTime = 0.0f;

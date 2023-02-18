@@ -35,8 +35,11 @@ namespace LimeEngine
 		}
 		void Release()
 		{
-			// TODO: Call Release
 			std::erase_if(resources, [](const auto& item) { return item.second->RefCount() <= 0; });
+		}
+		void Update()
+		{
+			Release();
 		}
 
 		template <std::derived_from<GameResource> TResource, typename... TArgs>
