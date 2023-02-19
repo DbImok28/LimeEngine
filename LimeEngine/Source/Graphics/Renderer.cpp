@@ -12,7 +12,7 @@ namespace LimeEngine
 		switch (api)
 		{
 			case LimeEngine::RenderAPI::Auto: [[fallthrough]];
-#ifdef ENABLE_RENDER_API_DX11
+#if defined(ENABLE_RENDER_API_DX11)
 			case LimeEngine::RenderAPI::DirectX11: return std::make_unique<RendererDX11>(window); break;
 #endif
 			default: break;

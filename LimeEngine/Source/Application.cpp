@@ -5,11 +5,14 @@
 
 #include "Scene/TestMap.hpp"
 
+// TODO: Remove
+#include <objbase.h>
+
 namespace LimeEngine
 {
 	void Application::Run()
 	{
-		CHECK_HR(CoInitialize(NULL));
+		CHECK_HR(CoInitializeEx(NULL, COINIT_MULTITHREADED));
 
 		Logger::StaticInitialize();
 

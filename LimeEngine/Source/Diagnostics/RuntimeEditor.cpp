@@ -1,7 +1,11 @@
 #include "lepch.hpp"
 #include "RuntimeEditor.hpp"
 
-#ifdef IMGUI
+#if defined(ENABLE_RENDER_API_DX11)
+	#include "Graphics/API/DX11/DirectXDef.hpp"
+#endif
+
+#if defined(IMGUI)
 	#include "imgui.h"
 	#include "misc/cpp/imgui_stdlib.h"
 	#include "backends/imgui_impl_win32.h"
@@ -12,24 +16,15 @@ namespace LimeEngine
 {
 	bool RuntimeEditor::inPanel = false;
 
-	void RuntimeEditor::Init(void* hWnd, ID3D11Device* device, ID3D11DeviceContext* deviceContext)
+#if defined(ENABLE_RENDER_API_DX11)
+	void RuntimeEditor::Init(void* hWnd, void* device, void* deviceContext)
 	{
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		const ImGuiIO& io = ImGui::GetIO();
 		ImGui_ImplWin32_Init(reinterpret_cast<HWND>(hWnd));
-		ImGui_ImplDX11_Init(device, deviceContext);
+		ImGui_ImplDX11_Init(reinterpret_cast<ID3D11Device*>(device), reinterpret_cast<ID3D11DeviceContext*>(deviceContext));
 		ImGui::StyleColorsDark();
-	}
-
-	void RuntimeEditor::NewPanel(const char* name)
-	{
-		if (inPanel)
-		{
-			ImGui::End();
-		}
-		ImGui::Begin(name);
-		inPanel = true;
 	}
 
 	void RuntimeEditor::Processing()
@@ -48,6 +43,20 @@ namespace LimeEngine
 		}
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	}
+#else
+	void RuntimeEditor::Processing() {}
+	void RuntimeEditor::Render() {}
+#endif
+
+	void RuntimeEditor::NewPanel(const char* name)
+	{
+		if (inPanel)
+		{
+			ImGui::End();
+		}
+		ImGui::Begin(name);
+		inPanel = true;
 	}
 
 	void RuntimeEditor::Drag(const char* label, char& var, char min, char max, float speed)
