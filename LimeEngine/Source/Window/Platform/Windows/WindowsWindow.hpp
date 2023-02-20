@@ -59,7 +59,6 @@ namespace LimeEngine
 			return height;
 		}
 		void* GetHandle() const noexcept override;
-		InputDevice& GetInputDevice() noexcept override;
 
 	private:
 		static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
@@ -69,7 +68,6 @@ namespace LimeEngine
 	public:
 		int width;
 		int height;
-		InputDevice inputDevice;
 
 	private:
 		HWND hWnd = nullptr;

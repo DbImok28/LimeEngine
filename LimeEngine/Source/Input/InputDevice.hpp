@@ -73,8 +73,7 @@ namespace LimeEngine
 
 	class InputDevice
 	{
-		// TODO: Change
-		friend class WindowsWindow;
+		friend class Window;
 
 	public:
 		void AddActionMapping(const InputAction& inputAction);
@@ -130,7 +129,6 @@ namespace LimeEngine
 		void OnKeyAxis(InputKey actionKey, float scale) noexcept;
 		void OnKeyAction(InputActionType type, InputKey key) noexcept;
 
-		// ---------
 		void ClearKeyState() noexcept;
 		void OnKeyboardChar(wchar_t key) noexcept;
 		void OnKeyboardKeyPressed(InputKey key) noexcept;

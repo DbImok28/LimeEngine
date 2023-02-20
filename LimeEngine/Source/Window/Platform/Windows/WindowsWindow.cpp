@@ -144,11 +144,6 @@ namespace LimeEngine
 		return reinterpret_cast<void*>(hWnd);
 	}
 
-	InputDevice& WindowsWindow::GetInputDevice() noexcept
-	{
-		return inputDevice;
-	}
-
 	LRESULT WindowsWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
 		// WM_NCCREATE - message when a window is first created.
@@ -206,16 +201,16 @@ namespace LimeEngine
 			case WM_KEYDOWN:
 			{
 				auto key = static_cast<InputKey>(wParam);
-				if (inputDevice.keyboard.IsKeysAutoRepeat())
+				if (GetInputDevice().keyboard.IsKeysAutoRepeat())
 				{
-					inputDevice.OnKeyboardKeyPressed(key);
+					OnKeyboardKeyPressed(key);
 				}
 				else
 				{
 					const bool wasPressed = lParam & 0x40000000;
 					if (!wasPressed)
 					{
-						inputDevice.OnKeyboardKeyPressed(key);
+						OnKeyboardKeyPressed(key);
 					}
 				}
 				break;
@@ -223,22 +218,22 @@ namespace LimeEngine
 			case WM_SYSKEYUP:
 			case WM_KEYUP:
 			{
-				inputDevice.OnKeyboardKeyReleased(static_cast<InputKey>(wParam));
+				OnKeyboardKeyReleased(static_cast<InputKey>(wParam));
 				break;
 			}
 			case WM_CHAR:
 			{
 				auto ch = static_cast<wchar_t>(wParam);
-				if (inputDevice.keyboard.IsCharsAutoRepeat())
+				if (GetInputDevice().keyboard.IsCharsAutoRepeat())
 				{
-					inputDevice.OnKeyboardChar(ch);
+					OnKeyboardChar(ch);
 				}
 				else
 				{
 					const bool wasPressed = lParam & 0x40000000;
 					if (!wasPressed)
 					{
-						inputDevice.OnKeyboardChar(ch);
+						OnKeyboardChar(ch);
 					}
 				}
 				break;
@@ -246,28 +241,28 @@ namespace LimeEngine
 			case WM_KILLFOCUS:
 			{
 				// TODO:Add kill focus event
-				inputDevice.ClearKeyState();
+				ClearKeyState();
 				break;
 			}
 			// Mouse
 			case WM_MOUSEMOVE:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseMove(pt.x, pt.y);
+				OnMouseMove(pt.x, pt.y);
 				if (pt.x >= 0 && pt.x < width && pt.y >= 0 && pt.y < height)
 				{
-					if (!inputDevice.mouse.IsInWindow())
+					if (!GetInputDevice().mouse.IsInWindow())
 					{
 						SetCapture(hWnd);
-						inputDevice.OnMouseEnter();
+						OnMouseEnter();
 					}
 				}
 				else
 				{
-					if (inputDevice.mouse.IsInWindow())
+					if (GetInputDevice().mouse.IsInWindow())
 					{
 						ReleaseCapture();
-						inputDevice.OnMouseLeave();
+						OnMouseLeave();
 					}
 				}
 				break;
@@ -275,44 +270,44 @@ namespace LimeEngine
 			case WM_LBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseKeyPressed(InputKey::LeftMouseButton, pt.x, pt.y);
+				OnMouseKeyPressed(InputKey::LeftMouseButton, pt.x, pt.y);
 				break;
 			}
 			case WM_RBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseKeyPressed(InputKey::RightMouseButton, pt.x, pt.y);
+				OnMouseKeyPressed(InputKey::RightMouseButton, pt.x, pt.y);
 				break;
 			}
 			case WM_MBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseKeyPressed(InputKey::MiddleMouseButton, pt.x, pt.y);
+				OnMouseKeyPressed(InputKey::MiddleMouseButton, pt.x, pt.y);
 				break;
 			}
 			case WM_LBUTTONUP:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseKeyReleased(InputKey::LeftMouseButton, pt.x, pt.y);
+				OnMouseKeyReleased(InputKey::LeftMouseButton, pt.x, pt.y);
 				break;
 			}
 			case WM_RBUTTONUP:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseKeyReleased(InputKey::RightMouseButton, pt.x, pt.y);
+				OnMouseKeyReleased(InputKey::RightMouseButton, pt.x, pt.y);
 				break;
 			}
 			case WM_MBUTTONUP:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				inputDevice.OnMouseKeyReleased(InputKey::MiddleMouseButton, pt.x, pt.y);
+				OnMouseKeyReleased(InputKey::MiddleMouseButton, pt.x, pt.y);
 				break;
 			}
 			case WM_MOUSEWHEEL:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
 				const int delta = GET_WHEEL_DELTA_WPARAM(wParam) / WHEEL_DELTA;
-				inputDevice.OnMouseWheelDelta(pt.x, pt.y, delta);
+				OnMouseWheelDelta(pt.x, pt.y, delta);
 				break;
 			}
 			case WM_INPUT:
@@ -327,7 +322,7 @@ namespace LimeEngine
 						RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(rawdata.get());
 						if (raw->header.dwType == RIM_TYPEMOUSE)
 						{
-							inputDevice.OnMouseRawMove(raw->data.mouse.lLastX, raw->data.mouse.lLastY);
+							OnMouseRawMove(raw->data.mouse.lLastX, raw->data.mouse.lLastY);
 						}
 					}
 				}

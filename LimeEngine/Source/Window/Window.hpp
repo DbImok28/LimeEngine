@@ -57,10 +57,29 @@ namespace LimeEngine
 		virtual uint GetWidth() const noexcept = 0;
 		virtual uint GetHeight() const noexcept = 0;
 		virtual void* GetHandle() const noexcept = 0;
-		// TODO: Remove
-		virtual InputDevice& GetInputDevice() noexcept = 0;
+		InputDevice& GetInputDevice() noexcept;
+
+		// Input handlers
+		void OnKeyPressed(InputKey key) noexcept;
+		void OnKeyReleased(InputKey key) noexcept;
+		void OnKeyAxis(InputKey actionKey, float scale) noexcept;
+		void OnKeyAction(InputActionType type, InputKey key) noexcept;
+		void ClearKeyState() noexcept;
+		void OnKeyboardChar(wchar_t key) noexcept;
+		void OnKeyboardKeyPressed(InputKey key) noexcept;
+		void OnKeyboardKeyReleased(InputKey key) noexcept;
+		void OnMouseKeyPressed(InputKey key, int x, int y) noexcept;
+		void OnMouseKeyReleased(InputKey key, int x, int y) noexcept;
+		void OnMouseWheelDelta(int x, int y, int delta) noexcept;
+		void OnMouseMove(int x, int y) noexcept;
+		void OnMouseRawMove(int x, int y) noexcept;
+		void OnMouseLeave() noexcept;
+		void OnMouseEnter() noexcept;
 
 	public:
 		MultiEventDispatcher<WindowEventType> events;
+
+	private:
+		InputDevice inputDevice;
 	};
 }
