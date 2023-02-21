@@ -16,8 +16,8 @@
 #define LE_CONSOLE
 #define LE_LOG_FULL
 #define LE_ENABLE_ASSERTION
-#define IMGUI
-#define ENABLE_RENDER_API_DX11
+#define LE_ENABLE_IMGUI
+#define LE_ENABLE_RENDER_API_DX11
 
 #if defined(ENABLE_RENDER_API_DX11)
 	#define LE_ENABLE_COM

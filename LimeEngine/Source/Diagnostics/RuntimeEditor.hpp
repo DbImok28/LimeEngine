@@ -9,7 +9,7 @@ namespace LimeEngine
 	class RuntimeEditor
 	{
 	public:
-#if defined(ENABLE_RENDER_API_DX11)
+#if defined(LE_ENABLE_RENDER_API_DX11)
 		static void Init(void* hWnd, void* device, void* deviceContext);
 #endif
 		static void Processing();

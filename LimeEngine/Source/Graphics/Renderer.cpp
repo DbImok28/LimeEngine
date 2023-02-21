@@ -1,7 +1,7 @@
 #include "lepch.hpp"
 #include "Renderer.hpp"
 
-#ifdef ENABLE_RENDER_API_DX11
+#ifdef LE_ENABLE_RENDER_API_DX11
 	#include "Graphics/API/DX11/RendererDX11.hpp"
 #endif
 
@@ -12,7 +12,7 @@ namespace LimeEngine
 		switch (api)
 		{
 			case LimeEngine::RenderAPI::Auto: [[fallthrough]];
-#if defined(ENABLE_RENDER_API_DX11)
+#if defined(LE_ENABLE_RENDER_API_DX11)
 			case LimeEngine::RenderAPI::DirectX11: return std::make_unique<RendererDX11>(window); break;
 #endif
 			default: break;

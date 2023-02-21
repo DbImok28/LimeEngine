@@ -6,7 +6,7 @@ namespace LimeEngine
 	enum class RenderAPI
 	{
 		Auto,
-#ifdef ENABLE_RENDER_API_DX11
+#ifdef LE_ENABLE_RENDER_API_DX11
 		DirectX11
 #endif
 	};

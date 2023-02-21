@@ -1,11 +1,11 @@
 #include "lepch.hpp"
 #include "RuntimeEditor.hpp"
 
-#if defined(ENABLE_RENDER_API_DX11)
+#if defined(LE_ENABLE_RENDER_API_DX11)
 	#include "Graphics/API/DX11/DirectXDef.hpp"
 #endif
 
-#if defined(IMGUI)
+#if defined(LE_ENABLE_IMGUI)
 	#include "imgui.h"
 	#include "misc/cpp/imgui_stdlib.h"
 	#include "backends/imgui_impl_win32.h"
@@ -16,7 +16,7 @@ namespace LimeEngine
 {
 	bool RuntimeEditor::inPanel = false;
 
-#if defined(ENABLE_RENDER_API_DX11)
+#if defined(LE_ENABLE_RENDER_API_DX11)
 	void RuntimeEditor::Init(void* hWnd, void* device, void* deviceContext)
 	{
 		IMGUI_CHECKVERSION();
