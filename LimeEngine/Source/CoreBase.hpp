@@ -19,6 +19,10 @@
 #define IMGUI
 #define ENABLE_RENDER_API_DX11
 
+#if defined(ENABLE_RENDER_API_DX11)
+	#define LE_ENABLE_COM
+#endif
+
 #include <tchar.h>
 #include <string>
 #include <sstream>

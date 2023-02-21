@@ -5,15 +5,17 @@
 
 #include "Scene/TestMap.hpp"
 
-// TODO: Remove
-#include <objbase.h>
+#ifdef LE_ENABLE_COM
+	#include <objbase.h>
+#endif
 
 namespace LimeEngine
 {
 	void Application::Run()
 	{
+#ifdef LE_ENABLE_COM
 		CHECK_HR(CoInitializeEx(NULL, COINIT_MULTITHREADED));
-
+#endif
 		Logger::StaticInitialize();
 
 		// Renderer
