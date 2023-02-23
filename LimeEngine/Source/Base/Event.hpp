@@ -1,4 +1,5 @@
 #pragma once
+#include "CoreBase.hpp"
 
 namespace LimeEngine
 {

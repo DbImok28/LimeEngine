@@ -6,6 +6,7 @@
 #include "Scene/TestMap.hpp"
 
 #ifdef LE_ENABLE_COM
+	#include "Platform/Windows/WindowsExceptions.hpp"
 	#include <objbase.h>
 #endif
 
@@ -26,13 +27,13 @@ namespace LimeEngine
 		Engine engine(std::move(window), std::move(renderer));
 
 		// Load map
-		Logger::GetCoreLogger().Log(LogLevel::Info, "Load map");
+		LE_CORE_LOG_TRACE("Load map");
 		auto map = std::make_unique<TestMap>(&engine);
 		map->Load();
 		engine.sceneLayer.GetScene().AttachMap(std::move(map));
 
 		// Start Engine
-		Logger::GetCoreLogger().Log(LogLevel::Info, "Engine startup");
+		LE_CORE_LOG_TRACE("Engine startup");
 		engine.Start();
 	}
 }

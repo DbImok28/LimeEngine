@@ -3,7 +3,7 @@
 #include "CoreBase.hpp"
 
 #if defined(LE_BUILD_PLATFORM_WINDOWS)
-	#include "Window/Platform/Windows/WindowsWindow.hpp"
+	#include "Platform/Windows/WindowsWindow.hpp"
 #endif
 
 namespace LimeEngine

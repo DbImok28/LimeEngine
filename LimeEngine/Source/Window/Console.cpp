@@ -5,7 +5,7 @@
 #include "Console.hpp"
 
 #if defined(LE_BUILD_PLATFORM_WINDOWS)
-	#include "Window/Platform/Windows/WindowsConsole.hpp"
+	#include "Platform/Windows/WindowsConsole.hpp"
 #endif
 
 namespace LimeEngine

@@ -1,5 +1,6 @@
 #pragma once
 #include "DirectXDef.hpp"
+#include "ExceptionsDX11.hpp"
 
 namespace LimeEngine
 {

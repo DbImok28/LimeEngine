@@ -1,6 +1,6 @@
 #include "lepch.hpp"
 #include "ShadersDX11.hpp"
-#include "Exceptions/GraphicsExceptions.hpp"
+#include "ExceptionsDX11.hpp"
 #include "Helpers/StringHelper.hpp"
 #include "Graphics/Material.hpp"
 

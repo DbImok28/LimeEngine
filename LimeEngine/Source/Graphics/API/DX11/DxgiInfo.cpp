@@ -1,7 +1,7 @@
 #include "lepch.hpp"
 #include "DxgiInfo.hpp"
-#include "EngineExceptions.hpp"
-#include "Helpers/StringHelper.hpp"
+#include "ExceptionsDX11.hpp"
+#include "Platform/Windows/WindowsExceptions.hpp"
 
 #ifdef PRAGMA_COMMENT_LIB
 	#pragma comment(lib, "dxguid.lib")

@@ -5,7 +5,7 @@
 #include "Window/Window.hpp"
 #include "WinApi.hpp"
 #include "CoreBase.hpp"
-#include "Exceptions/EngineExceptions.hpp"
+#include "WindowsExceptions.hpp"
 
 #define WND_EXCEPTION(hr)    LimeEngine::WindowsWindowException(__LINE__, __FILE__, hr)
 #define WND_LAST_EXCEPTION() LimeEngine::WindowsWindowException(__LINE__, __FILE__, GetLastError())

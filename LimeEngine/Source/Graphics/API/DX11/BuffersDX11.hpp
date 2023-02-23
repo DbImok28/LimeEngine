@@ -1,6 +1,6 @@
 #pragma once
 #include "CoreBase.hpp"
-#include "Exceptions/GraphicsExceptions.hpp"
+#include "ExceptionsDX11.hpp"
 #include "BindableDX11.hpp"
 
 namespace LimeEngine

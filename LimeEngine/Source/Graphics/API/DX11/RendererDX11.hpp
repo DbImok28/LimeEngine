@@ -4,7 +4,7 @@
 #pragma once
 #include "DirectXDef.hpp"
 #include "Graphics/Renderer.hpp"
-#include "Exceptions/GraphicsExceptions.hpp"
+#include "ExceptionsDX11.hpp"
 #include "Helpers/Paths.hpp"
 #include "BindableDX11.hpp"
 #include "GraphicFactoryDX11.hpp"

@@ -1,15 +1,18 @@
 #pragma once
-#include "EngineExceptions.hpp"
-#include "DxgiInfo.hpp"
+#include "Graphics/GraphicExceptions.hpp"
+#include "Platform/Windows/WindowsExceptions.hpp"
 
-#define GFX_EXCEPTION_MSG(msg)        LimeEngine::GraphicsException(__LINE__, __FILE__, msg)
 #define GFX_EXCEPTION_HR_MSG(hr, msg) LimeEngine::GraphicsHrException(__LINE__, __FILE__, hr, msg)
 
-#ifndef NDEBUG
+#ifndef LE_DEBUG
+
+	#include "DxgiInfo.hpp"
+
 namespace LimeEngine
 {
 	static DxgiInfo dxgiErrorInfo;
 }
+
 	#define GFX_ERROR_INFO       LimeEngine::dxgiErrorInfo.Set()
 	#define GFX_EXCEPTION_HR(hr) LimeEngine::GraphicsHrException(__LINE__, __FILE__, hr, LimeEngine::dxgiErrorInfo.GetMessages())
 	#define GFX_CHECK_HR_MSG(call, msg)                          \
@@ -37,17 +40,6 @@ namespace LimeEngine
 
 namespace LimeEngine
 {
-	class GraphicsException : public EngineException
-	{
-		using EngineException::EngineException;
-
-	public:
-		virtual const char* GetType() const noexcept override
-		{
-			return "GraphicsHrException";
-		}
-	};
-
 	class GraphicsHrException : public EngineHrException
 	{
 		using EngineHrException::EngineHrException;
