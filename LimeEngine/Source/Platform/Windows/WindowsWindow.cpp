@@ -6,7 +6,7 @@
 #include "Engine.hpp"
 #include "resource.h"
 
-#ifdef IMGUI
+#ifdef LE_ENABLE_IMGUI
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 #endif
 
@@ -171,7 +171,7 @@ namespace LimeEngine
 
 	LRESULT WindowsWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
-#ifdef IMGUI
+#ifdef LE_ENABLE_IMGUI
 		if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam)) return true;
 #endif
 
