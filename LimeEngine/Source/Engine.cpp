@@ -10,6 +10,11 @@ namespace LimeEngine
 		windowLayer.GetWindow().events.Bind(WindowEventType::Close, this, &Engine::Close);
 	}
 
+	Engine::~Engine()
+	{
+		windowLayer.GetWindow().events.Unbind(WindowEventType::Close, this, &Engine::Close);
+	}
+
 	int Engine::Start()
 	{
 		timer.Start();

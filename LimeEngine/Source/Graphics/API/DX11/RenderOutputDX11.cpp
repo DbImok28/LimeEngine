@@ -58,6 +58,11 @@ namespace LimeEngine
 		}
 	}
 
+	void WindowRenderOutputDX11::Resize(uint width, uint height)
+	{
+		renderer.Resize(width, height);
+	}
+
 	ID3D11Texture2D* WindowRenderOutputDX11::GetBackBuffer() const noexcept
 	{
 		return backBuffer.Get();

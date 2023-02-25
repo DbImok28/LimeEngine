@@ -19,6 +19,14 @@ namespace LimeEngine
 		deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
 	}
 
+	void RendererDX11::Resize(uint width, uint height)
+	{
+		renderOutput->Init();
+		CreateDepthStencil();
+		renderOutput->Bind();
+		CreateViewport();
+	}
+
 	void RendererDX11::Init()
 	{
 		CreateDevice();

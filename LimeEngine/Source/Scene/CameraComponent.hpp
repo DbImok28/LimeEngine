@@ -20,8 +20,10 @@ namespace LimeEngine
 			float fovDegrees = 90.0f,
 			float nearZ = 0.001f,
 			float farZ = 10000.0f) noexcept;
+		void SetProjectionType(ProjectionType type);
 		void SetPerspective();
 		void SetOrthographic();
+		void Resize(float width, float height) noexcept;
 
 		void UpdateViewMatrix() const noexcept;
 		const XMMATRIX& GetViewMatrix() const noexcept;

@@ -18,6 +18,7 @@ namespace LimeEngine
 
 	public:
 		Engine(std::unique_ptr<Window>&& window, std::unique_ptr<Renderer>&& renderer);
+		virtual ~Engine();
 
 		int Start();
 		void UpdateLayers();

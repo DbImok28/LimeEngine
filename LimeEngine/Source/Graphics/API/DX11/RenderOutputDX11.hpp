@@ -18,6 +18,7 @@ namespace LimeEngine
 		void Init() override;
 		void Bind() override;
 		void Present() override;
+		void Resize(uint width, uint height) override;
 
 		ID3D11Texture2D* GetBackBuffer() const noexcept;
 

@@ -9,6 +9,12 @@ namespace LimeEngine
 		SceneComponent(engine, transform),
 		projectionType(projectionType), width(width), height(height), fovRadians((fovDegrees / 360.0f) * XM_2PI), nearZ(nearZ), farZ(farZ), aspectRatio(width / height)
 	{
+		SetProjectionType(projectionType);
+	}
+
+	void CameraComponent::SetProjectionType(ProjectionType type)
+	{
+		this->projectionType = type;
 		switch (projectionType)
 		{
 			case ProjectionType::Perspective:
@@ -35,6 +41,14 @@ namespace LimeEngine
 	{
 		projectionType = ProjectionType::Orthographic;
 		projectionMatrix = XMMatrixOrthographicOffCenterLH(0.0f, width, height, 0.0f, nearZ, farZ);
+	}
+
+	void CameraComponent::Resize(float width, float height) noexcept
+	{
+		this->width = width;
+		this->height = height;
+		aspectRatio = width / height;
+		SetProjectionType(projectionType);
 	}
 
 	void CameraComponent::UpdateViewMatrix() const noexcept

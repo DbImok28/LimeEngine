@@ -19,10 +19,10 @@ namespace LimeEngine
 
 	public:
 		explicit RendererDX11(Window& window);
-		virtual ~RendererDX11() override = default;
 
 	public:
 		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) override;
+		void Resize(uint width, uint height);
 		void SetOutputBuffer(ID3D11Texture2D* buffer);
 
 	private:

@@ -182,6 +182,8 @@ namespace LimeEngine
 			{
 				UINT width = LOWORD(lParam);
 				UINT height = HIWORD(lParam);
+				this->width = width;
+				this->height = height;
 				events(WindowEventType::Resize, ResizeWindowEvent(width, height));
 				switch (wParam)
 				{

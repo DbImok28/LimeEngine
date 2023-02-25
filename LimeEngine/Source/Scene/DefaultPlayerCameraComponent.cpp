@@ -11,6 +11,7 @@ namespace LimeEngine
 		{
 			AttachCamera();
 		}
+		engine->windowLayer.GetWindow().events.Bind(WindowEventType::Resize, this, &DefaultPlayerCameraComponent::OnResize);
 
 		auto& inputDevice = engine->inputLayer.GetInputDevice();
 		inputDevice.BindAxisEvent("MoveForward", this, &DefaultPlayerCameraComponent::MoveForward);
@@ -18,6 +19,18 @@ namespace LimeEngine
 		inputDevice.BindAxisEvent("MoveUp", this, &DefaultPlayerCameraComponent::MoveUp);
 		inputDevice.BindAxisEvent("TurnUp", this, &DefaultPlayerCameraComponent::TurnUp);
 		inputDevice.BindAxisEvent("TurnRight", this, &DefaultPlayerCameraComponent::TurnRight);
+	}
+
+	DefaultPlayerCameraComponent::~DefaultPlayerCameraComponent()
+	{
+		engine->windowLayer.GetWindow().events.Unbind(WindowEventType::Resize, this, &DefaultPlayerCameraComponent::OnResize);
+
+		auto& inputDevice = engine->inputLayer.GetInputDevice();
+		inputDevice.UnbindAxisEvent("MoveForward", this, &DefaultPlayerCameraComponent::MoveForward);
+		inputDevice.UnbindAxisEvent("MoveRight", this, &DefaultPlayerCameraComponent::MoveRight);
+		inputDevice.UnbindAxisEvent("MoveUp", this, &DefaultPlayerCameraComponent::MoveUp);
+		inputDevice.UnbindAxisEvent("TurnUp", this, &DefaultPlayerCameraComponent::TurnUp);
+		inputDevice.UnbindAxisEvent("TurnRight", this, &DefaultPlayerCameraComponent::TurnRight);
 	}
 
 	void DefaultPlayerCameraComponent::MoveForward(float scale) noexcept
@@ -54,6 +67,12 @@ namespace LimeEngine
 			float deltaTime = engine->deltaTime;
 			AddRotation(0.0f, scale, 0.0f);
 		}
+	}
+
+	void DefaultPlayerCameraComponent::OnResize(const Event& e)
+	{
+		auto& resizeEvent = CastEvent<ResizeWindowEvent>(e);
+		Resize(resizeEvent.width, resizeEvent.height);
 	}
 
 	void DefaultPlayerCameraComponent::Update()
