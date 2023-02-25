@@ -216,7 +216,15 @@ public:                                           \
 		auto FindEventHandler(TKey key, const EventHandler<TArgs...>& handler) const noexcept
 		{
 			auto range = events.equal_range(key);
-			return std::find_if(range.first, range.second, [&handler](auto& item) { return (*item.second == handler); });
+
+			for (auto it = range.first; it != range.second; ++it)
+			{
+				if (*it->second == handler)
+				{
+					return it;
+				}
+			}
+			return std::end(events);
 		}
 		void Bind(TKey key, std::unique_ptr<EventHandler<TArgs...>>&& handler)
 		{
