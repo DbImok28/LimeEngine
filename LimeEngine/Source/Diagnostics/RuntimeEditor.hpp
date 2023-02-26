@@ -13,7 +13,8 @@ namespace LimeEngine
 #if defined(LE_ENABLE_RENDER_API_DX11)
 		static void Init(void* hWnd, void* device, void* deviceContext);
 #endif
-		static void Processing();
+		static void Destroy();
+		static void Processing(float deltaTime);
 		static void Render();
 		static void NewPanel(const char* name);
 

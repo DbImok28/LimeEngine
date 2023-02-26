@@ -36,19 +36,19 @@ namespace LimeEngine
 	void DefaultPlayerCameraComponent::MoveForward(float scale) noexcept
 	{
 		float deltaTime = engine->deltaTime;
-		AddLocation(GetForwardVector() * scale * cameraMovementSpeed * deltaTime);
+		AddLocation(GetForwardVector() * (scale * cameraMovementSpeed * deltaTime));
 	}
 
 	void DefaultPlayerCameraComponent::MoveRight(float scale) noexcept
 	{
 		float deltaTime = engine->deltaTime;
-		AddLocation(GetRightVector() * scale * cameraMovementSpeed * deltaTime);
+		AddLocation(GetRightVector() * (scale * cameraMovementSpeed * deltaTime));
 	}
 
 	void DefaultPlayerCameraComponent::MoveUp(float scale) noexcept
 	{
 		float deltaTime = engine->deltaTime;
-		AddLocation(0.0f, cameraMovementSpeed * scale * deltaTime, 0.0f);
+		AddLocation(0.0f, (scale * cameraMovementSpeed * deltaTime), 0.0f);
 	}
 
 	void DefaultPlayerCameraComponent::TurnUp(float scale) noexcept

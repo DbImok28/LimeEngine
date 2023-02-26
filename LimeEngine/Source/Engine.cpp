@@ -29,7 +29,7 @@ namespace LimeEngine
 
 	void Engine::UpdateLayers()
 	{
-		RuntimeEditor::Processing();
+		RuntimeEditor::Processing(deltaTime);
 		dataLayer.Update();
 		windowLayer.Update();
 		inputLayer.Update();

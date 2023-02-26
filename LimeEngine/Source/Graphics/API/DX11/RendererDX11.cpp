@@ -13,6 +13,11 @@ namespace LimeEngine
 		RuntimeEditor::Init(window.GetHandle(), device.Get(), deviceContext.Get());
 	}
 
+	RendererDX11::~RendererDX11()
+	{
+		RuntimeEditor::Destroy();
+	}
+
 	void RendererDX11::SetOutputBuffer(ID3D11Texture2D* buffer)
 	{
 		GFX_CHECK_HR(device->CreateRenderTargetView(buffer, NULL, renderTargetView.GetAddressOf()));

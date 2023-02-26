@@ -27,11 +27,19 @@ namespace LimeEngine
 		ImGui::StyleColorsDark();
 	}
 
-	void RuntimeEditor::Processing()
+	void RuntimeEditor::Destroy()
+	{
+		ImGui_ImplDX11_Shutdown();
+		ImGui_ImplWin32_Shutdown();
+		ImGui::DestroyContext();
+	}
+
+	void RuntimeEditor::Processing(float deltaTime)
 	{
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
+		ImGui::GetIO().DeltaTime = deltaTime;
 		inPanel = false;
 	}
 
@@ -45,7 +53,8 @@ namespace LimeEngine
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	}
 #else
-	void RuntimeEditor::Processing() {}
+	void RuntimeEditor::Destroy() {}
+	void RuntimeEditor::Processing(float deltaTime) {}
 	void RuntimeEditor::Render() {}
 #endif
 
