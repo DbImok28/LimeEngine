@@ -137,6 +137,84 @@ namespace LimeEngine
 		ImGui::DragFloat3(label, reinterpret_cast<float*>(&rot), speed, min, max);
 	}
 
+	void RuntimeEditor::Slider(const char* label, char& var, char min, char max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderScalar(label, ImGuiDataType_S8, &var, &min, &max);
+	}
+
+	void RuntimeEditor::Slider(const char* label, int8& var, int8 min, int8 max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderScalar(label, ImGuiDataType_S8, &var, &min, &max);
+	}
+
+	void RuntimeEditor::Slider(const char* label, int16& var, int16 min, int16 max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderScalar(label, ImGuiDataType_S16, &var, &min, &max);
+	}
+
+	void RuntimeEditor::Slider(const char* label, int32& var, int32 min, int32 max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderScalar(label, ImGuiDataType_S32, &var, &min, &max);
+	}
+
+	void RuntimeEditor::Slider(const char* label, int64& var, int64 min, int64 max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderScalar(label, ImGuiDataType_S64, &var, &min, &max);
+	}
+
+	void RuntimeEditor::Slider(const char* label, uint8& var, uint8 min, uint8 max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderScalar(label, ImGuiDataType_U8, &var, &min, &max);
+	}
+
+	void RuntimeEditor::Slider(const char* label, uint16& var, uint16 min, uint16 max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderScalar(label, ImGuiDataType_U16, &var, &min, &max);
+	}
+
+	void RuntimeEditor::Slider(const char* label, uint32& var, uint32 min, uint32 max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderScalar(label, ImGuiDataType_U32, &var, &min, &max);
+	}
+
+	void RuntimeEditor::Slider(const char* label, uint64& var, uint64 min, uint64 max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderScalar(label, ImGuiDataType_U64, &var, &min, &max);
+	}
+
+	void RuntimeEditor::Slider(const char* label, float& var, float min, float max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderScalar(label, ImGuiDataType_Float, &var, &min, &max);
+	}
+
+	void RuntimeEditor::Slider(const char* label, double& var, double min, double max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderScalar(label, ImGuiDataType_Double, &var, &min, &max);
+	}
+
+	void RuntimeEditor::Slider(const char* label, Vector& vec, float min, float max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderFloat3(label, reinterpret_cast<float*>(&vec), min, max);
+	}
+
+	void RuntimeEditor::Slider(const char* label, Rotator& rot, float min, float max)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::SliderFloat3(label, reinterpret_cast<float*>(&rot), min, max);
+	}
+
 	void RuntimeEditor::TextField(const char* label, std::string& var)
 	{
 		if (!inPanel) NewPanel("None");
@@ -173,10 +251,45 @@ namespace LimeEngine
 		ImGui::InputText(label, buf, bufSize);
 	}
 
-	void RuntimeEditor::CheckBox(const char* label, bool& var)
+	bool RuntimeEditor::CheckBox(const char* label, bool& var)
 	{
 		if (!inPanel) NewPanel("None");
 		ImGui::Checkbox(label, &var);
+		return var;
+	}
+
+	bool RuntimeEditor::Button(const char* label)
+	{
+		if (!inPanel) NewPanel("None");
+		return ImGui::Button(label);
+	}
+
+	bool RuntimeEditor::Button(const char* label, bool& varToStore)
+	{
+		if (Button(label)) varToStore = !varToStore;
+		return varToStore;
+	}
+
+	void RuntimeEditor::Text(const char* str)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::Text(str);
+	}
+
+	void RuntimeEditor::Text(const std::string& str)
+	{
+		Text(str.c_str());
+	}
+
+	void RuntimeEditor::Text(const char* label, const char* str)
+	{
+		if (!inPanel) NewPanel("None");
+		ImGui::LabelText(label, str);
+	}
+
+	void RuntimeEditor::Text(const char* label, const std::string& str)
+	{
+		Text(label, str.c_str());
 	}
 
 	// ---------
@@ -236,9 +349,9 @@ namespace LimeEngine
 		Drag(label, var, min, max, speed);
 	}
 
-	void RuntimeEditor::Input(const char* label, bool& var)
+	bool RuntimeEditor::Input(const char* label, bool& var)
 	{
-		CheckBox(label, var);
+		return CheckBox(label, var);
 	}
 
 	void RuntimeEditor::Input(const char* label, std::string& var)
@@ -269,7 +382,7 @@ namespace LimeEngine
 	void RuntimeEditor::Input(const char* label, Transform& transform)
 	{
 		if (!inPanel) NewPanel("None");
-		ImGui::Text(label);
+		Text(label);
 		Drag("Location", transform.location);
 		Drag("Rotation", transform.rotation);
 		Drag("Scale", transform.scale);
