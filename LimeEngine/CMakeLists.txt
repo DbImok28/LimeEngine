@@ -81,7 +81,6 @@ target_sources(${PROJECT_NAME}
 # Definitions
 target_compile_definitions(${PROJECT_NAME}
     PRIVATE
-        "LE_BUILD_PLATFORM_WINDOWS"
         "LE_BUILD_DLL"
 )
 
