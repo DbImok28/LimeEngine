@@ -92,7 +92,7 @@ namespace LimeEngine
 		BuildByCopy({ 1, 1, -1 }, AxisOrder::ZYX, vertexCount, indicesCount); // -Z
 	}
 
-	void Cubesphere::BuildByCopy(Vector direction, AxisOrder order, size_t vertexCount, size_t indicesCount)
+	void Cubesphere::BuildByCopy(const Vector& direction, AxisOrder order, size_t vertexCount, size_t indicesCount)
 	{
 		size_t startIndex = vertices.size();
 		for (size_t i = 0ull; i < vertexCount; ++i)
@@ -105,7 +105,7 @@ namespace LimeEngine
 		}
 	}
 
-	std::vector<Vector> Cubesphere::ProjectPlane(uint32 vertexCount) const
+	std::vector<Vector> Cubesphere::ProjectPlane(uint32 vertexCount)
 	{
 		std::vector<Vector> result;
 		result.reserve(static_cast<size_t>(vertexCount) * static_cast<size_t>(vertexCount));

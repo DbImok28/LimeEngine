@@ -18,7 +18,7 @@ namespace LimeEngine
 		EVENT_TYPE(CloseWindowEvent);
 
 	public:
-		CloseWindowEvent(int exitCode) : exitCode(exitCode) {}
+		explicit CloseWindowEvent(int exitCode) : exitCode(exitCode) {}
 		int exitCode;
 	};
 	class ResizeWindowEvent : public Event
@@ -35,7 +35,7 @@ namespace LimeEngine
 	struct WindowArgs
 	{
 		WindowArgs() = default;
-		WindowArgs(tstring title, uint width = 1080, uint height = 720) : title(title), width(width), height(height) {}
+		explicit WindowArgs(tstring title, uint width = 1080, uint height = 720) : title(title), width(width), height(height) {}
 
 		tstring title = "LimeEngine";
 		uint width = 1080;
@@ -48,10 +48,8 @@ namespace LimeEngine
 		static std::unique_ptr<Window> Create(const WindowArgs& args = WindowArgs());
 
 	public:
-		virtual ~Window() {}
+		virtual ~Window() = default;
 
-		virtual void Init(const WindowArgs& args) = 0;
-		virtual void Destroy() = 0;
 		virtual void OnUpdate() = 0;
 		virtual void SetTitle(const tstring& title) = 0;
 		virtual uint GetWidth() const noexcept = 0;

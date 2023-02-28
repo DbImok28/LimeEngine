@@ -22,7 +22,7 @@ namespace LimeEngine
 	class WindowRenderOutput : public RenderOutput
 	{
 	public:
-		WindowRenderOutput(Window& window) : window(window)
+		explicit WindowRenderOutput(Window& window) : window(window)
 		{
 			window.events.Bind(WindowEventType::Resize, this, &WindowRenderOutput::OnResize);
 		}

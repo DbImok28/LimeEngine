@@ -28,7 +28,7 @@ namespace LimeEngine
 		this->camera = camera;
 	}
 
-	const CameraComponent* Renderer::GetCamera() noexcept
+	const CameraComponent* Renderer::GetCamera() const noexcept
 	{
 		return camera;
 	}

@@ -21,7 +21,7 @@ namespace LimeEngine
 
 	struct InputAction
 	{
-		InputAction(const std::string& name, std::vector<InputActionKey> keys) noexcept;
+		InputAction(const std::string& name, const std::vector<InputActionKey>& keys) noexcept;
 
 		std::string name;
 		std::vector<InputActionKey> keys;
@@ -30,7 +30,7 @@ namespace LimeEngine
 	class InputActionKeyHandlers
 	{
 	public:
-		InputActionKeyHandlers(const std::string& name) noexcept;
+		explicit InputActionKeyHandlers(const std::string& name) noexcept;
 
 		void Bind(InputActionType type, std::unique_ptr<EventHandler<>>&& handler);
 		void Unbind(InputActionType type, const EventHandler<>& handler) noexcept;
@@ -51,7 +51,7 @@ namespace LimeEngine
 
 	struct InputAxis
 	{
-		InputAxis(const std::string& name, std::vector<InputAxisKey> keys) noexcept;
+		InputAxis(const std::string& name, const std::vector<InputAxisKey>& keys) noexcept;
 
 		std::string name;
 		std::vector<InputAxisKey> keys;
@@ -60,7 +60,7 @@ namespace LimeEngine
 	class InputAxisKeyHandlers
 	{
 	public:
-		InputAxisKeyHandlers(const std::string& name) noexcept;
+		explicit InputAxisKeyHandlers(const std::string& name) noexcept;
 
 		void Bind(std::unique_ptr<EventHandler<float>>&& handler);
 		void Unbind(const EventHandler<float>& handler) noexcept;

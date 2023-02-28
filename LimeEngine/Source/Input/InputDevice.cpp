@@ -5,7 +5,7 @@ namespace LimeEngine
 {
 	InputActionKey::InputActionKey(InputKey inputKey) noexcept : inputKey(inputKey) {}
 
-	InputAction::InputAction(const std::string& name, std::vector<InputActionKey> keys) noexcept : name(name), keys(keys) {}
+	InputAction::InputAction(const std::string& name, const std::vector<InputActionKey>& keys) noexcept : name(name), keys(keys) {}
 
 	InputActionKeyHandlers::InputActionKeyHandlers(const std::string& name) noexcept : name(name) {}
 
@@ -17,7 +17,8 @@ namespace LimeEngine
 	void InputActionKeyHandlers::Unbind(InputActionType type, const EventHandler<>& handler) noexcept
 	{
 		handlers.erase(
-			std::find_if(std::begin(handlers), std::end(handlers), [&type, &handler](auto& item) { return (item.first == type && *item.second == handler); }), std::end(handlers));
+			std::find_if(std::begin(handlers), std::end(handlers), [&type, &handler](const auto& item) { return (item.first == type && *item.second == handler); }),
+			std::end(handlers));
 	}
 
 	void InputActionKeyHandlers::Call(InputActionType type)
@@ -33,7 +34,7 @@ namespace LimeEngine
 
 	InputAxisKey::InputAxisKey(InputKey inputKey, float scale) noexcept : inputKey(inputKey), scale(scale) {}
 
-	InputAxis::InputAxis(const std::string& name, std::vector<InputAxisKey> keys) noexcept : name(name), keys(keys) {}
+	InputAxis::InputAxis(const std::string& name, const std::vector<InputAxisKey>& keys) noexcept : name(name), keys(keys) {}
 
 	InputAxisKeyHandlers::InputAxisKeyHandlers(const std::string& name) noexcept : name(name) {}
 
@@ -44,7 +45,7 @@ namespace LimeEngine
 
 	void InputAxisKeyHandlers::Unbind(const EventHandler<float>& handler) noexcept
 	{
-		handlers.erase(std::find_if(std::begin(handlers), std::end(handlers), [&handler](auto& item) { return (*item == handler); }), std::end(handlers));
+		handlers.erase(std::find_if(std::begin(handlers), std::end(handlers), [&handler](const auto& item) { return (*item == handler); }), std::end(handlers));
 	}
 
 	void InputAxisKeyHandlers::Call(float scale)
@@ -77,7 +78,8 @@ namespace LimeEngine
 	void InputDevice::RemoveActionMapping(const std::string& actionName) noexcept
 	{
 		keyActionEvents.erase(
-			std::find_if(std::begin(keyActionEvents), std::end(keyActionEvents), [&actionName](auto& item) { return item.second->name == actionName; }), std::end(keyActionEvents));
+			std::find_if(std::begin(keyActionEvents), std::end(keyActionEvents), [&actionName](const auto& item) { return item.second->name == actionName; }),
+			std::end(keyActionEvents));
 	}
 
 	void InputDevice::RebindActionKey(const std::string& actionName, InputKey oldKey, InputKey newKey) noexcept
@@ -101,13 +103,11 @@ namespace LimeEngine
 
 	void InputDevice::BindActionEvent(const std::string& actionName, InputActionType type, std::unique_ptr<EventHandler<>>&& handler)
 	{
-		for (auto& keyActionEvent : keyActionEvents)
+		auto findedKeyActionEvent =
+			std::find_if(std::begin(keyActionEvents), std::end(keyActionEvents), [&actionName](const auto& item) { return item.second->name == actionName; });
+		if (findedKeyActionEvent != std::end(keyActionEvents))
 		{
-			if (keyActionEvent.second->name == actionName)
-			{
-				keyActionEvent.second->Bind(type, std::move(handler));
-				break;
-			}
+			findedKeyActionEvent->second->Bind(type, std::move(handler));
 		}
 	}
 
@@ -118,13 +118,11 @@ namespace LimeEngine
 
 	void InputDevice::UnbindActionEvent(const std::string& actionName, InputActionType type, const EventHandler<>& handler) noexcept
 	{
-		for (auto& keyActionEvent : keyActionEvents)
+		auto findedKeyActionEvent =
+			std::find_if(std::begin(keyActionEvents), std::end(keyActionEvents), [&actionName](const auto& item) { return item.second->name == actionName; });
+		if (findedKeyActionEvent != std::end(keyActionEvents))
 		{
-			if (keyActionEvent.second->name == actionName)
-			{
-				keyActionEvent.second->Unbind(type, handler);
-				break;
-			}
+			findedKeyActionEvent->second->Unbind(type, handler);
 		}
 	}
 
@@ -161,7 +159,8 @@ namespace LimeEngine
 	void InputDevice::RemoveAxisMapping(const std::string& axisName) noexcept
 	{
 		keyAxisEvents.erase(
-			std::find_if(std::begin(keyAxisEvents), std::end(keyAxisEvents), [&axisName](auto& item) { return item.second.second->name == axisName; }), std::end(keyAxisEvents));
+			std::find_if(std::begin(keyAxisEvents), std::end(keyAxisEvents), [&axisName](const auto& item) { return item.second.second->name == axisName; }),
+			std::end(keyAxisEvents));
 	}
 
 	void InputDevice::RebindAxisKey(const std::string& axisName, InputKey oldKey, InputKey newKey) noexcept
@@ -185,13 +184,10 @@ namespace LimeEngine
 
 	void InputDevice::BindAxisEvent(const std::string& axisName, std::unique_ptr<EventHandler<float>>&& handler)
 	{
-		for (auto& keyAxisEvent : keyAxisEvents)
+		auto findedkeyAxisEvent = std::find_if(std::begin(keyAxisEvents), std::end(keyAxisEvents), [&axisName](const auto& item) { return item.second.second->name == axisName; });
+		if (findedkeyAxisEvent != std::end(keyAxisEvents))
 		{
-			if (keyAxisEvent.second.second->name == axisName)
-			{
-				keyAxisEvent.second.second->Bind(std::move(handler));
-				break;
-			}
+			findedkeyAxisEvent->second.second->Bind(std::move(handler));
 		}
 	}
 
@@ -202,13 +198,10 @@ namespace LimeEngine
 
 	void InputDevice::UnbindAxisEvent(const std::string& axisName, const EventHandler<float>& handler) noexcept
 	{
-		for (auto& keyAxisEvent : keyAxisEvents)
+		auto findedkeyAxisEvent = std::find_if(std::begin(keyAxisEvents), std::end(keyAxisEvents), [&axisName](const auto& item) { return item.second.second->name == axisName; });
+		if (findedkeyAxisEvent != std::end(keyAxisEvents))
 		{
-			if (keyAxisEvent.second.second->name == axisName)
-			{
-				keyAxisEvent.second.second->Unbind(handler);
-				break;
-			}
+			findedkeyAxisEvent->second.second->Unbind(handler);
 		}
 	}
 

@@ -180,10 +180,8 @@ namespace LimeEngine
 			case WM_CLOSE: PostQuitMessage(0); return 0;
 			case WM_SIZE:
 			{
-				UINT width = LOWORD(lParam);
-				UINT height = HIWORD(lParam);
-				this->width = width;
-				this->height = height;
+				width = LOWORD(lParam);
+				height = HIWORD(lParam);
 				events(WindowEventType::Resize, ResizeWindowEvent(width, height));
 				switch (wParam)
 				{

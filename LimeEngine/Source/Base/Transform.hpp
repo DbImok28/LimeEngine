@@ -15,7 +15,7 @@ namespace LimeEngine
 	public:
 		Transform() noexcept;
 		explicit Transform(const TempTransformMatrix& mat) noexcept;
-		Transform(Vector location, Rotator rotation, Vector scale) noexcept;
+		Transform(const Vector& location, const Rotator& rotation, const Vector& scale) noexcept;
 		Transform(float lx, float ly, float lz) noexcept;
 		Transform(float lx, float ly, float lz, float rx, float ry, float rz) noexcept;
 		Transform(float lx, float ly, float lz, float rx, float ry, float rz, float sx, float sy, float sz) noexcept;

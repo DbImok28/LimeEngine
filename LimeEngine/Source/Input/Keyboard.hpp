@@ -50,7 +50,7 @@ namespace LimeEngine
 		void OnChar(const wchar_t key);
 
 		template <typename T>
-		void TrimBuffer(std::queue<T>& buffer) noexcept;
+		static void TrimBuffer(std::queue<T>& buffer) noexcept;
 
 	public:
 		MultiEventDispatcher<InputKey> keyEvents;

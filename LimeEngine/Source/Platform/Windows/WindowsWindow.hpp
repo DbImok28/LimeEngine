@@ -23,7 +23,7 @@ namespace LimeEngine
 		}
 	};
 
-	class WindowsWindow : public Window
+	class WindowsWindow final : public Window
 	{
 	private:
 		class WindowClass
@@ -42,12 +42,14 @@ namespace LimeEngine
 		};
 
 	public:
-		WindowsWindow() = default;
-		WindowsWindow(const WindowArgs& args);
+		explicit WindowsWindow(const WindowArgs& args);
 		virtual ~WindowsWindow();
 
-		void Init(const WindowArgs& args) override;
-		void Destroy() override;
+	private:
+		void Init(const WindowArgs& args);
+		void Destroy();
+
+	public:
 		void OnUpdate() override;
 		void SetTitle(const tstring& title) override;
 		uint GetWidth() const noexcept override

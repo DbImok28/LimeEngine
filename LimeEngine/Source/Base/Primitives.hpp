@@ -24,8 +24,8 @@ namespace LimeEngine
 		Cubesphere(float radius, uint8 subdivisions);
 
 	private:
-		void BuildByCopy(Vector direction, AxisOrder order, size_t vertexCount, size_t indicesCount);
-		std::vector<Vector> ProjectPlane(uint32 vertexCount) const;
+		void BuildByCopy(const Vector& direction, AxisOrder order, size_t vertexCount, size_t indicesCount);
+		static std::vector<Vector> ProjectPlane(uint32 vertexCount);
 	};
 
 	struct Sphere : public Primitive

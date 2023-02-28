@@ -6,11 +6,11 @@
 
 namespace LimeEngine
 {
-	class WindowsConsole : public Console
+	class WindowsConsole final : public Console
 	{
 	public:
 		WindowsConsole() = default;
-		WindowsConsole(const ConsoleArgs& args);
+		explicit WindowsConsole(const ConsoleArgs& args);
 		virtual ~WindowsConsole();
 
 		bool Open(const ConsoleArgs& args) override;

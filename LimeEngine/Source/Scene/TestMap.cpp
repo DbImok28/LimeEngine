@@ -24,8 +24,10 @@ namespace LimeEngine
         });
 		inputDevice.AddAxisMapping({ "TurnUp", { { InputKey::MouseMoveY, 1.0f } } });
 		inputDevice.AddAxisMapping({ "TurnRight", { { InputKey::MouseMoveX, 1.0f } } });
-		inputDevice.AddActionMapping({ "ad", { InputKey::F } });
-		inputDevice.BindActionEvent("ad", InputActionType::Pressed, []() { LE_DEBUG("Press"); });
+		inputDevice.AddActionMapping({ "Print", { InputKey::F } });
+
+		inputDevice.BindActionEvent("Print", InputActionType::Pressed, []() { LE_LOG_DEBUG("Press F"); });
+		inputDevice.BindActionEvent("Print", InputActionType::Released, []() { LE_LOG_DEBUG("Released F"); });
 		// Graphic
 		auto graphicFactory = engine->renderLayer.GetGraphicFactory();
 

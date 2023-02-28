@@ -21,6 +21,9 @@ namespace LimeEngine
 		return std::wstring(filePath);
 	}
 
+	const std::wstring Paths::ExeFolder = GetPathToExeFolder();
+	const std::wstring Paths::ShaderFolder = ExeFolder;
+
 	std::string Paths::GetDirectoryFromPath(const std::string& filePath)
 	{
 		size_t pos = filePath.find_last_of("\\/");
@@ -54,7 +57,4 @@ namespace LimeEngine
 		}
 		return std::wstring(filePath.substr(off + 1));
 	}
-
-	const std::wstring Paths::ExeFolder = GetPathToExeFolder();
-	const std::wstring Paths::ShaderFolder = ExeFolder;
 }

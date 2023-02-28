@@ -3,13 +3,9 @@
 
 namespace LimeEngine
 {
-	MeshSegment::MeshSegment(MeshSegment&& other) noexcept
-	{
-		vertices = std::move(other.vertices);
-		indices = std::move(other.indices);
-		material = std::move(other.material);
-		meshRenderData = std::move(other.meshRenderData);
-	}
+	MeshSegment::MeshSegment(MeshSegment&& other) noexcept :
+		vertices(std::move(other.vertices)), indices(std::move(other.indices)), material(std::move(other.material)), meshRenderData(std::move(other.meshRenderData))
+	{}
 
 	MeshSegment& MeshSegment::operator=(MeshSegment&& other) noexcept
 	{
@@ -33,7 +29,8 @@ namespace LimeEngine
 	{}
 
 	MeshSegment::MeshSegment(const GraphicFactory* graphicFactory, const std::pair<std::vector<Vertex>, std::vector<uint>>& verticesAndIndices) :
-		vertices(vertices), indices(indices), meshRenderData(graphicFactory->CreateMeshRenderData(verticesAndIndices.first, verticesAndIndices.second))
+		vertices(verticesAndIndices.first), indices(verticesAndIndices.second),
+		meshRenderData(graphicFactory->CreateMeshRenderData(verticesAndIndices.first, verticesAndIndices.second))
 	{}
 
 	void MeshSegment::SetMaterial(Material* material) noexcept

@@ -70,7 +70,9 @@ namespace LimeEngine
 
 	bool ResourcePath::CheckPathFormat(const std::string& path)
 	{
-		auto str = "The resource path \"" + path + "\" is not in the correct format.";
-		if (!IsValidPathFormat(path)) throw MSG_EXCEPTION(str);
+		bool isValid = IsValidPathFormat(path);
+		// TODO: Fix string formating
+		LE_CORE_ASSERT(isValid, "Invalid path format to resource \"" + path + "\".");
+		return isValid;
 	}
 }

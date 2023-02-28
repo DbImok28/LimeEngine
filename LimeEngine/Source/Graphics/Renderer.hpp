@@ -24,13 +24,13 @@ namespace LimeEngine
 		virtual const GraphicFactory* GetGraphicFactory() const noexcept = 0;
 
 		void SetCamera(CameraComponent* camera) noexcept;
-		const CameraComponent* GetCamera() noexcept;
+		const CameraComponent* GetCamera() const noexcept;
 		void AddToRender(IDrawable* drawable);
 		void RemoveFromRender(const IDrawable* drawable) noexcept;
 
 	protected:
 		CameraComponent* camera = nullptr;
-		std::unique_ptr<RenderOutput> renderOutput;
+		std::unique_ptr<RenderOutput> renderOutput = nullptr;
 		RenderQueue renderQueue;
 	};
 }

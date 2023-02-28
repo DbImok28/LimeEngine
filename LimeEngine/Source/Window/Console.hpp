@@ -10,8 +10,8 @@ namespace LimeEngine
 	struct ConsoleArgs
 	{
 		ConsoleArgs(const tstring& title = TEXT("LimeEngine output"), int16 minLength = 512) : title(title), minLength(minLength) {}
-		int16 minLength;
 		tstring title;
+		int16 minLength;
 	};
 
 	class Console

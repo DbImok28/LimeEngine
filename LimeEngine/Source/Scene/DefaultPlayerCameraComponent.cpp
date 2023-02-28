@@ -56,7 +56,7 @@ namespace LimeEngine
 		if (engine->inputLayer.GetInputDevice().mouse.IsRightDown())
 		{
 			float deltaTime = engine->deltaTime;
-			AddRotation(scale, 0.0f, 0.0f);
+			AddRotation(scale * cameraRotationSpeed * deltaTime, 0.0f, 0.0f);
 		}
 	}
 
@@ -65,13 +65,13 @@ namespace LimeEngine
 		if (engine->inputLayer.GetInputDevice().mouse.IsRightDown())
 		{
 			float deltaTime = engine->deltaTime;
-			AddRotation(0.0f, scale, 0.0f);
+			AddRotation(0.0f, scale * cameraRotationSpeed * deltaTime, 0.0f);
 		}
 	}
 
 	void DefaultPlayerCameraComponent::OnResize(const Event& e)
 	{
-		auto& resizeEvent = CastEvent<ResizeWindowEvent>(e);
+		const auto& resizeEvent = CastEvent<ResizeWindowEvent>(e);
 		Resize(resizeEvent.width, resizeEvent.height);
 	}
 

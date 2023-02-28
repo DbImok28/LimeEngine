@@ -20,7 +20,7 @@ namespace LimeEngine
 		Logger::StaticInitialize();
 
 		// Renderer
-		auto window = Window::Create({ TEXT("LimeEngine"), 1080, 720 });
+		auto window = Window::Create(WindowArgs(TEXT("LimeEngine"), 1080, 720));
 		auto renderer = Renderer::Create(RenderAPI::Auto, *window.get());
 
 		// Create Engine

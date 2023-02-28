@@ -47,18 +47,18 @@ namespace LimeEngine
 	private:
 		GraphicFactoryDX11 graphicFactory;
 
-		com_ptr<IDXGISwapChain> swapchain;
-		com_ptr<ID3D11RenderTargetView> renderTargetView;
+		com_ptr<IDXGISwapChain> swapchain = nullptr;
+		com_ptr<ID3D11RenderTargetView> renderTargetView = nullptr;
 
-		com_ptr<ID3D11DepthStencilView> depthStencilView;
-		com_ptr<ID3D11Texture2D> depthStencilBuffer;
-		com_ptr<ID3D11DepthStencilState> depthStencilState;
+		com_ptr<ID3D11DepthStencilView> depthStencilView = nullptr;
+		com_ptr<ID3D11Texture2D> depthStencilBuffer = nullptr;
+		com_ptr<ID3D11DepthStencilState> depthStencilState = nullptr;
 
-		com_ptr<ID3D11RasterizerState> rasterizerState;
+		com_ptr<ID3D11RasterizerState> rasterizerState = nullptr;
 
-		com_ptr<ID3D11SamplerState> samplerState;
+		com_ptr<ID3D11SamplerState> samplerState = nullptr;
 
-		com_ptr<ID3D11Device> device;
-		com_ptr<ID3D11DeviceContext> deviceContext;
+		com_ptr<ID3D11Device> device = nullptr;
+		com_ptr<ID3D11DeviceContext> deviceContext = nullptr;
 	};
 }

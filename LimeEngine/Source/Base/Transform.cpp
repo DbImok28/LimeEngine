@@ -5,7 +5,7 @@ namespace LimeEngine
 {
 	Transform::Transform() noexcept : location(), rotation(), scale(1.0f, 1.0f, 1.0f) {}
 
-	Transform::Transform(Vector location, Rotator rotation, Vector scale) noexcept : location(location), rotation(rotation), scale(scale) {}
+	Transform::Transform(const Vector& location, const Rotator& rotation, const Vector& scale) noexcept : location(location), rotation(rotation), scale(scale) {}
 
 	Transform::Transform(const TempTransformMatrix& mat) noexcept
 	{
