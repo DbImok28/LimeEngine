@@ -31,7 +31,7 @@ namespace LimeEngine
 	{
 		auto device = renderer.GetDevice();
 		HRESULT hr;
-		if (Paths::GetFileExtension(filePath) == L".dds")
+		if (std::filesystem::path(filePath).extension() == ".dds")
 		{
 			hr = DirectX::CreateDDSTextureFromFile(device, filePath.c_str(), texture.GetAddressOf(), textureView.GetAddressOf());
 			if (FAILED(hr))

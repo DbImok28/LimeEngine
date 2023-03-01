@@ -1,60 +1,25 @@
 #include "lepch.hpp"
 #include "Paths.hpp"
-#include "Platform/Windows/WinApi.hpp"
+
+#if defined(LE_BUILD_PLATFORM_WINDOWS)
+	#include "Platform/Windows/WinApi.hpp"
+	#include "Platform/Windows/WindowsExceptions.hpp"
+#endif
 
 namespace LimeEngine
 {
 	std::wstring Paths::GetPathToExeFolder() noexcept
 	{
-		WCHAR filePath[MAX_PATH];
-		GetModuleFileNameW(NULL, filePath, MAX_PATH);
-
-		int i;
-		for (i = lstrlenW(filePath) - 1; i >= 0; i--)
+#if defined(LE_BUILD_PLATFORM_WINDOWS)
+		std::array<wchar_t, MAX_PATH> filePath = { '\0' };
+		if (GetModuleFileNameW(NULL, filePath.data(), MAX_PATH) == 0)
 		{
-			if (filePath[i] == L'\\' || filePath[i] == L'/')
-			{
-				filePath[i + 1] = L'\0';
-				break;
-			}
+			throw HR_LAST_EXCEPTION();
 		}
-		return std::wstring(filePath);
+#endif
+		return std::filesystem::path(filePath.data()).remove_filename().wstring();
 	}
 
 	const std::wstring Paths::ExeFolder = GetPathToExeFolder();
 	const std::wstring Paths::ShaderFolder = ExeFolder;
-
-	std::string Paths::GetDirectoryFromPath(const std::string& filePath)
-	{
-		size_t pos = filePath.find_last_of("\\/");
-		if (std::string::npos == pos) return "";
-		return filePath.substr(0, pos + 1);
-	}
-
-	std::wstring Paths::GetDirectoryFromPath(const std::wstring& filePath)
-	{
-		size_t pos = filePath.find_last_of(L"\\/");
-		if (std::string::npos == pos) return L"";
-		return filePath.substr(0, pos + 1);
-	}
-
-	std::string Paths::GetFileExtension(const std::string& filePath)
-	{
-		size_t off = filePath.find_last_of('.');
-		if (off == std::string::npos)
-		{
-			return "";
-		}
-		return std::string(filePath.substr(off + 1));
-	}
-
-	std::wstring Paths::GetFileExtension(const std::wstring& filePath)
-	{
-		size_t off = filePath.find_last_of('.');
-		if (off == std::wstring::npos)
-		{
-			return L"";
-		}
-		return std::wstring(filePath.substr(off + 1));
-	}
 }

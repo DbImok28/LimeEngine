@@ -14,6 +14,7 @@
 
 #include <string>
 #include <sstream>
+#include <filesystem>
 #include <vector>
 #include <array>
 #include <list>
