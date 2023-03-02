@@ -9,10 +9,10 @@ namespace LimeEngine
 	public:
 		Texture2DDX11(RendererDX11& renderer, const ResourcePath& resourcePath, TextureType type) noexcept;
 		Texture2DDX11(RendererDX11& renderer, const ResourcePath& resourcePath, const uint8_t* pData, size_t size, TextureType type);
-		Texture2DDX11(RendererDX11& renderer, const ResourcePath& resourcePath, const std::wstring& filePath, TextureType type);
+		Texture2DDX11(RendererDX11& renderer, const ResourcePath& resourcePath, const FPath& filePath, TextureType type);
 
 		void Initialize(const uint8_t* pData, size_t size);
-		void Initialize(const std::wstring& filePath);
+		void Initialize(const FPath& filePath);
 		virtual void Bind() noexcept override;
 		ID3D11ShaderResourceView* GetView() const noexcept;
 		ID3D11ShaderResourceView* const* GetViewAddress() const noexcept;

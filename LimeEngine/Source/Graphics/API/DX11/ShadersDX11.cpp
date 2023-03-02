@@ -8,25 +8,25 @@ namespace LimeEngine
 {
 	VertexShaderDX11::VertexShaderDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
 
-	VertexShaderDX11::VertexShaderDX11(RendererDX11& renderer, const std::wstring& filePath, MaterialType materialType) : BindableDX11(renderer)
+	VertexShaderDX11::VertexShaderDX11(RendererDX11& renderer, const FPath& filePath, MaterialType materialType) : BindableDX11(renderer)
 	{
 		Initialize(filePath, materialType);
 	}
 
-	void VertexShaderDX11::Initialize(const std::wstring& filePath, MaterialType materialType)
+	void VertexShaderDX11::Initialize(const FPath& filePath, MaterialType materialType)
 	{
 		HRESULT hr = D3DReadFileToBlob(filePath.c_str(), shaderBuffer.GetAddressOf());
 		if (FAILED(hr))
 		{
 			std::ostringstream oss;
-			oss << "Failed to load vertex shader: " << StringHelper::StringToChar8(filePath);
+			oss << "Failed to load vertex shader: " << filePath;
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 		hr = GetDevice()->CreateVertexShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
 		if (FAILED(hr))
 		{
 			std::ostringstream oss;
-			oss << "Failed to create vertex shader: " << StringHelper::StringToChar8(filePath);
+			oss << "Failed to create vertex shader: " << filePath;
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 
@@ -76,25 +76,25 @@ namespace LimeEngine
 
 	PixelShaderDX11::PixelShaderDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
 
-	PixelShaderDX11::PixelShaderDX11(RendererDX11& renderer, const std::wstring& filePath) : BindableDX11(renderer)
+	PixelShaderDX11::PixelShaderDX11(RendererDX11& renderer, const FPath& filePath) : BindableDX11(renderer)
 	{
 		Initialize(filePath);
 	}
 
-	void PixelShaderDX11::Initialize(const std::wstring& filePath)
+	void PixelShaderDX11::Initialize(const FPath& filePath)
 	{
 		HRESULT hr = D3DReadFileToBlob(filePath.c_str(), shaderBuffer.GetAddressOf());
 		if (FAILED(hr))
 		{
 			std::stringstream oss;
-			oss << "Failed to load pixel shader: " << StringHelper::StringToChar8(filePath);
+			oss << "Failed to load pixel shader: " << filePath;
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 		hr = GetDevice()->CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
 		if (FAILED(hr))
 		{
 			std::stringstream oss;
-			oss << "Failed to create pixel shader: " << StringHelper::StringToChar8(filePath);
+			oss << "Failed to create pixel shader: " << filePath;
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 	}

@@ -8,7 +8,7 @@
 
 namespace LimeEngine
 {
-	std::wstring Paths::GetPathToExeFolder() noexcept
+	FPath Paths::GetPathToExeFolder() noexcept
 	{
 #if defined(LE_BUILD_PLATFORM_WINDOWS)
 		std::array<wchar_t, MAX_PATH> filePath = { '\0' };
@@ -17,9 +17,10 @@ namespace LimeEngine
 			throw HR_LAST_EXCEPTION();
 		}
 #endif
-		return std::filesystem::path(filePath.data()).remove_filename().wstring();
+		return std::filesystem::path(filePath.data()).remove_filename();
 	}
 
-	const std::wstring Paths::ExeFolder = GetPathToExeFolder();
-	const std::wstring Paths::ShaderFolder = ExeFolder;
+	const FPath Paths::ExeFolder = GetPathToExeFolder();
+	const FPath Paths::ShaderFolder = "Shaders";
+	const FPath Paths::ContentFolder = "Content";
 }

@@ -2,6 +2,7 @@
 // See file LICENSE for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
+#include <filesystem>
 #include "Base/PlatformDetection.hpp"
 
 #ifdef _DEBUG
@@ -50,6 +51,11 @@
 #if defined(LE_ENABLE_RENDER_API_DX11)
 	#define LE_ENABLE_COM
 #endif
+
+namespace LimeEngine
+{
+	using FPath = std::filesystem::path;
+}
 
 #include "Base/String.hpp"
 #include "Base/Assert.hpp"

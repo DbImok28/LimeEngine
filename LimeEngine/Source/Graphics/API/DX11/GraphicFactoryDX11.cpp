@@ -13,17 +13,17 @@ namespace LimeEngine
 		return std::make_unique<MeshRenderDataDX11>(renderer, vertices, indices);
 	}
 
-	std::unique_ptr<IBindable> GraphicFactoryDX11::CreateVertexShader(std::wstring path, MaterialType materialType) const
+	std::unique_ptr<IBindable> GraphicFactoryDX11::CreateVertexShader(const FPath& filePath, MaterialType materialType) const
 	{
-		return std::make_unique<VertexShaderDX11>(renderer, path, materialType);
+		return std::make_unique<VertexShaderDX11>(renderer, filePath, materialType);
 	}
 
-	std::unique_ptr<IBindable> GraphicFactoryDX11::CreatePixelShader(std::wstring path) const
+	std::unique_ptr<IBindable> GraphicFactoryDX11::CreatePixelShader(const FPath& filePath) const
 	{
-		return std::make_unique<PixelShaderDX11>(renderer, path);
+		return std::make_unique<PixelShaderDX11>(renderer, filePath);
 	}
 
-	std::unique_ptr<Texture2D> GraphicFactoryDX11::CreateTexture2D(const ResourcePath& resourcePath, std::wstring filePath, TextureType type) const
+	std::unique_ptr<Texture2D> GraphicFactoryDX11::CreateTexture2D(const ResourcePath& resourcePath, const FPath& filePath, TextureType type) const
 	{
 		return std::make_unique<Texture2DDX11>(renderer, resourcePath, filePath, type);
 	}

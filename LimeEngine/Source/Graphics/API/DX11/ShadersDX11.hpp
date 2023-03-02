@@ -9,10 +9,10 @@ namespace LimeEngine
 	{
 	public:
 		explicit VertexShaderDX11(RendererDX11& renderer) noexcept;
-		VertexShaderDX11(RendererDX11& renderer, const std::wstring&, MaterialType materialType);
+		VertexShaderDX11(RendererDX11& renderer, const FPath& filePath, MaterialType materialType);
 		virtual ~VertexShaderDX11() override = default;
 
-		void Initialize(const std::wstring& filePath, MaterialType materialType);
+		void Initialize(const FPath& filePath, MaterialType materialType);
 		virtual void Bind() noexcept override;
 		std::vector<D3D11_INPUT_ELEMENT_DESC> MakeInputLayout(MaterialType materialType) const;
 		ID3D11VertexShader* GetShader() const noexcept;
@@ -29,10 +29,10 @@ namespace LimeEngine
 	{
 	public:
 		explicit PixelShaderDX11(RendererDX11& renderer) noexcept;
-		PixelShaderDX11(RendererDX11& renderer, const std::wstring& filePath);
+		PixelShaderDX11(RendererDX11& renderer, const FPath& filePath);
 		virtual ~PixelShaderDX11() override = default;
 
-		void Initialize(const std::wstring& filePath);
+		void Initialize(const FPath& filePath);
 		virtual void Bind() noexcept override;
 		ID3D11PixelShader* GetShader() const noexcept;
 		ID3D10Blob* GetBuffer() const noexcept;

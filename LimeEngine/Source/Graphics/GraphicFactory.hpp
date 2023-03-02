@@ -18,9 +18,9 @@ namespace LimeEngine
 	public:
 		virtual ~GraphicFactory() = default;
 		virtual std::unique_ptr<MeshRenderData> CreateMeshRenderData(const std::vector<Vertex>& vertices, const std::vector<uint>& indices) const = 0;
-		virtual std::unique_ptr<IBindable> CreateVertexShader(std::wstring path, MaterialType materialType) const = 0;
-		virtual std::unique_ptr<IBindable> CreatePixelShader(std::wstring path) const = 0;
-		virtual std::unique_ptr<Texture2D> CreateTexture2D(const ResourcePath& resourcePath, std::wstring filePath, TextureType type) const = 0;
+		virtual std::unique_ptr<IBindable> CreateVertexShader(const FPath& filePath, MaterialType materialType) const = 0;
+		virtual std::unique_ptr<IBindable> CreatePixelShader(const FPath& filePath) const = 0;
+		virtual std::unique_ptr<Texture2D> CreateTexture2D(const ResourcePath& resourcePath, const FPath& filePath, TextureType type) const = 0;
 		virtual std::unique_ptr<WindowRenderOutput> CreateRenderOutput(Window& window) const = 0;
 
 		std::unique_ptr<Material> CreateMaterial(const GameResourceData& data) const

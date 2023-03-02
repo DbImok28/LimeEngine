@@ -15,8 +15,7 @@ namespace LimeEngine
 		Initialize(pData, size);
 	}
 
-	Texture2DDX11::Texture2DDX11(RendererDX11& renderer, const ResourcePath& resourcePath, const std::wstring& filePath, TextureType type) :
-		Texture2DDX11(renderer, resourcePath, type)
+	Texture2DDX11::Texture2DDX11(RendererDX11& renderer, const ResourcePath& resourcePath, const FPath& filePath, TextureType type) : Texture2DDX11(renderer, resourcePath, type)
 	{
 		Initialize(filePath);
 	}
@@ -27,11 +26,11 @@ namespace LimeEngine
 		GFX_CHECK_HR_MSG(DirectX::CreateWICTextureFromMemory(device, pData, size, texture.GetAddressOf(), textureView.GetAddressOf()), "Failed to create texture from memory.");
 	}
 
-	void Texture2DDX11::Initialize(const std::wstring& filePath)
+	void Texture2DDX11::Initialize(const FPath& filePath)
 	{
 		auto device = renderer.GetDevice();
 		HRESULT hr;
-		if (std::filesystem::path(filePath).extension() == ".dds")
+		if (filePath.extension() == ".dds")
 		{
 			hr = DirectX::CreateDDSTextureFromFile(device, filePath.c_str(), texture.GetAddressOf(), textureView.GetAddressOf());
 			if (FAILED(hr))

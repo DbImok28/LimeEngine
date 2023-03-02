@@ -1,7 +1,5 @@
 #pragma once
 
-#include "CoreBase.hpp"
-
 #include <memory>
 #include <utility>
 #include <type_traits>
@@ -23,3 +21,5 @@
 #include <bitset>
 #include <unordered_map>
 #include <unordered_set>
+
+#include "CoreBase.hpp"

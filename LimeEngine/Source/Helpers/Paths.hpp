@@ -5,10 +5,11 @@ namespace LimeEngine
 	class Paths
 	{
 	private:
-		static std::wstring GetPathToExeFolder() noexcept;
+		static FPath GetPathToExeFolder() noexcept;
 
 	public:
-		static const std::wstring ExeFolder;
-		static const std::wstring ShaderFolder;
+		static const FPath ExeFolder;
+		static const FPath ShaderFolder;
+		static const FPath ContentFolder;
 	};
 }
