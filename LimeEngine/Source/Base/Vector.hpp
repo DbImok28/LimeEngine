@@ -50,6 +50,7 @@ namespace LimeEngine
 		TempVector GetTempVector() const noexcept;
 		const DirectX::XMFLOAT3& GetFloat3() const noexcept;
 		float* GetArray() noexcept;
+
 		void Add(const TempVector& v) noexcept;
 		void Subtract(const TempVector& v) noexcept;
 		void Multiply(const TempVector& v) noexcept;
@@ -61,6 +62,9 @@ namespace LimeEngine
 		TempVector DotVec(const TempVector& v) const noexcept;
 		float Dot(const TempVector& v) const noexcept;
 
+		static TempVector MakeTempVector(const Vector& v) noexcept;
+		static TempVector MakeTempVector(float x, float y, float z) noexcept;
+
 		static TempVector LengthVec(const TempVector& v) noexcept;
 		static float Length(const TempVector& v) noexcept;
 		static TempVector Normalize(const TempVector& v) noexcept;
@@ -71,12 +75,12 @@ namespace LimeEngine
 		{
 			switch (order)
 			{
-				case LimeEngine::AxisOrder::XYZ: return { x, y, z };
-				case LimeEngine::AxisOrder::XZY: return { x, z, y };
-				case LimeEngine::AxisOrder::YXZ: return { y, x, z };
-				case LimeEngine::AxisOrder::YZX: return { y, z, x };
-				case LimeEngine::AxisOrder::ZXY: return { z, x, y };
-				case LimeEngine::AxisOrder::ZYX: return { z, y, x };
+				case AxisOrder::XYZ: return { x, y, z };
+				case AxisOrder::XZY: return { x, z, y };
+				case AxisOrder::YXZ: return { y, x, z };
+				case AxisOrder::YZX: return { y, z, x };
+				case AxisOrder::ZXY: return { z, x, y };
+				case AxisOrder::ZYX: return { z, y, x };
 				default: return { x, y, z };
 			}
 		}

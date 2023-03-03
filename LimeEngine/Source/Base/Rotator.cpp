@@ -1,24 +1,12 @@
 #include "lepch.hpp"
 #include "Rotator.hpp"
-#include <cmath>
+#include "Math.hpp"
 
 namespace LimeEngine
 {
 	Rotator::Rotator() noexcept : roll(0.0f), pitch(0.0f), yaw(0.0f) {}
 
 	Rotator::Rotator(float rollDeg, float pitchDeg, float yawDeg) noexcept : roll(rollDeg), pitch(pitchDeg), yaw(yawDeg) {}
-
-	inline Rotator Rotator::MakeForRad(float rollRad, float pitchRad, float yawRad) noexcept
-	{
-		return Rotator(XMConvertToDegrees(rollRad), XMConvertToDegrees(pitchRad), XMConvertToDegrees(yawRad));
-	}
-
-	Rotator Rotator::MakeRotator(TempQuaternion q) noexcept
-	{
-		Rotator r;
-		r.SetQuaternion(q);
-		return r;
-	}
 
 	bool Rotator::operator==(const Rotator& other) const noexcept
 	{
@@ -30,54 +18,36 @@ namespace LimeEngine
 		return !(*this == other);
 	}
 
-	TempQuaternion Rotator::GetQuaternion() const noexcept
+	Rotator Rotator::MakeFromRadians(float rollRad, float pitchRad, float yawRad) noexcept
 	{
-		return XMQuaternionRotationRollPitchYaw(XMConvertToRadians(roll), XMConvertToRadians(pitch), XMConvertToRadians(yaw));
+		return Rotator(Math::ConvertToDegrees(rollRad), Math::ConvertToDegrees(pitchRad), Math::ConvertToDegrees(yawRad));
 	}
 
-	TempVector Rotator::GetEuler() const noexcept
+	Rotator Rotator::MakeRotator(TempQuaternion q) noexcept
 	{
-		XMFLOAT3 euler(XMConvertToRadians(roll), XMConvertToRadians(pitch), XMConvertToRadians(yaw));
-		return XMLoadFloat3(&vec3);
+		Rotator r;
+		r.SetQuaternion(q);
+		return r;
 	}
 
-	void Rotator::SetQuaternion(TempQuaternion quat) noexcept
+	TempQuaternion Rotator::MakeTempQuaternion(const Rotator& rot) noexcept
 	{
-		XMFLOAT4 q;
-		XMStoreFloat4(&q, XMQuaternionNormalize(quat));
-
-		// roll
-		float sinr_cosp = 2.0f * (q.w * q.x + q.y * q.z);
-		float cosr_cosp = 1.0f - 2.0f * (q.x * q.x + q.y * q.y);
-		roll = XMConvertToDegrees(std::atan2f(sinr_cosp, cosr_cosp));
-		// pitch
-		float sinp = 2.0f * (q.w * q.y - q.z * q.x);
-
-		if (std::fabs(sinp) >= 1.0f)
-		{
-			pitch = XMConvertToDegrees(std::copysignf(XM_PIDIV2, sinp));
-		}
-		else
-		{
-			pitch = XMConvertToDegrees(std::asinf(sinp));
-		}
-		// yaw
-		float siny_cosp = 2.0f * (q.w * q.z + q.x * q.y);
-		float cosy_cosp = 1.0f - 2.0f * (q.y * q.y + q.z * q.z);
-		yaw = XMConvertToDegrees(std::atan2f(siny_cosp, cosy_cosp));
+		return MakeTempQuaternion(rot.roll, rot.pitch, rot.yaw);
 	}
 
-	void Rotator::SetEuler(TempVector euler) noexcept
+	TempQuaternion Rotator::MakeTempQuaternion(float roll, float pitch, float yaw) noexcept
 	{
-		XMStoreFloat3(&vec3, euler);
-		roll = XMConvertToDegrees(roll);
-		pitch = XMConvertToDegrees(pitch);
-		yaw = XMConvertToDegrees(yaw);
+		return DirectX::XMQuaternionRotationRollPitchYaw(roll, pitch, yaw);
 	}
 
-	float* Rotator::GetArray() noexcept
+	TempQuaternion Rotator::MakeTempQuaternionFromRadians(const Rotator& rot) noexcept
 	{
-		return &roll;
+		return MakeTempQuaternionFromRadians(rot.roll, rot.pitch, rot.yaw);
+	}
+
+	TempQuaternion Rotator::MakeTempQuaternionFromRadians(float roll, float pitch, float yaw) noexcept
+	{
+		return MakeTempQuaternion(Math::ConvertToRadians(roll), Math::ConvertToRadians(pitch), Math::ConvertToRadians(yaw));
 	}
 
 	void Rotator::Combine(const Rotator& other) noexcept
@@ -85,5 +55,55 @@ namespace LimeEngine
 		roll += other.roll;
 		pitch += other.pitch;
 		yaw += other.yaw;
+	}
+
+	TempQuaternion Rotator::GetQuaternion() const noexcept
+	{
+		return MakeTempQuaternionFromRadians(roll, pitch, yaw);
+	}
+
+	void Rotator::SetQuaternion(TempQuaternion quat) noexcept
+	{
+		DirectX::XMFLOAT4 q;
+		DirectX::XMStoreFloat4(&q, DirectX::XMQuaternionNormalize(quat));
+
+		// roll
+		float sinr_cosp = 2.0f * (q.w * q.x + q.y * q.z);
+		float cosr_cosp = 1.0f - 2.0f * (q.x * q.x + q.y * q.y);
+		roll = Math::ConvertToDegrees(Math::ATan2(sinr_cosp, cosr_cosp));
+
+		// pitch
+		float sinp = 2.0f * (q.w * q.y - q.z * q.x);
+		if (Math::Abs(sinp) >= 1.0f)
+		{
+			pitch = Math::ConvertToDegrees(Math::Copysign(Math::piDivBy2, sinp));
+		}
+		else
+		{
+			pitch = Math::ConvertToDegrees(Math::ASin(sinp));
+		}
+
+		// yaw
+		float siny_cosp = 2.0f * (q.w * q.z + q.x * q.y);
+		float cosy_cosp = 1.0f - 2.0f * (q.y * q.y + q.z * q.z);
+		yaw = Math::ConvertToDegrees(Math::ATan2(siny_cosp, cosy_cosp));
+	}
+
+	TempVector Rotator::GetEuler() const noexcept
+	{
+		return Vector::MakeTempVector(Math::ConvertToRadians(roll), Math::ConvertToRadians(pitch), Math::ConvertToRadians(yaw));
+	}
+
+	void Rotator::SetEuler(TempVector euler) noexcept
+	{
+		XMStoreFloat3(&vec3, euler);
+		roll = Math::ConvertToDegrees(roll);
+		pitch = Math::ConvertToDegrees(pitch);
+		yaw = Math::ConvertToDegrees(yaw);
+	}
+
+	float* Rotator::GetArray() noexcept
+	{
+		return &roll;
 	}
 }

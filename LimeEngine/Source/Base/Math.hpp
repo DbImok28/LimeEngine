@@ -8,32 +8,91 @@ namespace LimeEngine
 	{
 	public:
 		static constexpr float pi = 3.141592653f;
-		static constexpr float toRad = pi / 180.0f;
-		static float Sin(float x) noexcept
+		static constexpr float pi2 = 6.283185307f;
+		static constexpr float div1ByPi = 0.318309886f;
+		static constexpr float div1By2Pi = 0.159154943f;
+		static constexpr float piDivBy2 = 1.570796327f;
+		static constexpr float piDivBy4 = 0.785398163f;
+
+		static constexpr float toRadians = pi / 180.0f;
+		static constexpr float toDegress = 180.0f / pi;
+
+		static inline constexpr float ConvertToDegrees(float radians) noexcept
+		{
+			return radians * toDegress;
+		}
+		static inline constexpr float ConvertToRadians(float degrees) noexcept
+		{
+			return degrees * toRadians;
+		}
+
+		static inline float Sin(float x) noexcept
 		{
 			return std::sinf(x);
 		}
-		static float Cos(float x) noexcept
+		static inline float ASin(float x) noexcept
+		{
+			return std::asinf(x);
+		}
+		static inline float Cos(float x) noexcept
 		{
 			return std::cosf(x);
 		}
-		static float Tan(float x) noexcept
+		static inline float ACos(float x) noexcept
+		{
+			return std::acosf(x);
+		}
+		static inline float Tan(float x) noexcept
 		{
 			return std::tanf(x);
 		}
-		static float Sqrt(float x) noexcept
+		static inline float ATan(float x) noexcept
+		{
+			return std::atanf(x);
+		}
+		static inline float ATan2(float y, float x) noexcept
+		{
+			return std::atan2f(y, x);
+		}
+
+		static inline float Abs(float x) noexcept
+		{
+			return std::fabs(x);
+		}
+		static inline float Round(float x) noexcept
+		{
+			return std::roundf(x);
+		}
+		static inline float Floor(float x) noexcept
+		{
+			return std::floorf(x);
+		}
+		static inline float Ceil(float x) noexcept
+		{
+			return std::ceilf(x);
+		}
+		static inline float Trunc(float x) noexcept
+		{
+			return std::truncf(x);
+		}
+
+		static inline float Sqrt(float x) noexcept
 		{
 			return std::sqrtf(x);
 		}
-		static float Pow(float x, float n) noexcept
+		static inline float Pow(float x, float n) noexcept
 		{
 			return std::powf(x, n);
 		}
-		static float Root(float x, float n) noexcept
+		static inline float Root(float x, float n) noexcept
 		{
 			return std::powf(x, 1.0f / n);
 		}
-		static float FlipUV(float u) noexcept
+		static inline float Copysign(float num, float sign) noexcept
+		{
+			return std::copysignf(num, sign);
+		}
+		static inline constexpr float FlipUV(float u) noexcept
 		{
 			return -u + 1.0f;
 		}

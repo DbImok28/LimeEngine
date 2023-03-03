@@ -54,7 +54,7 @@ namespace LimeEngine
 
 	Vector::operator TempVector() const noexcept
 	{
-		return XMLoadFloat3(&this->vec);
+		return GetTempVector();
 	}
 
 	Vector::operator DirectX::XMFLOAT3() const noexcept
@@ -192,6 +192,17 @@ namespace LimeEngine
 	}
 
 	// static
+
+	TempVector Vector::MakeTempVector(const Vector& v) noexcept
+	{
+		return XMLoadFloat3(&v.vec);
+	}
+
+	TempVector Vector::MakeTempVector(float x, float y, float z) noexcept
+	{
+		Vector v(x, y, z);
+		return XMLoadFloat3(&v.vec);
+	}
 
 	TempVector Vector::LengthVec(const TempVector& v) noexcept
 	{
