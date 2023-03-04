@@ -1,12 +1,11 @@
 #pragma once
-// TODO: Remove
-#include <DirectXMath.h>
+#include "Base/Transform.hpp"
 
 namespace LimeEngine
 {
 	struct VSTransformConstantBuffer
 	{
-		DirectX::XMMATRIX wvpMatrix;
-		DirectX::XMMATRIX worldMatrix;
+		TempTransformMatrix wvpMatrix;
+		TempTransformMatrix worldMatrix;
 	};
 }
