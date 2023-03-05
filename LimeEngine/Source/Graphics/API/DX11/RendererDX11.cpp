@@ -7,9 +7,9 @@
 
 namespace LimeEngine
 {
-	RendererDX11::RendererDX11(Window& window) : Renderer(std::make_unique<WindowRenderOutputDX11>(*this, window)), graphicFactory(*this)
+	RendererDX11::RendererDX11(Window& window, DisplayMode mode) : Renderer(std::make_unique<WindowRenderOutputDX11>(*this, window)), graphicFactory(*this)
 	{
-		Init();
+		Init(mode);
 		RuntimeEditor::Init(window.GetHandle(), device.Get(), deviceContext.Get());
 	}
 
@@ -20,28 +20,55 @@ namespace LimeEngine
 
 	void RendererDX11::SetOutputBuffer(ID3D11Texture2D* buffer)
 	{
-		GFX_CHECK_HR(device->CreateRenderTargetView(buffer, NULL, renderTargetView.GetAddressOf()));
+		if (buffer == nullptr)
+		{
+			LE_LOG_INFO("Clear render output buffer");
+			deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
+			return;
+		}
+		LE_LOG_INFO("Set render output buffer");
+		GFX_CHECK_HR(device->CreateRenderTargetView(buffer, nullptr, renderTargetView.GetAddressOf()));
 		deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
+	}
+
+	void RendererDX11::CreateAllBuffers()
+	{
+		CreateAllBuffers(renderOutput->GetDisplayMode());
+	}
+
+	void RendererDX11::CreateAllBuffers(DisplayMode mode)
+	{
+		LE_CORE_LOG_TRACE("RendererDX11::CreateAllBuffers");
+		renderOutput->Init(mode);
+		CreateDepthStencil();
+		renderOutput->Bind();
+		CreateDepthStencilState();
+		CreateViewport();
+	}
+
+	void RendererDX11::DestroyAllBuffers()
+	{
+		LE_CORE_LOG_TRACE("RendererDX11::DestroyAllBuffers");
+		renderTargetView.Reset();
+		depthStencilView.Reset();
+		depthStencilBuffer.Reset();
+		renderOutput->Clear();
+		deviceContext->Flush();
 	}
 
 	void RendererDX11::Resize(uint width, uint height)
 	{
-		renderOutput->Init();
-		CreateDepthStencil();
-		renderOutput->Bind();
-		CreateViewport();
+		LE_CORE_LOG_TRACE("RendererDX11::Resize(width: {}, height: {})", width, height);
+		CreateAllBuffers();
 	}
 
-	void RendererDX11::Init()
+	void RendererDX11::Init(DisplayMode mode)
 	{
+		LE_CORE_LOG_TRACE("RendererDX11::Init");
 		CreateDevice();
-		renderOutput->Init();
-		CreateDepthStencil();
-		renderOutput->Bind();
-		CreateDepthStencilState();
+		CreateAllBuffers(mode);
 		CreateRasterizerState();
 		CreateSamplerState();
-		CreateViewport();
 	}
 
 	void RendererDX11::CreateDevice()

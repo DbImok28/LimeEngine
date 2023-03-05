@@ -18,16 +18,19 @@ namespace LimeEngine
 		LE_DELETE_MOVE_COPY(RendererDX11)
 
 	public:
-		explicit RendererDX11(Window& window);
+		RendererDX11(Window& window, DisplayMode mode);
 		virtual ~RendererDX11();
 
 	public:
 		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) override;
 		void Resize(uint width, uint height);
 		void SetOutputBuffer(ID3D11Texture2D* buffer);
+		void CreateAllBuffers();
+		void CreateAllBuffers(DisplayMode mode);
+		void DestroyAllBuffers();
 
 	private:
-		void Init();
+		void Init(DisplayMode mode);
 		void CreateDevice();
 		void CreateDepthStencil();
 		void CreateDepthStencilState();

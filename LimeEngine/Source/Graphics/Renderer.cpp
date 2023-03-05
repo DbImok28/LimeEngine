@@ -7,13 +7,13 @@
 
 namespace LimeEngine
 {
-	std::unique_ptr<Renderer> Renderer::Create(RenderAPI api, Window& window)
+	std::unique_ptr<Renderer> Renderer::Create(RenderAPI api, Window& window, DisplayMode mode)
 	{
 		switch (api)
 		{
 			case LimeEngine::RenderAPI::Auto: [[fallthrough]];
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case LimeEngine::RenderAPI::DirectX11: return std::make_unique<RendererDX11>(window); break;
+			case LimeEngine::RenderAPI::DirectX11: return std::make_unique<RendererDX11>(window, mode); break;
 #endif
 			default: break;
 		}
@@ -23,14 +23,24 @@ namespace LimeEngine
 
 	Renderer::Renderer(std::unique_ptr<RenderOutput>&& renderOutput) : renderOutput(std::move(renderOutput)) {}
 
+	const CameraComponent* Renderer::GetCamera() const noexcept
+	{
+		return camera;
+	}
+
 	void Renderer::SetCamera(CameraComponent* camera) noexcept
 	{
 		this->camera = camera;
 	}
 
-	const CameraComponent* Renderer::GetCamera() const noexcept
+	DisplayMode Renderer::GetDisplayMode() const noexcept
 	{
-		return camera;
+		return renderOutput->GetDisplayMode();
+	}
+
+	void Renderer::SetDisplayMode(DisplayMode mode)
+	{
+		renderOutput->SetDisplayMode(mode);
 	}
 
 	void Renderer::AddToRender(IDrawable* drawable)

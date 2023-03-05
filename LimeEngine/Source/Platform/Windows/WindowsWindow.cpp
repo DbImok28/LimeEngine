@@ -144,7 +144,7 @@ namespace LimeEngine
 		return reinterpret_cast<void*>(hWnd);
 	}
 
-	LRESULT WindowsWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+	LRESULT WindowsWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		// WM_NCCREATE - message when a window is first created.
 		if (msg == WM_NCCREATE)
@@ -163,13 +163,13 @@ namespace LimeEngine
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	LRESULT CALLBACK WindowsWindow::HandleMsgForwarding(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+	LRESULT CALLBACK WindowsWindow::HandleMsgForwarding(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		WindowsWindow* const pWindow = reinterpret_cast<WindowsWindow*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 		return pWindow->HandleMsg(hWnd, msg, wParam, lParam);
 	}
 
-	LRESULT WindowsWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+	LRESULT WindowsWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 #ifdef LE_ENABLE_IMGUI
 		if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam)) return true;
@@ -180,8 +180,8 @@ namespace LimeEngine
 			case WM_CLOSE: PostQuitMessage(0); return 0;
 			case WM_SIZE:
 			{
-				width = LOWORD(lParam);
-				height = HIWORD(lParam);
+				width = std::max<int>(static_cast<int>(LOWORD(lParam)), 1);
+				height = std::max<int>(static_cast<int>(HIWORD(lParam)), 1);
 				events(WindowEventType::Resize, ResizeWindowEvent(width, height));
 				switch (wParam)
 				{

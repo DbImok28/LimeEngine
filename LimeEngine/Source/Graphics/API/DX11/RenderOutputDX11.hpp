@@ -13,19 +13,20 @@ namespace LimeEngine
 	{
 	public:
 		WindowRenderOutputDX11(RendererDX11& renderer, Window& window);
-		virtual ~WindowRenderOutputDX11() {}
+		virtual ~WindowRenderOutputDX11();
 
-		void Init() override;
+		void Init(DisplayMode mode) override;
 		void Bind() override;
 		void Present() override;
+		void Clear() override;
 		void Resize(uint width, uint height) override;
+		void SetDisplayMode(DisplayMode newMode) override;
 
 		ID3D11Texture2D* GetBackBuffer() const noexcept;
 
 	private:
 		RendererDX11& renderer;
-		com_ptr<IDXGISwapChain> swapchain;
-		com_ptr<ID3D11Texture2D> backBuffer;
-		bool binded = false;
+		com_ptr<IDXGISwapChain> swapchain = nullptr;
+		com_ptr<ID3D11Texture2D> backBuffer = nullptr;
 	};
 }

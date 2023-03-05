@@ -12,7 +12,7 @@ namespace LimeEngine
 	{
 		LE_DELETE_MOVE_COPY(Renderer)
 	public:
-		static std::unique_ptr<Renderer> Create(RenderAPI api, Window& window);
+		static std::unique_ptr<Renderer> Create(RenderAPI api, Window& window, DisplayMode mode);
 
 	public:
 		explicit Renderer(std::unique_ptr<RenderOutput>&& renderOutput);
@@ -23,8 +23,10 @@ namespace LimeEngine
 		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) = 0;
 		virtual const GraphicFactory* GetGraphicFactory() const noexcept = 0;
 
-		void SetCamera(CameraComponent* camera) noexcept;
 		const CameraComponent* GetCamera() const noexcept;
+		void SetCamera(CameraComponent* camera) noexcept;
+		DisplayMode GetDisplayMode() const noexcept;
+		void SetDisplayMode(DisplayMode mode);
 		void AddToRender(IDrawable* drawable);
 		void RemoveFromRender(const IDrawable* drawable) noexcept;
 

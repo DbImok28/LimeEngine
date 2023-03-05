@@ -1,4 +1,5 @@
 #pragma once
+#include "CoreBase.hpp"
 #include "Graphics/GraphicExceptions.hpp"
 #include "Platform/Windows/WindowsExceptions.hpp"
 
@@ -36,7 +37,7 @@ namespace LimeEngine
 #endif
 
 #define GFX_CHECK_HR_NOINFO(call) \
-	if (FAILED(hr = (call))) throw LimeEngine::GraphicsHrException(__LINE__, __FILE__, hr)
+	if (HRESULT _hr = (call); FAILED(_hr)) throw LimeEngine::GraphicsHrException(__LINE__, __FILE__, _hr)
 
 namespace LimeEngine
 {

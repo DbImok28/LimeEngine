@@ -8,6 +8,24 @@ namespace LimeEngine
 
 	void RenderLayer::Update()
 	{
+		if (renderer->GetDisplayMode() == DisplayMode::Windowed)
+		{
+			if (RuntimeEditor::Button("Change windowed mode to FullscreenExclusive"))
+			{
+				renderer->SetDisplayMode(DisplayMode::FullscreenExclusive);
+			}
+			if (RuntimeEditor::Button("Change windowed mode to FullscreenWindowed"))
+			{
+				renderer->SetDisplayMode(DisplayMode::FullscreenWindowed);
+			}
+		}
+		else
+		{
+			if (RuntimeEditor::Button("Change windowed mode to Windowed"))
+			{
+				renderer->SetDisplayMode(DisplayMode::Windowed);
+			}
+		}
 		renderer->Render();
 	}
 
