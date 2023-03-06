@@ -15,7 +15,7 @@ namespace LimeEngine
 		WindowRenderOutputDX11(RendererDX11& renderer, Window& window);
 		virtual ~WindowRenderOutputDX11();
 
-		void Init(DisplayMode mode) override;
+		void Init() override;
 		void Bind() override;
 		void Present() override;
 		void Clear() override;

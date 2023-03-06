@@ -14,9 +14,8 @@ namespace LimeEngine
 		swapchain->SetFullscreenState(FALSE, NULL);
 	}
 
-	void WindowRenderOutputDX11::Init(DisplayMode mode)
+	void WindowRenderOutputDX11::Init()
 	{
-		LE_LOG_INFO("WindowRenderOutputDX11::Init");
 		if (swapchain == nullptr)
 		{
 			com_ptr<IDXGIFactory> pFactory;
@@ -46,7 +45,6 @@ namespace LimeEngine
 		{
 			GFX_CHECK_HR(swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backBuffer.GetAddressOf())));
 		}
-		SetDisplayMode(mode);
 	}
 
 	void WindowRenderOutputDX11::Bind()
@@ -77,6 +75,7 @@ namespace LimeEngine
 	void WindowRenderOutputDX11::Resize(uint width, uint height)
 	{
 		renderer.DestroyAllBuffers();
+		LE_CORE_ASSERT((swapchain != nullptr), "Swapchain is not initialized");
 		GFX_CHECK_HR(swapchain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH));
 		renderer.Resize(width, height);
 	}
@@ -85,7 +84,7 @@ namespace LimeEngine
 	{
 		if (displayMode != newMode)
 		{
-			if (newMode == DisplayMode::Windowed && displayMode == DisplayMode::FullscreenExclusive)
+			if (displayMode == DisplayMode::FullscreenExclusive && newMode == DisplayMode::Windowed)
 			{
 				GFX_CHECK_HR(swapchain->SetFullscreenState(false, nullptr));
 			}

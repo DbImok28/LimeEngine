@@ -21,7 +21,7 @@ namespace LimeEngine
 		virtual uint GetWidth() const noexcept = 0;
 		virtual uint GetHeight() const noexcept = 0;
 
-		virtual void Init(DisplayMode mode) = 0;
+		virtual void Init() = 0;
 		virtual void Present() = 0;
 		virtual void Clear() = 0;
 		virtual void Resize(uint width, uint height) = 0;

@@ -26,7 +26,6 @@ namespace LimeEngine
 		void Resize(uint width, uint height);
 		void SetOutputBuffer(ID3D11Texture2D* buffer);
 		void CreateAllBuffers();
-		void CreateAllBuffers(DisplayMode mode);
 		void DestroyAllBuffers();
 
 	private:
@@ -50,7 +49,6 @@ namespace LimeEngine
 	private:
 		GraphicFactoryDX11 graphicFactory;
 
-		com_ptr<IDXGISwapChain> swapchain = nullptr;
 		com_ptr<ID3D11RenderTargetView> renderTargetView = nullptr;
 
 		com_ptr<ID3D11DepthStencilView> depthStencilView = nullptr;
