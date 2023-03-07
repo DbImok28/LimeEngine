@@ -8,6 +8,10 @@ namespace LimeEngine
 
 	void RenderLayer::Update()
 	{
+		RuntimeEditor::NewPanel("Window");
+		RuntimeEditor::Text("Width", std::to_string(renderer->GetWidth()));
+		RuntimeEditor::Text("Height", std::to_string(renderer->GetHeight()));
+
 		if (renderer->GetDisplayMode() == DisplayMode::Windowed)
 		{
 			if (RuntimeEditor::Button("Change windowed mode to FullscreenExclusive"))

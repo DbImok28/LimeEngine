@@ -25,6 +25,7 @@ namespace LimeEngine
 		virtual void Present() = 0;
 		virtual void Clear() = 0;
 		virtual void Resize(uint width, uint height) = 0;
+		virtual void OnResize(uint width, uint height) = 0;
 		virtual void SetDisplayMode(DisplayMode mode) = 0;
 		DisplayMode GetDisplayMode() const noexcept
 		{
@@ -40,11 +41,11 @@ namespace LimeEngine
 	public:
 		explicit WindowRenderOutput(Window& window) : window(window)
 		{
-			window.events.Bind(WindowEventType::Resize, this, &WindowRenderOutput::OnResize);
+			window.events.Bind(WindowEventType::Resize, this, &WindowRenderOutput::OnResizeEvent);
 		}
 		virtual ~WindowRenderOutput()
 		{
-			window.events.Unbind(WindowEventType::Resize, this, &WindowRenderOutput::OnResize);
+			window.events.Unbind(WindowEventType::Resize, this, &WindowRenderOutput::OnResizeEvent);
 		}
 		const Window& GetWindow() const noexcept
 		{
@@ -59,10 +60,10 @@ namespace LimeEngine
 			return window.GetHeight();
 		}
 
-		void OnResize(const Event& e)
+		void OnResizeEvent(const Event& e)
 		{
 			auto& resizeEvent = CastEvent<ResizeWindowEvent>(e);
-			Resize(resizeEvent.width, resizeEvent.height);
+			OnResize(resizeEvent.width, resizeEvent.height);
 		}
 
 	protected:

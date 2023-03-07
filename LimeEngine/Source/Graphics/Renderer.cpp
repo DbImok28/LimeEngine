@@ -43,6 +43,16 @@ namespace LimeEngine
 		renderOutput->SetDisplayMode(mode);
 	}
 
+	float Renderer::GetWidth() const noexcept
+	{
+		return renderOutput->GetWidth();
+	}
+
+	float Renderer::GetHeight() const noexcept
+	{
+		return renderOutput->GetHeight();
+	}
+
 	void Renderer::AddToRender(IDrawable* drawable)
 	{
 		renderQueue.Add(drawable);

@@ -111,4 +111,24 @@ namespace LimeEngine
 		auto cameraObject = std::make_unique<SceneObject>(engine, std::move(cameraComponent));
 		AttachObject(std::move(cameraObject));
 	}
+
+	void TestMap::Update()
+	{
+		static bool isInput;
+		static int32 intValue;
+		static Vector vec;
+		static Transform transform;
+		RuntimeEditor::NewPanel("Hello");
+
+		if (RuntimeEditor::Button("TestInput", isInput))
+		{
+			RuntimeEditor::Text("BlaBla1");
+			RuntimeEditor::Text("hiint", "Basdf");
+			RuntimeEditor::Slider("test", intValue);
+
+			RuntimeEditor::Slider("test", vec);
+
+			RuntimeEditor::Input("tes2t", transform);
+		}
+	}
 }

@@ -21,7 +21,7 @@ namespace LimeEngine
 
 		// Renderer
 		auto window = Window::Create(WindowArgs(TEXT("LimeEngine"), 1080, 720));
-		auto renderer = Renderer::Create(RenderAPI::Auto, *window.get(), DisplayMode::FullscreenExclusive);
+		auto renderer = Renderer::Create(RenderAPI::Auto, *window.get(), DisplayMode::Windowed);
 
 		// Create Engine
 		Engine engine(std::move(window), std::move(renderer));
@@ -33,7 +33,6 @@ namespace LimeEngine
 		engine.sceneLayer.GetScene().AttachMap(std::move(map));
 
 		// Start Engine
-		LE_CORE_LOG_TRACE("Engine startup");
 		engine.Start();
 	}
 }

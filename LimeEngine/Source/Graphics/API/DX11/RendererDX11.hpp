@@ -23,8 +23,8 @@ namespace LimeEngine
 
 	public:
 		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) override;
-		void Resize(uint width, uint height);
 		void SetOutputBuffer(ID3D11Texture2D* buffer);
+		void Resize(uint width, uint height);
 		void CreateAllBuffers();
 		void DestroyAllBuffers();
 

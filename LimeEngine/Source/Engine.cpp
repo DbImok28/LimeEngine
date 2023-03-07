@@ -17,6 +17,7 @@ namespace LimeEngine
 
 	int Engine::Start()
 	{
+		LE_CORE_LOG_TRACE("Engine startup");
 		timer.Start();
 		while (!exitCode.has_value())
 		{
@@ -24,6 +25,7 @@ namespace LimeEngine
 			timer.Restart();
 			UpdateLayers();
 		}
+		LE_CORE_LOG_TRACE("Engine shutdown");
 		return *exitCode;
 	}
 

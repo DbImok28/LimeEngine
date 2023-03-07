@@ -20,11 +20,14 @@ namespace LimeEngine
 		void Present() override;
 		void Clear() override;
 		void Resize(uint width, uint height) override;
+		void OnResize(uint width, uint height) override;
 		void SetDisplayMode(DisplayMode newMode) override;
 
 		ID3D11Texture2D* GetBackBuffer() const noexcept;
 
 	private:
+		uint RefreshRate = 60;
+
 		RendererDX11& renderer;
 		com_ptr<IDXGISwapChain> swapchain = nullptr;
 		com_ptr<ID3D11Texture2D> backBuffer = nullptr;

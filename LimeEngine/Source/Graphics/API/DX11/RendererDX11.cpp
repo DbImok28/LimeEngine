@@ -15,6 +15,7 @@ namespace LimeEngine
 
 	RendererDX11::~RendererDX11()
 	{
+		renderOutput->SetDisplayMode(DisplayMode::Windowed);
 		RuntimeEditor::Destroy();
 	}
 
@@ -29,6 +30,12 @@ namespace LimeEngine
 		LE_CORE_LOG_TRACE("Set render output buffer");
 		GFX_CHECK_HR(device->CreateRenderTargetView(buffer, nullptr, renderTargetView.GetAddressOf()));
 		deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
+	}
+
+	void RendererDX11::Resize(uint width, uint height)
+	{
+		LE_CORE_LOG_TRACE("RendererDX11::Resize(width: {}, height: {})", width, height);
+		CreateAllBuffers();
 	}
 
 	void RendererDX11::CreateAllBuffers()
@@ -49,12 +56,6 @@ namespace LimeEngine
 		depthStencilBuffer.Reset();
 		renderOutput->Clear();
 		deviceContext->Flush();
-	}
-
-	void RendererDX11::Resize(uint width, uint height)
-	{
-		LE_CORE_LOG_TRACE("RendererDX11::Resize(width: {}, height: {})", width, height);
-		CreateAllBuffers();
 	}
 
 	void RendererDX11::Init(DisplayMode mode)

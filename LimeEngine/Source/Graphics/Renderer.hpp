@@ -27,6 +27,8 @@ namespace LimeEngine
 		void SetCamera(CameraComponent* camera) noexcept;
 		DisplayMode GetDisplayMode() const noexcept;
 		void SetDisplayMode(DisplayMode mode);
+		float GetWidth() const noexcept;
+		float GetHeight() const noexcept;
 		void AddToRender(IDrawable* drawable);
 		void RemoveFromRender(const IDrawable* drawable) noexcept;
 

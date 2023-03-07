@@ -8,5 +8,6 @@ namespace LimeEngine
 	public:
 		using SceneMap::SceneMap;
 		void Load() override;
+		void Update() override;
 	};
 }
