@@ -26,7 +26,9 @@ namespace LimeEngine
 		ID3D11Texture2D* GetBackBuffer() const noexcept;
 
 	private:
-		uint RefreshRate = 60;
+		uint oldWindowWidth = 0;
+		uint oldWindowHeight = 0;
+		uint refreshRate = 60;
 
 		RendererDX11& renderer;
 		com_ptr<IDXGISwapChain> swapchain = nullptr;

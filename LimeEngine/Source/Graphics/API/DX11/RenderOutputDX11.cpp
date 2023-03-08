@@ -23,7 +23,7 @@ namespace LimeEngine
 
 			DXGI_SWAP_CHAIN_DESC scd = { 0 };
 			scd.Windowed = TRUE;
-			scd.BufferDesc.RefreshRate.Numerator = RefreshRate;
+			scd.BufferDesc.RefreshRate.Numerator = refreshRate;
 			scd.BufferDesc.RefreshRate.Denominator = 1;
 			scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 			scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
@@ -74,7 +74,7 @@ namespace LimeEngine
 		DXGI_MODE_DESC BufferDesc = { 0 };
 		BufferDesc.Width = width;
 		BufferDesc.Height = height;
-		BufferDesc.RefreshRate.Numerator = RefreshRate;
+		BufferDesc.RefreshRate.Numerator = refreshRate;
 		BufferDesc.RefreshRate.Denominator = 1;
 		BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
@@ -92,7 +92,6 @@ namespace LimeEngine
 		{
 			displayMode = DisplayMode::FullscreenExclusive;
 		}
-
 		renderer.DestroyAllBuffers();
 		GFX_CHECK_HR(swapchain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH));
 		renderer.Resize(width, height);
@@ -105,9 +104,21 @@ namespace LimeEngine
 			if (displayMode == DisplayMode::FullscreenExclusive && newMode == DisplayMode::Windowed)
 			{
 				GFX_CHECK_HR(swapchain->SetFullscreenState(false, nullptr));
+				LE_CORE_LOG_DEBUG("WResoultion: ({}, {})", oldWindowWidth, oldWindowHeight);
+				Resize(oldWindowWidth, oldWindowHeight);
 			}
 			else if (newMode == DisplayMode::FullscreenExclusive)
 			{
+				oldWindowWidth = window.GetWidth();
+				oldWindowHeight = window.GetHeight();
+
+				DEVMODE devMode = { 0 };
+				devMode.dmSize = sizeof DEVMODE;
+				if (!EnumDisplaySettingsEx(NULL, ENUM_CURRENT_SETTINGS, &devMode, EDS_RAWMODE)) throw GFX_EXCEPTION_MSG("Call EnumDisplaySettings error");
+				LE_CORE_LOG_DEBUG("FResoultion: ({}, {})", devMode.dmPelsWidth, devMode.dmPelsHeight);
+
+				Resize(devMode.dmPelsWidth, devMode.dmPelsHeight);
+
 				auto hr = swapchain->SetFullscreenState(true, nullptr);
 				if (hr == DXGI_ERROR_NOT_CURRENTLY_AVAILABLE)
 				{
