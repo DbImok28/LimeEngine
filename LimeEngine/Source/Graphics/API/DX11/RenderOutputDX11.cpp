@@ -18,9 +18,6 @@ namespace LimeEngine
 	{
 		if (swapchain == nullptr)
 		{
-			com_ptr<IDXGIFactory> pFactory;
-			GFX_CHECK_HR_NOINFO(CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(pFactory.GetAddressOf())));
-
 			DXGI_SWAP_CHAIN_DESC scd = { 0 };
 			scd.Windowed = TRUE;
 			scd.BufferDesc.RefreshRate.Numerator = refreshRate;
@@ -35,7 +32,8 @@ namespace LimeEngine
 			scd.OutputWindow = reinterpret_cast<HWND>(window.GetHandle());
 			scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 			scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-			GFX_CHECK_HR(pFactory->CreateSwapChain(renderer.GetDevice(), &scd, swapchain.GetAddressOf()));
+			GFX_CHECK_HR(renderer.GetDXGIFactory()->CreateSwapChain(renderer.GetDevice(), &scd, swapchain.GetAddressOf()));
+			GFX_CHECK_HR(renderer.GetDXGIFactory()->MakeWindowAssociation(reinterpret_cast<HWND>(window.GetHandle()), DXGI_MWA_NO_WINDOW_CHANGES));
 			backBuffer = nullptr;
 		}
 		if (backBuffer == nullptr)

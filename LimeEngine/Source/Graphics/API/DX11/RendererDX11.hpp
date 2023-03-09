@@ -2,8 +2,9 @@
 // See LICENSE for copyright and licensing details (standard MIT License).
 // GitHub https://github.com/RubyCircle/LimeEngine
 #pragma once
-#include "DirectXDef.hpp"
 #include "Graphics/Renderer.hpp"
+#include "DirectXDef.hpp"
+#include "GraphicAdapter.hpp"
 #include "ExceptionsDX11.hpp"
 #include "Helpers/Paths.hpp"
 #include "BindableDX11.hpp"
@@ -43,10 +44,14 @@ namespace LimeEngine
 
 	public:
 		virtual const GraphicFactory* GetGraphicFactory() const noexcept override;
+
 		ID3D11Device* GetDevice() const noexcept;
 		ID3D11DeviceContext* GetDeviceContext() const noexcept;
+		const GraphicAdapter& GetGraphicAdapter() const noexcept;
+		IDXGIFactory* GetDXGIFactory() const noexcept;
 
 	private:
+		GraphicAdapter graphicAdapter;
 		GraphicFactoryDX11 graphicFactory;
 
 		com_ptr<ID3D11RenderTargetView> renderTargetView = nullptr;
@@ -59,6 +64,7 @@ namespace LimeEngine
 
 		com_ptr<ID3D11SamplerState> samplerState = nullptr;
 
+		com_ptr<IDXGIFactory> dxgiFactory = nullptr;
 		com_ptr<ID3D11Device> device = nullptr;
 		com_ptr<ID3D11DeviceContext> deviceContext = nullptr;
 	};

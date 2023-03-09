@@ -1,6 +1,5 @@
 #include "lepch.hpp"
 #include "RendererDX11.hpp"
-#include "GraphicAdapter.hpp"
 #include "Scene/MeshComponent.hpp"
 #include "Graphics/Mesh.hpp"
 #include "RenderOutputDX11.hpp"
@@ -77,15 +76,18 @@ namespace LimeEngine
 
 	void RendererDX11::CreateDevice()
 	{
-		std::vector<GraphicAdapter> adapters = GraphicAdapter::GetGraphicAdapters();
+		GFX_CHECK_HR_NOINFO(CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(dxgiFactory.GetAddressOf())));
+
+		std::vector<GraphicAdapter> adapters = GraphicAdapter::GetGraphicAdapters(dxgiFactory.Get());
 		if (adapters.size() < 1) throw GFX_EXCEPTION_MSG("No found DXGI Adapters.");
+		graphicAdapter = adapters[0];
 
 		UINT swapFlags = 0u;
 #ifndef NDEBUG
 		swapFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
-		D3D11CreateDevice(
-			adapters[0].pAdapter,        // Adapter
+		GFX_CHECK_HR(D3D11CreateDevice(
+			graphicAdapter.adapter,      // Adapter
 			D3D_DRIVER_TYPE_UNKNOWN,     // DriverType
 			nullptr,                     // Software
 			swapFlags,                   // Flags
@@ -95,7 +97,7 @@ namespace LimeEngine
 			device.GetAddressOf(),       // Device
 			nullptr,                     // FeatureLevel
 			deviceContext.GetAddressOf() // ImmediateContext
-		);
+			));
 	}
 
 	void RendererDX11::CreateDepthStencil()
@@ -210,5 +212,15 @@ namespace LimeEngine
 	ID3D11DeviceContext* RendererDX11::GetDeviceContext() const noexcept
 	{
 		return deviceContext.Get();
+	}
+
+	const GraphicAdapter& RendererDX11::GetGraphicAdapter() const noexcept
+	{
+		return graphicAdapter;
+	}
+
+	IDXGIFactory* RendererDX11::GetDXGIFactory() const noexcept
+	{
+		return dxgiFactory.Get();
 	}
 }

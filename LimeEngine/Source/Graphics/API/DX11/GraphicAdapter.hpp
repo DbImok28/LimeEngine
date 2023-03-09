@@ -7,14 +7,15 @@ namespace LimeEngine
 	class GraphicAdapter
 	{
 	public:
-		static std::vector<GraphicAdapter> GetGraphicAdapters();
+		static std::vector<GraphicAdapter> GetGraphicAdapters(IDXGIFactory* dxgiFactory);
 
 	private:
 		static std::vector<GraphicAdapter> adapters;
 
 	public:
-		explicit GraphicAdapter(IDXGIAdapter* pAdapter);
-		IDXGIAdapter* pAdapter = nullptr;
-		DXGI_ADAPTER_DESC desc;
+		GraphicAdapter() noexcept = default;
+		explicit GraphicAdapter(IDXGIAdapter* adapter);
+		IDXGIAdapter* adapter = nullptr;
+		DXGI_ADAPTER_DESC desc = { 0 };
 	};
 }

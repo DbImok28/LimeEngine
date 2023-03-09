@@ -5,24 +5,20 @@ namespace LimeEngine
 {
 	std::vector<GraphicAdapter> GraphicAdapter::adapters;
 
-	std::vector<GraphicAdapter> GraphicAdapter::GetGraphicAdapters()
+	std::vector<GraphicAdapter> GraphicAdapter::GetGraphicAdapters(IDXGIFactory* dxgiFactory)
 	{
 		if (!adapters.empty()) return adapters;
-		com_ptr<IDXGIFactory> pFactory;
-		HRESULT hr = CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(pFactory.GetAddressOf()));
-		GFX_CHECK_HR_NOINFO(hr);
-
-		IDXGIAdapter* pAdapter;
+		IDXGIAdapter* adapter;
 		UINT index = 0;
-		while (SUCCEEDED(pFactory->EnumAdapters(index, &pAdapter)))
+		while (SUCCEEDED(dxgiFactory->EnumAdapters(index, &adapter)))
 		{
-			adapters.push_back(GraphicAdapter(pAdapter));
+			adapters.push_back(GraphicAdapter(adapter));
 			++index;
 		}
 		return adapters;
 	}
 
-	GraphicAdapter::GraphicAdapter(IDXGIAdapter* pAdapter) : pAdapter(pAdapter)
+	GraphicAdapter::GraphicAdapter(IDXGIAdapter* pAdapter) : adapter(pAdapter)
 	{
 		HRESULT hr = pAdapter->GetDesc(&desc);
 		GFX_CHECK_HR_NOINFO(hr);
