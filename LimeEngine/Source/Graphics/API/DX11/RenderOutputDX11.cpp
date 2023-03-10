@@ -112,7 +112,7 @@ namespace LimeEngine
 
 				DEVMODE devMode = { 0 };
 				devMode.dmSize = sizeof DEVMODE;
-				if (!EnumDisplaySettingsEx(NULL, ENUM_CURRENT_SETTINGS, &devMode, EDS_RAWMODE)) throw GFX_EXCEPTION_MSG("Call EnumDisplaySettings error");
+				if (!EnumDisplaySettingsEx(NULL, ENUM_CURRENT_SETTINGS, &devMode, EDS_RAWMODE)) throw HR_LAST_EXCEPTION();
 				LE_CORE_LOG_DEBUG("FResoultion: ({}, {})", devMode.dmPelsWidth, devMode.dmPelsHeight);
 
 				Resize(devMode.dmPelsWidth, devMode.dmPelsHeight);
