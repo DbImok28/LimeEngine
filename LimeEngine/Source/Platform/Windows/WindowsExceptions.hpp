@@ -12,6 +12,9 @@
 #define CHECK_HR_MSG(call, msg) \
 	if (HRESULT _hr = (call); FAILED(_hr)) throw HR_EXCEPTION(_hr, msg);
 
+#define CHECK_LAST_ERROR(call) \
+	if (!(call)) throw HR_LAST_EXCEPTION();
+
 namespace LimeEngine
 {
 	class EngineHrException : public EngineException

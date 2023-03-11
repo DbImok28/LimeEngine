@@ -110,12 +110,9 @@ namespace LimeEngine
 				oldWindowWidth = window.GetWidth();
 				oldWindowHeight = window.GetHeight();
 
-				DEVMODE devMode = { 0 };
-				devMode.dmSize = sizeof DEVMODE;
-				if (!EnumDisplaySettingsEx(NULL, ENUM_CURRENT_SETTINGS, &devMode, EDS_RAWMODE)) throw HR_LAST_EXCEPTION();
-				LE_CORE_LOG_DEBUG("FResoultion: ({}, {})", devMode.dmPelsWidth, devMode.dmPelsHeight);
-
-				Resize(devMode.dmPelsWidth, devMode.dmPelsHeight);
+				auto screenResolution = GetScreenResolution();
+				LE_CORE_LOG_DEBUG("FResoultion: ({}, {})", screenResolution.first, screenResolution.second);
+				Resize(screenResolution.first, screenResolution.second);
 
 				auto hr = swapchain->SetFullscreenState(true, nullptr);
 				if (hr == DXGI_ERROR_NOT_CURRENTLY_AVAILABLE)
@@ -132,5 +129,18 @@ namespace LimeEngine
 	ID3D11Texture2D* WindowRenderOutputDX11::GetBackBuffer() const noexcept
 	{
 		return backBuffer.Get();
+	}
+
+	std::pair<uint, uint> WindowRenderOutputDX11::GetScreenResolution() noexcept
+	{
+		HMONITOR monitor = MonitorFromWindow(reinterpret_cast<HWND>(window.GetHandle()), MONITOR_DEFAULTTONEAREST);
+
+		MONITORINFO info = { 0 };
+		info.cbSize = sizeof MONITORINFO;
+		CHECK_LAST_ERROR(GetMonitorInfo(monitor, &info));
+
+		uint monitorWidth = info.rcMonitor.right - info.rcMonitor.left;
+		uint monitorHeight = info.rcMonitor.bottom - info.rcMonitor.top;
+		return { monitorWidth, monitorHeight };
 	}
 }
