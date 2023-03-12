@@ -12,18 +12,23 @@ namespace LimeEngine
 		RuntimeEditor::Text("Width", std::to_string(renderer->GetWidth()));
 		RuntimeEditor::Text("Height", std::to_string(renderer->GetHeight()));
 
-		if (renderer->GetDisplayMode() == DisplayMode::Windowed)
+		auto winMode = renderer->GetDisplayMode();
+		if (winMode == DisplayMode::Windowed || winMode == DisplayMode::FullscreenWindowed)
 		{
 			if (RuntimeEditor::Button("Change windowed mode to FullscreenExclusive"))
 			{
 				renderer->SetDisplayMode(DisplayMode::FullscreenExclusive);
 			}
+		}
+		if (winMode == DisplayMode::Windowed)
+		{
 			if (RuntimeEditor::Button("Change windowed mode to FullscreenWindowed"))
 			{
 				renderer->SetDisplayMode(DisplayMode::FullscreenWindowed);
 			}
 		}
-		else
+
+		if (winMode == DisplayMode::FullscreenWindowed || winMode == DisplayMode::FullscreenExclusive)
 		{
 			if (RuntimeEditor::Button("Change windowed mode to Windowed"))
 			{

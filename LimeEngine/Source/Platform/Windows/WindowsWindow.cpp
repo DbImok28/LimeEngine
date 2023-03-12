@@ -64,23 +64,23 @@ namespace LimeEngine
 		width = args.width;
 		height = args.height;
 
-		auto style = WS_SIZEBOX       // Sizing border
-					 | WS_MAXIMIZEBOX // Maximize button
-					 | WS_MINIMIZEBOX // Minimize button
-					 | WS_CAPTION     // Title bar
-					 | WS_SYSMENU;    // Menu in title bar
+		styles = WS_SIZEBOX       // Sizing border
+				 | WS_MAXIMIZEBOX // Maximize button
+				 | WS_MINIMIZEBOX // Minimize button
+				 | WS_CAPTION     // Title bar
+				 | WS_SYSMENU;    // Menu in title bar
 
 		RECT wr = { 0 };
 		wr.left = 100;
 		wr.right = width + wr.left;
 		wr.top = 100;
 		wr.bottom = height + wr.top;
-		if (!AdjustWindowRect(&wr, style, FALSE)) throw WND_LAST_EXCEPTION();
+		if (!AdjustWindowRect(&wr, styles, FALSE)) throw WND_LAST_EXCEPTION();
 
 		hWnd = CreateWindow(
 			WindowClass::GetName(),
 			args.title.c_str(),
-			style,
+			styles,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
 			wr.right - wr.left,
@@ -90,6 +90,8 @@ namespace LimeEngine
 			WindowClass::GetInstance(),
 			this);
 		if (!hWnd) throw WND_LAST_EXCEPTION();
+
+		exStyles = GetWindowLong(hWnd, GWL_EXSTYLE);
 		ShowWindow(hWnd, SW_SHOWDEFAULT);
 
 		static bool rawInputInitialized = false;
@@ -139,6 +141,54 @@ namespace LimeEngine
 		if (!SetWindowText(hWnd, title.c_str())) throw WND_LAST_EXCEPTION();
 	}
 
+	void WindowsWindow::SetFullsreen(bool fullscreen)
+	{
+		if (fullscreen)
+		{
+			savedWindowMaximized = maximized;
+			if (maximized) ::SendMessage(hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+
+			GetWindowRect(hWnd, &savedWindowSize);
+
+			LONG newStyles = GetWindowLong(hWnd, GWL_STYLE);
+			LONG newExStyles = GetWindowLong(hWnd, GWL_EXSTYLE);
+			newStyles &= ~(WS_CAPTION | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU);
+			newExStyles &= ~(WS_EX_DLGMODALFRAME | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE);
+			SetWindowLong(hWnd, GWL_STYLE, newStyles);
+			SetWindowLong(hWnd, GWL_EXSTYLE, newExStyles);
+
+			auto screenResolution = GetScreenResolution();
+			SetWindowPos(hWnd, HWND_TOP, 0, 0, screenResolution.first, screenResolution.second, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+		}
+		else
+		{
+			SetWindowLong(hWnd, GWL_STYLE, styles);
+			SetWindowLong(hWnd, GWL_EXSTYLE, exStyles);
+			SetWindowPos(
+				hWnd,
+				HWND_NOTOPMOST,
+				savedWindowSize.left,
+				savedWindowSize.top,
+				savedWindowSize.right - savedWindowSize.left,
+				savedWindowSize.bottom - savedWindowSize.top,
+				SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+			if (savedWindowMaximized) ::SendMessage(hWnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+		}
+	}
+
+	std::pair<uint, uint> WindowsWindow::GetScreenResolution() const
+	{
+		HMONITOR monitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
+
+		MONITORINFO info = { 0 };
+		info.cbSize = sizeof MONITORINFO;
+		CHECK_LAST_ERROR(GetMonitorInfo(monitor, &info));
+
+		uint monitorWidth = info.rcMonitor.right - info.rcMonitor.left;
+		uint monitorHeight = info.rcMonitor.bottom - info.rcMonitor.top;
+		return { monitorWidth, monitorHeight };
+	}
+
 	void* WindowsWindow::GetHandle() const noexcept
 	{
 		return reinterpret_cast<void*>(hWnd);
@@ -177,26 +227,47 @@ namespace LimeEngine
 
 		switch (msg)
 		{
-			case WM_CLOSE: PostQuitMessage(0); return 0;
+			case WM_CLOSE:
+			{
+				PostQuitMessage(0);
+				return 0;
+			}
 			case WM_SIZE:
 			{
-				width = std::max<int>(static_cast<int>(LOWORD(lParam)), 1);
-				height = std::max<int>(static_cast<int>(HIWORD(lParam)), 1);
+				width = std::max<uint>(static_cast<uint>(LOWORD(lParam)), 1u);
+				height = std::max<uint>(static_cast<uint>(HIWORD(lParam)), 1u);
 				events(WindowEventType::Resize, ResizeWindowEvent(width, height));
 				switch (wParam)
 				{
 					case SIZE_MAXIMIZED:
 					{
+						maximized = true;
+						hidden = false;
+						break;
+					}
+					case SIZE_RESTORED:
+					{
+						maximized = false;
+						hidden = false;
 						break;
 					}
 					case SIZE_MINIMIZED:
 					{
+						hidden = true;
 						break;
 					}
 				}
 				break;
 			}
-				// Keyboard
+			case WM_MOVE:
+			{
+				const POINTS pt = MAKEPOINTS(lParam);
+				LE_CORE_LOG_DEBUG("Point {} {}", pt.x, pt.y);
+				posX = static_cast<int>(pt.x);
+				posY = static_cast<int>(pt.y);
+				break;
+			}
+			// Keyboard
 			case WM_SYSKEYDOWN:
 			case WM_KEYDOWN:
 			{

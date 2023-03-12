@@ -52,8 +52,12 @@ namespace LimeEngine
 
 		virtual void OnUpdate() = 0;
 		virtual void SetTitle(const tstring& title) = 0;
+		virtual void SetFullsreen(bool bordered) = 0;
 		virtual uint GetWidth() const noexcept = 0;
 		virtual uint GetHeight() const noexcept = 0;
+		virtual int GetPosX() const noexcept = 0;
+		virtual int GetPosY() const noexcept = 0;
+		virtual std::pair<uint, uint> GetScreenResolution() const = 0;
 		virtual void* GetHandle() const noexcept = 0;
 		InputDevice& GetInputDevice() noexcept;
 

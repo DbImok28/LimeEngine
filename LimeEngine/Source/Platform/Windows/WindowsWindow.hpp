@@ -50,28 +50,47 @@ namespace LimeEngine
 		void Destroy();
 
 	public:
-		void OnUpdate() override;
-		void SetTitle(const tstring& title) override;
-		uint GetWidth() const noexcept override
+		virtual void OnUpdate() override;
+		virtual void SetTitle(const tstring& title) override;
+		virtual void SetFullsreen(bool bordered) override;
+		virtual uint GetWidth() const noexcept override
 		{
 			return width;
 		}
-		uint GetHeight() const noexcept override
+		virtual uint GetHeight() const noexcept override
 		{
 			return height;
 		}
-		void* GetHandle() const noexcept override;
+		virtual int GetPosX() const noexcept override
+		{
+			return posX;
+		}
+		virtual int GetPosY() const noexcept override
+		{
+			return posY;
+		}
+		virtual std::pair<uint, uint> GetScreenResolution() const override;
+		virtual void* GetHandle() const noexcept override;
 
 	private:
 		static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		static LRESULT CALLBACK HandleMsgForwarding(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	public:
-		int width;
-		int height;
-
 	private:
+		uint width;
+		uint height;
+		int posX;
+		int posY;
+		bool hidden = false;
+		bool maximized = false;
+
+		LONG styles = 0;
+		LONG exStyles = 0;
+
+		RECT savedWindowSize = { 0 };
+		bool savedWindowMaximized = false;
+
 		HWND hWnd = nullptr;
 	};
 }

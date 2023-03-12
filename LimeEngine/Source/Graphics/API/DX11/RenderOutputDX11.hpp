@@ -26,9 +26,6 @@ namespace LimeEngine
 		ID3D11Texture2D* GetBackBuffer() const noexcept;
 
 	private:
-		std::pair<uint, uint> GetScreenResolution() noexcept;
-
-	private:
 		uint oldWindowWidth = 0;
 		uint oldWindowHeight = 0;
 		uint refreshRate = 60;

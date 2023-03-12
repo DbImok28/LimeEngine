@@ -11,7 +11,10 @@ namespace LimeEngine
 
 	WindowRenderOutputDX11::~WindowRenderOutputDX11()
 	{
-		swapchain->SetFullscreenState(FALSE, NULL);
+		if (displayMode == DisplayMode::FullscreenExclusive)
+		{
+			swapchain->SetFullscreenState(FALSE, NULL);
+		}
 	}
 
 	void WindowRenderOutputDX11::Init()
@@ -97,20 +100,30 @@ namespace LimeEngine
 
 	void WindowRenderOutputDX11::SetDisplayMode(DisplayMode newMode)
 	{
-		if (displayMode != newMode)
+		if (displayMode == newMode) return;
+
+		switch (newMode)
 		{
-			if (displayMode == DisplayMode::FullscreenExclusive && newMode == DisplayMode::Windowed)
+			case LimeEngine::DisplayMode::Windowed:
 			{
-				GFX_CHECK_HR(swapchain->SetFullscreenState(false, nullptr));
-				LE_CORE_LOG_DEBUG("WResoultion: ({}, {})", oldWindowWidth, oldWindowHeight);
-				Resize(oldWindowWidth, oldWindowHeight);
+				if (displayMode == DisplayMode::FullscreenExclusive)
+				{
+					GFX_CHECK_HR(swapchain->SetFullscreenState(false, nullptr));
+					LE_CORE_LOG_DEBUG("WResoultion: ({}, {})", oldWindowWidth, oldWindowHeight);
+					Resize(oldWindowWidth, oldWindowHeight);
+				}
+				else
+				{
+					window.SetFullsreen(false);
+				}
 			}
-			else if (newMode == DisplayMode::FullscreenExclusive)
+			break;
+			case LimeEngine::DisplayMode::FullscreenExclusive:
 			{
 				oldWindowWidth = window.GetWidth();
 				oldWindowHeight = window.GetHeight();
 
-				auto screenResolution = GetScreenResolution();
+				auto screenResolution = window.GetScreenResolution();
 				LE_CORE_LOG_DEBUG("FResoultion: ({}, {})", screenResolution.first, screenResolution.second);
 				Resize(screenResolution.first, screenResolution.second);
 
@@ -118,29 +131,27 @@ namespace LimeEngine
 				if (hr == DXGI_ERROR_NOT_CURRENTLY_AVAILABLE)
 				{
 					LE_CORE_LOG_ERROR("Switching to full screen mode is not currently available");
+					Resize(oldWindowWidth, oldWindowHeight);
 					return;
 				}
 				GFX_CHECK_HR(hr);
 			}
-			displayMode = newMode;
+			break;
+			case LimeEngine::DisplayMode::FullscreenWindowed:
+			{
+				window.SetFullsreen(true);
+			}
+			break;
+			default:
+			{
+				LE_CORE_ASSERT(false, "Unsupported window mode");
+			}
 		}
+		displayMode = newMode;
 	}
 
 	ID3D11Texture2D* WindowRenderOutputDX11::GetBackBuffer() const noexcept
 	{
 		return backBuffer.Get();
-	}
-
-	std::pair<uint, uint> WindowRenderOutputDX11::GetScreenResolution() noexcept
-	{
-		HMONITOR monitor = MonitorFromWindow(reinterpret_cast<HWND>(window.GetHandle()), MONITOR_DEFAULTTONEAREST);
-
-		MONITORINFO info = { 0 };
-		info.cbSize = sizeof MONITORINFO;
-		CHECK_LAST_ERROR(GetMonitorInfo(monitor, &info));
-
-		uint monitorWidth = info.rcMonitor.right - info.rcMonitor.left;
-		uint monitorHeight = info.rcMonitor.bottom - info.rcMonitor.top;
-		return { monitorWidth, monitorHeight };
 	}
 }
