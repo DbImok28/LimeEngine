@@ -109,29 +109,18 @@ namespace LimeEngine
 				if (displayMode == DisplayMode::FullscreenExclusive)
 				{
 					GFX_CHECK_HR(swapchain->SetFullscreenState(false, nullptr));
-					LE_CORE_LOG_DEBUG("WResoultion: ({}, {})", oldWindowWidth, oldWindowHeight);
-					Resize(oldWindowWidth, oldWindowHeight);
 				}
-				else
-				{
-					window.SetFullsreen(false);
-				}
+				window.SetFullsreen(false);
 			}
 			break;
 			case LimeEngine::DisplayMode::FullscreenExclusive:
 			{
-				oldWindowWidth = window.GetWidth();
-				oldWindowHeight = window.GetHeight();
-
-				auto screenResolution = window.GetScreenResolution();
-				LE_CORE_LOG_DEBUG("FResoultion: ({}, {})", screenResolution.first, screenResolution.second);
-				Resize(screenResolution.first, screenResolution.second);
-
+				window.SetFullsreen(true);
 				auto hr = swapchain->SetFullscreenState(true, nullptr);
 				if (hr == DXGI_ERROR_NOT_CURRENTLY_AVAILABLE)
 				{
-					LE_CORE_LOG_ERROR("Switching to full screen mode is not currently available");
-					Resize(oldWindowWidth, oldWindowHeight);
+					LE_CORE_ASSERT(false, "Switching to full screen mode is not currently available");
+					window.SetFullsreen(false);
 					return;
 				}
 				GFX_CHECK_HR(hr);

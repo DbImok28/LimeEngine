@@ -69,6 +69,7 @@ namespace LimeEngine
 		{
 			return posY;
 		}
+		RECT GetScreenRect() const;
 		virtual std::pair<uint, uint> GetScreenResolution() const override;
 		virtual void* GetHandle() const noexcept override;
 
@@ -90,6 +91,9 @@ namespace LimeEngine
 
 		RECT savedWindowSize = { 0 };
 		bool savedWindowMaximized = false;
+		bool lockResizeEvent = false;
+		bool inSizeMoveMode = false;
+		bool neadCallResizeEvent = false;
 
 		HWND hWnd = nullptr;
 	};

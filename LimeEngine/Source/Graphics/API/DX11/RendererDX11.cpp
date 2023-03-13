@@ -22,24 +22,21 @@ namespace LimeEngine
 	{
 		if (buffer == nullptr)
 		{
-			LE_CORE_LOG_TRACE("Clear render output buffer");
 			deviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 			return;
 		}
-		LE_CORE_LOG_TRACE("Set render output buffer");
 		GFX_CHECK_HR(device->CreateRenderTargetView(buffer, nullptr, renderTargetView.GetAddressOf()));
 		deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
 	}
 
 	void RendererDX11::Resize(uint width, uint height)
 	{
-		LE_CORE_LOG_TRACE("RendererDX11::Resize(width: {}, height: {})", width, height);
+		LE_CORE_LOG_TRACE("Resize renderer(width: {}, height: {})", width, height);
 		CreateAllBuffers();
 	}
 
 	void RendererDX11::CreateAllBuffers()
 	{
-		LE_CORE_LOG_TRACE("RendererDX11::CreateAllBuffers");
 		renderOutput->Init();
 		CreateDepthStencil();
 		renderOutput->Bind();
@@ -49,7 +46,6 @@ namespace LimeEngine
 
 	void RendererDX11::DestroyAllBuffers()
 	{
-		LE_CORE_LOG_TRACE("RendererDX11::DestroyAllBuffers");
 		renderTargetView.Reset();
 		depthStencilView.Reset();
 		depthStencilBuffer.Reset();
@@ -59,7 +55,6 @@ namespace LimeEngine
 
 	void RendererDX11::Init(DisplayMode mode)
 	{
-		LE_CORE_LOG_TRACE("RendererDX11::Init");
 		CreateDevice();
 		if (mode == DisplayMode::FullscreenExclusive)
 		{

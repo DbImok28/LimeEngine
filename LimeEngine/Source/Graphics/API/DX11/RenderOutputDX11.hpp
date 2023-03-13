@@ -26,8 +26,6 @@ namespace LimeEngine
 		ID3D11Texture2D* GetBackBuffer() const noexcept;
 
 	private:
-		uint oldWindowWidth = 0;
-		uint oldWindowHeight = 0;
 		uint refreshRate = 60;
 
 		RendererDX11& renderer;

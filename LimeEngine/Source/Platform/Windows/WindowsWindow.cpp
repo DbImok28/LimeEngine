@@ -146,8 +146,12 @@ namespace LimeEngine
 		if (fullscreen)
 		{
 			savedWindowMaximized = maximized;
-			if (maximized) ::SendMessage(hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-
+			if (maximized)
+			{
+				lockResizeEvent = true;
+				::SendMessage(hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+				lockResizeEvent = false;
+			}
 			GetWindowRect(hWnd, &savedWindowSize);
 
 			LONG newStyles = GetWindowLong(hWnd, GWL_STYLE);
@@ -157,13 +161,19 @@ namespace LimeEngine
 			SetWindowLong(hWnd, GWL_STYLE, newStyles);
 			SetWindowLong(hWnd, GWL_EXSTYLE, newExStyles);
 
-			auto screenResolution = GetScreenResolution();
-			SetWindowPos(hWnd, HWND_TOP, 0, 0, screenResolution.first, screenResolution.second, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
+			auto screenRect = GetScreenRect();
+			SetWindowPos(
+				hWnd, HWND_TOP, screenRect.left, screenRect.top, screenRect.right - screenRect.left, screenRect.bottom - screenRect.top, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 		}
 		else
 		{
 			SetWindowLong(hWnd, GWL_STYLE, styles);
 			SetWindowLong(hWnd, GWL_EXSTYLE, exStyles);
+
+			if (savedWindowMaximized)
+			{
+				lockResizeEvent = true;
+			}
 			SetWindowPos(
 				hWnd,
 				HWND_NOTOPMOST,
@@ -172,20 +182,28 @@ namespace LimeEngine
 				savedWindowSize.right - savedWindowSize.left,
 				savedWindowSize.bottom - savedWindowSize.top,
 				SWP_FRAMECHANGED | SWP_SHOWWINDOW);
-			if (savedWindowMaximized) ::SendMessage(hWnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+			if (savedWindowMaximized)
+			{
+				lockResizeEvent = false;
+				::SendMessage(hWnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+			}
 		}
+	}
+
+	RECT WindowsWindow::GetScreenRect() const
+	{
+		HMONITOR monitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
+		MONITORINFO info = { 0 };
+		info.cbSize = sizeof MONITORINFO;
+		CHECK_LAST_ERROR(GetMonitorInfo(monitor, &info));
+		return info.rcMonitor;
 	}
 
 	std::pair<uint, uint> WindowsWindow::GetScreenResolution() const
 	{
-		HMONITOR monitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
-
-		MONITORINFO info = { 0 };
-		info.cbSize = sizeof MONITORINFO;
-		CHECK_LAST_ERROR(GetMonitorInfo(monitor, &info));
-
-		uint monitorWidth = info.rcMonitor.right - info.rcMonitor.left;
-		uint monitorHeight = info.rcMonitor.bottom - info.rcMonitor.top;
+		auto screenRect = GetScreenRect();
+		uint monitorWidth = screenRect.right - screenRect.left;
+		uint monitorHeight = screenRect.bottom - screenRect.top;
 		return { monitorWidth, monitorHeight };
 	}
 
@@ -224,7 +242,6 @@ namespace LimeEngine
 #ifdef LE_ENABLE_IMGUI
 		if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam)) return true;
 #endif
-
 		switch (msg)
 		{
 			case WM_CLOSE:
@@ -232,11 +249,25 @@ namespace LimeEngine
 				PostQuitMessage(0);
 				return 0;
 			}
+			case WM_ENTERSIZEMOVE:
+			{
+				inSizeMoveMode = true;
+				break;
+			}
+			case WM_EXITSIZEMOVE:
+			{
+				inSizeMoveMode = false;
+				if (neadCallResizeEvent)
+				{
+					events(WindowEventType::Resize, ResizeWindowEvent(width, height));
+					neadCallResizeEvent = false;
+				}
+				break;
+			}
 			case WM_SIZE:
 			{
 				width = std::max<uint>(static_cast<uint>(LOWORD(lParam)), 1u);
 				height = std::max<uint>(static_cast<uint>(HIWORD(lParam)), 1u);
-				events(WindowEventType::Resize, ResizeWindowEvent(width, height));
 				switch (wParam)
 				{
 					case SIZE_MAXIMIZED:
@@ -257,12 +288,19 @@ namespace LimeEngine
 						break;
 					}
 				}
+				if (inSizeMoveMode)
+				{
+					neadCallResizeEvent = true;
+				}
+				else if (!lockResizeEvent)
+				{
+					events(WindowEventType::Resize, ResizeWindowEvent(width, height));
+				}
 				break;
 			}
 			case WM_MOVE:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				LE_CORE_LOG_DEBUG("Point {} {}", pt.x, pt.y);
 				posX = static_cast<int>(pt.x);
 				posY = static_cast<int>(pt.y);
 				break;
