@@ -18,7 +18,7 @@ namespace LimeEngine
 #endif
 	}
 
-	InputDevice& Window::GetInputDevice() noexcept
+	InputDevice& Window::GetInputDevice() const noexcept
 	{
 		return inputDevice;
 	}

@@ -23,6 +23,8 @@ namespace LimeEngine
 		void OnResize(uint width, uint height) override;
 		void SetDisplayMode(DisplayMode newMode) override;
 
+		void OnResizeActionEvent();
+
 		ID3D11Texture2D* GetBackBuffer() const noexcept;
 
 	private:

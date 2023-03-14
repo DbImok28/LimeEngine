@@ -7,10 +7,16 @@
 
 namespace LimeEngine
 {
-	WindowRenderOutputDX11::WindowRenderOutputDX11(RendererDX11& renderer, Window& window) : WindowRenderOutput(window), renderer(renderer) {}
+	WindowRenderOutputDX11::WindowRenderOutputDX11(RendererDX11& renderer, Window& window) : WindowRenderOutput(window), renderer(renderer)
+	{
+		auto& inputDevice = GetWindow().GetInputDevice();
+		inputDevice.AddActionMapping("Engine.ResizeWindow", { { InputKey::Enter } });
+		inputDevice.BindActionEvent("Engine.ResizeWindow", InputActionType::Pressed, this, &WindowRenderOutputDX11::OnResizeActionEvent);
+	}
 
 	WindowRenderOutputDX11::~WindowRenderOutputDX11()
 	{
+		GetWindow().GetInputDevice().UnbindActionEvent("Engine.ResizeWindow", InputActionType::Pressed, this, &WindowRenderOutputDX11::OnResizeActionEvent);
 		if (displayMode == DisplayMode::FullscreenExclusive)
 		{
 			swapchain->SetFullscreenState(FALSE, NULL);
@@ -137,6 +143,21 @@ namespace LimeEngine
 			}
 		}
 		displayMode = newMode;
+	}
+
+	void WindowRenderOutputDX11::OnResizeActionEvent()
+	{
+		if (GetWindow().GetInputDevice().keyboard.KeyIsPressed(InputKey::Alt))
+		{
+			if (displayMode != DisplayMode::Windowed)
+			{
+				SetDisplayMode(DisplayMode::Windowed);
+			}
+			else
+			{
+				SetDisplayMode(DisplayMode::FullscreenExclusive);
+			}
+		}
 	}
 
 	ID3D11Texture2D* WindowRenderOutputDX11::GetBackBuffer() const noexcept

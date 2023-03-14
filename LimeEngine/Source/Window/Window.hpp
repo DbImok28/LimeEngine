@@ -59,7 +59,7 @@ namespace LimeEngine
 		virtual int GetPosY() const noexcept = 0;
 		virtual std::pair<uint, uint> GetScreenResolution() const = 0;
 		virtual void* GetHandle() const noexcept = 0;
-		InputDevice& GetInputDevice() noexcept;
+		InputDevice& GetInputDevice() const noexcept;
 
 		// Input handlers
 		void OnKeyPressed(InputKey key) noexcept;
@@ -82,6 +82,6 @@ namespace LimeEngine
 		MultiEventDispatcher<WindowEventType> events;
 
 	private:
-		InputDevice inputDevice;
+		mutable InputDevice inputDevice;
 	};
 }
