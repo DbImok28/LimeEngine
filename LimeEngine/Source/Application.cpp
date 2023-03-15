@@ -2,6 +2,7 @@
 #include "Application.hpp"
 #include "CoreBase.hpp"
 #include "Engine.hpp"
+#include "Base/StaticInitializer.hpp"
 
 #include "Scene/TestMap.hpp"
 
@@ -17,8 +18,8 @@ namespace LimeEngine
 #ifdef LE_ENABLE_COM
 		CHECK_HR(CoInitializeEx(NULL, COINIT_MULTITHREADED));
 #endif
-		Logger::StaticInitialize();
-
+		//Logger::StaticInitialize();
+		StaticInitializer::Initialize();
 		// Renderer
 		auto window = Window::Create(WindowArgs(TEXT("LimeEngine"), 1080, 720));
 		auto renderer = Renderer::Create(RenderAPI::Auto, *window.get(), DisplayMode::Windowed);

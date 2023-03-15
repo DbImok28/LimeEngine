@@ -8,7 +8,7 @@ namespace LimeEngine
 	Logger Logger::coreLogger{};
 	Logger Logger::appLogger{};
 
-	/*STATIC_INITIALIZE*/ void Logger::StaticInitialize()
+	void Logger::StaticInitialize()
 	{
 		coreLogger.Initialize("Engine");
 		appLogger.Initialize("App");

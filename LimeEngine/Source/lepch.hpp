@@ -3,6 +3,7 @@
 #include <memory>
 #include <utility>
 #include <type_traits>
+#include <limits>
 #include <functional>
 #include <algorithm>
 #include <optional>

@@ -32,6 +32,7 @@ namespace LimeEngine
 			return appLogger;
 		}
 		static void StaticInitialize();
+		LE_STATIC_INITIALIZE(StaticInitialize, std::numeric_limits<int8>::max());
 
 	private:
 		static Logger coreLogger;
@@ -81,8 +82,8 @@ namespace LimeEngine
 }
 
 #ifdef _DEBUG
-	#define LE_LOG_DEBUG(...)      ::LimeEngine::Logger::GetLogger().Log(LogLevel::Debug, __VA_ARGS__)
-	#define LE_CORE_LOG_DEBUG(...) ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Debug, __VA_ARGS__)
+	#define LE_LOG_DEBUG(...)      ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Debug, __VA_ARGS__)
+	#define LE_CORE_LOG_DEBUG(...) ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Debug, __VA_ARGS__)
 #else
 	#define LE_LOG_DEBUG(...)      (void)0
 	#define LE_CORE_LOG_DEBUG(...) (void)0
@@ -91,50 +92,50 @@ namespace LimeEngine
 #if defined(LE_LOG_FULL)
 
 	#define LE_LOG_LOG(...)            ::LimeEngine::Logger::GetLogger().Log(__VA_ARGS__)
-	#define LE_LOG_TRACE(...)          ::LimeEngine::Logger::GetLogger().Log(LogLevel::Trace, __VA_ARGS__)
-	#define LE_LOG_INFO(...)           ::LimeEngine::Logger::GetLogger().Log(LogLevel::Info, __VA_ARGS__)
-	#define LE_LOG_WARNING(...)        ::LimeEngine::Logger::GetLogger().Log(LogLevel::Warning, __VA_ARGS__)
-	#define LE_LOG_ERROR(...)          ::LimeEngine::Logger::GetLogger().Log(LogLevel::Error, __VA_ARGS__)
-	#define LE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetLogger().Log(LogLevel::CriticalError, __VA_ARGS__)
+	#define LE_LOG_TRACE(...)          ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Trace, __VA_ARGS__)
+	#define LE_LOG_INFO(...)           ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Info, __VA_ARGS__)
+	#define LE_LOG_WARNING(...)        ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
+	#define LE_LOG_ERROR(...)          ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
+	#define LE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
 
 	#define LE_CORE_LOG(...)                ::LimeEngine::Logger::GetCoreLogger().Log(__VA_ARGS__)
-	#define LE_CORE_LOG_TRACE(...)          ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Trace, __VA_ARGS__)
-	#define LE_CORE_LOG_INFO(...)           ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Info, __VA_ARGS__)
-	#define LE_CORE_LOG_WARNING(...)        ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Warning, __VA_ARGS__)
-	#define LE_CORE_LOG_ERROR(...)          ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Error, __VA_ARGS__)
-	#define LE_CORE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::CriticalError, __VA_ARGS__)
+	#define LE_CORE_LOG_TRACE(...)          ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Trace, __VA_ARGS__)
+	#define LE_CORE_LOG_INFO(...)           ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Info, __VA_ARGS__)
+	#define LE_CORE_LOG_WARNING(...)        ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
+	#define LE_CORE_LOG_ERROR(...)          ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
+	#define LE_CORE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
 
 #elif defined(LE_LOG_NOTRACE)
 
 	#define LE_LOG_LOG(...)            ::LimeEngine::Logger::GetLogger().Log(__VA_ARGS__)
 	#define LE_LOG_TRACE(...)          (void)0
-	#define LE_LOG_INFO(...)           ::LimeEngine::Logger::GetLogger().Log(LogLevel::Info, __VA_ARGS__)
-	#define LE_LOG_WARNING(...)        ::LimeEngine::Logger::GetLogger().Log(LogLevel::Warning, __VA_ARGS__)
-	#define LE_LOG_ERROR(...)          ::LimeEngine::Logger::GetLogger().Log(LogLevel::Error, __VA_ARGS__)
-	#define LE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetLogger().Log(LogLevel::CriticalError, __VA_ARGS__)
+	#define LE_LOG_INFO(...)           ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Info, __VA_ARGS__)
+	#define LE_LOG_WARNING(...)        ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
+	#define LE_LOG_ERROR(...)          ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
+	#define LE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
 
 	#define LE_CORE_LOG(...)                ::LimeEngine::Logger::GetCoreLogger().Log(__VA_ARGS__)
 	#define LE_CORE_LOG_TRACE(...)          (void)0
-	#define LE_CORE_LOG_INFO(...)           ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Info, __VA_ARGS__)
-	#define LE_CORE_LOG_WARNING(...)        ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Warning, __VA_ARGS__)
-	#define LE_CORE_LOG_ERROR(...)          ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Error, __VA_ARGS__)
-	#define LE_CORE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::CriticalError, __VA_ARGS__)
+	#define LE_CORE_LOG_INFO(...)           ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Info, __VA_ARGS__)
+	#define LE_CORE_LOG_WARNING(...)        ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
+	#define LE_CORE_LOG_ERROR(...)          ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
+	#define LE_CORE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
 
 #elif defined(LE_LOG_WARNINGS_AND_ERRORS)
 
 	#define LE_LOG_LOG(...)            ::LimeEngine::Logger::GetLogger().Log(__VA_ARGS__)
 	#define LE_LOG_TRACE(...)          (void)0
 	#define LE_LOG_INFO(...)           (void)0
-	#define LE_LOG_WARNING(...)        ::LimeEngine::Logger::GetLogger().Log(LogLevel::Warning, __VA_ARGS__)
-	#define LE_LOG_ERROR(...)          ::LimeEngine::Logger::GetLogger().Log(LogLevel::Error, __VA_ARGS__)
-	#define LE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetLogger().Log(LogLevel::CriticalError, __VA_ARGS__)
+	#define LE_LOG_WARNING(...)        ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
+	#define LE_LOG_ERROR(...)          ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
+	#define LE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
 
 	#define LE_CORE_LOG(...)                ::LimeEngine::Logger::GetCoreLogger().Log(__VA_ARGS__)
 	#define LE_CORE_LOG_TRACE(...)          (void)0
 	#define LE_CORE_LOG_INFO(...)           (void)0
-	#define LE_CORE_LOG_WARNING(...)        ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Warning, __VA_ARGS__)
-	#define LE_CORE_LOG_ERROR(...)          ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::Error, __VA_ARGS__)
-	#define LE_CORE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(LogLevel::CriticalError, __VA_ARGS__)
+	#define LE_CORE_LOG_WARNING(...)        ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
+	#define LE_CORE_LOG_ERROR(...)          ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
+	#define LE_CORE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
 
 #elif defined(LE_NOLOG)
 

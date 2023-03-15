@@ -3,6 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include <filesystem>
+#include "Helpers/MacroUnility.hpp"
 #include "Base/PlatformDetection.hpp"
 
 #ifdef _DEBUG
@@ -59,6 +60,7 @@ namespace LimeEngine
 
 #include "Base/String.hpp"
 #include "Base/Assert.hpp"
+#include "Base/StaticInitializer.hpp"
 #include "Diagnostics/Logger.hpp"
 #include "Diagnostics/RuntimeEditor.hpp"
 #include "Exceptions/EngineExceptions.hpp"
