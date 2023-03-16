@@ -1,11 +1,14 @@
+// Copyright (C) Pavel Jakushik - All Rights Reserved
+// See file LICENSE for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include <functional>
 #include <queue>
 #include "CoreBase.hpp"
 
 #define LE_STATIC_INITIALIZE(...)              LE_MACRO_OVERLOAD(LE_STATIC_INITIALIZE, __VA_ARGS__)
-#define LE_STATIC_INITIALIZE_1(func)           static const inline ::LimeEngine::int8 _VarForStaticFunctionInit_##func = ::LimeEngine::StaticInitializer::Add(##func)
-#define LE_STATIC_INITIALIZE_2(func, priority) static const inline ::LimeEngine::int8 _VarForStaticFunctionInit_##func = ::LimeEngine::StaticInitializer::Add(##func, ##priority)
+#define LE_STATIC_INITIALIZE_1(func)           static const inline ::LimeEngine::int8 _VarForStaticFunctionInit_##func = ::LimeEngine::StaticInitializer::Add(func)
+#define LE_STATIC_INITIALIZE_2(func, priority) static const inline ::LimeEngine::int8 _VarForStaticFunctionInit_##func = ::LimeEngine::StaticInitializer::Add(func, priority)
 
 namespace LimeEngine
 {
@@ -17,7 +20,6 @@ namespace LimeEngine
 		};
 
 	public:
-		// Lazy initialization
 		static auto& GetFunctionsForStaticInit();
 		static uint8 Add(std::function<void()> func, int8 priority = 0);
 		static void Initialize();

@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Pavel Jakushik - All Rights Reserved
+// Copyright (C) Pavel Jakushik - All Rights Reserved
 // See file LICENSE for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
@@ -29,6 +29,8 @@
 	#else
 		#error "Platform does not support debugbreak!"
 	#endif
+#else
+	#define LE_DEBUGBREAK()
 #endif
 
 #define LE_DELETE_COPY(ClassName)         \
@@ -44,7 +46,7 @@
 	LE_DELETE_MOVE(ClassName)
 
 #define LE_CONSOLE
-#define LE_LOG_FULL
+#define LE_LOG_PRESET_FULL
 #define LE_ENABLE_ASSERTION
 #define LE_ENABLE_IMGUI
 #define LE_ENABLE_RENDER_API_DX11

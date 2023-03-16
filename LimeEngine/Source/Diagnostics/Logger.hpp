@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Pavel Jakushik - All Rights Reserved
+// Copyright (C) Pavel Jakushik - All Rights Reserved
 // See file LICENSE for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
@@ -7,6 +7,25 @@
 
 // TODO: Remove dependencies
 #include <spdlog/spdlog.h>
+
+#if defined(LE_LOG_PRESET_FULL)
+	#define LE_ENABLE_LOG_TRACE
+	#define LE_ENABLE_LOG_INFO
+	#define LE_ENABLE_LOG_WARNING
+	#define LE_ENABLE_LOG_ERROR
+	#define LE_ENABLE_LOG_CRITICAL_ERROR
+#endif
+#if defined(LE_LOG_PRESET_FULL_NOTRACE)
+	#define LE_ENABLE_LOG_INFO
+	#define LE_ENABLE_LOG_WARNING
+	#define LE_ENABLE_LOG_ERROR
+	#define LE_ENABLE_LOG_CRITICAL_ERROR
+#endif
+#if defined(LE_LOG_PRESET_WARNINGS_AND_ERRORS)
+	#define LE_ENABLE_LOG_WARNING
+	#define LE_ENABLE_LOG_ERROR
+	#define LE_ENABLE_LOG_CRITICAL_ERROR
+#endif
 
 namespace LimeEngine
 {
@@ -50,20 +69,23 @@ namespace LimeEngine
 		{
 			switch (level)
 			{
-#if defined(LE_LOG_NOTRACE)
-				case LimeEngine::LogLevel::Trace: return false; break;
-#elif defined(LE_LOG_WARNINGS_AND_ERRORS)
-				case LimeEngine::LogLevel::Trace: return false; break;
-				case LimeEngine::LogLevel::Info: return false; break;
-#elif defined(LE_NOLOG)
-				case LimeEngine::LogLevel::Trace: return false; break;
-				case LimeEngine::LogLevel::Info: return false; break;
-				case LimeEngine::LogLevel::Debug: return false; break;
-				case LimeEngine::LogLevel::Warning: return false; break;
-				case LimeEngine::LogLevel::Error: return false; break;
-				case LimeEngine::LogLevel::CriticalError: return false; break;
+				case LimeEngine::LogLevel::Debug: return true; break;
+#if defined(LE_ENABLE_LOG_TRACE)
+				case LimeEngine::LogLevel::Trace: return true; break;
 #endif
-				default: return true;
+#if defined(LE_ENABLE_LOG_INFO)
+				case LimeEngine::LogLevel::Info: return true; break;
+#endif
+#if defined(LE_ENABLE_LOG_WARNING)
+				case LimeEngine::LogLevel::Warning: return true; break;
+#endif
+#if defined(LE_ENABLE_LOG_ERROR)
+				case LimeEngine::LogLevel::Error: return true; break;
+#endif
+#if defined(LE_ENABLE_LOG_CRITICAL_ERROR)
+				case LimeEngine::LogLevel::CriticalError: return true; break;
+#endif
+				default: return false;
 			}
 		}
 		void Log(LogLevel level, std::string_view msg) noexcept
@@ -81,6 +103,9 @@ namespace LimeEngine
 	};
 }
 
+#define LE_LOG_LOG(...)  ::LimeEngine::Logger::GetLogger().Log(__VA_ARGS__)
+#define LE_CORE_LOG(...) ::LimeEngine::Logger::GetCoreLogger().Log(__VA_ARGS__)
+
 #ifdef _DEBUG
 	#define LE_LOG_DEBUG(...)      ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Debug, __VA_ARGS__)
 	#define LE_CORE_LOG_DEBUG(...) ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Debug, __VA_ARGS__)
@@ -89,68 +114,42 @@ namespace LimeEngine
 	#define LE_CORE_LOG_DEBUG(...) (void)0
 #endif
 
-#if defined(LE_LOG_FULL)
+#if defined(LE_ENABLE_LOG_TRACE)
+	#define LE_LOG_TRACE(...)      ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Trace, __VA_ARGS__)
+	#define LE_CORE_LOG_TRACE(...) ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Trace, __VA_ARGS__)
+#else
+	#define LE_LOG_TRACE(...)      (void)0
+	#define LE_CORE_LOG_TRACE(...) (void)0
+#endif
 
-	#define LE_LOG_LOG(...)            ::LimeEngine::Logger::GetLogger().Log(__VA_ARGS__)
-	#define LE_LOG_TRACE(...)          ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Trace, __VA_ARGS__)
-	#define LE_LOG_INFO(...)           ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Info, __VA_ARGS__)
-	#define LE_LOG_WARNING(...)        ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
-	#define LE_LOG_ERROR(...)          ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
-	#define LE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
+#if defined(LE_ENABLE_LOG_INFO)
+	#define LE_LOG_INFO(...)      ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Info, __VA_ARGS__)
+	#define LE_CORE_LOG_INFO(...) ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Info, __VA_ARGS__)
+#else
+	#define LE_LOG_INFO(...)      (void)0
+	#define LE_CORE_LOG_INFO(...) (void)0
+#endif
 
-	#define LE_CORE_LOG(...)                ::LimeEngine::Logger::GetCoreLogger().Log(__VA_ARGS__)
-	#define LE_CORE_LOG_TRACE(...)          ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Trace, __VA_ARGS__)
-	#define LE_CORE_LOG_INFO(...)           ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Info, __VA_ARGS__)
-	#define LE_CORE_LOG_WARNING(...)        ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
-	#define LE_CORE_LOG_ERROR(...)          ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
+#if defined(LE_ENABLE_LOG_WARNING)
+	#define LE_LOG_WARNING(...)      ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
+	#define LE_CORE_LOG_WARNING(...) ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
+#else
+	#define LE_LOG_WARNING(...)      (void)0
+	#define LE_CORE_LOG_WARNING(...) (void)0
+#endif
+
+#if defined(LE_ENABLE_LOG_ERROR)
+	#define LE_LOG_ERROR(...)      ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
+	#define LE_CORE_LOG_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
+#else
+	#define LE_LOG_ERROR(...)      (void)0
+	#define LE_CORE_LOG_ERROR(...) (void)0
+#endif
+
+#if defined(LE_ENABLE_LOG_CRITICAL_ERROR)
+	#define LE_LOG_CRITICAL_ERROR(...)      ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
 	#define LE_CORE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
-
-#elif defined(LE_LOG_NOTRACE)
-
-	#define LE_LOG_LOG(...)            ::LimeEngine::Logger::GetLogger().Log(__VA_ARGS__)
-	#define LE_LOG_TRACE(...)          (void)0
-	#define LE_LOG_INFO(...)           ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Info, __VA_ARGS__)
-	#define LE_LOG_WARNING(...)        ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
-	#define LE_LOG_ERROR(...)          ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
-	#define LE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
-
-	#define LE_CORE_LOG(...)                ::LimeEngine::Logger::GetCoreLogger().Log(__VA_ARGS__)
-	#define LE_CORE_LOG_TRACE(...)          (void)0
-	#define LE_CORE_LOG_INFO(...)           ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Info, __VA_ARGS__)
-	#define LE_CORE_LOG_WARNING(...)        ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
-	#define LE_CORE_LOG_ERROR(...)          ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
-	#define LE_CORE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
-
-#elif defined(LE_LOG_WARNINGS_AND_ERRORS)
-
-	#define LE_LOG_LOG(...)            ::LimeEngine::Logger::GetLogger().Log(__VA_ARGS__)
-	#define LE_LOG_TRACE(...)          (void)0
-	#define LE_LOG_INFO(...)           (void)0
-	#define LE_LOG_WARNING(...)        ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
-	#define LE_LOG_ERROR(...)          ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
-	#define LE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
-
-	#define LE_CORE_LOG(...)                ::LimeEngine::Logger::GetCoreLogger().Log(__VA_ARGS__)
-	#define LE_CORE_LOG_TRACE(...)          (void)0
-	#define LE_CORE_LOG_INFO(...)           (void)0
-	#define LE_CORE_LOG_WARNING(...)        ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
-	#define LE_CORE_LOG_ERROR(...)          ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::Error, __VA_ARGS__)
-	#define LE_CORE_LOG_CRITICAL_ERROR(...) ::LimeEngine::Logger::GetCoreLogger().Log(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
-
-#elif defined(LE_NOLOG)
-
-	#define LE_LOG_LOG(...)            (void)0
-	#define LE_LOG_TRACE(...)          (void)0
-	#define LE_LOG_INFO(...)           (void)0
-	#define LE_LOG_WARNING(...)        (void)0
-	#define LE_LOG_ERROR(...)          (void)0
-	#define LE_LOG_CRITICAL_ERROR(...) (void)0
-
-	#define LE_CORE_LOG(...)                (void)0
-	#define LE_CORE_LOG_TRACE(...)          (void)0
-	#define LE_CORE_LOG_INFO(...)           (void)0
-	#define LE_CORE_LOG_WARNING(...)        (void)0
-	#define LE_CORE_LOG_ERROR(...)          (void)0
+#else
+	#define LE_LOG_CRITICAL_ERROR(...)      (void)0
 	#define LE_CORE_LOG_CRITICAL_ERROR(...) (void)0
-
 #endif
