@@ -7,7 +7,8 @@
 
 namespace LimeEngine
 {
-	WindowRenderOutputDX11::WindowRenderOutputDX11(RendererDX11& renderer, Window& window) : WindowRenderOutput(window), renderer(renderer)
+	WindowRenderOutputDX11::WindowRenderOutputDX11(RendererDX11& renderer, Window& window, bool defaultFullscreenModeIsExclusive) :
+		WindowRenderOutput(window, defaultFullscreenModeIsExclusive), renderer(renderer)
 	{
 		auto& inputDevice = GetWindow().GetInputDevice();
 		inputDevice.AddActionMapping("Engine.ResizeWindow", { { InputKey::Enter } });
@@ -155,7 +156,14 @@ namespace LimeEngine
 			}
 			else
 			{
-				SetDisplayMode(DisplayMode::FullscreenExclusive);
+				if (defaultFullscreenModeIsExclusive)
+				{
+					SetDisplayMode(DisplayMode::FullscreenExclusive);
+				}
+				else
+				{
+					SetDisplayMode(DisplayMode::FullscreenWindowed);
+				}
 			}
 		}
 	}

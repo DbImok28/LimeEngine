@@ -12,7 +12,7 @@ namespace LimeEngine
 	class WindowRenderOutputDX11 : public WindowRenderOutput
 	{
 	public:
-		WindowRenderOutputDX11(RendererDX11& renderer, Window& window);
+		WindowRenderOutputDX11(RendererDX11& renderer, Window& window, bool defaultFullscreenModeIsExclusive = false);
 		virtual ~WindowRenderOutputDX11();
 
 		void Init() override;

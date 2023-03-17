@@ -6,7 +6,8 @@
 
 namespace LimeEngine
 {
-	RendererDX11::RendererDX11(Window& window, DisplayMode mode) : Renderer(std::make_unique<WindowRenderOutputDX11>(*this, window)), graphicFactory(*this)
+	RendererDX11::RendererDX11(Window& window, DisplayMode mode, bool defaultFullscreenModeIsExclusive) :
+		Renderer(std::make_unique<WindowRenderOutputDX11>(*this, window, defaultFullscreenModeIsExclusive)), graphicFactory(*this)
 	{
 		Init(mode);
 		RuntimeEditor::Init(window.GetHandle(), device.Get(), deviceContext.Get());

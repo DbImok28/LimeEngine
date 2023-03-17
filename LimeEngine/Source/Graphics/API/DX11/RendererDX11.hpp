@@ -19,7 +19,7 @@ namespace LimeEngine
 		LE_DELETE_MOVE_COPY(RendererDX11)
 
 	public:
-		RendererDX11(Window& window, DisplayMode mode);
+		RendererDX11(Window& window, DisplayMode mode = DisplayMode::Windowed, bool defaultFullscreenModeIsExclusive = false);
 		virtual ~RendererDX11();
 
 	public:

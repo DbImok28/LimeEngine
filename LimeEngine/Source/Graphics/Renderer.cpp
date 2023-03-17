@@ -7,13 +7,13 @@
 
 namespace LimeEngine
 {
-	std::unique_ptr<Renderer> Renderer::Create(RenderAPI api, Window& window, DisplayMode mode)
+	std::unique_ptr<Renderer> Renderer::Create(RenderAPI api, Window& window, DisplayMode mode, bool defaultFullscreenModeIsExclusive)
 	{
 		switch (api)
 		{
 			case LimeEngine::RenderAPI::Auto: [[fallthrough]];
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case LimeEngine::RenderAPI::DirectX11: return std::make_unique<RendererDX11>(window, mode); break;
+			case LimeEngine::RenderAPI::DirectX11: return std::make_unique<RendererDX11>(window, mode, defaultFullscreenModeIsExclusive); break;
 #endif
 			default: break;
 		}

@@ -22,7 +22,7 @@ namespace LimeEngine
 		StaticInitializer::Initialize();
 		// Renderer
 		auto window = Window::Create(WindowArgs(TEXT("LimeEngine"), 1080, 720));
-		auto renderer = Renderer::Create(RenderAPI::Auto, *window.get(), DisplayMode::Windowed);
+		auto renderer = Renderer::Create(RenderAPI::Auto, *window.get(), DisplayMode::Windowed, true);
 
 		// Create Engine
 		Engine engine(std::move(window), std::move(renderer));

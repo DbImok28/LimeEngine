@@ -12,7 +12,7 @@ namespace LimeEngine
 	{
 		LE_DELETE_MOVE_COPY(Renderer)
 	public:
-		static std::unique_ptr<Renderer> Create(RenderAPI api, Window& window, DisplayMode mode);
+		static std::unique_ptr<Renderer> Create(RenderAPI api, Window& window, DisplayMode mode = DisplayMode::Windowed, bool defaultFullscreenModeIsExclusive = false);
 
 	public:
 		explicit Renderer(std::unique_ptr<RenderOutput>&& renderOutput);

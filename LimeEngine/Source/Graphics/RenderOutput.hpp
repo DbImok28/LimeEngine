@@ -39,7 +39,8 @@ namespace LimeEngine
 	class WindowRenderOutput : public RenderOutput
 	{
 	public:
-		explicit WindowRenderOutput(Window& window) : window(window)
+		explicit WindowRenderOutput(Window& window, bool defaultFullscreenModeIsExclusive = false) :
+			window(window), defaultFullscreenModeIsExclusive(defaultFullscreenModeIsExclusive)
 		{
 			window.events.Bind(WindowEventType::Resize, this, &WindowRenderOutput::OnResizeEvent);
 		}
@@ -59,6 +60,10 @@ namespace LimeEngine
 		{
 			return window.GetHeight();
 		}
+		void SetDefaultFullscreenMode(bool isExclusive) noexcept
+		{
+			defaultFullscreenModeIsExclusive = isExclusive;
+		}
 
 		void OnResizeEvent(const Event& e)
 		{
@@ -67,6 +72,7 @@ namespace LimeEngine
 		}
 
 	protected:
+		bool defaultFullscreenModeIsExclusive;
 		Window& window;
 	};
 }
