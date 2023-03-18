@@ -17,7 +17,7 @@ namespace LimeEngine
 
 	int Engine::Start()
 	{
-		LE_CORE_LOG_TRACE("Engine startup");
+		LE_CORE_LOG_TRACE("Engine start");
 		timer.Start();
 		while (!exitCode.has_value())
 		{
@@ -25,7 +25,7 @@ namespace LimeEngine
 			timer.Restart();
 			UpdateLayers();
 		}
-		LE_CORE_LOG_TRACE("Engine shutdown");
+		LE_CORE_LOG_TRACE("Engine close with code {}", *exitCode);
 		return *exitCode;
 	}
 
@@ -39,8 +39,13 @@ namespace LimeEngine
 		renderLayer.Update();
 	}
 
+	void Engine::Close(int exitCode)
+	{
+		this->exitCode = exitCode;
+	}
+
 	void Engine::Close(const Event& e)
 	{
-		this->exitCode = CastEvent<CloseWindowEvent>(e).exitCode;
+		Close(CastEvent<CloseWindowEvent>(e).exitCode);
 	}
 }

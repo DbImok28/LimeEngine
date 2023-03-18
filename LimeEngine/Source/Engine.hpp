@@ -23,6 +23,9 @@ namespace LimeEngine
 		int Start();
 		void UpdateLayers();
 
+		void Close(int exitCode = 0);
+
+	private:
 		void Close(const Event& e);
 
 	private:

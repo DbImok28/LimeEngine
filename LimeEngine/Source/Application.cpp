@@ -18,22 +18,17 @@ namespace LimeEngine
 #ifdef LE_ENABLE_COM
 		CHECK_HR(CoInitializeEx(NULL, COINIT_MULTITHREADED));
 #endif
-		//Logger::StaticInitialize();
 		StaticInitializer::Initialize();
-		// Renderer
 		auto window = Window::Create(WindowArgs(TEXT("LimeEngine"), 1080, 720));
-		auto renderer = Renderer::Create(RenderAPI::Auto, *window.get(), DisplayMode::Windowed, true);
+		auto renderer = Renderer::Create(RenderAPI::Auto, *window.get(), DisplayMode::Windowed, false);
 
-		// Create Engine
 		Engine engine(std::move(window), std::move(renderer));
 
-		// Load map
 		LE_CORE_LOG_TRACE("Load map");
 		auto map = std::make_unique<TestMap>(&engine);
 		map->Load();
 		engine.sceneLayer.GetScene().AttachMap(std::move(map));
 
-		// Start Engine
 		engine.Start();
 	}
 }

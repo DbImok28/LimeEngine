@@ -11,7 +11,8 @@ namespace LimeEngine
 	enum class WindowEventType
 	{
 		Close,
-		Resize
+		Resize,
+		Focus
 	};
 	class CloseWindowEvent : public Event
 	{
@@ -30,6 +31,14 @@ namespace LimeEngine
 
 		uint width;
 		uint height;
+	};
+	class FocusWindowEvent : public Event
+	{
+		EVENT_TYPE(FocusWindowEvent);
+
+	public:
+		explicit FocusWindowEvent(bool focused) : focused(focused) {}
+		bool focused;
 	};
 
 	struct WindowArgs

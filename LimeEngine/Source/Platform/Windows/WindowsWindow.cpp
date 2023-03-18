@@ -305,6 +305,18 @@ namespace LimeEngine
 				posY = static_cast<int>(pt.y);
 				break;
 			}
+			case WM_SETFOCUS:
+			{
+				events(WindowEventType::Focus, FocusWindowEvent(true));
+				break;
+			}
+			case WM_KILLFOCUS:
+			{
+				events(WindowEventType::Focus, FocusWindowEvent(false));
+				ClearKeyState();
+				break;
+			}
+
 			// Keyboard
 			case WM_SYSKEYDOWN:
 			case WM_KEYDOWN:
@@ -347,12 +359,7 @@ namespace LimeEngine
 				}
 				break;
 			}
-			case WM_KILLFOCUS:
-			{
-				// TODO:Add kill focus event
-				ClearKeyState();
-				break;
-			}
+
 			// Mouse
 			case WM_MOUSEMOVE:
 			{
@@ -376,18 +383,21 @@ namespace LimeEngine
 				}
 				break;
 			}
+			case WM_LBUTTONDBLCLK:
 			case WM_LBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
 				OnMouseKeyPressed(InputKey::LeftMouseButton, pt.x, pt.y);
 				break;
 			}
+			case WM_RBUTTONDBLCLK:
 			case WM_RBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
 				OnMouseKeyPressed(InputKey::RightMouseButton, pt.x, pt.y);
 				break;
 			}
+			case WM_MBUTTONDBLCLK:
 			case WM_MBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
