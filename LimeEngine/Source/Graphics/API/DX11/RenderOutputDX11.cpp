@@ -11,7 +11,11 @@ namespace LimeEngine
 		WindowRenderOutput(window, defaultFullscreenModeIsExclusive), renderer(renderer)
 	{
 		auto& inputDevice = GetWindow().GetInputDevice();
-		inputDevice.AddActionMapping("Engine.ResizeWindow", { { InputKey::Enter } });
+		inputDevice.AddActionMapping(
+			"Engine.ResizeWindow",
+			{
+				{InputKey::Enter, true, false, false, false}
+        });
 		inputDevice.BindActionEvent("Engine.ResizeWindow", InputActionType::Pressed, this, &WindowRenderOutputDX11::OnResizeActionEvent);
 	}
 
@@ -148,22 +152,19 @@ namespace LimeEngine
 
 	void WindowRenderOutputDX11::OnResizeActionEvent()
 	{
-		if (GetWindow().GetInputDevice().keyboard.KeyIsPressed(InputKey::Alt))
+		if (displayMode != DisplayMode::Windowed)
 		{
-			if (displayMode != DisplayMode::Windowed)
+			SetDisplayMode(DisplayMode::Windowed);
+		}
+		else
+		{
+			if (defaultFullscreenModeIsExclusive)
 			{
-				SetDisplayMode(DisplayMode::Windowed);
+				SetDisplayMode(DisplayMode::FullscreenExclusive);
 			}
 			else
 			{
-				if (defaultFullscreenModeIsExclusive)
-				{
-					SetDisplayMode(DisplayMode::FullscreenExclusive);
-				}
-				else
-				{
-					SetDisplayMode(DisplayMode::FullscreenWindowed);
-				}
+				SetDisplayMode(DisplayMode::FullscreenWindowed);
 			}
 		}
 	}

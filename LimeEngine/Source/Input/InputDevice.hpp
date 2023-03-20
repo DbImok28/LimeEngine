@@ -1,3 +1,6 @@
+// Copyright (C) Pavel Jakushik - All Rights Reserved
+// See file LICENSE for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "InputKeys.hpp"
 #include "Keyboard.hpp"
@@ -14,9 +17,21 @@ namespace LimeEngine
 
 	struct InputActionKey
 	{
-		InputActionKey(InputKey inputKey) noexcept;
+		explicit InputActionKey(InputKey inputKey) noexcept;
+		InputActionKey(InputKey inputKey, bool alt, bool shift, bool ctrl, bool cmd) noexcept;
+
+		bool CheckInputKey(InputKey inputKey) const noexcept;
+		bool CheckSystemKey(bool alt, bool shift, bool ctrl, bool cmd) const noexcept;
+		bool NeedSystemKey() const noexcept;
+
+		bool operator==(const InputActionKey& other) const noexcept;
+		bool operator<(const InputActionKey& other) const noexcept;
 
 		InputKey inputKey;
+		bool alt = false;
+		bool shift = false;
+		bool ctrl = false;
+		bool cmd = false;
 	};
 
 	struct InputAction
@@ -80,7 +95,7 @@ namespace LimeEngine
 		void AddActionMapping(const std::string& actionName, std::vector<InputActionKey> actionKeys);
 		void RemoveActionMapping(const InputAction& inputAction) noexcept;
 		void RemoveActionMapping(const std::string& actionName) noexcept;
-		void RebindActionKey(const std::string& actionName, InputKey oldKey, InputKey newKey) noexcept;
+		void RebindActionKey(const std::string& actionName, InputActionKey oldKey, InputActionKey newKey) noexcept;
 		template <typename TObject>
 		void BindActionEvent(const std::string& actionName, InputActionType type, TObject* const object, void (TObject::*const method)())
 		{
@@ -153,7 +168,7 @@ namespace LimeEngine
 
 	private:
 		std::multimap<InputKey, std::pair<float, std::shared_ptr<InputAxisKeyHandlers>>> keyAxisEvents;
-		std::multimap<InputKey, std::shared_ptr<InputActionKeyHandlers>> keyActionEvents;
+		std::multimap<InputActionKey, std::shared_ptr<InputActionKeyHandlers>> keyActionEvents;
 		std::list<InputKey> pressedKeys;
 		std::queue<std::pair<InputKey, float>> axisKeyActions;
 		std::queue<std::pair<InputActionType, InputKey>> keyActions;

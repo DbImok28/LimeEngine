@@ -1,6 +1,6 @@
-// Developed by Pavel Jakushik.
-// See LICENSE for copyright and licensing details (standard MIT License).
-// GitHub https://github.com/RubyCircle/LimeEngine
+// Copyright (C) Pavel Jakushik - All Rights Reserved
+// See file LICENSE for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
 #include "Base/Event.hpp"

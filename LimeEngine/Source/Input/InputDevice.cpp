@@ -5,6 +5,32 @@ namespace LimeEngine
 {
 	InputActionKey::InputActionKey(InputKey inputKey) noexcept : inputKey(inputKey) {}
 
+	InputActionKey::InputActionKey(InputKey inputKey, bool alt, bool shift, bool ctrl, bool cmd) noexcept : inputKey(inputKey), alt(alt), shift(shift), ctrl(ctrl), cmd(cmd) {}
+
+	inline bool InputActionKey::CheckInputKey(InputKey inputKey) const noexcept
+	{
+		return (!this->alt || alt) && (!this->shift || shift) && (!this->ctrl || ctrl) && (!this->cmd || cmd);
+	}
+
+	inline bool InputActionKey::CheckSystemKey(bool alt, bool shift, bool ctrl, bool cmd) const noexcept
+	{
+		return (!this->alt || alt) && (!this->shift || shift) && (!this->ctrl || ctrl) && (!this->cmd || cmd);
+	}
+
+	inline bool InputActionKey::NeedSystemKey() const noexcept
+	{
+		return (this->alt || this->shift || this->ctrl || this->cmd);
+	}
+
+	bool InputActionKey::operator==(const InputActionKey& other) const noexcept
+	{
+		return (inputKey == other.inputKey) && (!alt || other.alt) && (!shift || other.shift) && (!ctrl || other.ctrl) && (!cmd || other.cmd);
+	}
+	bool InputActionKey::operator<(const InputActionKey& other) const noexcept
+	{
+		return inputKey < other.inputKey;
+	}
+
 	InputAction::InputAction(const std::string& name, const std::vector<InputActionKey>& keys) noexcept : name(name), keys(keys) {}
 
 	InputActionKeyHandlers::InputActionKeyHandlers(const std::string& name) noexcept : name(name) {}
@@ -66,7 +92,7 @@ namespace LimeEngine
 		auto ptr = std::make_shared<InputActionKeyHandlers>(actionName);
 		for (auto& key : actionKeys)
 		{
-			keyActionEvents.emplace(key.inputKey, ptr);
+			keyActionEvents.emplace(key, ptr);
 		}
 	}
 
@@ -82,7 +108,7 @@ namespace LimeEngine
 			std::end(keyActionEvents));
 	}
 
-	void InputDevice::RebindActionKey(const std::string& actionName, InputKey oldKey, InputKey newKey) noexcept
+	void InputDevice::RebindActionKey(const std::string& actionName, InputActionKey oldKey, InputActionKey newKey) noexcept
 	{
 		for (auto it = std::begin(keyActionEvents); it != std::end(keyActionEvents); it++)
 		{
@@ -128,10 +154,33 @@ namespace LimeEngine
 
 	void InputDevice::CallActionEvent(InputActionType type, InputKey key)
 	{
-		auto actionEventsIt = keyActionEvents.equal_range(key);
-		for (auto& it = actionEventsIt.first; it != actionEventsIt.second; it++)
+		bool alt = keyboard.KeyIsPressed(InputKey::Alt);
+		bool shift = keyboard.KeyIsPressed(InputKey::Shift);
+		bool ctrl = keyboard.KeyIsPressed(InputKey::Control);
+		bool cmd = keyboard.KeyIsPressed(InputKey::LeftWin);
+
+		if (key == InputKey::Alt || key == InputKey::Shift || key == InputKey::Control || key == InputKey::LeftWin)
 		{
-			it->second->Call(type);
+			for (auto& item : keyActionEvents)
+			{
+				if (item.first.NeedSystemKey() && keyboard.KeyIsPressed(item.first.inputKey) && item.first.CheckSystemKey(alt, shift, ctrl, cmd))
+				{
+					item.second->Call(type);
+				}
+			}
+		}
+		else
+		{
+			auto keyMatchHandlers = keyActionEvents.equal_range(InputActionKey(key));
+			auto currentInputKeyState = InputActionKey(key, alt, shift, ctrl, cmd);
+
+			for (auto& it = keyMatchHandlers.first; it != keyMatchHandlers.second; it++)
+			{
+				if (it->first.CheckSystemKey(alt, shift, ctrl, cmd))
+				{
+					it->second->Call(type);
+				}
+			}
 		}
 	}
 
