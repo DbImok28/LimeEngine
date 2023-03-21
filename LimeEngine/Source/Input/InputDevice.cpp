@@ -7,17 +7,17 @@ namespace LimeEngine
 
 	InputActionKey::InputActionKey(InputKey inputKey, bool alt, bool shift, bool ctrl, bool cmd) noexcept : inputKey(inputKey), alt(alt), shift(shift), ctrl(ctrl), cmd(cmd) {}
 
-	inline bool InputActionKey::CheckInputKey(InputKey inputKey) const noexcept
+	bool InputActionKey::CheckInputKey(InputKey inputKey) const noexcept
 	{
 		return (!this->alt || alt) && (!this->shift || shift) && (!this->ctrl || ctrl) && (!this->cmd || cmd);
 	}
 
-	inline bool InputActionKey::CheckSystemKey(bool alt, bool shift, bool ctrl, bool cmd) const noexcept
+	bool InputActionKey::CheckSystemKey(bool alt, bool shift, bool ctrl, bool cmd) const noexcept
 	{
 		return (!this->alt || alt) && (!this->shift || shift) && (!this->ctrl || ctrl) && (!this->cmd || cmd);
 	}
 
-	inline bool InputActionKey::NeedSystemKey() const noexcept
+	bool InputActionKey::NeedSystemKey() const noexcept
 	{
 		return (this->alt || this->shift || this->ctrl || this->cmd);
 	}
@@ -161,9 +161,39 @@ namespace LimeEngine
 
 		if (key == InputKey::Alt || key == InputKey::Shift || key == InputKey::Control || key == InputKey::LeftWin)
 		{
+			if (type == InputActionType::Released)
+			{
+				switch (key)
+				{
+					case LimeEngine::InputKey::Alt:
+					{
+						alt = true;
+						break;
+					}
+					case LimeEngine::InputKey::Shift:
+					{
+						shift = true;
+						break;
+					}
+					case LimeEngine::InputKey::Control:
+					{
+						ctrl = true;
+						break;
+					}
+					case LimeEngine::InputKey::LeftWin:
+					{
+						cmd = true;
+						break;
+					}
+				}
+			}
 			for (auto& item : keyActionEvents)
 			{
 				if (item.first.NeedSystemKey() && keyboard.KeyIsPressed(item.first.inputKey) && item.first.CheckSystemKey(alt, shift, ctrl, cmd))
+				{
+					item.second->Call(type);
+				}
+				else if (item.first.inputKey == key && item.first.CheckSystemKey(alt, shift, ctrl, cmd))
 				{
 					item.second->Call(type);
 				}
