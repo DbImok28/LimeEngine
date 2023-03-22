@@ -51,6 +51,7 @@ namespace LimeEngine
 
 	public:
 		virtual void OnUpdate() override;
+		virtual void UpdateCursor() const override;
 		virtual void SetTitle(const tstring& title) override;
 		virtual void SetFullsreen(bool bordered) override;
 		virtual uint GetWidth() const noexcept override
@@ -69,6 +70,7 @@ namespace LimeEngine
 		{
 			return posY;
 		}
+		RECT GetWindowRect() const;
 		RECT GetScreenRect() const;
 		virtual std::pair<uint, uint> GetScreenResolution() const override;
 		virtual void* GetHandle() const noexcept override;

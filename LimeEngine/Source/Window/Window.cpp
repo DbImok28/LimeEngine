@@ -23,6 +23,33 @@ namespace LimeEngine
 		return inputDevice;
 	}
 
+	bool Window::GetClipCursorInWindowMode() const noexcept
+	{
+		return ñlipCursorInWindowMode;
+	}
+
+	void Window::SetClipCursorInWindowMode(bool value) noexcept
+	{
+		ñlipCursorInWindowMode = value;
+		UpdateCursor();
+	}
+
+	bool Window::GetClipCursorInFullScreenMode() const noexcept
+	{
+		return ñlipCursorInFullScreenMode;
+	}
+
+	void Window::SetClipCursorInFullScreenMode(bool value) noexcept
+	{
+		ñlipCursorInFullScreenMode = value;
+		UpdateCursor();
+	}
+
+	bool Window::GetFullsreen() const noexcept
+	{
+		return fullscreen;
+	}
+
 	void Window::OnKeyPressed(InputKey key) noexcept
 	{
 		GetInputDevice().OnKeyPressed(key);

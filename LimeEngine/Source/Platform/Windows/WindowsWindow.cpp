@@ -136,6 +136,19 @@ namespace LimeEngine
 		}
 	}
 
+	void WindowsWindow::UpdateCursor() const
+	{
+		if (!inSizeMoveMode && !hidden && ((GetClipCursorInFullScreenMode() && fullscreen) || GetClipCursorInWindowMode() && !fullscreen))
+		{
+			RECT windowRect = GetWindowRect();
+			ClipCursor(&windowRect);
+		}
+		else
+		{
+			ClipCursor(NULL);
+		}
+	}
+
 	void WindowsWindow::SetTitle(const tstring& title)
 	{
 		if (!SetWindowText(hWnd, title.c_str())) throw WND_LAST_EXCEPTION();
@@ -143,6 +156,7 @@ namespace LimeEngine
 
 	void WindowsWindow::SetFullsreen(bool fullscreen)
 	{
+		this->fullscreen = fullscreen;
 		if (fullscreen)
 		{
 			savedWindowMaximized = maximized;
@@ -152,7 +166,7 @@ namespace LimeEngine
 				::SendMessage(hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 				lockResizeEvent = false;
 			}
-			GetWindowRect(hWnd, &savedWindowSize);
+			savedWindowSize = GetWindowRect();
 
 			LONG newStyles = GetWindowLong(hWnd, GWL_STYLE);
 			LONG newExStyles = GetWindowLong(hWnd, GWL_EXSTYLE);
@@ -188,6 +202,14 @@ namespace LimeEngine
 				::SendMessage(hWnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 			}
 		}
+		UpdateCursor();
+	}
+
+	RECT WindowsWindow::GetWindowRect() const
+	{
+		RECT windowRect;
+		::GetWindowRect(hWnd, &windowRect);
+		return windowRect;
 	}
 
 	RECT WindowsWindow::GetScreenRect() const
@@ -296,6 +318,7 @@ namespace LimeEngine
 				{
 					events(WindowEventType::Resize, ResizeWindowEvent(width, height));
 				}
+				UpdateCursor();
 				break;
 			}
 			case WM_MOVE:
@@ -307,6 +330,7 @@ namespace LimeEngine
 			}
 			case WM_SETFOCUS:
 			{
+				UpdateCursor();
 				events(WindowEventType::Focus, FocusWindowEvent(true));
 				break;
 			}
@@ -314,6 +338,11 @@ namespace LimeEngine
 			{
 				events(WindowEventType::Focus, FocusWindowEvent(false));
 				ClearKeyState();
+				break;
+			}
+			case WM_SETCURSOR:
+			{
+				UpdateCursor();
 				break;
 			}
 

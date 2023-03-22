@@ -61,6 +61,7 @@ namespace LimeEngine
 
 		virtual void OnUpdate() = 0;
 		virtual void SetTitle(const tstring& title) = 0;
+		bool GetFullsreen() const noexcept;
 		virtual void SetFullsreen(bool bordered) = 0;
 		virtual uint GetWidth() const noexcept = 0;
 		virtual uint GetHeight() const noexcept = 0;
@@ -69,6 +70,11 @@ namespace LimeEngine
 		virtual std::pair<uint, uint> GetScreenResolution() const = 0;
 		virtual void* GetHandle() const noexcept = 0;
 		InputDevice& GetInputDevice() const noexcept;
+		bool GetClipCursorInWindowMode() const noexcept;
+		void SetClipCursorInWindowMode(bool value) noexcept;
+		bool GetClipCursorInFullScreenMode() const noexcept;
+		void SetClipCursorInFullScreenMode(bool value) noexcept;
+		virtual void UpdateCursor() const = 0;
 
 		// Input handlers
 		void OnKeyPressed(InputKey key) noexcept;
@@ -90,7 +96,12 @@ namespace LimeEngine
 	public:
 		MultiEventDispatcher<WindowEventType> events;
 
+	protected:
+		bool fullscreen = false;
+
 	private:
+		bool ñlipCursorInWindowMode = false;
+		bool ñlipCursorInFullScreenMode = true;
 		mutable InputDevice inputDevice;
 	};
 }

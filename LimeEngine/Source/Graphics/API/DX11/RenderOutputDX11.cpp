@@ -135,6 +135,7 @@ namespace LimeEngine
 					return;
 				}
 				GFX_CHECK_HR(hr);
+				window.UpdateCursor();
 			}
 			break;
 			case LimeEngine::DisplayMode::FullscreenWindowed:
