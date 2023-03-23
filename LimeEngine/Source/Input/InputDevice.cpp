@@ -154,37 +154,30 @@ namespace LimeEngine
 
 	void InputDevice::CallActionEvent(InputActionType type, InputKey key)
 	{
-		bool alt = keyboard.KeyIsPressed(InputKey::Alt);
-		bool shift = keyboard.KeyIsPressed(InputKey::Shift);
-		bool ctrl = keyboard.KeyIsPressed(InputKey::Control);
-		bool cmd = keyboard.KeyIsPressed(InputKey::LeftWin);
+		bool alt = keyboard.AltIsPressed();
+		bool shift = keyboard.ShiftIsPressed();
+		bool ctrl = keyboard.ControlIsPressed();
+		bool cmd = keyboard.CommondIsPressed();
 
-		if (key == InputKey::Alt || key == InputKey::Shift || key == InputKey::Control || key == InputKey::LeftWin)
+		if (Keyboard::IsSystemKey(key))
 		{
 			if (type == InputActionType::Released)
 			{
-				switch (key)
+				if (Keyboard::IsAltKey(key))
 				{
-					case LimeEngine::InputKey::Alt:
-					{
-						alt = true;
-						break;
-					}
-					case LimeEngine::InputKey::Shift:
-					{
-						shift = true;
-						break;
-					}
-					case LimeEngine::InputKey::Control:
-					{
-						ctrl = true;
-						break;
-					}
-					case LimeEngine::InputKey::LeftWin:
-					{
-						cmd = true;
-						break;
-					}
+					alt = true;
+				}
+				else if (Keyboard::IsShiftKey(key))
+				{
+					shift = true;
+				}
+				else if (Keyboard::IsControlKey(key))
+				{
+					ctrl = true;
+				}
+				else if (Keyboard::IsCommondKey(key))
+				{
+					cmd = true;
 				}
 			}
 			for (auto& item : keyActionEvents)

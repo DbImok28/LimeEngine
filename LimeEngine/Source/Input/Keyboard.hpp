@@ -41,6 +41,15 @@ namespace LimeEngine
 		void DisableAutoRepeatChars() noexcept;
 
 		bool KeyIsPressed(const InputKey key) const noexcept;
+		bool AltIsPressed() const noexcept;
+		bool ShiftIsPressed() const noexcept;
+		bool ControlIsPressed() const noexcept;
+		bool CommondIsPressed() const noexcept;
+		static bool IsAltKey(const InputKey key) noexcept;
+		static bool IsShiftKey(const InputKey key) noexcept;
+		static bool IsControlKey(const InputKey key) noexcept;
+		static bool IsCommondKey(const InputKey key) noexcept;
+		static bool IsSystemKey(const InputKey key) noexcept;
 
 	private:
 		void ClearKeyState() noexcept;

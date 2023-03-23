@@ -26,6 +26,51 @@ namespace LimeEngine
 		return keyStates[static_cast<int>(key)];
 	}
 
+	bool Keyboard::AltIsPressed() const noexcept
+	{
+		return KeyIsPressed(InputKey::LeftMenu) || KeyIsPressed(InputKey::RightMenu);
+	}
+
+	bool Keyboard::ShiftIsPressed() const noexcept
+	{
+		return KeyIsPressed(InputKey::LeftShift) || KeyIsPressed(InputKey::RightShift);
+	}
+
+	bool Keyboard::ControlIsPressed() const noexcept
+	{
+		return KeyIsPressed(InputKey::LeftCtrl) || KeyIsPressed(InputKey::RightCtrl);
+	}
+
+	bool Keyboard::CommondIsPressed() const noexcept
+	{
+		return KeyIsPressed(InputKey::LeftWin) || KeyIsPressed(InputKey::RightWin);
+	}
+
+	bool Keyboard::IsAltKey(const InputKey key) noexcept
+	{
+		return key == InputKey::LeftMenu || key == InputKey::RightMenu;
+	}
+
+	bool Keyboard::IsShiftKey(const InputKey key) noexcept
+	{
+		return key == InputKey::LeftShift || key == InputKey::RightShift;
+	}
+
+	bool Keyboard::IsControlKey(const InputKey key) noexcept
+	{
+		return key == InputKey::LeftCtrl || key == InputKey::RightCtrl;
+	}
+
+	bool Keyboard::IsCommondKey(const InputKey key) noexcept
+	{
+		return key == InputKey::LeftWin || key == InputKey::RightWin;
+	}
+
+	bool Keyboard::IsSystemKey(const InputKey key) noexcept
+	{
+		return IsAltKey(key) || IsShiftKey(key) || IsControlKey(key) || IsCommondKey(key);
+	}
+
 	void Keyboard::Update() noexcept
 	{
 		if (!keyBuffer.empty())

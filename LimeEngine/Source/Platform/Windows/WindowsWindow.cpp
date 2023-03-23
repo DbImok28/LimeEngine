@@ -360,7 +360,32 @@ namespace LimeEngine
 					const bool wasPressed = lParam & 0x40000000;
 					if (!wasPressed)
 					{
-						OnKeyboardKeyPressed(key);
+						switch (key)
+						{
+							case InputKey::Shift:
+							{
+								UINT scancode = (lParam & 0x00ff0000) >> 16;
+								OnKeyboardKeyPressed(static_cast<InputKey>(MapVirtualKey(scancode, MAPVK_VSC_TO_VK_EX)));
+								break;
+							}
+							case InputKey::Control:
+							{
+								int extended = (lParam & 0x01000000) != 0;
+								OnKeyboardKeyPressed(static_cast<InputKey>(extended ? InputKey::RightCtrl : InputKey::LeftCtrl));
+								break;
+							}
+							case InputKey::Alt:
+							{
+								int extended = (lParam & 0x01000000) != 0;
+								OnKeyboardKeyPressed(static_cast<InputKey>(extended ? InputKey::LeftMenu : InputKey::RightMenu));
+								break;
+							}
+							default:
+							{
+								OnKeyboardKeyPressed(key);
+								break;
+							}
+						}
 					}
 				}
 				break;
@@ -368,7 +393,33 @@ namespace LimeEngine
 			case WM_SYSKEYUP:
 			case WM_KEYUP:
 			{
-				OnKeyboardKeyReleased(static_cast<InputKey>(wParam));
+				auto key = static_cast<InputKey>(wParam);
+				switch (key)
+				{
+					case InputKey::Shift:
+					{
+						UINT scancode = (lParam & 0x00ff0000) >> 16;
+						OnKeyboardKeyReleased(static_cast<InputKey>(MapVirtualKey(scancode, MAPVK_VSC_TO_VK_EX)));
+						break;
+					}
+					case InputKey::Control:
+					{
+						int extended = (lParam & 0x01000000) != 0;
+						OnKeyboardKeyReleased(static_cast<InputKey>(extended ? InputKey::RightCtrl : InputKey::LeftCtrl));
+						break;
+					}
+					case InputKey::Alt:
+					{
+						int extended = (lParam & 0x01000000) != 0;
+						OnKeyboardKeyReleased(static_cast<InputKey>(extended ? InputKey::LeftMenu : InputKey::RightMenu));
+						break;
+					}
+					default:
+					{
+						OnKeyboardKeyReleased(key);
+						break;
+					}
+				}
 				break;
 			}
 			case WM_CHAR:
