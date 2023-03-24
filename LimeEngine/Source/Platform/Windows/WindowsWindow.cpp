@@ -527,6 +527,14 @@ namespace LimeEngine
 				}
 				break;
 			}
+			case WM_SYSCOMMAND:
+			{
+				if (wParam == SC_KEYMENU)
+				{
+					return 0;
+				}
+				break;
+			}
 		}
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
