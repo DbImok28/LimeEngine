@@ -20,10 +20,18 @@ namespace LimeEngine
 			"MoveRight", {{ InputKey::D, 1.0f }, { InputKey::A, -1.0f }}
         });
 		inputDevice.AddAxisMapping({
-			"MoveUp", {{ InputKey::Space, 1.0f }, { InputKey::Z, -1.0f }, { InputKey::Shift, -1.0f }}
+			"MoveUp", {{ InputKey::Space, 1.0f }, { InputKey::Z, -1.0f }, { InputKey::LeftShift, -1.0f }}
         });
 		inputDevice.AddAxisMapping({ "TurnUp", { { InputKey::MouseMoveY, 1.0f } } });
 		inputDevice.AddAxisMapping({ "TurnRight", { { InputKey::MouseMoveX, 1.0f } } });
+		inputDevice.AddActionMapping({
+			"Print",
+			{InputActionKey(InputKey::F),
+			  InputActionKey(InputKey::Num1, true, false, false, false),
+			  InputActionKey(InputKey::Num2, false, true, false, false),
+			  InputActionKey(InputKey::Num3, false, false, true, false),
+			  InputActionKey(InputKey::Num4, false, false, false, true)}
+        });
 
 		inputDevice.BindActionEvent("Print", InputActionType::Pressed, []() { LE_LOG_DEBUG("Press F"); });
 		inputDevice.BindActionEvent("Print", InputActionType::Released, []() { LE_LOG_DEBUG("Released F"); });

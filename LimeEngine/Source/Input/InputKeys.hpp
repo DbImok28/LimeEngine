@@ -13,36 +13,14 @@ namespace LimeEngine
 		ThumbForward = 0x05, // Thumb button back on mouse aka X1
 		ThumbBack = 0x06,    // Thumb button forward on mouse aka X2
 
-		// 0x07 : reserved
-
 		BackSpace = 0x08, // Backspace key
 		Tab = 0x09,       // Tab key
-
-		// 0x0A - 0x0B : reserved
 
 		Clear = 0x0C, // Clear key
 		Enter = 0x0D, // Enter or Return key
 
-		// 0x0E - 0x0F : unassigned
-
-		Shift = 0x10,    // Shift key
-		Control = 0x11,  // Ctrl key
-		Alt = 0x12,      // Alt key
 		Pause = 0x13,    // Pause key
 		CapsLock = 0x14, // Caps lock key
-
-		Kana = 0x15,    // Kana input mode
-		Hangeul = 0x15, // Hangeul input mode
-		Hangul = 0x15,  // Hangul input mode
-
-		// 0x16 : unassigned
-
-		Junju = 0x17, // Junja input method
-		Final = 0x18, // Final input method
-		Hanja = 0x19, // Hanja input method
-		Kanji = 0x19, // Kanji input method
-
-		// 0x1A : unassigned
 
 		Escape = 0x1B, // Esc key
 
@@ -64,7 +42,7 @@ namespace LimeEngine
 		Print = 0x2A,       // Print key
 		Execute = 0x2B,     // Execute key
 		PrintScreen = 0x2C, // Print screen key
-		Inser = 0x2D,       // Insert key
+		Insert = 0x2D,      // Insert key
 		Delete = 0x2E,      // Delete key
 		Help = 0x2F,        // Help key
 
@@ -78,8 +56,6 @@ namespace LimeEngine
 		Num7 = 0x37, // Top row 7 key (Matches '7')
 		Num8 = 0x38, // Top row 8 key (Matches '8')
 		Num9 = 0x39, // Top row 9 key (Matches '9')
-
-		// 0x3A - 0x40 : unassigned
 
 		A = 0x41, // A key (Matches 'A')
 		B = 0x42, // B key (Matches 'B')
@@ -111,8 +87,6 @@ namespace LimeEngine
 		LeftWin = 0x5B,  // Left windows key
 		RightWin = 0x5C, // Right windows key
 		Apps = 0x5D,     // Applications key
-
-		// 0x5E : reserved
 
 		Sleep = 0x5F, // Computer sleep key
 
@@ -157,8 +131,6 @@ namespace LimeEngine
 		F23 = 0x86,       // F23
 		F24 = 0x87,       // F24
 
-		// 0x88 - 0x8F : UI navigation
-
 		NavigationView = 0x88,   // reserved
 		NavigationMenu = 0x89,   // reserved
 		NavigationUp = 0x8A,     // reserved
@@ -172,14 +144,6 @@ namespace LimeEngine
 		ScrollLock = 0x91, // Scroll lock key
 
 		NumpadEqual = 0x92, // Numpad =
-
-		FJ_Jisho = 0x92,   // Dictionary key
-		FJ_Masshou = 0x93, // Unregister word key
-		FJ_Touroku = 0x94, // Register word key
-		FJ_Loya = 0x95,    // Left OYAYUBI key
-		FJ_Roya = 0x96,    // Right OYAYUBI key
-
-		// 0x97 - 0x9F : unassigned
 
 		LeftShift = 0xA0,  // Left shift key
 		RightShift = 0xA1, // Right shift key
@@ -208,17 +172,13 @@ namespace LimeEngine
 		App1 = 0xB6,        // Launch app 1 button
 		App2 = 0xB7,        // Launch app 2 button
 
-		// 0xB8 - 0xB9 : reserved
-
-		OEM1 = 0xBA,   // ;: key for US or misc keys for others
-		Plus = 0xBB,   // Plus key
-		Comma = 0xBC,  // Comma key
-		Minus = 0xBD,  // Minus key
-		Period = 0xBE, // Period key
-		OEM2 = 0xBF,   // ? for US or misc keys for others
-		OEM3 = 0xC0,   // ~ for US or misc keys for others
-
-		// 0xC1 - 0xC2 : reserved
+		Semicolon = 0xBA,   // ;
+		Plus = 0xBB,        // Plus key
+		Comma = 0xBC,       // Comma key
+		Minus = 0xBD,       // Minus key
+		Period = 0xBE,      // Period key
+		Slash = 0xBF,       // /
+		GraveAccent = 0xC0, // `
 
 		Gamepad_A = 0xC3,               // Gamepad A button
 		Gamepad_B = 0xC4,               // Gamepad B button
@@ -245,52 +205,13 @@ namespace LimeEngine
 		GamepadRightStickRight = 0xD9,  // Gamepad right stick right
 		GamepadRightStickLeft = 0xDA,   // Gamepad right stick left
 
-		OEM4 = 0xDB, // [ for US or misc keys for others
-		OEM5 = 0xDC, // \ for US or misc keys for others
-		OEM6 = 0xDD, // ] for US or misc keys for others
-		OEM7 = 0xDE, // ' for US or misc keys for others
-		OEM8 = 0xDF, // Misc keys for others
+		LeftBracket = 0xDB,  // [ for US or misc keys for others
+		Backslash = 0xDC,    // \ for US or misc keys for others
+		RightBracket = 0xDD, // ] for US or misc keys for others
+		Apostrophe = 0xDE,   // ' for US or misc keys for others
+		OEM8 = 0xDF,         // Misc keys for others
 
-		// 0xE0 : reserved
-
-		OEMAX = 0xE1,   // AX key on Japanese AX keyboard
-		OEM102 = 0xE2,  // "<>" or "\|" on RT 102-key keyboard
-		ICOHelp = 0xE3, // Help key on ICO
-		ICO00 = 0xE4,   // 00 key on ICO
-
-		ProcessKey = 0xE5, // Process key input method
-		OEMCLEAR = 0xE6,   // OEM specific
-		Packet = 0xE7,     // IDK man try to google it
-
-		// 0xE8 : unassigned
-
-		OEMReset = 0xE9,   // OEM reset button
-		OEMJump = 0xEA,    // OEM jump button
-		OEMPA1 = 0xEB,     // OEM PA1 button
-		OEMPA2 = 0xEC,     // OEM PA2 button
-		OEMPA3 = 0xED,     // OEM PA3 button
-		OEMWSCtrl = 0xEE,  // OEM WS Control button
-		OEMCusel = 0xEF,   // OEM CUSEL button
-		OEMAttn = 0xF0,    // OEM ATTN button
-		OEMFinish = 0xF1,  // OEM finish button
-		OEMCopy = 0xF2,    // OEM copy button
-		OEMAuto = 0xF3,    // OEM auto button
-		OEMEnlw = 0xF4,    // OEM ENLW
-		OEMBackTab = 0xF5, // OEM back tab
-
-		Attn = 0xF6,     // Attn
-		CrSel = 0xF7,    // CrSel
-		ExSel = 0xF8,    // ExSel
-		EraseEOF = 0xF9, // Erase EOF key
-		Play = 0xFA,     // Play key
-		Zoom = 0xFB,     // Zoom key
-		NoName = 0xFC,   // No name
-		PA1 = 0xFD,      // PA1 key
-		OEMClear = 0xFE, // OEM Clear key
-
-		// -------------------
 		// Actions
-		// -------------------
 		WheelUp,
 		WheelDown,
 		MouseMoveX,
