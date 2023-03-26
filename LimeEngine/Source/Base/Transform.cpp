@@ -81,4 +81,15 @@ namespace LimeEngine
 		return DirectX::XMMatrixScaling(scale.x, scale.y, scale.z) * DirectX::XMMatrixRotationQuaternion(rotation.GetQuaternion())
 			   * DirectX::XMMatrixTranslation(location.x, location.y, location.z);
 	}
+
+	std::string Transform::ToString() const noexcept
+	{
+		return std::format("Location {}\nRotation {}\nScale    {}", location.ToString(), rotation.ToString(), scale.ToString());
+	}
+
+	std::ostream& operator<<(std::ostream& os, const Transform& transform)
+	{
+		os << transform.ToString();
+		return os;
+	}
 }

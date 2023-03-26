@@ -32,8 +32,12 @@ namespace LimeEngine
 		const float* GetArray() const noexcept;
 		TempTransformMatrix GetTransformMatrix() const noexcept;
 
+		std::string ToString() const noexcept;
+
 		Vector location;
 		Rotator rotation;
 		Vector scale;
 	};
+
+	std::ostream& operator<<(std::ostream& os, const Transform& transform);
 }

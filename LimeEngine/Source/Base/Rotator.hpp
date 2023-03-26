@@ -33,6 +33,7 @@ namespace LimeEngine
 		TempVector GetEuler() const noexcept;
 		void SetEuler(TempVector euler) noexcept;
 		float* GetArray() noexcept;
+		std::string ToString() const noexcept;
 
 	public:
 		union
@@ -46,4 +47,6 @@ namespace LimeEngine
 			DirectX::XMFLOAT3 vec3{};
 		};
 	};
+
+	std::ostream& operator<<(std::ostream& os, const Rotator& rot);
 }

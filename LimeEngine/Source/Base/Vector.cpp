@@ -233,4 +233,15 @@ namespace LimeEngine
 	{
 		return XMVectorGetX(Vector::DotVec(v1, v2));
 	}
+
+	std::string Vector::ToString() const noexcept
+	{
+		return std::format("x: {} \ty: {}\t z: {}", x, y, z);
+	}
+
+	std::ostream& operator<<(std::ostream& os, const Vector& vec)
+	{
+		os << vec.ToString();
+		return os;
+	}
 }

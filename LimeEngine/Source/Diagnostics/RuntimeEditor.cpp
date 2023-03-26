@@ -10,7 +10,7 @@
 	#include "misc/cpp/imgui_stdlib.h"
 	#include "backends/imgui_impl_win32.h"
 	#include "backends/imgui_impl_dx11.h"
-#endif // IMGUI
+#endif
 
 namespace LimeEngine
 {
@@ -22,7 +22,7 @@ namespace LimeEngine
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		const ImGuiIO& io = ImGui::GetIO();
-		ImGui_ImplWin32_Init(reinterpret_cast<HWND>(hWnd));
+		ImGui_ImplWin32_Init(hWnd);
 		ImGui_ImplDX11_Init(reinterpret_cast<ID3D11Device*>(device), reinterpret_cast<ID3D11DeviceContext*>(deviceContext));
 		ImGui::StyleColorsDark();
 	}
@@ -66,6 +66,15 @@ namespace LimeEngine
 		}
 		ImGui::Begin(name);
 		inPanel = true;
+	}
+
+	void RuntimeEditor::EndPanel()
+	{
+		if (inPanel)
+		{
+			ImGui::End();
+		}
+		inPanel = false;
 	}
 
 	void RuntimeEditor::Drag(const char* label, char& var, char min, char max, float speed)

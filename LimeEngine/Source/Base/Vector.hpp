@@ -61,6 +61,7 @@ namespace LimeEngine
 		TempVector Cross(const TempVector& v) const noexcept;
 		TempVector DotVec(const TempVector& v) const noexcept;
 		float Dot(const TempVector& v) const noexcept;
+		std::string ToString() const noexcept;
 
 		static TempVector MakeTempVector(const Vector& v) noexcept;
 		static TempVector MakeTempVector(float x, float y, float z) noexcept;
@@ -96,4 +97,6 @@ namespace LimeEngine
 			DirectX::XMFLOAT3 vec{};
 		};
 	};
+
+	std::ostream& operator<<(std::ostream& os, const Vector& vec);
 }

@@ -17,6 +17,7 @@ namespace LimeEngine
 		static void Processing(float deltaTime);
 		static void Render();
 		static void NewPanel(const char* name);
+		static void EndPanel();
 
 		static void Drag(const char* label, char& var, char min = 0, char max = 0, float speed = 1.0f);
 		static void Drag(const char* label, int8& var, int8 min = 0, int8 max = 0, float speed = 1.0f);
