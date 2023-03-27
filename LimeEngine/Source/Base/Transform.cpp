@@ -84,7 +84,7 @@ namespace LimeEngine
 
 	std::string Transform::ToString() const noexcept
 	{
-		return std::format("Location {}\nRotation {}\nScale    {}", location.ToString(), rotation.ToString(), scale.ToString());
+		return std::format("{}", *this);
 	}
 
 	std::ostream& operator<<(std::ostream& os, const Transform& transform)

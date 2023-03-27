@@ -236,7 +236,7 @@ namespace LimeEngine
 
 	std::string Vector::ToString() const noexcept
 	{
-		return std::format("x: {} \ty: {}\t z: {}", x, y, z);
+		return std::format("{}", *this);
 	}
 
 	std::ostream& operator<<(std::ostream& os, const Vector& vec)

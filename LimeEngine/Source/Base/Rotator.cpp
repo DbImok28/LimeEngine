@@ -109,7 +109,7 @@ namespace LimeEngine
 
 	std::string Rotator::ToString() const noexcept
 	{
-		return std::format("x: {} \ty: {}\t z: {}", roll, pitch, yaw);
+		return std::format("{}", *this);
 	}
 
 	std::ostream& operator<<(std::ostream& os, const Rotator& rot)

@@ -41,3 +41,12 @@ namespace LimeEngine
 
 	std::ostream& operator<<(std::ostream& os, const Transform& transform);
 }
+
+template <>
+struct std::formatter<LimeEngine::Transform> : std::formatter<std::string>
+{
+	auto format(LimeEngine::Transform transform, format_context& context)
+	{
+		return std::format_to(context.out(), "Location {}\nRotation {}\nScale    {}", transform.location, transform.rotation, transform.scale);
+	}
+};
