@@ -401,8 +401,10 @@ namespace LimeEngine
 	{
 		if (!inPanel) NewPanel("None");
 		Text(label);
+		ImGui::PushID(label);
 		Drag("Location", transform.location);
 		Drag("Rotation", transform.rotation);
 		Drag("Scale", transform.scale);
+		ImGui::PopID();
 	}
 }

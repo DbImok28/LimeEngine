@@ -94,17 +94,17 @@ namespace LimeEngine
 		Plane plane(40, 10, 12);
 		auto planeMesh = plane.CreateMesh(engine, "EngineContent/Plane");
 		planeMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10, 0, 10), planeMesh)));
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10.05f, 0.1f, 10), planeMesh)));
 
 		Sphere sphere(10, 16, 16);
 		auto sphereMesh = sphere.CreateMesh(engine, "EngineContent/Sphere");
 		sphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10, 0, 10), sphereMesh)));
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10.005f, 0, 10), sphereMesh)));
 
 		Cubesphere cubesphere(10, 3);
 		auto cubesphereMesh = cubesphere.CreateMesh(engine, "EngineContent/Cubesphere");
 		cubesphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(-10, 0, 10), cubesphereMesh)));
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(-10.0005f, 0, 10), cubesphereMesh)));
 
 		// Camera
 		auto cameraComponent = std::make_unique<DefaultPlayerCameraComponent>(engine, Transform(0, 5, -10));
@@ -115,28 +115,23 @@ namespace LimeEngine
 	void TestMap::Update()
 	{
 		RuntimeEditor::NewPanel("Objects");
+		int objectIndex = 0;
 		for (auto& object : objects)
 		{
-			std::stringstream ss;
-			ss << object->GetObjectTransform();
-			RuntimeEditor::Text("Object", ss.str());
+			if (object->rootComponent != nullptr)
+			{
+				Transform transform = object->rootComponent->GetTransform();
+				RuntimeEditor::Input(std::format("Object {}", objectIndex).c_str(), transform);
+				object->rootComponent->SetTransform(transform);
+			}
+			++objectIndex;
 		}
 
-		static bool isInput;
-		static int32 intValue;
-		static Vector vec;
-		static Transform transform;
-		RuntimeEditor::NewPanel("Hello");
-
-		if (RuntimeEditor::Button("TestInput", isInput))
+		RuntimeEditor::NewPanel("Objects Info");
+		objectIndex = 0;
+		for (auto& object : objects)
 		{
-			RuntimeEditor::Text("BlaBla1");
-			RuntimeEditor::Text("hiint", "Basdf");
-			RuntimeEditor::Slider("test", intValue);
-
-			RuntimeEditor::Slider("test", vec);
-
-			RuntimeEditor::Input("tes2t", transform);
+			RuntimeEditor::Text(std::format("Object {}", objectIndex++).c_str(), std::format("{}", object->GetObjectTransform()));
 		}
 	}
 }
