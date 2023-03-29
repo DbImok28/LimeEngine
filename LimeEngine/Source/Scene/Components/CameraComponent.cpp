@@ -1,13 +1,22 @@
 #include "lepch.hpp"
 #include "CameraComponent.hpp"
 #include "Engine.hpp"
+#include "Base/Math.hpp"
 
 namespace LimeEngine
 {
 	CameraComponent::CameraComponent(
-		Engine* engine, const Transform& transform, float width, float height, ProjectionType projectionType, float fovDegrees, float nearZ, float farZ) noexcept :
-		SceneComponent(engine, transform),
-		projectionType(projectionType), width(width), height(height), fovRadians((fovDegrees / 360.0f) * XM_2PI), nearZ(nearZ), farZ(farZ), aspectRatio(width / height)
+		Engine* engine,
+		const std::string& componentName,
+		const Transform& transform,
+		float width,
+		float height,
+		ProjectionType projectionType,
+		float fovDegrees,
+		float nearZ,
+		float farZ) noexcept :
+		SceneComponent(engine, componentName, transform),
+		projectionType(projectionType), width(width), height(height), fovRadians((fovDegrees / 360.0f) * Math::pi2), nearZ(nearZ), farZ(farZ), aspectRatio(width / height)
 	{
 		SetProjectionType(projectionType);
 	}

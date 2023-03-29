@@ -1,6 +1,6 @@
 #pragma once
-#include "SceneMap.hpp"
-#include "DefaultPlayerCameraComponent.hpp"
+#include "Maps/SceneMap.hpp"
+#include "Components/DefaultPlayerCameraComponent.hpp"
 
 namespace LimeEngine
 {

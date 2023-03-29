@@ -1,6 +1,6 @@
 #include "lepch.hpp"
 #include "RendererDX11.hpp"
-#include "Scene/MeshComponent.hpp"
+#include "Scene/Components/MeshComponent.hpp"
 #include "Graphics/Mesh.hpp"
 #include "RenderOutputDX11.hpp"
 

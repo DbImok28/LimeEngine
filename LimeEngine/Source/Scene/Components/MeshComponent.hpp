@@ -8,8 +8,9 @@ namespace LimeEngine
 	class MeshComponent : public SceneComponent, IDrawable
 	{
 	public:
-		explicit MeshComponent(Engine* engine, const Transform& transform = {}, const ResourcePath& resourcePath = "Engine\\NullMesh");
-		MeshComponent(Engine* engine, const Transform& transform, GameResourceRef<Mesh> mesh);
+		explicit MeshComponent(
+			Engine* engine, const std::string& componentName = "MeshComponent", const Transform& transform = {}, const ResourcePath& resourcePath = "Engine\\NullMesh");
+		MeshComponent(Engine* engine, const std::string& componentName, const Transform& transform, GameResourceRef<Mesh> mesh);
 		virtual ~MeshComponent() override;
 
 		void SetVisibility(bool visibility);

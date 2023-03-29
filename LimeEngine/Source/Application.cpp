@@ -4,7 +4,7 @@
 #include "Engine.hpp"
 #include "Base/StaticInitializer.hpp"
 
-#include "Scene/TestMap.hpp"
+#include "Scene/Maps/TestMap.hpp"
 
 #ifdef LE_ENABLE_COM
 	#include "Platform/Windows/WindowsExceptions.hpp"

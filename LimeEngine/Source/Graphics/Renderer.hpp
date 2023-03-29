@@ -3,8 +3,8 @@
 #include "RenderOutput.hpp"
 #include "RenderQueue.hpp"
 #include "GraphicFactory.hpp"
-#include "Scene/CameraComponent.hpp"
-#include "Scene/MeshComponent.hpp"
+#include "Scene/Components/CameraComponent.hpp"
+#include "Scene/Components/MeshComponent.hpp"
 
 namespace LimeEngine
 {

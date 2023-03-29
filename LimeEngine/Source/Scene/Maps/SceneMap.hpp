@@ -1,5 +1,5 @@
 #pragma once
-#include "SceneObject.hpp"
+#include "Scene/Objects/SceneObject.hpp"
 
 namespace LimeEngine
 {

@@ -7,7 +7,12 @@ namespace LimeEngine
 	class DefaultPlayerCameraComponent : public CameraComponent
 	{
 	public:
-		explicit DefaultPlayerCameraComponent(Engine* engine, const Transform& transform = {}, float cameraMovementSpeed = 20.0f, float cameraRotationSpeed = 50.0f) noexcept;
+		explicit DefaultPlayerCameraComponent(
+			Engine* engine,
+			const std::string& componentName = "DefaultPlayerCameraComponent",
+			const Transform& transform = {},
+			float cameraMovementSpeed = 20.0f,
+			float cameraRotationSpeed = 50.0f) noexcept;
 		virtual ~DefaultPlayerCameraComponent();
 
 		void MoveForward(float scale) noexcept;

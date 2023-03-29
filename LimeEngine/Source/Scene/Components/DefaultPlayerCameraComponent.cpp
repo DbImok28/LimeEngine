@@ -4,8 +4,10 @@
 
 namespace LimeEngine
 {
-	DefaultPlayerCameraComponent::DefaultPlayerCameraComponent(Engine* engine, const Transform& transform, float cameraMovementSpeed, float cameraRotationSpeed) noexcept :
-		CameraComponent(engine, transform), cameraMovementSpeed(cameraMovementSpeed), cameraRotationSpeed(cameraRotationSpeed)
+	DefaultPlayerCameraComponent::DefaultPlayerCameraComponent(
+		Engine* engine, const std::string& componentName, const Transform& transform, float cameraMovementSpeed, float cameraRotationSpeed) noexcept :
+		CameraComponent(engine, componentName, transform),
+		cameraMovementSpeed(cameraMovementSpeed), cameraRotationSpeed(cameraRotationSpeed)
 	{
 		if (!engine->renderLayer.GetRenderCamera())
 		{

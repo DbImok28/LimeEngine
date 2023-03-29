@@ -13,6 +13,7 @@ namespace LimeEngine
 		};
 		explicit CameraComponent(
 			Engine* engine,
+			const std::string& componentName = "DefaultPlayerCameraComponent",
 			const Transform& transform = {},
 			float width = 1080,
 			float height = 720,
@@ -20,6 +21,7 @@ namespace LimeEngine
 			float fovDegrees = 90.0f,
 			float nearZ = 0.001f,
 			float farZ = 10000.0f) noexcept;
+
 		void SetProjectionType(ProjectionType type);
 		void SetPerspective();
 		void SetOrthographic();

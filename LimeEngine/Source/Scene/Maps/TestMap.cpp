@@ -2,7 +2,7 @@
 #include "TestMap.hpp"
 #include "Engine.hpp"
 #include "Helpers/Paths.hpp"
-#include "MeshObject.hpp"
+#include "Scene/Objects/MeshObject.hpp"
 #include "Base/Primitives.hpp"
 #include "Graphics/GraphicFactory.hpp"
 
@@ -76,8 +76,8 @@ namespace LimeEngine
 		auto material = gameDataManager.CreateMasterMaterial("EngineContent/Cat", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
 		material.Get()->AddTexture(texture);
 		mesh->segments[0].SetMaterial(material.Get());
-		auto object = std::make_unique<MeshObject>(engine, Transform(), mesh);
-		object->rootComponent->AttachComponent(std::make_unique<MeshComponent>(engine, Transform(0, 10, 0), mesh));
+		auto object = std::make_unique<MeshObject>(engine, "Box1", Transform(), mesh);
+		object->rootComponent->AttachComponent(std::make_unique<MeshComponent>(engine, "Box2", Transform(0, 10, 0), mesh));
 		AttachObject(std::move(object));
 
 		// UVMapping
@@ -94,20 +94,20 @@ namespace LimeEngine
 		Plane plane(40, 10, 12);
 		auto planeMesh = plane.CreateMesh(engine, "EngineContent/Plane");
 		planeMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10.05f, 0.1f, 10), planeMesh)));
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, "Plane", Transform(10.05f, 0.1f, 10), planeMesh)));
 
 		Sphere sphere(10, 16, 16);
 		auto sphereMesh = sphere.CreateMesh(engine, "EngineContent/Sphere");
 		sphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(10.005f, 0, 10), sphereMesh)));
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, "Sphere", Transform(10.005f, 0, 10), sphereMesh)));
 
 		Cubesphere cubesphere(10, 3);
 		auto cubesphereMesh = cubesphere.CreateMesh(engine, "EngineContent/Cubesphere");
 		cubesphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, Transform(-10.0005f, 0, 10), cubesphereMesh)));
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, "Cubesphere", Transform(-10.0005f, 0, 10), cubesphereMesh)));
 
 		// Camera
-		auto cameraComponent = std::make_unique<DefaultPlayerCameraComponent>(engine, Transform(0, 5, -10));
+		auto cameraComponent = std::make_unique<DefaultPlayerCameraComponent>(engine, "PlayerCamera", Transform(0, 5, -10));
 		auto cameraObject = std::make_unique<SceneObject>(engine, std::move(cameraComponent));
 		AttachObject(std::move(cameraObject));
 	}
@@ -115,23 +115,20 @@ namespace LimeEngine
 	void TestMap::Update()
 	{
 		RuntimeEditor::NewPanel("Objects");
-		int objectIndex = 0;
 		for (auto& object : objects)
 		{
 			if (object->rootComponent != nullptr)
 			{
 				Transform transform = object->rootComponent->GetTransform();
-				RuntimeEditor::Input(std::format("Object {}", objectIndex).c_str(), transform);
+				RuntimeEditor::Input(object->GetObjectName().c_str(), transform);
 				object->rootComponent->SetTransform(transform);
 			}
-			++objectIndex;
 		}
 
 		RuntimeEditor::NewPanel("Objects Info");
-		objectIndex = 0;
 		for (auto& object : objects)
 		{
-			RuntimeEditor::Text(std::format("Object {}", objectIndex++).c_str(), std::format("{}", object->GetObjectTransform()));
+			RuntimeEditor::Text(object->GetObjectName().c_str(), std::format("{}", object->GetObjectTransform()));
 		}
 	}
 }

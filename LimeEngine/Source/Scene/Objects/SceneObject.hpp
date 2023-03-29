@@ -1,5 +1,5 @@
 #pragma once
-#include "SceneComponent.hpp"
+#include "Scene/Components/SceneComponent.hpp"
 
 namespace LimeEngine
 {
@@ -13,10 +13,13 @@ namespace LimeEngine
 	public:
 		SceneObject(Engine* engine, const Transform& transform) noexcept;
 		SceneObject(Engine* engine, std::unique_ptr<SceneComponent>&& rootComponent) noexcept;
+		virtual ~SceneObject() noexcept = default;
+
+		void UpdateObject();
+
+		const std::string& GetObjectName() const noexcept;
 		void SetRootComponent(std::unique_ptr<SceneComponent>&& newRootComponent) noexcept;
 		Transform GetObjectTransform() const noexcept;
-		void UpdateObject();
-		virtual ~SceneObject() noexcept = default;
 
 	public:
 		std::unique_ptr<SceneComponent> rootComponent = nullptr;
