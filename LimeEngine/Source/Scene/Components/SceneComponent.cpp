@@ -1,3 +1,5 @@
+#include "SceneComponent.hpp"
+#include "SceneComponent.hpp"
 #include "lepch.hpp"
 #include "SceneComponent.hpp"
 #include "Scene/Objects/SceneObject.hpp"

@@ -10,7 +10,7 @@ namespace LimeEngine
 	public:
 		explicit MeshComponent(
 			Engine* engine, const std::string& componentName = "MeshComponent", const Transform& transform = {}, const ResourcePath& resourcePath = "Engine\\NullMesh");
-		MeshComponent(Engine* engine, const std::string& componentName, const Transform& transform, GameResourceRef<Mesh> mesh);
+		MeshComponent(Engine* engine, GameResourceRef<Mesh> mesh, const std::string& componentName = "MeshComponent", const Transform& transform = {});
 		virtual ~MeshComponent() override;
 
 		void SetVisibility(bool visibility);

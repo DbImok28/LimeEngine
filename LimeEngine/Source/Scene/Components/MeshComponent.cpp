@@ -10,7 +10,7 @@ namespace LimeEngine
 		ShowMesh();
 	}
 
-	MeshComponent::MeshComponent(Engine* engine, const std::string& componentName, const Transform& transform, GameResourceRef<Mesh> mesh) :
+	MeshComponent::MeshComponent(Engine* engine, GameResourceRef<Mesh> mesh, const std::string& componentName, const Transform& transform) :
 		SceneComponent(engine, componentName, transform), mesh(mesh)
 	{
 		ShowMesh();

@@ -18,8 +18,8 @@ namespace LimeEngine
 		void AttachComponent(std::unique_ptr<SceneComponent>&& component) noexcept;
 
 		const std::string& GetComponentName() const noexcept;
-		void SetRootTransform(Transformable* rootTransform) noexcept;
 		TempTransformMatrix GetWorldTransformMatrix() const noexcept override;
+		void SetRootTransform(Transformable* rootTransform) noexcept;
 
 		std::vector<std::unique_ptr<SceneComponent>> components;
 
