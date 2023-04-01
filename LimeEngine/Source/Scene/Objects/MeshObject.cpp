@@ -8,8 +8,8 @@ namespace LimeEngine
 		rootComponent = std::make_unique<MeshComponent>(engine, componentName, transform, meshResourcePath);
 	}
 
-	MeshObject::MeshObject(Engine* engine, const std::string& componentName, const Transform& transform, GameResourceRef<Mesh> mesh) : SceneObject(engine)
+	MeshObject::MeshObject(Engine* engine, GameResourceRef<Mesh> mesh, const std::string& componentName, const Transform& transform) : SceneObject(engine)
 	{
-		rootComponent = std::make_unique<MeshComponent>(engine, componentName, transform, mesh);
+		rootComponent = std::make_unique<MeshComponent>(engine, mesh, componentName, transform);
 	}
 }

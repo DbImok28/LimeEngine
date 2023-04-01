@@ -76,8 +76,8 @@ namespace LimeEngine
 		auto material = gameDataManager.CreateMasterMaterial("EngineContent/Cat", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
 		material.Get()->AddTexture(texture);
 		mesh->segments[0].SetMaterial(material.Get());
-		auto object = std::make_unique<MeshObject>(engine, "Box1", Transform(), mesh);
-		object->rootComponent->AttachComponent(std::make_unique<MeshComponent>(engine, "Box2", Transform(0, 10, 0), mesh));
+		auto object = std::make_unique<MeshObject>(engine, mesh, "Box1", Transform());
+		object->rootComponent->AttachComponent(std::make_unique<MeshComponent>(engine, mesh, "Box2", Transform(0, 10, 0)));
 		AttachObject(std::move(object));
 
 		// UVMapping
@@ -94,17 +94,17 @@ namespace LimeEngine
 		Plane plane(40, 10, 12);
 		auto planeMesh = plane.CreateMesh(engine, "EngineContent/Plane");
 		planeMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, "Plane", Transform(10.05f, 0.1f, 10), planeMesh)));
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, planeMesh, "Plane", Transform(10.05f, 0.1f, 10))));
 
 		Sphere sphere(10, 16, 16);
 		auto sphereMesh = sphere.CreateMesh(engine, "EngineContent/Sphere");
 		sphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, "Sphere", Transform(10.005f, 0, 10), sphereMesh)));
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, sphereMesh, "Sphere", Transform(10.005f, 0, 10))));
 
 		Cubesphere cubesphere(10, 3);
 		auto cubesphereMesh = cubesphere.CreateMesh(engine, "EngineContent/Cubesphere");
 		cubesphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, "Cubesphere", Transform(-10.0005f, 0, 10), cubesphereMesh)));
+		AttachObject(std::move(std::make_unique<MeshObject>(engine, cubesphereMesh, "Cubesphere", Transform(-10.0005f, 0, 10))));
 
 		// Camera
 		auto cameraComponent = std::make_unique<DefaultPlayerCameraComponent>(engine, "PlayerCamera", Transform(0, 5, -10));
