@@ -7,6 +7,17 @@
 
 namespace LimeEngine
 {
+	enum class NotificationType
+	{
+		None,
+		Success,
+		Warning,
+		Error,
+		Info
+	};
+
+	std::string NotificationTypeToString(NotificationType type) noexcept;
+
 	class RuntimeEditor
 	{
 	public:
@@ -62,6 +73,11 @@ namespace LimeEngine
 		static void Text(const std::string& str);
 		static void Text(const char* label, const char* str);
 		static void Text(const char* label, const std::string& str);
+
+		static void ShowNotification(NotificationType type, const std::string& title, const std::string& content, int displayTime = 3000);
+		static void ShowNotification(NotificationType type, const std::string& content, int displayTime = 3000);
+		static void ShowNotification(const std::string& title, const std::string& content, int displayTime = 3000);
+		static void ShowNotification(const std::string& content, int displayTime = 3000);
 
 	public:
 		static void Input(const char* label, char& var, char min = 0, char max = 0, float speed = 1.0f);

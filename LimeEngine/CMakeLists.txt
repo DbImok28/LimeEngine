@@ -24,6 +24,30 @@ set(HLSL_PIXEL_SHADERS
 )
 include(../CompileShaders.cmake)
 
+# Dependencies
+set(${PROJECT_NAME}_DEPENDENCIES_INCLUDES
+    PUBLIC
+        # TODO: Move spdlog dependencies to PRIVATE
+        ${PROJECT_SOURCE_DIR}/Dependencies/spdlog/include
+    PRIVATE
+        ${PROJECT_SOURCE_DIR}/Dependencies/DirectXTK/include
+        ${PROJECT_SOURCE_DIR}/Dependencies/dxerr/include
+        ${PROJECT_SOURCE_DIR}/Dependencies/imgui
+        ${PROJECT_SOURCE_DIR}/Dependencies/imgui-notify/include
+)
+set(${PROJECT_NAME}_DEPENDENCIES_SOURCES
+    ${PROJECT_SOURCE_DIR}/Dependencies/DirectXTK/include/DirectXTK/WICTextureLoader.cpp
+    ${PROJECT_SOURCE_DIR}/Dependencies/DirectXTK/include/DirectXTK/DDSTextureLoader.cpp
+    ${PROJECT_SOURCE_DIR}/Dependencies/dxerr/include/dxerr/dxerr.cpp
+    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/imgui.cpp
+    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/imgui_draw.cpp
+    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/imgui_tables.cpp
+    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/imgui_widgets.cpp
+    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/backends/imgui_impl_win32.cpp
+    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/backends/imgui_impl_dx11.cpp
+    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/misc/cpp/imgui_stdlib.cpp
+)
+
 # Resources
 target_sources(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/Resource/LimeEngine.rc)
 
@@ -32,14 +56,10 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Source>
-        # TODO: Move dependencies to PRIVATE
-        ${PROJECT_SOURCE_DIR}/Dependencies/spdlog/include
     PRIVATE
         ${PROJECT_SOURCE_DIR}/Source
         ${CMAKE_CURRENT_SOURCE_DIR}/Resource
-        ${PROJECT_SOURCE_DIR}/Dependencies/DirectXTK/include
-        ${PROJECT_SOURCE_DIR}/Dependencies/dxerr/include
-        ${PROJECT_SOURCE_DIR}/Dependencies/imgui
+        ${${PROJECT_NAME}_DEPENDENCIES_INCLUDES}
 )
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/Source/lepch.hpp)
@@ -54,16 +74,7 @@ file(GLOB_RECURSE ${PROJECT_NAME}_SOURCES
 )
 set(${PROJECT_NAME}_SOURCES
     ${${PROJECT_NAME}_SOURCES}
-    ${PROJECT_SOURCE_DIR}/Dependencies/DirectXTK/include/DirectXTK/WICTextureLoader.cpp
-    ${PROJECT_SOURCE_DIR}/Dependencies/DirectXTK/include/DirectXTK/DDSTextureLoader.cpp
-    ${PROJECT_SOURCE_DIR}/Dependencies/dxerr/include/dxerr/dxerr.cpp
-    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/imgui.cpp
-    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/imgui_draw.cpp
-    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/imgui_tables.cpp
-    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/imgui_widgets.cpp
-    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/backends/imgui_impl_win32.cpp
-    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/backends/imgui_impl_dx11.cpp
-    ${PROJECT_SOURCE_DIR}/Dependencies/imgui/misc/cpp/imgui_stdlib.cpp
+    ${${PROJECT_NAME}_DEPENDENCIES_SOURCES}
 )
 source_group(
     TREE 

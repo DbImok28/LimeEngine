@@ -10,10 +10,25 @@
 	#include "misc/cpp/imgui_stdlib.h"
 	#include "backends/imgui_impl_win32.h"
 	#include "backends/imgui_impl_dx11.h"
+	#include "imgui-notify/imgui_notify.h"
+	#include "imgui-notify/tahoma.h"
 #endif
 
 namespace LimeEngine
 {
+	std::string NotificationTypeToString(NotificationType type) noexcept
+	{
+		switch (type)
+		{
+			case LimeEngine::NotificationType::None: return "None";
+			case LimeEngine::NotificationType::Success: return "Success";
+			case LimeEngine::NotificationType::Warning: return "Warning";
+			case LimeEngine::NotificationType::Error: return "Error";
+			case LimeEngine::NotificationType::Info: return "Info";
+			default: return "Unknown";
+		}
+	}
+
 	bool RuntimeEditor::inPanel = false;
 
 #if defined(LE_ENABLE_RENDER_API_DX11)
@@ -21,10 +36,15 @@ namespace LimeEngine
 	{
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
-		const ImGuiIO& io = ImGui::GetIO();
+		ImGuiIO& io = ImGui::GetIO();
 		ImGui_ImplWin32_Init(hWnd);
 		ImGui_ImplDX11_Init(reinterpret_cast<ID3D11Device*>(device), reinterpret_cast<ID3D11DeviceContext*>(deviceContext));
 		ImGui::StyleColorsDark();
+
+		ImFontConfig font_cfg;
+		font_cfg.FontDataOwnedByAtlas = false;
+		io.Fonts->AddFontFromMemoryTTF((void*)tahoma, sizeof(tahoma), 15.f, &font_cfg);
+		ImGui::MergeIconsWithLatestFont(16.f, false);
 	}
 
 	void RuntimeEditor::Destroy()
@@ -49,6 +69,11 @@ namespace LimeEngine
 		{
 			ImGui::End();
 		}
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 5.f);
+		ImGui::RenderNotifications();
+		ImGui::PopStyleVar(1);
+
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	}
@@ -308,6 +333,31 @@ namespace LimeEngine
 	void RuntimeEditor::Text(const char* label, const std::string& str)
 	{
 		Text(label, str.c_str());
+	}
+
+	void RuntimeEditor::ShowNotification(NotificationType type, const std::string& title, const std::string& content, int displayTime)
+	{
+		ImGuiToast toast(static_cast<ImGuiToastType_>(type), displayTime);
+		toast.set_title(title.c_str());
+		toast.set_content(content.c_str());
+		ImGui::InsertNotification(toast);
+	}
+
+	void RuntimeEditor::ShowNotification(NotificationType type, const std::string& content, int displayTime)
+	{
+		ShowNotification(type, NotificationTypeToString(type), content.c_str(), displayTime);
+	}
+
+	void RuntimeEditor::ShowNotification(const std::string& title, const std::string& content, int displayTime)
+	{
+		ShowNotification(NotificationType::None, title.c_str(), content.c_str(), displayTime);
+	}
+
+	void RuntimeEditor::ShowNotification(const std::string& content, int displayTime)
+	{
+		ImGuiToast toast(static_cast<ImGuiToastType_>(NotificationType::None), displayTime);
+		toast.set_content(content.c_str());
+		ImGui::InsertNotification(toast);
 	}
 
 	// ---------

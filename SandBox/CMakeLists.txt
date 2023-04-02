@@ -24,6 +24,17 @@ set(HLSL_PIXEL_SHADERS
 )
 include(../CompileShaders.cmake)
 
+# Dependencies
+set(${PROJECT_NAME}_DEPENDENCIES_INCLUDES
+    PUBLIC
+        # ...
+    PRIVATE
+        # ...
+)
+set(${PROJECT_NAME}_DEPENDENCIES_SOURCES
+    # ...
+)
+
 # Include
 target_include_directories(${PROJECT_NAME}
     PUBLIC
@@ -31,6 +42,7 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source>
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/Source
+        ${${PROJECT_NAME}_DEPENDENCIES_INCLUDES}
 )
 
 # Sources
@@ -44,7 +56,7 @@ file(GLOB_RECURSE ${PROJECT_NAME}_SOURCES
 )
 set(${PROJECT_NAME}_SOURCES
     ${${PROJECT_NAME}_SOURCES}
-    # ...
+    ${${PROJECT_NAME}_DEPENDENCIES_SOURCES}
 )
 source_group(TREE ${PROJECT_SOURCE_DIR}
     FILES 
@@ -58,6 +70,7 @@ target_sources(${PROJECT_NAME}
 # Definitions
 target_compile_definitions(${PROJECT_NAME} 
     PRIVATE
+        # ...
 )
 
 # Libs
