@@ -61,9 +61,9 @@ namespace LimeEngine
 }
 
 #include "Base/String.hpp"
-#include "Base/Assert.hpp"
 #include "Base/StaticInitializer.hpp"
 #include "Diagnostics/Logger.hpp"
 #include "Diagnostics/RuntimeEditor.hpp"
+#include "Base/Assert.hpp"
 #include "Exceptions/EngineExceptions.hpp"
 #include "Base/Transform.hpp"

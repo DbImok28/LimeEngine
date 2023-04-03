@@ -126,21 +126,6 @@ namespace LimeEngine
 		}
 
 		RuntimeEditor::NewPanel("Info");
-		if (RuntimeEditor::Button("Success")) RuntimeEditor::ShowNotification(NotificationType::Success, "Success Hello");
-		if (RuntimeEditor::Button("Error")) RuntimeEditor::ShowNotification(NotificationType::Error, "My error", "Error 404");
-		if (RuntimeEditor::Button("Warning")) RuntimeEditor::ShowNotification(NotificationType::Warning, "Need", "Use int", 10000);
-		if (RuntimeEditor::Button("Info 1"))
-			RuntimeEditor::ShowNotification("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur tellus sodales vestibulum gravida.");
-		if (RuntimeEditor::Button("Info 2"))
-			RuntimeEditor::ShowNotification("Hello", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris efficitur tellus sodales vestibulum gravida.");
-
-		if (RuntimeEditor::Button("Core assert 1")) LE_CORE_ASSERT(false, "Assert Hello {}", 1);
-		if (RuntimeEditor::Button("Core assert 2")) LE_CORE_CRITICAL_ASSERT(false, "Assert cr Hello {}", 1);
-		if (RuntimeEditor::Button("Core Warning")) LE_CORE_WARNING(false, "Assert Warning {}", 1);
-
-		if (RuntimeEditor::Button("Assert 1")) LE_ASSERT(false, "Assert Hello {}", 1);
-		if (RuntimeEditor::Button("Assert 2")) LE_CRITICAL_ASSERT(false, "Assert cr Hello {}", 1);
-		if (RuntimeEditor::Button("Warning 3")) LE_WARNING(false, "Assert Warning")
 		for (auto& object : objects)
 		{
 			RuntimeEditor::Text(object->GetObjectName().c_str(), std::format("{}", object->GetObjectTransform()));

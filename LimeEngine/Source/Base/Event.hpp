@@ -259,6 +259,7 @@ public:                                           \
 		{
 			LE_CORE_ASSERT(object, "Object pointer cannot be null");
 			LE_CORE_ASSERT(method, "Method pointer cannot be null");
+			::LimeEngine::Assertions::Assert(static_cast<bool>((method)), ::LimeEngine::Logger::GetCoreLogger(), "Method pointer cannot be null");
 			return Unbind(key, MethodEventHandler{ *object, method });
 		}
 		bool Unbind(TKey key, void (*func)(TArgs...)) noexcept

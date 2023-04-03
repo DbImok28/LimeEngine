@@ -65,7 +65,7 @@ namespace LimeEngine
 		Logger& operator=(Logger&&) noexcept = default;
 
 		void Initialize(const std::string& name);
-		bool CheckLogLevel(LogLevel level)
+		bool CheckLogLevel(LogLevel level) const noexcept
 		{
 			switch (level)
 			{
@@ -88,12 +88,12 @@ namespace LimeEngine
 				default: return false;
 			}
 		}
-		void Log(LogLevel level, std::string_view msg) noexcept
+		void Log(LogLevel level, std::string_view msg) const noexcept
 		{
 			if (CheckLogLevel(level)) spdLogger->log(static_cast<spdlog::level::level_enum>(level), msg);
 		}
 		template <typename... TArgs>
-		void Log(LogLevel level, spdlog::format_string_t<TArgs...> fmsg, TArgs&&... args) noexcept
+		void Log(LogLevel level, spdlog::format_string_t<TArgs...> fmsg, TArgs&&... args) const noexcept
 		{
 			if (CheckLogLevel(level)) spdLogger->log(static_cast<spdlog::level::level_enum>(level), fmsg, std::forward<TArgs>(args)...);
 		}
