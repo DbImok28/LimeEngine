@@ -6,6 +6,7 @@
 #include "Window/Console.hpp"
 
 // TODO: Remove dependencies
+#define SPDLOG_USE_STD_FORMAT
 #include <spdlog/spdlog.h>
 
 #if defined(LE_LOG_PRESET_FULL)
@@ -88,14 +89,14 @@ namespace LimeEngine
 				default: return false;
 			}
 		}
-		void Log(LogLevel level, std::string_view msg) const noexcept
+		void Log(LogLevel level, std::string_view msg) const
 		{
 			if (CheckLogLevel(level)) spdLogger->log(static_cast<spdlog::level::level_enum>(level), msg);
 		}
 		template <typename... TArgs>
-		void Log(LogLevel level, spdlog::format_string_t<TArgs...> fmsg, TArgs&&... args) const noexcept
+		void Log(LogLevel level, std::format_string<TArgs...> formatMsg, TArgs&&... args) const
 		{
-			if (CheckLogLevel(level)) spdLogger->log(static_cast<spdlog::level::level_enum>(level), fmsg, std::forward<TArgs>(args)...);
+			if (CheckLogLevel(level)) spdLogger->log(static_cast<spdlog::level::level_enum>(level), formatMsg, std::forward<TArgs>(args)...);
 		}
 
 	private:
@@ -103,8 +104,8 @@ namespace LimeEngine
 	};
 }
 
-#define LE_LOG_LOG(...)  ::LimeEngine::Logger::GetLogger().Log(__VA_ARGS__)
-#define LE_CORE_LOG(...) ::LimeEngine::Logger::GetCoreLogger().Log(__VA_ARGS__)
+#define LE_LOG_LOG(logLevel, ...)  ::LimeEngine::Logger::GetLogger().Log(logLevel, __VA_ARGS__)
+#define LE_CORE_LOG(logLevel, ...) ::LimeEngine::Logger::GetCoreLogger().Log(logLevel, __VA_ARGS__)
 
 #ifdef _DEBUG
 	#define LE_LOG_DEBUG(...)      ::LimeEngine::Logger::GetLogger().Log(::LimeEngine::LogLevel::Debug, __VA_ARGS__)

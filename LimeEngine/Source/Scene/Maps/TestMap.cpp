@@ -125,6 +125,8 @@ namespace LimeEngine
 			}
 		}
 
+		if (RuntimeEditor::Button("Assert")) LE_ASSERT(false, "Assert");
+
 		RuntimeEditor::NewPanel("Info");
 		for (auto& object : objects)
 		{

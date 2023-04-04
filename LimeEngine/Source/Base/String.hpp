@@ -20,7 +20,7 @@ namespace LimeEngine
 	using float64 = double;
 	using float96 = long double;
 
-#define FORCEINLINE __forceinline
+#define LE_FORCEINLINE __forceinline
 
 	// TCHAR
 	using tstring = std::basic_string<TCHAR, std::char_traits<TCHAR>, std::allocator<TCHAR>>;

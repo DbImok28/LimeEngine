@@ -20,19 +20,6 @@
 	#error "Platform not supported!"
 #endif
 
-#ifdef LE_DEBUG
-	#if defined(LE_BUILD_PLATFORM_WINDOWS)
-		#define LE_DEBUGBREAK() __debugbreak()
-	#elif defined(LE_BUILD_PLATFORM_LINUX)
-		#include <signal.h>
-		#define LE_DEBUGBREAK() raise(SIGTRAP)
-	#else
-		#error "Platform does not support debugbreak!"
-	#endif
-#else
-	#define LE_DEBUGBREAK()
-#endif
-
 #define LE_DELETE_COPY(ClassName)         \
 	ClassName(const ClassName&) = delete; \
 	ClassName& operator=(const ClassName&) = delete;
@@ -60,6 +47,7 @@ namespace LimeEngine
 	using FPath = std::filesystem::path;
 }
 
+#include "Base/Debugger.hpp"
 #include "Base/String.hpp"
 #include "Base/StaticInitializer.hpp"
 #include "Diagnostics/Logger.hpp"
