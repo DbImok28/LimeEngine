@@ -13,12 +13,23 @@ namespace LimeEngine
 
 	void SceneObject::Update() {}
 
+	void SceneObject::DebugUpdate() {}
+
 	void SceneObject::UpdateObject()
 	{
 		Update();
 		if (rootComponent)
 		{
 			rootComponent->UpdateComponent();
+		}
+	}
+
+	void SceneObject::DebugUpdateObject()
+	{
+		DebugUpdate();
+		if (rootComponent)
+		{
+			rootComponent->DebugUpdateComponent();
 		}
 	}
 

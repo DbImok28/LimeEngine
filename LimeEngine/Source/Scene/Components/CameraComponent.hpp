@@ -32,6 +32,9 @@ namespace LimeEngine
 		const XMMATRIX& GetProjectionMatrix() const noexcept;
 		XMMATRIX GetViewProjectionMatrix() const noexcept;
 
+	protected:
+		virtual void DebugUpdate() override;
+
 	private:
 		mutable XMMATRIX viewMatrix = XMMatrixIdentity();
 		mutable XMMATRIX projectionMatrix = XMMatrixIdentity();

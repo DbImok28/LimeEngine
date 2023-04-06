@@ -89,4 +89,12 @@ namespace LimeEngine
 	{
 		return GetViewMatrix() * GetProjectionMatrix();
 	}
+
+	void CameraComponent::DebugUpdate()
+	{
+		RuntimeEditor::Input("FovRadians", fovRadians);
+		RuntimeEditor::Input("AspectRatio", aspectRatio);
+		RuntimeEditor::Input("NearZ", nearZ);
+		RuntimeEditor::Input("FarZ", farZ);
+	}
 }

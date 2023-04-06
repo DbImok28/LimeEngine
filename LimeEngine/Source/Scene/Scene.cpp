@@ -6,17 +6,25 @@ namespace LimeEngine
 {
 	Scene::Scene(Engine* engine) : engine(engine) {}
 
-	void Scene::Update()
-	{
-		// ...
-	}
+	void Scene::Update() {}
 
-	void Scene::OnUpdate()
+	void Scene::DebugUpdate() {}
+
+	void Scene::UpdateScene()
 	{
 		Update();
 		for (auto&& map : maps)
 		{
 			map->UpdateMap();
+		}
+	}
+
+	void Scene::DebugUpdateScene()
+	{
+		DebugUpdate();
+		for (auto&& map : maps)
+		{
+			map->DebugUpdateMap();
 		}
 	}
 

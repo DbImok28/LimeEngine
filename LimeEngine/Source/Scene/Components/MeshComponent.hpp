@@ -20,6 +20,9 @@ namespace LimeEngine
 		virtual void Draw(Renderer& renderer) override;
 		virtual float GetDistance(const Vector& target) noexcept override;
 
+	protected:
+		virtual void DebugUpdate() override;
+
 	public:
 		GameResourceRef<Mesh> mesh;
 

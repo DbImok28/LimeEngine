@@ -8,11 +8,15 @@ namespace LimeEngine
 	{
 	public:
 		explicit Scene(Engine* engine);
-		void OnUpdate();
+
+		void UpdateScene();
+		void DebugUpdateScene();
+
 		void AttachMap(std::unique_ptr<SceneMap>&& map);
 
 	private:
 		void Update();
+		void DebugUpdate();
 
 	public:
 		std::vector<std::unique_ptr<SceneMap>> maps;

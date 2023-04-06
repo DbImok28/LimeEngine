@@ -5,9 +5,9 @@ namespace LimeEngine
 {
 	SceneMap::SceneMap(Engine* engine) : engine(engine) {}
 
-	void SceneMap::Load() {}
-
 	void SceneMap::Update() {}
+
+	void SceneMap::DebugUpdate() {}
 
 	void SceneMap::UpdateMap()
 	{
@@ -17,6 +17,17 @@ namespace LimeEngine
 			object->UpdateObject();
 		}
 	}
+
+	void SceneMap::DebugUpdateMap()
+	{
+		DebugUpdate();
+		for (auto&& object : objects)
+		{
+			object->DebugUpdateObject();
+		}
+	}
+
+	void SceneMap::Load() {}
 
 	void SceneMap::AttachObject(std::unique_ptr<SceneObject>&& object)
 	{

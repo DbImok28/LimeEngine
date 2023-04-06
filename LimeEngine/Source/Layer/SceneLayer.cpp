@@ -8,7 +8,12 @@ namespace LimeEngine
 
 	void SceneLayer::Update()
 	{
-		scene.OnUpdate();
+		scene.UpdateScene();
+	}
+
+	void SceneLayer::DebugUpdate()
+	{
+		scene.DebugUpdateScene();
 	}
 
 	Scene& SceneLayer::GetScene() noexcept

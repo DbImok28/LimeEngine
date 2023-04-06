@@ -22,8 +22,11 @@ namespace LimeEngine
 		void TurnRight(float scale) noexcept;
 		void OnResize(const Event& e);
 
-		void Update() override;
 		void AttachCamera() noexcept;
+
+	protected:
+		virtual void DebugUpdate() override;
+		virtual void Update() override;
 
 		size_t id = 0;
 		float cameraMovementSpeed;

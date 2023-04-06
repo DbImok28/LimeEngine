@@ -12,6 +12,8 @@ namespace LimeEngine
 		explicit SceneLayer(Engine* engine);
 
 		void Update() override;
+		void DebugUpdate();
+
 		Scene& GetScene() noexcept;
 
 	private:

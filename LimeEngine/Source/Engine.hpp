@@ -9,6 +9,7 @@
 #include "Layer/InputLayer.hpp"
 #include "Layer/RenderLayer.hpp"
 #include "Layer/SceneLayer.hpp"
+#include "Layer/EditorLayer.hpp"
 
 namespace LimeEngine
 {
@@ -37,6 +38,8 @@ namespace LimeEngine
 		RenderLayer renderLayer;
 		DataLayer dataLayer;
 		SceneLayer sceneLayer;
+		EditorLayer editorLayer;
+
 		Timer timer;
 		float deltaTime = 0.0f;
 	};

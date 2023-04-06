@@ -9,12 +9,14 @@ namespace LimeEngine
 	{
 	protected:
 		virtual void Update();
+		virtual void DebugUpdate();
 
 	public:
 		explicit SceneComponent(Engine* engine, const std::string& componentName = "SceneComponent", const Transform& transform = {}) noexcept;
 		virtual ~SceneComponent() noexcept = default;
 
 		void UpdateComponent();
+		void DebugUpdateComponent();
 		void AttachComponent(std::unique_ptr<SceneComponent>&& component) noexcept;
 
 		const std::string& GetComponentName() const noexcept;

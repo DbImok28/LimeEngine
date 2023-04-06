@@ -12,12 +12,23 @@ namespace LimeEngine
 
 	void SceneComponent::Update() {}
 
+	void SceneComponent::DebugUpdate() {}
+
 	void SceneComponent::UpdateComponent()
 	{
 		Update();
 		for (auto&& component : components)
 		{
 			component->UpdateComponent();
+		}
+	}
+
+	void SceneComponent::DebugUpdateComponent()
+	{
+		DebugUpdate();
+		for (auto&& component : components)
+		{
+			component->DebugUpdateComponent();
 		}
 	}
 

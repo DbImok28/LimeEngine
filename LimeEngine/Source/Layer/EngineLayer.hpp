@@ -11,7 +11,7 @@ namespace LimeEngine
 
 		virtual void Update() = 0;
 
-	private:
+	protected:
 		Engine* engine;
 	};
 }

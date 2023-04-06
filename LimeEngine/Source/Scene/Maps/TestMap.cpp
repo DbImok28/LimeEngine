@@ -124,13 +124,13 @@ namespace LimeEngine
 				object->rootComponent->SetTransform(transform);
 			}
 		}
-
-		if (RuntimeEditor::Button("Assert")) LE_ASSERT(false, "Assert");
+		RuntimeEditor::EndPanel();
 
 		RuntimeEditor::NewPanel("Info");
 		for (auto& object : objects)
 		{
 			RuntimeEditor::Text(object->GetObjectName().c_str(), std::format("{}", object->GetObjectTransform()));
 		}
+		RuntimeEditor::EndPanel();
 	}
 }

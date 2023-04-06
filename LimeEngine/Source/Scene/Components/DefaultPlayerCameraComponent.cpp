@@ -77,11 +77,6 @@ namespace LimeEngine
 		Resize(resizeEvent.width, resizeEvent.height);
 	}
 
-	void DefaultPlayerCameraComponent::Update()
-	{
-		CameraComponent::Update();
-	}
-
 	void DefaultPlayerCameraComponent::AttachCamera() noexcept
 	{
 		engine->renderLayer.SetRenderCamera(this);
@@ -89,5 +84,18 @@ namespace LimeEngine
 		auto& window = engine->windowLayer.GetWindow();
 		width = static_cast<float>(window.GetWidth());
 		height = static_cast<float>(window.GetHeight());
+	}
+
+	void DefaultPlayerCameraComponent::DebugUpdate()
+	{
+		RuntimeEditor::Input("CameraMovementSpeed", cameraMovementSpeed);
+		RuntimeEditor::Input("CameraRotationSpeed", cameraRotationSpeed);
+
+		CameraComponent::DebugUpdate();
+	}
+
+	void DefaultPlayerCameraComponent::Update()
+	{
+		CameraComponent::Update();
 	}
 }

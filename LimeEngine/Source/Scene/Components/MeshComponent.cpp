@@ -60,4 +60,9 @@ namespace LimeEngine
 		// TODO: Add distance calculation
 		return 0.0f;
 	}
+
+	void MeshComponent::DebugUpdate()
+	{
+		RuntimeEditor::Input("IsVisible", isVisible);
+	}
 }
