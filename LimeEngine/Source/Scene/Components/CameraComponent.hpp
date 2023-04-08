@@ -23,10 +23,12 @@ namespace LimeEngine
 			float farZ = 10000.0f) noexcept;
 
 		void SetProjectionType(ProjectionType type);
+		void CheckClippingPlane() noexcept;
 		void SetPerspective();
 		void SetOrthographic();
 		void Resize(float width, float height) noexcept;
 
+		void RecalculateViewMatrix() noexcept;
 		void UpdateViewMatrix() const noexcept;
 		const XMMATRIX& GetViewMatrix() const noexcept;
 		const XMMATRIX& GetProjectionMatrix() const noexcept;
@@ -39,12 +41,13 @@ namespace LimeEngine
 		mutable XMMATRIX viewMatrix = XMMatrixIdentity();
 		mutable XMMATRIX projectionMatrix = XMMatrixIdentity();
 		ProjectionType projectionType = ProjectionType::Perspective;
+		float aspectRatio;
 
 	public:
 		float width;
 		float height;
-		float fovRadians;
-		float aspectRatio;
+		//float fovRadians;
+		float fovDegrees;
 		float nearZ;
 		float farZ;
 	};

@@ -96,5 +96,9 @@ namespace LimeEngine
 		{
 			return -u + 1.0f;
 		}
+		static inline bool IsNearEqual(float x1, float x2, float tolerance = std::numeric_limits<float>::epsilon()) noexcept
+		{
+			return Abs(x1 - x2) <= tolerance;
+		}
 	};
 }

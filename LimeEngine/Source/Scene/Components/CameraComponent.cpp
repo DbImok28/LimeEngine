@@ -16,7 +16,8 @@ namespace LimeEngine
 		float nearZ,
 		float farZ) noexcept :
 		SceneComponent(engine, componentName, transform),
-		projectionType(projectionType), width(width), height(height), fovRadians((fovDegrees / 360.0f) * Math::pi2), nearZ(nearZ), farZ(farZ), aspectRatio(width / height)
+		projectionType(projectionType), width(width), height(height), fovDegrees(fovDegrees) /*fovRadians((fovDegrees / 360.0f) * Math::pi2)*/, nearZ(nearZ), farZ(farZ),
+		aspectRatio(width / height)
 	{
 		SetProjectionType(projectionType);
 	}
@@ -40,14 +41,25 @@ namespace LimeEngine
 		UpdateViewMatrix();
 	}
 
+	void CameraComponent::CheckClippingPlane() noexcept
+	{
+		if (nearZ <= 0) nearZ = 0.0001f;
+		if (Math::IsNearEqual(nearZ, farZ, 0.0001f)) farZ = nearZ + 0.0001f;
+		if (farZ <= 0) farZ = 0.0001f;
+	}
+
 	void CameraComponent::SetPerspective()
 	{
+		CheckClippingPlane();
+		if (Math::IsNearEqual(fovDegrees, 0, 0.005f)) fovDegrees = 0.005f;
+		aspectRatio = width / height;
 		projectionType = ProjectionType::Perspective;
-		projectionMatrix = XMMatrixPerspectiveFovLH(fovRadians, aspectRatio, nearZ, farZ);
+		projectionMatrix = XMMatrixPerspectiveFovLH(Math::toRadians * fovDegrees, aspectRatio, nearZ, farZ);
 	}
 
 	void CameraComponent::SetOrthographic()
 	{
+		CheckClippingPlane();
 		projectionType = ProjectionType::Orthographic;
 		projectionMatrix = XMMatrixOrthographicOffCenterLH(0.0f, width, height, 0.0f, nearZ, farZ);
 	}
@@ -56,7 +68,11 @@ namespace LimeEngine
 	{
 		this->width = width;
 		this->height = height;
-		aspectRatio = width / height;
+		RecalculateViewMatrix();
+	}
+
+	void CameraComponent::RecalculateViewMatrix() noexcept
+	{
 		SetProjectionType(projectionType);
 	}
 
@@ -92,9 +108,13 @@ namespace LimeEngine
 
 	void CameraComponent::DebugUpdate()
 	{
-		RuntimeEditor::Input("FovRadians", fovRadians);
-		RuntimeEditor::Input("AspectRatio", aspectRatio);
-		RuntimeEditor::Input("NearZ", nearZ);
-		RuntimeEditor::Input("FarZ", farZ);
+		bool changed = false;
+		changed = RuntimeEditor::Input("FovDegrees", fovDegrees) || changed;
+		changed = RuntimeEditor::Input("NearZ", nearZ) || changed;
+		changed = RuntimeEditor::Input("FarZ", farZ) || changed;
+		if (changed)
+		{
+			RecalculateViewMatrix();
+		}
 	}
 }
