@@ -46,7 +46,6 @@ namespace LimeEngine
 	public:
 		float width;
 		float height;
-		//float fovRadians;
 		float fovDegrees;
 		float nearZ;
 		float farZ;

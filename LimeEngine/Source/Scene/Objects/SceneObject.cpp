@@ -33,7 +33,7 @@ namespace LimeEngine
 		}
 	}
 
-	const std::string& SceneObject::GetObjectName() const noexcept
+	std::string SceneObject::GetObjectName() const noexcept
 	{
 		if (rootComponent)
 		{

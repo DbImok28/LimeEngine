@@ -16,8 +16,7 @@ namespace LimeEngine
 		float nearZ,
 		float farZ) noexcept :
 		SceneComponent(engine, componentName, transform),
-		projectionType(projectionType), width(width), height(height), fovDegrees(fovDegrees) /*fovRadians((fovDegrees / 360.0f) * Math::pi2)*/, nearZ(nearZ), farZ(farZ),
-		aspectRatio(width / height)
+		projectionType(projectionType), width(width), height(height), fovDegrees(fovDegrees), nearZ(nearZ), farZ(farZ), aspectRatio(width / height)
 	{
 		SetProjectionType(projectionType);
 	}

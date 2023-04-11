@@ -19,7 +19,7 @@ namespace LimeEngine
 		void UpdateObject();
 		void DebugUpdateObject();
 
-		const std::string& GetObjectName() const noexcept;
+		std::string GetObjectName() const noexcept;
 		void SetRootComponent(std::unique_ptr<SceneComponent>&& newRootComponent) noexcept;
 		Transform GetObjectTransform() const noexcept;
 

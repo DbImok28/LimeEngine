@@ -9,11 +9,7 @@ namespace LimeEngine
 
 	Transform::Transform(const TempTransformMatrix& mat) noexcept
 	{
-		DirectX::XMVECTOR loc, rot, sc;
-		XMMatrixDecompose(&sc, &rot, &loc, mat);
-		location = loc;
-		rotation.SetQuaternion(rot);
-		scale = sc;
+		Matrix::DecomposeTransform(location, rotation, scale, mat);
 	}
 
 	Transform::Transform(float lx, float ly, float lz) noexcept : location(lx, ly, lz), rotation(0.0f, 0.0f, 0.0f), scale(1.0f, 1.0f, 1.0f) {}
@@ -52,12 +48,7 @@ namespace LimeEngine
 
 	Transform& Transform::operator=(const TempTransformMatrix& mat) noexcept
 	{
-		DirectX::XMVECTOR loc, rot, sc;
-		XMMatrixDecompose(&sc, &rot, &loc, mat);
-		location = loc;
-		rotation.SetQuaternion(rot);
-		scale = sc;
-
+		Matrix::DecomposeTransform(location, rotation, scale, mat);
 		return *this;
 	}
 
@@ -78,8 +69,7 @@ namespace LimeEngine
 
 	TempTransformMatrix Transform::GetTransformMatrix() const noexcept
 	{
-		return DirectX::XMMatrixScaling(scale.x, scale.y, scale.z) * DirectX::XMMatrixRotationQuaternion(rotation.GetQuaternion())
-			   * DirectX::XMMatrixTranslation(location.x, location.y, location.z);
+		return Matrix::CreateTransformMatrix(location, rotation, scale);
 	}
 
 	std::string Transform::ToString() const noexcept
