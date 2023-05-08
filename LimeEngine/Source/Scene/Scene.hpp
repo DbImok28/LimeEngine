@@ -4,22 +4,15 @@
 
 namespace LimeEngine
 {
-	class Scene
+	class Scene : public ScenePrimaryComponent
 	{
 	public:
 		explicit Scene(Engine* engine);
 
-		void UpdateScene();
-		void DebugUpdateScene();
+		SceneMap* SetupAttachment(std::unique_ptr<SceneMap>&& map);
+		const std::vector<std::unique_ptr<SceneMap>>& GetSubMaps() const noexcept;
 
-		void AttachMap(std::unique_ptr<SceneMap>&& map);
-
-	private:
-		void Update();
-		void DebugUpdate();
-
-	public:
-		std::vector<std::unique_ptr<SceneMap>> maps;
+		std::string GetSceneName() const noexcept;
 
 	private:
 		Engine* engine = nullptr;

@@ -6,8 +6,9 @@ namespace LimeEngine
 	class TestMap : public SceneMap
 	{
 	public:
-		using SceneMap::SceneMap;
+		TestMap(Engine* engine) : SceneMap(engine, "TestMap") {}
+
 		void Load() override;
-		void Update() override;
+		virtual void Update() override;
 	};
 }

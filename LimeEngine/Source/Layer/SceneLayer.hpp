@@ -9,7 +9,8 @@ namespace LimeEngine
 		LE_DELETE_COPY(SceneLayer)
 
 	public:
-		explicit SceneLayer(Engine* engine);
+		explicit SceneLayer(Engine* engine) : SceneLayer(engine, std::make_unique<Scene>(engine)) {}
+		SceneLayer(Engine* engine, std::unique_ptr<Scene>&& scene) : EngineLayer(engine), scene(std::move(scene)) {}
 
 		void Update() override;
 		void DebugUpdate();
@@ -17,6 +18,6 @@ namespace LimeEngine
 		Scene& GetScene() noexcept;
 
 	private:
-		Scene scene;
+		std::unique_ptr<Scene> scene;
 	};
 }

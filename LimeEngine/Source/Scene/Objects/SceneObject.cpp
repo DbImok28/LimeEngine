@@ -3,56 +3,15 @@
 
 namespace LimeEngine
 {
-	SceneObject::SceneObject(Engine* engine) noexcept : engine(engine) {}
-
-	SceneObject::SceneObject(Engine* engine, const Transform& transform) noexcept :
-		engine(engine), rootComponent(std::make_unique<SceneComponent>(engine, "SceneComponent", transform))
-	{}
-
-	SceneObject::SceneObject(Engine* engine, std::unique_ptr<SceneComponent>&& rootComponent) noexcept : engine(engine), rootComponent(std::move(rootComponent)) {}
-
-	void SceneObject::Update() {}
-
-	void SceneObject::DebugUpdate() {}
-
-	void SceneObject::UpdateObject()
-	{
-		Update();
-		if (rootComponent)
-		{
-			rootComponent->UpdateComponent();
-		}
-	}
-
-	void SceneObject::DebugUpdateObject()
-	{
-		DebugUpdate();
-		if (rootComponent)
-		{
-			rootComponent->DebugUpdateComponent();
-		}
-	}
+	SceneObject::SceneObject(Engine* engine, const std::string& objectName, const Transform& transform) noexcept : engine(engine), SceneComponent(engine, objectName, transform) {}
 
 	std::string SceneObject::GetObjectName() const noexcept
 	{
-		if (rootComponent)
-		{
-			return rootComponent->GetComponentName();
-		}
-		return "None";
-	}
-
-	void SceneObject::SetRootComponent(std::unique_ptr<SceneComponent>&& newRootComponent) noexcept
-	{
-		rootComponent = std::move(newRootComponent);
+		return GetComponentName();
 	}
 
 	Transform SceneObject::GetObjectTransform() const noexcept
 	{
-		if (rootComponent)
-		{
-			return rootComponent->GetTransform();
-		}
-		return Transform();
+		return GetTransform();
 	}
 }

@@ -93,9 +93,4 @@ namespace LimeEngine
 
 		CameraComponent::DebugUpdate();
 	}
-
-	void DefaultPlayerCameraComponent::Update()
-	{
-		CameraComponent::Update();
-	}
 }

@@ -4,20 +4,18 @@
 
 namespace LimeEngine
 {
-	SceneLayer::SceneLayer(Engine* engine) : EngineLayer(engine), scene(engine) {}
-
 	void SceneLayer::Update()
 	{
-		scene.UpdateScene();
+		scene->UpdateSubPrimaryComponents();
 	}
 
 	void SceneLayer::DebugUpdate()
 	{
-		scene.DebugUpdateScene();
+		scene->DebugUpdateSubPrimaryComponents();
 	}
 
 	Scene& SceneLayer::GetScene() noexcept
 	{
-		return scene;
+		return *scene;
 	}
 }

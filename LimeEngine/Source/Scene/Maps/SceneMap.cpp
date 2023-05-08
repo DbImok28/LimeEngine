@@ -3,34 +3,20 @@
 
 namespace LimeEngine
 {
-	SceneMap::SceneMap(Engine* engine) : engine(engine) {}
+	SceneMap::SceneMap(Engine* engine, const std::string& mapName) : engine(engine), ScenePrimaryComponent(mapName) {}
 
-	void SceneMap::Update() {}
-
-	void SceneMap::DebugUpdate() {}
-
-	void SceneMap::UpdateMap()
+	SceneObject* SceneMap::SetupAttachment(std::unique_ptr<SceneObject>&& object)
 	{
-		Update();
-		for (auto&& object : objects)
-		{
-			object->UpdateObject();
-		}
+		return reinterpret_cast<SceneObject*>(SetupPrimaryAttachment(std::move(object)));
 	}
 
-	void SceneMap::DebugUpdateMap()
+	const std::vector<std::unique_ptr<SceneObject>>& SceneMap::GetSubObjects() const noexcept
 	{
-		DebugUpdate();
-		for (auto&& object : objects)
-		{
-			object->DebugUpdateObject();
-		}
+		return reinterpret_cast<const std::vector<std::unique_ptr<SceneObject>>&>(GetSubPrimaryComponents());
 	}
 
-	void SceneMap::Load() {}
-
-	void SceneMap::AttachObject(std::unique_ptr<SceneObject>&& object)
+	std::string SceneMap::GetMapName() const noexcept
 	{
-		objects.push_back(std::move(object));
+		return GetPrimaryName();
 	}
 }

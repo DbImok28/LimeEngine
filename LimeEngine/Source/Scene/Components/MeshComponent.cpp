@@ -48,8 +48,6 @@ namespace LimeEngine
 		engine->renderLayer.RemoveFromRender(this);
 	}
 
-	// Inherited via Drawable
-
 	void MeshComponent::Draw(Renderer& renderer)
 	{
 		renderer.Draw(*mesh.Get(), GetWorldTransformMatrix());
@@ -63,6 +61,11 @@ namespace LimeEngine
 
 	void MeshComponent::DebugUpdate()
 	{
-		RuntimeEditor::Input("IsVisible", isVisible);
+		bool visibility = isVisible;
+		if (RuntimeEditor::Input(std::format("IsVisible {}", GetComponentName()).c_str(), visibility))
+		{
+			SetVisibility(visibility);
+		}
+		SceneComponent::DebugUpdate();
 	}
 }

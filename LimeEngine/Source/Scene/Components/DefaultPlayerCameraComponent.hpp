@@ -26,7 +26,6 @@ namespace LimeEngine
 
 	protected:
 		virtual void DebugUpdate() override;
-		virtual void Update() override;
 
 		size_t id = 0;
 		float cameraMovementSpeed;

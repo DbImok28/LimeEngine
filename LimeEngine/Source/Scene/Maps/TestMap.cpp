@@ -77,8 +77,8 @@ namespace LimeEngine
 		material.Get()->AddTexture(texture);
 		mesh->segments[0].SetMaterial(material.Get());
 		auto object = std::make_unique<MeshObject>(engine, mesh, "Box1", Transform());
-		object->rootComponent->AttachComponent(std::make_unique<MeshComponent>(engine, mesh, "Box2", Transform(0, 10, 0)));
-		AttachObject(std::move(object));
+		object->SetupAttachment(std::make_unique<MeshComponent>(engine, mesh, "Box2", Transform(0, 10, 0)));
+		SetupAttachment(std::move(object));
 
 		// UVMapping
 		auto UVMappingTexture = gameDataManager.CreateTexture2D("EngineContent/T_UVMapping", Paths::ContentFolder / "Textures" / "UVMapping.jpg", TextureType::Diffuse);
@@ -94,43 +94,51 @@ namespace LimeEngine
 		Plane plane(40, 10, 12);
 		auto planeMesh = plane.CreateMesh(engine, "EngineContent/Plane");
 		planeMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, planeMesh, "Plane", Transform(10.05f, 0.1f, 10))));
+		SetupAttachment(std::move(std::make_unique<MeshObject>(engine, planeMesh, "Plane", Transform(10.05f, 0.1f, 10))));
 
 		Sphere sphere(10, 16, 16);
 		auto sphereMesh = sphere.CreateMesh(engine, "EngineContent/Sphere");
 		sphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, sphereMesh, "Sphere", Transform(10.005f, 0, 10))));
+		SetupAttachment(std::move(std::make_unique<MeshObject>(engine, sphereMesh, "Sphere", Transform(10.005f, 0, 10))));
 
 		Cubesphere cubesphere(10, 3);
 		auto cubesphereMesh = cubesphere.CreateMesh(engine, "EngineContent/Cubesphere");
 		cubesphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		AttachObject(std::move(std::make_unique<MeshObject>(engine, cubesphereMesh, "Cubesphere", Transform(-10.0005f, 0, 10))));
+		SetupAttachment(std::move(std::make_unique<MeshObject>(engine, cubesphereMesh, "Cubesphere", Transform(-10.0005f, 0, 10))));
 
 		// Camera
-		auto cameraComponent = std::make_unique<DefaultPlayerCameraComponent>(engine, "PlayerCamera", Transform(0, 5, -10));
-		auto cameraObject = std::make_unique<SceneObject>(engine, std::move(cameraComponent));
-		AttachObject(std::move(cameraObject));
+		auto cameraObject = std::make_unique<SceneObject>(engine);
+		cameraObject->SetupAttachment<DefaultPlayerCameraComponent>(engine, "PlayerCamera", Transform(0, 5, -10));
+		SetupAttachment(std::move(cameraObject));
 	}
 
 	void TestMap::Update()
 	{
 		RuntimeEditor::NewPanel("Properties");
-		for (auto& object : objects)
+		for (auto& object : GetSubObjects())
 		{
-			if (object->rootComponent != nullptr)
+			if (object != nullptr)
 			{
-				Transform transform = object->rootComponent->GetTransform();
+				Transform transform = object->GetTransform();
 				RuntimeEditor::Input(object->GetObjectName().c_str(), transform);
-				object->rootComponent->SetTransform(transform);
+				object->SetTransform(transform);
+
+				for (auto& component : object->GetSubComponents())
+				{
+					transform = component->GetTransform();
+					RuntimeEditor::Input(std::format("{}/{}", object->GetObjectName(), component->GetComponentName()).c_str(), transform);
+					component->SetTransform(transform);
+				}
 			}
 		}
 		RuntimeEditor::EndPanel();
 
 		RuntimeEditor::NewPanel("Info");
-		for (auto& object : objects)
+		for (auto& object : GetSubObjects())
 		{
 			RuntimeEditor::Text(object->GetObjectName().c_str(), std::format("{}", object->GetObjectTransform()));
 		}
 		RuntimeEditor::EndPanel();
+		SceneMap::Update();
 	}
 }

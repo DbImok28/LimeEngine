@@ -115,5 +115,6 @@ namespace LimeEngine
 		{
 			RecalculateViewMatrix();
 		}
+		SceneComponent::DebugUpdate();
 	}
 }

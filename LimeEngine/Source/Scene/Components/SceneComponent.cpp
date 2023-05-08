@@ -7,40 +7,24 @@
 namespace LimeEngine
 {
 	SceneComponent::SceneComponent(Engine* engine, const std::string& componentName, const Transform& transform) noexcept :
-		engine(engine), componentName(componentName), Transformable(transform)
+		engine(engine), ScenePrimaryComponent(componentName), Transformable(transform)
 	{}
 
-	void SceneComponent::Update() {}
-
-	void SceneComponent::DebugUpdate() {}
-
-	void SceneComponent::UpdateComponent()
+	SceneComponent* SceneComponent::SetupAttachment(std::unique_ptr<SceneComponent>&& component) noexcept
 	{
-		Update();
-		for (auto&& component : components)
-		{
-			component->UpdateComponent();
-		}
+		auto attachedComponent = reinterpret_cast<SceneComponent*>(SetupPrimaryAttachment(std::move(component)));
+		attachedComponent->SetRootTransform(this);
+		return attachedComponent;
 	}
 
-	void SceneComponent::DebugUpdateComponent()
+	const std::vector<std::unique_ptr<SceneComponent>>& SceneComponent::GetSubComponents() const noexcept
 	{
-		DebugUpdate();
-		for (auto&& component : components)
-		{
-			component->DebugUpdateComponent();
-		}
-	}
-
-	void SceneComponent::AttachComponent(std::unique_ptr<SceneComponent>&& component) noexcept
-	{
-		components.push_back(std::move(component));
-		components.back()->SetRootTransform(this);
+		return reinterpret_cast<const std::vector<std::unique_ptr<SceneComponent>>&>(GetSubPrimaryComponents());
 	}
 
 	const std::string& SceneComponent::GetComponentName() const noexcept
 	{
-		return componentName;
+		return GetPrimaryName();
 	}
 
 	void SceneComponent::SetRootTransform(Transformable* rootTransform) noexcept
