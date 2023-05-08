@@ -151,20 +151,21 @@ public:                                           \
 		}
 		void Bind(std::unique_ptr<EventHandler<TArgs...>>&& handler)
 		{
-			LE_CORE_ASSERT(FindEventHandler(*handler) == events.end(), "Ñan't bind the same events");
-			events.push_back(std::move(handler));
+			bool noFinded = FindEventHandler(*handler) != events.end();
+			LE_CORE_ASSERT(noFinded, "Ñan't bind the same events");
+			if (noFinded) events.push_back(std::move(handler));
 		}
 		template <typename TObject>
 		void Bind(TObject* const object, MethodEventHandler<TObject, TArgs...>::TMethod method)
 		{
 			LE_CORE_ASSERT(object, "Object pointer cannot be null");
 			LE_CORE_ASSERT(method, "Method pointer cannot be null");
-			Bind(std::make_unique<MethodEventHandler<TObject, TArgs...>>(*object, method));
+			if (object && method) Bind(std::make_unique<MethodEventHandler<TObject, TArgs...>>(*object, method));
 		}
 		void Bind(void (*func)(TArgs...))
 		{
 			LE_CORE_ASSERT(func, "Function pointer cannot be null");
-			Bind(std::make_unique<FunctionEventHandler<TArgs...>>(func));
+			if (func) Bind(std::make_unique<FunctionEventHandler<TArgs...>>(func));
 		}
 
 		bool Unbind(const EventHandler<TArgs...>& handler) noexcept
@@ -182,12 +183,14 @@ public:                                           \
 		{
 			LE_CORE_ASSERT(object, "Object pointer cannot be null");
 			LE_CORE_ASSERT(method, "Method pointer cannot be null");
-			return Unbind(MethodEventHandler{ *object, method });
+			if (object && method) return Unbind(MethodEventHandler{ *object, method });
+			return false;
 		}
 		bool Unbind(void (*func)(TArgs...)) noexcept
 		{
 			LE_CORE_ASSERT(func, "Function pointer cannot be null");
-			return Unbind(FunctionEventHandler{ func });
+			if (func) return Unbind(FunctionEventHandler{ func });
+			return false;
 		}
 		void Clear() noexcept
 		{
@@ -228,20 +231,21 @@ public:                                           \
 		}
 		void Bind(TKey key, std::unique_ptr<EventHandler<TArgs...>>&& handler)
 		{
-			LE_CORE_ASSERT(FindEventHandler(key, *handler) == events.end(), "Ñan't bind the same events");
-			events.emplace(key, std::move(handler));
+			bool noFinded = FindEventHandler(key, *handler) == events.end();
+			LE_CORE_ASSERT(noFinded, "Ñan't bind the same events");
+			if (noFinded) events.emplace(key, std::move(handler));
 		}
 		template <typename TObject>
 		void Bind(TKey key, TObject* const object, MethodEventHandler<TObject, TArgs...>::TMethod method)
 		{
 			LE_CORE_ASSERT(object, "Object pointer cannot be null");
 			LE_CORE_ASSERT(method, "Method pointer cannot be null");
-			Bind(key, std::make_unique<MethodEventHandler<TObject, TArgs...>>(*object, method));
+			if (object && method) Bind(key, std::make_unique<MethodEventHandler<TObject, TArgs...>>(*object, method));
 		}
 		void Bind(TKey key, void (*func)(TArgs...))
 		{
 			LE_CORE_ASSERT(func, "Function pointer cannot be null");
-			Bind(key, std::make_unique<FunctionEventHandler<TArgs...>>(func));
+			if (func) Bind(key, std::make_unique<FunctionEventHandler<TArgs...>>(func));
 		}
 
 		bool Unbind(TKey key, const EventHandler<TArgs...>& handler) noexcept
@@ -259,13 +263,14 @@ public:                                           \
 		{
 			LE_CORE_ASSERT(object, "Object pointer cannot be null");
 			LE_CORE_ASSERT(method, "Method pointer cannot be null");
-			::LimeEngine::Assertions::Assert(static_cast<bool>((method)), ::LimeEngine::Logger::GetCoreLogger(), "Method pointer cannot be null");
-			return Unbind(key, MethodEventHandler{ *object, method });
+			if (object && method) return Unbind(key, MethodEventHandler{ *object, method });
+			return false;
 		}
 		bool Unbind(TKey key, void (*func)(TArgs...)) noexcept
 		{
 			LE_CORE_ASSERT(func, "Function pointer cannot be null");
-			return Unbind(key, FunctionEventHandler{ func });
+			if (func) return Unbind(key, FunctionEventHandler{ func });
+			return false;
 		}
 		void Clear(TKey key) noexcept
 		{
