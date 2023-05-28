@@ -10,8 +10,8 @@
 	#include "misc/cpp/imgui_stdlib.h"
 	#include "backends/imgui_impl_win32.h"
 	#include "backends/imgui_impl_dx11.h"
-	#include "imgui-notify/imgui_notify.h"
-	#include "imgui-notify/tahoma.h"
+	#include "imgui-notify/imgui_notify.hpp"
+	#include "imgui-notify/tahoma.hpp"
 #endif
 
 namespace LimeEngine

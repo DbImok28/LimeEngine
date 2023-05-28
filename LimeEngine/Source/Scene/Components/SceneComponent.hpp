@@ -15,10 +15,11 @@ namespace LimeEngine
 		virtual ~SceneComponent() noexcept = default;
 
 		SceneComponent* SetupAttachment(std::unique_ptr<SceneComponent>&& component) noexcept;
-		template <typename T, typename... TArgs>
-		T* SetupAttachment(TArgs&&... args) noexcept
+
+		template <std::derived_from<SceneComponent> TComponent, typename... TArgs>
+		TComponent* SetupAttachment(TArgs&&... args) noexcept
 		{
-			return reinterpret_cast<T*>(SetupAttachment(std::make_unique<T>(std::forward<TArgs>(args)...)));
+			return reinterpret_cast<TComponent*>(SetupAttachment(std::make_unique<TComponent>(std::forward<TArgs>(args)...)));
 		}
 		const std::vector<std::unique_ptr<SceneComponent>>& GetSubComponents() const noexcept;
 
