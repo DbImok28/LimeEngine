@@ -151,8 +151,8 @@ public:                                           \
 		}
 		void Bind(std::unique_ptr<EventHandler<TArgs...>>&& handler)
 		{
-			bool noFinded = FindEventHandler(*handler) != events.end();
-			LE_CORE_ASSERT(noFinded, "Ñan't bind the same events");
+			bool noFinded = FindEventHandler(*handler) == events.end();
+			LE_CORE_ASSERT(noFinded, "Can't bind the same events");
 			if (noFinded) events.push_back(std::move(handler));
 		}
 		template <typename TObject>
@@ -215,11 +215,15 @@ public:                                           \
 				auto it_last = it++;
 				it_last->second->Call(std::forward<TArgs>(args)...);
 			}
+			for (auto& handler : handlersForAnyEvents)
+			{
+				handler->Call(std::forward<TArgs>(args)...);
+			}
 		}
+
 		auto FindEventHandler(TKey key, const EventHandler<TArgs...>& handler) const noexcept
 		{
 			auto range = events.equal_range(key);
-
 			for (auto it = range.first; it != range.second; ++it)
 			{
 				if (*it->second == handler)
@@ -229,10 +233,11 @@ public:                                           \
 			}
 			return std::end(events);
 		}
+
 		void Bind(TKey key, std::unique_ptr<EventHandler<TArgs...>>&& handler)
 		{
 			bool noFinded = FindEventHandler(key, *handler) == events.end();
-			LE_CORE_ASSERT(noFinded, "Ñan't bind the same events");
+			LE_CORE_ASSERT(noFinded, "Can't bind the same events");
 			if (noFinded) events.emplace(key, std::move(handler));
 		}
 		template <typename TObject>
@@ -272,6 +277,57 @@ public:                                           \
 			if (func) return Unbind(key, FunctionEventHandler{ func });
 			return false;
 		}
+
+		// For any events
+		auto FindAnyEventHandler(const EventHandler<TArgs...>& handler) const noexcept
+		{
+			return std::find_if(std::begin(handlersForAnyEvents), std::end(handlersForAnyEvents), [&handler](auto& item) { return (*item == handler); });
+		}
+
+		void BindAny(std::unique_ptr<EventHandler<TArgs...>>&& handler)
+		{
+			bool noFinded = FindAnyEventHandler(*handler) == std::end(handlersForAnyEvents);
+			LE_CORE_ASSERT(noFinded, "Can't bind the same events");
+			if (noFinded) handlersForAnyEvents.emplace_back(std::move(handler));
+		}
+		template <typename TObject>
+		void BindAny(TObject* const object, MethodEventHandler<TObject, TArgs...>::TMethod method)
+		{
+			LE_CORE_ASSERT(object, "Object pointer cannot be null");
+			LE_CORE_ASSERT(method, "Method pointer cannot be null");
+			if (object && method) BindAny(std::make_unique<MethodEventHandler<TObject, TArgs...>>(*object, method));
+		}
+		void BindAny(void (*func)(TArgs...))
+		{
+			LE_CORE_ASSERT(func, "Function pointer cannot be null");
+			if (func) BindAny(std::make_unique<FunctionEventHandler<TArgs...>>(func));
+		}
+
+		bool UnbindAny(const EventHandler<TArgs...>& handler) noexcept
+		{
+			auto it = FindAnyEventHandler(handler);
+			if (it != std::end(handlersForAnyEvents))
+			{
+				handlersForAnyEvents.erase(it);
+				return true;
+			}
+			return false;
+		}
+		template <typename TObject>
+		bool UnbindAny(TObject* const object, MethodEventHandler<TObject, TArgs...>::TMethod method) noexcept
+		{
+			LE_CORE_ASSERT(object, "Object pointer cannot be null");
+			LE_CORE_ASSERT(method, "Method pointer cannot be null");
+			if (object && method) return UnbindAny(MethodEventHandler{ *object, method });
+			return false;
+		}
+		bool UnbindAny(void (*func)(TArgs...)) noexcept
+		{
+			LE_CORE_ASSERT(func, "Function pointer cannot be null");
+			if (func) return UnbindAny(FunctionEventHandler{ func });
+			return false;
+		}
+
 		void Clear(TKey key) noexcept
 		{
 			auto range = events.equal_range(key);
@@ -281,9 +337,14 @@ public:                                           \
 		{
 			events.clear();
 		}
+		void ClearAny() noexcept
+		{
+			handlersForAnyEvents.clear();
+		}
 
 	private:
 		std::multimap<TKey, std::unique_ptr<EventHandler<TArgs...>>> events;
+		std::list<std::unique_ptr<EventHandler<TArgs...>>> handlersForAnyEvents;
 	};
 
 	template <typename TKey>
