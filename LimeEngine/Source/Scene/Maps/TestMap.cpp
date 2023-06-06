@@ -116,13 +116,13 @@ namespace LimeEngine
 			if (object != nullptr)
 			{
 				Transform transform = object->GetTransform();
-				RuntimeEditor::Input(object->GetObjectName().c_str(), transform);
+				RuntimeEditor::Input(object->GetObjectName(), transform);
 				object->SetTransform(transform);
 
 				for (auto& component : object->GetSubComponents())
 				{
 					transform = component->GetTransform();
-					RuntimeEditor::Input(std::format("{}/{}", object->GetObjectName(), component->GetComponentName()).c_str(), transform);
+					RuntimeEditor::Input(std::format("{}/{}", object->GetObjectName(), component->GetComponentName()), transform);
 					component->SetTransform(transform);
 				}
 			}
@@ -132,7 +132,7 @@ namespace LimeEngine
 		RuntimeEditor::NewPanel("Info");
 		for (auto& object : GetSubObjects())
 		{
-			RuntimeEditor::Text(object->GetObjectName().c_str(), std::format("{}", object->GetObjectTransform()));
+			RuntimeEditor::Text(object->GetObjectName(), std::format("{}", object->GetObjectTransform()));
 		}
 		RuntimeEditor::EndPanel();
 		SceneMap::Update();
