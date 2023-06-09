@@ -35,6 +35,12 @@ namespace LimeEngine
 		MouseEvent(MouseEventType mouseEventType, int x, int y) noexcept;
 
 		MouseEventType GetMouseEventType() const noexcept;
+		bool IsButtonEvent() const noexcept;
+		bool IsButtonPressEvent() const noexcept;
+		bool IsButtonReleaseEvent() const noexcept;
+		bool IsScrollEvent() const noexcept;
+		int GetMouseButton() const noexcept;
+
 		std::pair<int, int> GetPos() const noexcept;
 		int GetPosX() const noexcept;
 		int GetPosY() const noexcept;

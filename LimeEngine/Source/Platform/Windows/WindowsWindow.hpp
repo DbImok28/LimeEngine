@@ -6,23 +6,10 @@
 #include "WinApi.hpp"
 #include "CoreBase.hpp"
 #include "WindowsExceptions.hpp"
-
-#define WND_EXCEPTION(hr)    LimeEngine::WindowsWindowException(__LINE__, __FILE__, hr)
-#define WND_LAST_EXCEPTION() LimeEngine::WindowsWindowException(__LINE__, __FILE__, GetLastError())
+#include "WindowsInput.hpp"
 
 namespace LimeEngine
 {
-	class WindowsWindowException : public EngineHrException
-	{
-		using EngineHrException::EngineHrException;
-
-	public:
-		virtual const char* GetType() const noexcept override
-		{
-			return "WindowsWindowException";
-		}
-	};
-
 	class WindowsWindow final : public Window
 	{
 	private:
@@ -79,6 +66,7 @@ namespace LimeEngine
 		static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		static LRESULT CALLBACK HandleMsgForwarding(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+		std::optional<LRESULT> HandleWindowMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	private:
 		uint width;

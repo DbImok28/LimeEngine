@@ -10,6 +10,40 @@ namespace LimeEngine
 		return mouseEventType;
 	}
 
+	bool MouseEvent::IsButtonEvent() const noexcept
+	{
+		return IsButtonPressEvent() || IsButtonReleaseEvent();
+	}
+
+	bool MouseEvent::IsButtonPressEvent() const noexcept
+	{
+		return mouseEventType == MouseEventType::LPress || mouseEventType == MouseEventType::RPress || mouseEventType == MouseEventType::MPress;
+	}
+
+	bool MouseEvent::IsButtonReleaseEvent() const noexcept
+	{
+		return mouseEventType == MouseEventType::LRelease || mouseEventType == MouseEventType::RRelease || mouseEventType == MouseEventType::MRelease;
+	}
+
+	bool MouseEvent::IsScrollEvent() const noexcept
+	{
+		return mouseEventType == MouseEventType::WheelUp || mouseEventType == MouseEventType::WheelDown;
+	}
+
+	int MouseEvent::GetMouseButton() const noexcept
+	{
+		switch (mouseEventType)
+		{
+			case LimeEngine::MouseEventType::LPress:
+			case LimeEngine::MouseEventType::LRelease: return 0;
+			case LimeEngine::MouseEventType::RPress:
+			case LimeEngine::MouseEventType::RRelease: return 1;
+			case LimeEngine::MouseEventType::MPress:
+			case LimeEngine::MouseEventType::MRelease: return 2;
+			default: return -1;
+		}
+	}
+
 	std::pair<int, int> MouseEvent::GetPos() const noexcept
 	{
 		return { x, y };

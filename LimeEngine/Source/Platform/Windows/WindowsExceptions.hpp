@@ -15,6 +15,9 @@
 #define CHECK_LAST_ERROR(call) \
 	if (!(call)) throw HR_LAST_EXCEPTION();
 
+#define WND_EXCEPTION(hr)    LimeEngine::WindowsWindowException(__LINE__, __FILE__, hr)
+#define WND_LAST_EXCEPTION() LimeEngine::WindowsWindowException(__LINE__, __FILE__, GetLastError())
+
 namespace LimeEngine
 {
 	class EngineHrException : public EngineException
@@ -32,5 +35,16 @@ namespace LimeEngine
 
 	private:
 		HRESULT hr;
+	};
+
+	class WindowsWindowException : public EngineHrException
+	{
+		using EngineHrException::EngineHrException;
+
+	public:
+		virtual const char* GetType() const noexcept override
+		{
+			return "WindowsWindowException";
+		}
 	};
 }

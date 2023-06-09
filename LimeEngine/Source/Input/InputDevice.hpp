@@ -86,9 +86,11 @@ namespace LimeEngine
 		std::vector<std::unique_ptr<EventHandler<float>>> handlers;
 	};
 
+	class Input;
+
 	class InputDevice
 	{
-		friend class Window;
+		friend class Input;
 
 	public:
 		void AddActionMapping(const InputAction& inputAction);

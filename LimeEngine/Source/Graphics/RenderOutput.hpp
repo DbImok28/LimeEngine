@@ -48,6 +48,10 @@ namespace LimeEngine
 		{
 			window.events.Unbind(WindowEventType::Resize, this, &WindowRenderOutput::OnResizeEvent);
 		}
+		Window& GetWindow() noexcept
+		{
+			return window;
+		}
 		const Window& GetWindow() const noexcept
 		{
 			return window;
