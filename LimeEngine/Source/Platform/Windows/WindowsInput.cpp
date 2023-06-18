@@ -158,6 +158,15 @@ namespace LimeEngine
 				OnMouseKeyPressed(InputKey::MiddleMouseButton, pt.x, pt.y);
 				break;
 			}
+			case WM_XBUTTONDBLCLK:
+			case WM_XBUTTONDOWN:
+			{
+				const POINTS pt = MAKEPOINTS(lParam);
+				InputKey key = (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? InputKey::ThumbForward : InputKey::ThumbBack;
+				OnMouseKeyPressed(key, pt.x, pt.y);
+				break;
+			}
+
 			case WM_LBUTTONUP:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
@@ -174,6 +183,13 @@ namespace LimeEngine
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
 				OnMouseKeyReleased(InputKey::MiddleMouseButton, pt.x, pt.y);
+				break;
+			}
+			case WM_XBUTTONUP:
+			{
+				const POINTS pt = MAKEPOINTS(lParam);
+				InputKey key = (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? InputKey::ThumbForward : InputKey::ThumbBack;
+				OnMouseKeyReleased(key, pt.x, pt.y);
 				break;
 			}
 			case WM_MOUSEWHEEL:

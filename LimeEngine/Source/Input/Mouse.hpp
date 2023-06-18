@@ -8,6 +8,8 @@ namespace LimeEngine
 		Left,
 		Right,
 		Middle,
+		ThumbForward,
+		ThumbBack
 	};
 
 	enum class MouseEventType
@@ -18,6 +20,11 @@ namespace LimeEngine
 		RRelease,
 		MPress,
 		MRelease,
+		ThumbForwardPress,
+		ThumbForwardRelease,
+		ThumbBackPress,
+		ThumbBackRelease,
+
 		WheelUp,
 		WheelDown,
 		Move,
@@ -66,6 +73,8 @@ namespace LimeEngine
 		bool IsLeftDown() const noexcept;
 		bool IsRightDown() const noexcept;
 		bool IsMiddleDown() const noexcept;
+		bool IsThumbForwardDown() const noexcept;
+		bool IsThumbBackDown() const noexcept;
 
 		std::pair<int, int> GetPos() const noexcept;
 		int GetPosX() const noexcept;
@@ -96,6 +105,8 @@ namespace LimeEngine
 		bool rightIsDown = false;
 		bool middleIsDown = false;
 		bool isInWindow = false;
+		bool thumbForwardIsDown = false;
+		bool thumbBackIsDown = false;
 		int wheelDelta = 0;
 		int x = 0;
 		int y = 0;

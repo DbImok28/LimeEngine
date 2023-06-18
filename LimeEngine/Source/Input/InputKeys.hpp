@@ -10,8 +10,8 @@ namespace LimeEngine
 		CtrlBrkPrcs = 0x03,       // Control-break processing
 		MiddleMouseButton = 0x04, // Middle mouse button
 
-		ThumbForward = 0x05, // Thumb button back on mouse aka X1
-		ThumbBack = 0x06,    // Thumb button forward on mouse aka X2
+		ThumbForwardMouseButton = 0x05, // Thumb button back on mouse aka X1
+		ThumbBackMouseButton = 0x06,    // Thumb button forward on mouse aka X2
 
 		BackSpace = 0x08, // Backspace key
 		Tab = 0x09,       // Tab key
@@ -131,14 +131,14 @@ namespace LimeEngine
 		F23 = 0x86,       // F23
 		F24 = 0x87,       // F24
 
-		NavigationView = 0x88,   // reserved
-		NavigationMenu = 0x89,   // reserved
-		NavigationUp = 0x8A,     // reserved
-		NavigationDown = 0x8B,   // reserved
-		NavigationLeft = 0x8C,   // reserved
-		NavigationRight = 0x8D,  // reserved
-		NavigationAccept = 0x8E, // reserved
-		NavigationCancel = 0x8F, // reserved
+		NavigationView = 0x88,   // Reserved
+		NavigationMenu = 0x89,   // Reserved
+		NavigationUp = 0x8A,     // Reserved
+		NavigationDown = 0x8B,   // Reserved
+		NavigationLeft = 0x8C,   // Reserved
+		NavigationRight = 0x8D,  // Reserved
+		NavigationAccept = 0x8E, // Reserved
+		NavigationCancel = 0x8F, // Reserved
 
 		NumLock = 0x90,    // Num lock key
 		ScrollLock = 0x91, // Scroll lock key
@@ -180,10 +180,10 @@ namespace LimeEngine
 		Slash = 0xBF,       // /
 		GraveAccent = 0xC0, // `
 
-		Gamepad_A = 0xC3,               // Gamepad A button
-		Gamepad_B = 0xC4,               // Gamepad B button
-		Gamepad_X = 0xC5,               // Gamepad X button
-		Gamepad_Y = 0xC6,               // Gamepad Y button
+		GamepadA = 0xC3,                // Gamepad A button
+		GamepadB = 0xC4,                // Gamepad B button
+		GamepadX = 0xC5,                // Gamepad X button
+		GamepadY = 0xC6,                // Gamepad Y button
 		GamepadRightBumper = 0xC7,      // Gamepad right bumper
 		GamepadLeftBumper = 0xC8,       // Gamepad left bumper
 		GamepadLeftTrigger = 0xC9,      // Gamepad left trigger

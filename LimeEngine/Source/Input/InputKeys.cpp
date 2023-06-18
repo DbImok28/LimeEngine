@@ -12,8 +12,8 @@ namespace LimeEngine
 			case InputKey::RightMouseButton: return "RightMouseButton";
 			case InputKey::CtrlBrkPrcs: return "CtrlBrkPrcs";
 			case InputKey::MiddleMouseButton: return "MiddleMouseButton";
-			case InputKey::ThumbForward: return "ThumbForward";
-			case InputKey::ThumbBack: return "ThumbBack";
+			case InputKey::ThumbForwardMouseButton: return "ThumbForwardMouseButton";
+			case InputKey::ThumbBackMouseButton: return "ThumbBackMouseButton";
 			case InputKey::BackSpace: return "BackSpace";
 			case InputKey::Tab: return "Tab";
 			case InputKey::Clear: return "Clear";
@@ -163,10 +163,10 @@ namespace LimeEngine
 			case InputKey::Period: return "Period";
 			case InputKey::Slash: return "Slash";
 			case InputKey::GraveAccent: return "GraveAccent";
-			case InputKey::Gamepad_A: return "Gamepad_A";
-			case InputKey::Gamepad_B: return "Gamepad_B";
-			case InputKey::Gamepad_X: return "Gamepad_X";
-			case InputKey::Gamepad_Y: return "Gamepad_Y";
+			case InputKey::GamepadA: return "GamepadA";
+			case InputKey::GamepadB: return "GamepadB";
+			case InputKey::GamepadX: return "GamepadX";
+			case InputKey::GamepadY: return "GamepadY";
 			case InputKey::GamepadRightBumper: return "GamepadRightBumper";
 			case InputKey::GamepadLeftBumper: return "GamepadLeftBumper";
 			case InputKey::GamepadLeftTrigger: return "GamepadLeftTrigger";

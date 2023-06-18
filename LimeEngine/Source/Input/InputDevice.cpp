@@ -347,6 +347,8 @@ namespace LimeEngine
 			case InputKey::LeftMouseButton: mouse.OnButtonPressed(MouseButton::Left, x, y); break;
 			case InputKey::RightMouseButton: mouse.OnButtonPressed(MouseButton::Right, x, y); break;
 			case InputKey::MiddleMouseButton: mouse.OnButtonPressed(MouseButton::Middle, x, y); break;
+			case InputKey::ThumbForward: mouse.OnButtonPressed(MouseButton::X1, x, y); break;
+			case InputKey::ThumbBack: mouse.OnButtonPressed(MouseButton::X2, x, y); break;
 			default: break;
 		}
 		OnKeyPressed(key);
@@ -359,6 +361,8 @@ namespace LimeEngine
 			case InputKey::LeftMouseButton: mouse.OnButtonReleased(MouseButton::Left, x, y); break;
 			case InputKey::RightMouseButton: mouse.OnButtonReleased(MouseButton::Right, x, y); break;
 			case InputKey::MiddleMouseButton: mouse.OnButtonReleased(MouseButton::Middle, x, y); break;
+			case InputKey::ThumbForward: mouse.OnButtonReleased(MouseButton::X1, x, y); break;
+			case InputKey::ThumbBack: mouse.OnButtonReleased(MouseButton::X2, x, y); break;
 			default: break;
 		}
 		OnKeyReleased(key);

@@ -17,12 +17,14 @@ namespace LimeEngine
 
 	bool MouseEvent::IsButtonPressEvent() const noexcept
 	{
-		return mouseEventType == MouseEventType::LPress || mouseEventType == MouseEventType::RPress || mouseEventType == MouseEventType::MPress;
+		return mouseEventType == MouseEventType::LPress || mouseEventType == MouseEventType::RPress || mouseEventType == MouseEventType::MPress
+			   || mouseEventType == MouseEventType::ThumbForwardPress || mouseEventType == MouseEventType::ThumbBackPress;
 	}
 
 	bool MouseEvent::IsButtonReleaseEvent() const noexcept
 	{
-		return mouseEventType == MouseEventType::LRelease || mouseEventType == MouseEventType::RRelease || mouseEventType == MouseEventType::MRelease;
+		return mouseEventType == MouseEventType::LRelease || mouseEventType == MouseEventType::RRelease || mouseEventType == MouseEventType::MRelease
+			   || mouseEventType == MouseEventType::ThumbForwardRelease || mouseEventType == MouseEventType::ThumbBackRelease;
 	}
 
 	bool MouseEvent::IsScrollEvent() const noexcept
@@ -40,6 +42,10 @@ namespace LimeEngine
 			case LimeEngine::MouseEventType::RRelease: return 1;
 			case LimeEngine::MouseEventType::MPress:
 			case LimeEngine::MouseEventType::MRelease: return 2;
+			case LimeEngine::MouseEventType::ThumbForwardPress:
+			case LimeEngine::MouseEventType::ThumbForwardRelease: return 3;
+			case LimeEngine::MouseEventType::ThumbBackPress:
+			case LimeEngine::MouseEventType::ThumbBackRelease: return 4;
 			default: return -1;
 		}
 	}
@@ -89,6 +95,16 @@ namespace LimeEngine
 		return middleIsDown;
 	}
 
+	bool Mouse::IsThumbForwardDown() const noexcept
+	{
+		return thumbForwardIsDown;
+	}
+
+	bool Mouse::IsThumbBackDown() const noexcept
+	{
+		return thumbBackIsDown;
+	}
+
 	std::pair<int, int> Mouse::GetPos() const noexcept
 	{
 		return { x, y };
@@ -120,6 +136,14 @@ namespace LimeEngine
 				buffer.emplace(MouseEventType::MPress, x, y);
 				middleIsDown = true;
 				break;
+			case LimeEngine::MouseButton::ThumbForward:
+				buffer.emplace(MouseEventType::ThumbForwardPress, x, y);
+				thumbForwardIsDown = true;
+				break;
+			case LimeEngine::MouseButton::ThumbBack:
+				buffer.emplace(MouseEventType::ThumbBackPress, x, y);
+				thumbBackIsDown = true;
+				break;
 			default: break;
 		}
 		TrimBuffer();
@@ -140,6 +164,14 @@ namespace LimeEngine
 			case LimeEngine::MouseButton::Middle:
 				buffer.emplace(MouseEventType::MRelease, x, y);
 				middleIsDown = false;
+				break;
+			case LimeEngine::MouseButton::ThumbForward:
+				buffer.emplace(MouseEventType::ThumbForwardRelease, x, y);
+				thumbForwardIsDown = false;
+				break;
+			case LimeEngine::MouseButton::ThumbBack:
+				buffer.emplace(MouseEventType::ThumbBackRelease, x, y);
+				thumbBackIsDown = false;
 				break;
 			default: break;
 		}
