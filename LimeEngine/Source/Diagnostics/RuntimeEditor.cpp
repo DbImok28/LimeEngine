@@ -17,6 +17,9 @@
 
 namespace LimeEngine
 {
+	bool RuntimeEditor::inPanel = false;
+	bool RuntimeEditor::inDockSpace = false;
+
 	std::string NotificationTypeToString(NotificationType type) noexcept
 	{
 		switch (type)
@@ -30,25 +33,39 @@ namespace LimeEngine
 		}
 	}
 
-	bool RuntimeEditor::inPanel = false;
-
 #if defined(LE_ENABLE_RENDER_API_DX11)
 	void RuntimeEditor::Init(void* hWnd, void* device, void* deviceContext)
 	{
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
+
+		ImGuiIO& io = ImGui::GetIO();
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // Enable Docking
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // Enable Multi-Viewport / Platform Windows
+
+		SetDefaultTheme();
+
 		ImGui_ImplWin32_Init(hWnd);
 		ImGui_ImplDX11_Init(reinterpret_cast<ID3D11Device*>(device), reinterpret_cast<ID3D11DeviceContext*>(deviceContext));
-		SetDefaultTheme();
 	}
 
 	void RuntimeEditor::SetDefaultTheme()
 	{
 		ImGui::StyleColorsDark();
+		ImGuiIO& io = ImGui::GetIO();
+
+		// When viewports are enabled we tweak WindowRounding / WindowBg so platform windows can look identical to regular ones.ImGuiStyle& style = ImGui::GetStyle();
+		ImGuiStyle& style = ImGui::GetStyle();
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			style.WindowRounding = 0.0f;
+			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+		}
 
 		ImFontConfig font_cfg;
 		font_cfg.FontDataOwnedByAtlas = false;
-		ImGuiIO& io = ImGui::GetIO();
 		io.Fonts->AddFontFromMemoryTTF((void*)tahoma, sizeof(tahoma), 15.f, &font_cfg);
 		ImGui::MergeIconsWithLatestFont(16.f, false);
 	}
@@ -62,11 +79,13 @@ namespace LimeEngine
 
 	void RuntimeEditor::Processing(float deltaTime)
 	{
-		ImGui_ImplWin32_NewFrame();
 		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 		ImGui::GetIO().DeltaTime = deltaTime;
 		inPanel = false;
+
+		SetupDockSpace();
 	}
 
 	void RuntimeEditor::Render()
@@ -75,19 +94,114 @@ namespace LimeEngine
 		{
 			ImGui::End();
 		}
-
+		if (inDockSpace)
+		{
+			ImGui::End();
+		}
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 5.f);
 		ImGui::RenderNotifications();
 		ImGui::PopStyleVar(1);
 
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+		// Update and Render additional Platform Windows
+		ImGuiIO& io = ImGui::GetIO();
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+		}
 	}
 #else
 	void RuntimeEditor::Destroy() {}
 	void RuntimeEditor::Processing(float deltaTime) {}
 	void RuntimeEditor::Render() {}
 #endif
+
+	void RuntimeEditor::SetupDockSpace()
+	{
+		static bool opt_fullscreen = true;
+		static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
+
+		// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
+		// because it would be confusing to have two docking targets within each others.
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+		if (opt_fullscreen)
+		{
+			const ImGuiViewport* viewport = ImGui::GetMainViewport();
+			ImGui::SetNextWindowPos(viewport->WorkPos);
+			ImGui::SetNextWindowSize(viewport->WorkSize);
+			ImGui::SetNextWindowViewport(viewport->ID);
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+			window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+			window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+		}
+		else
+		{
+			dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
+		}
+
+		// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background
+		// and handle the pass-thru hole, so we ask Begin() to not render a background.
+		if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode) window_flags |= ImGuiWindowFlags_NoBackground;
+
+		// Important: note that we proceed even if Begin() returns false (aka window is collapsed).
+		// This is because we want to keep our DockSpace() active. If a DockSpace() is inactive,
+		// all active windows docked into it will lose their parent and become undocked.
+		// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise
+		// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+		ImGui::Begin("MainDockSpace", nullptr, window_flags);
+		ImGui::PopStyleVar();
+
+		if (opt_fullscreen) ImGui::PopStyleVar(2);
+
+		// Submit the DockSpace
+		ImGuiIO& io = ImGui::GetIO();
+		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+		{
+			ImGuiID dockspace_id = ImGui::GetID("MainDockSpace");
+			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+		}
+
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("Options"))
+			{
+				// Disabling fullscreen would allow the window to be moved to the front of other windows,
+				// which we can't undo at the moment without finer window depth/z control.
+				ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Flag: NoSplit", "", (dockspace_flags & ImGuiDockNodeFlags_NoSplit) != 0))
+				{
+					dockspace_flags ^= ImGuiDockNodeFlags_NoSplit;
+				}
+				if (ImGui::MenuItem("Flag: NoResize", "", (dockspace_flags & ImGuiDockNodeFlags_NoResize) != 0))
+				{
+					dockspace_flags ^= ImGuiDockNodeFlags_NoResize;
+				}
+				if (ImGui::MenuItem("Flag: NoDockingInCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_NoDockingInCentralNode) != 0))
+				{
+					dockspace_flags ^= ImGuiDockNodeFlags_NoDockingInCentralNode;
+				}
+				if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (dockspace_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0))
+				{
+					dockspace_flags ^= ImGuiDockNodeFlags_AutoHideTabBar;
+				}
+				if (ImGui::MenuItem("Flag: PassthruCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode) != 0, opt_fullscreen))
+				{
+					dockspace_flags ^= ImGuiDockNodeFlags_PassthruCentralNode;
+				}
+				ImGui::Separator();
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+		inDockSpace = true;
+	}
 
 	void RuntimeEditor::NewPanel(const std::string& name)
 	{

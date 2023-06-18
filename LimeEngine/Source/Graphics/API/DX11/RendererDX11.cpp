@@ -179,6 +179,7 @@ namespace LimeEngine
 	void RendererDX11::PreProcessing()
 	{
 		float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
+		deviceContext->OMSetRenderTargets(1, renderTargetView.GetAddressOf(), depthStencilView.Get());
 		deviceContext->ClearRenderTargetView(renderTargetView.Get(), bgcolor);
 		deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 

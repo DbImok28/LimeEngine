@@ -162,7 +162,7 @@ namespace LimeEngine
 			case WM_XBUTTONDOWN:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				InputKey key = (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? InputKey::ThumbForward : InputKey::ThumbBack;
+				InputKey key = (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? InputKey::ThumbForwardMouseButton : InputKey::ThumbBackMouseButton;
 				OnMouseKeyPressed(key, pt.x, pt.y);
 				break;
 			}
@@ -188,7 +188,7 @@ namespace LimeEngine
 			case WM_XBUTTONUP:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				InputKey key = (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? InputKey::ThumbForward : InputKey::ThumbBack;
+				InputKey key = (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? InputKey::ThumbForwardMouseButton : InputKey::ThumbBackMouseButton;
 				OnMouseKeyReleased(key, pt.x, pt.y);
 				break;
 			}

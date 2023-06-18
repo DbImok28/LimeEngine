@@ -37,6 +37,8 @@ namespace LimeEngine
 		static void NewPanel(const std::string& name);
 		static void EndPanel();
 
+		static void SetupDockSpace();
+
 		static bool Drag(const std::string& label, char& var, char min = 0, char max = 0, float speed = 1.0f);
 		static bool Drag(const std::string& label, int8& var, int8 min = 0, int8 max = 0, float speed = 1.0f);
 		static bool Drag(const std::string& label, int16& var, int16 min = 0, int16 max = 0, float speed = 1.0f);
@@ -112,5 +114,6 @@ namespace LimeEngine
 
 	private:
 		static bool inPanel;
+		static bool inDockSpace;
 	};
 }
