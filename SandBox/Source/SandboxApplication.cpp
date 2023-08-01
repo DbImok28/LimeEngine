@@ -1,4 +1,4 @@
-// Copyright (C) 2022 Pavel Jakushik - All Rights Reserved
+// Copyright (C) Pavel Jakushik - All Rights Reserved
 // See file LICENSE for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #include "LimeEngine.hpp"

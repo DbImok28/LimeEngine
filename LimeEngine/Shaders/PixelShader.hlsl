@@ -1,3 +1,7 @@
+// Copyright (C) Pavel Jakushik - All rights reserved
+// See the LICENSE file for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
+
 struct PS_INPUT
 {
     float4 position : SV_POSITION;

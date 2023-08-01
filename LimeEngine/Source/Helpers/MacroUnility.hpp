@@ -1,3 +1,6 @@
+// Copyright (C) Pavel Jakushik - All rights reserved
+// See the LICENSE file for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
 #define LE_CAT(A, B)   A##B
 #define LE_EXPAND(...) __VA_ARGS__
 

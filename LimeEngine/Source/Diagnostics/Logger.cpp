@@ -1,3 +1,6 @@
+// Copyright (C) Pavel Jakushik - All rights reserved
+// See the LICENSE file for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
 #include "lepch.hpp"
 #include "Logger.hpp"
 #include <spdlog/sinks/basic_file_sink.h>

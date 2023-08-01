@@ -1,3 +1,6 @@
+// Copyright (C) Pavel Jakushik - All rights reserved
+// See the LICENSE file for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 
 namespace LimeEngine
@@ -35,7 +38,7 @@ namespace LimeEngine
 			{
 				auto formatMsg = std::format(msg, std::forward<TArgs>(args)...);
 				::LimeEngine::RuntimeEditor::ShowNotification(NotificationType::Warning, "Warning", formatMsg, 10000);
-				logger.Log(LogLevel::Warning, "Waring: {0}", formatMsg);
+				logger.Log(LogLevel::Warning, "Warning: {0}", formatMsg);
 			}
 		}
 #else

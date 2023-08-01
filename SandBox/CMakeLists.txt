@@ -1,6 +1,7 @@
-# Copyright (C) Pavel Jakushik
-# See file LICENSE for copyright and licensing details.
-# https://github.com/RubyCircle/LimeEngine
+# Copyright (C) Pavel Jakushik - All rights reserved
+# See the LICENSE file for copyright and licensing details.
+# GitHub: https://github.com/RubyCircle/LimeEngine
+
 cmake_minimum_required(VERSION 3.20)
 
 set(PROJECT_NAME Sandbox)
@@ -10,7 +11,7 @@ add_executable(${PROJECT_NAME} WIN32)
 set_target_properties(${TARGET} PROPERTIES
     CXX_STANDARD_REQUIRED YES
     CXX_EXTENSIONS NO
-    CXX_STANDARD 20
+    CXX_STANDARD 23
 )
 
 # Compile shaders

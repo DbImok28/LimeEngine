@@ -1,5 +1,5 @@
-// Copyright (C) Pavel Jakushik - All Rights Reserved
-// See file LICENSE for copyright and licensing details.
+// Copyright (C) Pavel Jakushik - All rights reserved
+// See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #include "lepch.hpp"
 #include "WindowsInput.hpp"
@@ -195,7 +195,7 @@ namespace LimeEngine
 			case WM_MOUSEWHEEL:
 			{
 				const POINTS pt = MAKEPOINTS(lParam);
-				const int delta = GET_WHEEL_DELTA_WPARAM(wParam) / WHEEL_DELTA;
+				auto delta = static_cast<float>(GET_WHEEL_DELTA_WPARAM(wParam)) / static_cast<float>(WHEEL_DELTA);
 				OnMouseWheelDelta(pt.x, pt.y, delta);
 				break;
 			}
@@ -203,7 +203,7 @@ namespace LimeEngine
 			{
 				UINT dataSize = 0u;
 				GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, NULL, &dataSize, sizeof(RAWINPUTHEADER));
-				if (dataSize > 0)
+				if (dataSize > 0u)
 				{
 					std::unique_ptr<BYTE[]> rawdata = std::make_unique<BYTE[]>(dataSize);
 					if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, rawdata.get(), &dataSize, sizeof(RAWINPUTHEADER)) == dataSize)

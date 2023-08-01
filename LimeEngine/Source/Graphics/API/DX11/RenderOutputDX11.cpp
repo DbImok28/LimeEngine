@@ -1,6 +1,6 @@
-// Developed by Pavel Jakushik.
-// See LICENSE for copyright and licensing details (standard MIT License).
-// GitHub https://github.com/RubyCircle/LimeEngine
+// Copyright (C) Pavel Jakushik - All rights reserved
+// See the LICENSE file for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
 #include "lepch.hpp"
 #include "RendererDX11.hpp"
 #include "RenderOutputDX11.hpp"

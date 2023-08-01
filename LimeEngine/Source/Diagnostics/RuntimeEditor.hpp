@@ -1,5 +1,5 @@
-// Copyright (C) 2022 Pavel Jakushik - All Rights Reserved
-// See file LICENSE for copyright and licensing details.
+// Copyright (C) Pavel Jakushik - All rights reserved
+// See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
@@ -27,18 +27,17 @@ namespace LimeEngine
 #if defined(LE_ENABLE_RENDER_API_DX11)
 		static void Init(void* hWnd, void* device, void* deviceContext);
 #endif
-	private:
-		static void SetDefaultTheme();
-
-	public:
 		static void Destroy();
 		static void Processing(float deltaTime);
 		static void Render();
 		static void NewPanel(const std::string& name);
 		static void EndPanel();
 
+	private:
+		static void SetDefaultTheme();
 		static void SetupDockSpace();
 
+	public:
 		static bool Drag(const std::string& label, char& var, char min = 0, char max = 0, float speed = 1.0f);
 		static bool Drag(const std::string& label, int8& var, int8 min = 0, int8 max = 0, float speed = 1.0f);
 		static bool Drag(const std::string& label, int16& var, int16 min = 0, int16 max = 0, float speed = 1.0f);

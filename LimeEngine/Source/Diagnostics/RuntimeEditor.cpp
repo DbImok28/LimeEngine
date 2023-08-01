@@ -1,3 +1,6 @@
+// Copyright (C) Pavel Jakushik - All rights reserved
+// See the LICENSE file for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
 #include "lepch.hpp"
 #include "RuntimeEditor.hpp"
 #include "Input/InputDevice.hpp"
@@ -51,25 +54,6 @@ namespace LimeEngine
 		ImGui_ImplDX11_Init(reinterpret_cast<ID3D11Device*>(device), reinterpret_cast<ID3D11DeviceContext*>(deviceContext));
 	}
 
-	void RuntimeEditor::SetDefaultTheme()
-	{
-		ImGui::StyleColorsDark();
-		ImGuiIO& io = ImGui::GetIO();
-
-		// When viewports are enabled we tweak WindowRounding / WindowBg so platform windows can look identical to regular ones.ImGuiStyle& style = ImGui::GetStyle();
-		ImGuiStyle& style = ImGui::GetStyle();
-		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-		{
-			style.WindowRounding = 0.0f;
-			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-		}
-
-		ImFontConfig font_cfg;
-		font_cfg.FontDataOwnedByAtlas = false;
-		io.Fonts->AddFontFromMemoryTTF((void*)tahoma, sizeof(tahoma), 15.f, &font_cfg);
-		ImGui::MergeIconsWithLatestFont(16.f, false);
-	}
-
 	void RuntimeEditor::Destroy()
 	{
 		ImGui_ImplDX11_Shutdown();
@@ -113,11 +97,31 @@ namespace LimeEngine
 			ImGui::RenderPlatformWindowsDefault();
 		}
 	}
+
 #else
 	void RuntimeEditor::Destroy() {}
 	void RuntimeEditor::Processing(float deltaTime) {}
 	void RuntimeEditor::Render() {}
 #endif
+
+	void RuntimeEditor::SetDefaultTheme()
+	{
+		ImGui::StyleColorsDark();
+		ImGuiIO& io = ImGui::GetIO();
+
+		// When viewports are enabled we tweak WindowRounding / WindowBg so platform windows can look identical to regular ones.ImGuiStyle& style = ImGui::GetStyle();
+		ImGuiStyle& style = ImGui::GetStyle();
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			style.WindowRounding = 0.0f;
+			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+		}
+
+		ImFontConfig font_cfg;
+		font_cfg.FontDataOwnedByAtlas = false;
+		io.Fonts->AddFontFromMemoryTTF((void*)tahoma, sizeof(tahoma), 15.f, &font_cfg);
+		ImGui::MergeIconsWithLatestFont(16.f, false);
+	}
 
 	void RuntimeEditor::SetupDockSpace()
 	{

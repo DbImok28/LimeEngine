@@ -24,3 +24,5 @@ imgui.ini
 *.scor.incl
 *.scor.t0000
 
+# Temp files
+/LimeEngine/Resource/RC*
