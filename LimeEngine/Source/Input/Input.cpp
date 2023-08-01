@@ -66,7 +66,7 @@ namespace LimeEngine
 		GetInputDevice().OnMouseKeyReleased(key, x, y);
 	}
 
-	void Input::OnMouseWheelDelta(int x, int y, int delta) noexcept
+	void Input::OnMouseWheelDelta(int x, int y, float delta) noexcept
 	{
 		GetInputDevice().OnMouseWheelDelta(x, y, delta);
 	}

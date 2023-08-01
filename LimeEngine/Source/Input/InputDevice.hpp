@@ -153,7 +153,7 @@ namespace LimeEngine
 
 		void OnMouseKeyPressed(InputKey key, int x, int y) noexcept;
 		void OnMouseKeyReleased(InputKey key, int x, int y) noexcept;
-		void OnMouseWheelDelta(int x, int y, int delta) noexcept;
+		void OnMouseWheelDelta(int x, int y, float delta) noexcept;
 
 		void OnMouseMove(int x, int y) noexcept;
 		void OnMouseRawMove(int x, int y) noexcept;

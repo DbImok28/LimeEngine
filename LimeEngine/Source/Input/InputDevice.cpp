@@ -368,15 +368,15 @@ namespace LimeEngine
 		OnKeyReleased(key);
 	}
 
-	void InputDevice::OnMouseWheelDelta(int x, int y, int delta) noexcept
+	void InputDevice::OnMouseWheelDelta(int x, int y, float delta) noexcept
 	{
 		if (delta > 0)
 		{
-			OnKeyAxis(InputKey::WheelUp, static_cast<float>(delta));
+			OnKeyAxis(InputKey::WheelUp, delta);
 		}
 		else
 		{
-			OnKeyAxis(InputKey::WheelDown, static_cast<float>(delta));
+			OnKeyAxis(InputKey::WheelDown, delta);
 		}
 		mouse.OnWheelDelta(x, y, delta);
 	}
