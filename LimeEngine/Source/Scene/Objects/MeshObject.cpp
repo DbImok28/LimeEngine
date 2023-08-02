@@ -6,14 +6,18 @@
 
 namespace LimeEngine
 {
-	MeshObject::MeshObject(Engine* engine, const std::string& objectName, const Transform& transform, const ResourcePath& meshResourcePath) :
-		SceneObject(engine, objectName, transform)
+	MeshObject::MeshObject(Engine* engine, const std::string& objectName) : SceneObject(engine, objectName)
 	{
-		SetupAttachment<MeshComponent>(engine, "MeshComponent", Transform{}, meshResourcePath);
+		meshComponent = SetupAttachment<MeshComponent>(engine, "MeshComponent");
 	}
 
-	MeshObject::MeshObject(Engine* engine, GameResourceRef<Mesh> mesh, const std::string& objectName, const Transform& transform) : SceneObject(engine, objectName, transform)
+	void MeshObject::SetMesh(const ResourcePath& resourcePath)
 	{
-		SetupAttachment<MeshComponent>(engine, mesh);
+		meshComponent->SetMesh(resourcePath);
+	}
+
+	void MeshObject::SetMesh(GameResourceRef<Mesh> mesh)
+	{
+		meshComponent->SetMesh(mesh);
 	}
 }

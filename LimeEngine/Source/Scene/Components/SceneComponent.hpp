@@ -12,7 +12,7 @@ namespace LimeEngine
 	class SceneComponent : public ScenePrimaryComponent, public Transformable
 	{
 	public:
-		explicit SceneComponent(Engine* engine, const std::string& componentName = "SceneComponent", const Transform& transform = {}) noexcept;
+		explicit SceneComponent(Engine* engine, const std::string& componentName = "SceneComponent") noexcept;
 		SceneComponent(SceneComponent&&) noexcept = default;
 		SceneComponent& operator=(SceneComponent&&) noexcept = default;
 		virtual ~SceneComponent() noexcept = default;

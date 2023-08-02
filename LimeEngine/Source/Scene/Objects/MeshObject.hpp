@@ -10,8 +10,11 @@ namespace LimeEngine
 	class MeshObject : public SceneObject
 	{
 	public:
-		explicit MeshObject(
-			Engine* engine, const std::string& objectName = "MeshObject", const Transform& transform = {}, const ResourcePath& meshResourcePath = "Engine\\NullMesh");
-		MeshObject(Engine* engine, GameResourceRef<Mesh> mesh, const std::string& objectName = "MeshObject", const Transform& transform = {});
+		explicit MeshObject(Engine* engine, const std::string& objectName = "MeshObject");
+
+		void SetMesh(const ResourcePath& resourcePath);
+		void SetMesh(GameResourceRef<Mesh> mesh);
+
+		MeshComponent* meshComponent;
 	};
 }

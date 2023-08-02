@@ -7,14 +7,7 @@
 
 namespace LimeEngine
 {
-	MeshComponent::MeshComponent(Engine* engine, const std::string& componentName, const Transform& transform, const ResourcePath& resourcePath) :
-		SceneComponent(engine, componentName, transform), mesh(engine->dataLayer.GetGameDataManager().LoadMesh(resourcePath))
-	{
-		ShowMesh();
-	}
-
-	MeshComponent::MeshComponent(Engine* engine, GameResourceRef<Mesh> mesh, const std::string& componentName, const Transform& transform) :
-		SceneComponent(engine, componentName, transform), mesh(mesh)
+	MeshComponent::MeshComponent(Engine* engine, const std::string& componentName) : SceneComponent(engine, componentName), mesh(GameResourceRef<Mesh>::NullRef())
 	{
 		ShowMesh();
 	}
@@ -22,6 +15,16 @@ namespace LimeEngine
 	MeshComponent::~MeshComponent()
 	{
 		HideMesh();
+	}
+
+	void MeshComponent::SetMesh(const ResourcePath& resourcePath)
+	{
+		mesh = engine->dataLayer.GetGameDataManager().LoadMesh(resourcePath);
+	}
+
+	void MeshComponent::SetMesh(GameResourceRef<Mesh> mesh)
+	{
+		this->mesh = mesh;
 	}
 
 	void MeshComponent::SetVisibility(bool visibility)

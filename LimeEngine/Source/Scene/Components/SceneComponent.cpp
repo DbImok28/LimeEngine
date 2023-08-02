@@ -9,9 +9,7 @@
 
 namespace LimeEngine
 {
-	SceneComponent::SceneComponent(Engine* engine, const std::string& componentName, const Transform& transform) noexcept :
-		engine(engine), ScenePrimaryComponent(componentName), Transformable(transform)
-	{}
+	SceneComponent::SceneComponent(Engine* engine, const std::string& componentName) noexcept : engine(engine), ScenePrimaryComponent(componentName), Transformable() {}
 
 	SceneComponent* SceneComponent::SetupAttachment(std::unique_ptr<SceneComponent>&& component) noexcept
 	{

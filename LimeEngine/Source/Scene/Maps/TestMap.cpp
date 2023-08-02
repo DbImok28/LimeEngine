@@ -74,14 +74,19 @@ namespace LimeEngine
             { -1.0f, 1.0f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f, 1.0f},
 		};
 		std::vector<uint> indices = { 3, 1, 0, 2, 1, 3, 6, 4, 5, 7, 4, 6, 11, 9, 8, 10, 9, 11, 14, 12, 13, 15, 12, 14, 19, 17, 16, 18, 17, 19, 22, 20, 21, 23, 20, 22 };
-		auto mesh = gameDataManager.CreateMesh("EngineContent/Cube", vertices, indices);
+		auto boxMesh = gameDataManager.CreateMesh("EngineContent/Cube", vertices, indices);
 
 		// Box
 		auto texture = gameDataManager.CreateTexture2D("EngineContent/T_Cat", Paths::ContentFolder / "Textures" / "cat.jpg", TextureType::Diffuse);
 		auto material = gameDataManager.CreateMasterMaterial("EngineContent/Cat", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
 		material.Get()->AddTexture(texture);
-		mesh->segments[0].SetMaterial(material.Get());
-		SetupAttachment<MeshObject>(engine, mesh, "Box1", Transform())->SetupAttachment<MeshComponent>(engine, mesh, "Box2", Transform(0, 10, 0));
+		boxMesh->segments[0].SetMaterial(material.Get());
+
+		auto box1Object = SetupAttachment<MeshObject>(engine, "Box1");
+		box1Object->SetMesh(boxMesh);
+		auto box2Component = box1Object->SetupAttachment<MeshComponent>(engine, "Box2");
+		box2Component->SetTransform(Transform(0, 10, 0));
+		box2Component->SetMesh(boxMesh);
 
 		// UVMapping
 		auto UVMappingTexture = gameDataManager.CreateTexture2D("EngineContent/T_UVMapping", Paths::ContentFolder / "Textures" / "UVMapping.jpg", TextureType::Diffuse);
@@ -94,23 +99,30 @@ namespace LimeEngine
 		SphereMaterial.Get()->AddTexture(SphereTexture);
 
 		// Primitives
-		Plane plane(40, 10, 12);
-		auto planeMesh = plane.CreateMesh(engine, "EngineContent/Plane");
+		auto planeMesh = Plane(40, 10, 12).CreateMesh(engine, "EngineContent/Plane");
 		planeMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		SetupAttachment<MeshObject>(engine, planeMesh, "Plane", Transform(10.05f, 0.1f, 10));
 
-		Sphere sphere(10, 16, 16);
-		auto sphereMesh = sphere.CreateMesh(engine, "EngineContent/Sphere");
+		auto planeObject = SetupAttachment<MeshObject>(engine, "Plane");
+		planeObject->SetTransform(Transform(10.05f, 0.1f, 10));
+		planeObject->SetMesh(planeMesh);
+
+		auto sphereMesh = Sphere(10, 16, 16).CreateMesh(engine, "EngineContent/Sphere");
 		sphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		SetupAttachment<MeshObject>(engine, sphereMesh, "Sphere", Transform(10.005f, 0, 10));
 
-		Cubesphere cubesphere(10, 3);
-		auto cubesphereMesh = cubesphere.CreateMesh(engine, "EngineContent/Cubesphere");
+		auto sphereObject = SetupAttachment<MeshObject>(engine, "Sphere");
+		sphereObject->SetTransform(Transform(10.005f, 0, 10));
+		sphereObject->SetMesh(sphereMesh);
+
+		auto cubesphereMesh = Cubesphere(10, 3).CreateMesh(engine, "EngineContent/Cubesphere");
 		cubesphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
-		SetupAttachment<MeshObject>(engine, cubesphereMesh, "Cubesphere", Transform(-10.0005f, 0, 10));
+
+		auto cubesphereObject = SetupAttachment<MeshObject>(engine, "Cubesphere");
+		cubesphereObject->SetTransform(Transform(-10.0005f, 0, 10));
+		cubesphereObject->SetMesh(cubesphereMesh);
 
 		// Camera
-		SetupAttachment<SceneObject>(engine)->SetupAttachment<DefaultPlayerCameraComponent>(engine, "PlayerCamera", Transform(0, 5, -10));
+		auto playerCamera = SetupAttachment<SceneObject>(engine)->SetupAttachment<DefaultPlayerCameraComponent>(engine, "PlayerCamera");
+		playerCamera->SetTransform(Transform(0, 5, -10));
 	}
 
 	void TestMap::Update()

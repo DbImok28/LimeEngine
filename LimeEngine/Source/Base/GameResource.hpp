@@ -49,6 +49,12 @@ namespace LimeEngine
 	{
 		friend GameResource;
 
+	public:
+		static GameResourceRef<TResource> NullRef() noexcept
+		{
+			return nullptr;
+		};
+
 	private:
 		GameResourceRef(TResource& resource) noexcept : resource(&resource)
 		{
@@ -136,6 +142,9 @@ namespace LimeEngine
 
 	class GameResource
 	{
+		template <std::derived_from<GameResource> TResource>
+		friend class GameResourceRef;
+
 	public:
 		GameResource(const ResourcePath& resourcePath) : resourcePath(resourcePath) {}
 		virtual ~GameResource() = default;
@@ -147,9 +156,15 @@ namespace LimeEngine
 		template <typename TResource>
 		GameResourceRef<TResource> GetRef() noexcept
 		{
-			++refCount;
+			IncreaseRef();
 			return GameResourceRef<TResource>(static_cast<TResource*>(this));
 		}
+		const ResourcePath& GetPath() const
+		{
+			return resourcePath;
+		}
+
+	private:
 		void IncreaseRef() noexcept
 		{
 			++refCount;
@@ -157,10 +172,6 @@ namespace LimeEngine
 		void ReleaseRef() noexcept
 		{
 			--refCount;
-		}
-		const ResourcePath& GetPath() const
-		{
-			return resourcePath;
 		}
 
 	private:
