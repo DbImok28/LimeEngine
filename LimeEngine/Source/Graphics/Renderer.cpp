@@ -12,6 +12,7 @@ namespace LimeEngine
 {
 	std::unique_ptr<Renderer> Renderer::Create(RenderAPI api, Window& window, DisplayMode mode, bool defaultFullscreenModeIsExclusive)
 	{
+		LE_CORE_LOG_TRACE("Creating a {} renderer", RenderAPIToString(api));
 		switch (api)
 		{
 			case LimeEngine::RenderAPI::Auto: [[fallthrough]];

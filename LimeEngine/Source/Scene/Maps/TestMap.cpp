@@ -13,6 +13,8 @@ namespace LimeEngine
 {
 	void TestMap::Load()
 	{
+		LE_CORE_LOG_TRACE("Load map: {}", GetMapName());
+
 		auto& inputDevice = engine->inputLayer.GetInputDevice();
 
 		// Configuration

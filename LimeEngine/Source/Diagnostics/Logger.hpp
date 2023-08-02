@@ -66,33 +66,9 @@ namespace LimeEngine
 		Logger& operator=(Logger&&) noexcept = default;
 
 		void Initialize(const std::string& name);
-		bool CheckLogLevel(LogLevel level) const noexcept
-		{
-			switch (level)
-			{
-				case LimeEngine::LogLevel::Debug: return true; break;
-#if defined(LE_ENABLE_LOG_TRACE)
-				case LimeEngine::LogLevel::Trace: return true; break;
-#endif
-#if defined(LE_ENABLE_LOG_INFO)
-				case LimeEngine::LogLevel::Info: return true; break;
-#endif
-#if defined(LE_ENABLE_LOG_WARNING)
-				case LimeEngine::LogLevel::Warning: return true; break;
-#endif
-#if defined(LE_ENABLE_LOG_ERROR)
-				case LimeEngine::LogLevel::Error: return true; break;
-#endif
-#if defined(LE_ENABLE_LOG_CRITICAL_ERROR)
-				case LimeEngine::LogLevel::CriticalError: return true; break;
-#endif
-				default: return false;
-			}
-		}
-		void Log(LogLevel level, std::string_view msg) const
-		{
-			if (CheckLogLevel(level)) spdLogger->log(static_cast<spdlog::level::level_enum>(level), msg);
-		}
+		bool CheckLogLevel(LogLevel level) const noexcept;
+
+		void Log(LogLevel level, std::string_view msg) const;
 		template <typename... TArgs>
 		void Log(LogLevel level, std::format_string<TArgs...> formatMsg, TArgs&&... args) const
 		{
@@ -104,7 +80,7 @@ namespace LimeEngine
 	};
 }
 
-#define LE_LOG_LOG(logLevel, ...)  ::LimeEngine::Logger::GetLogger().Log(logLevel, __VA_ARGS__)
+#define LE_LOG(logLevel, ...)      ::LimeEngine::Logger::GetLogger().Log(logLevel, __VA_ARGS__)
 #define LE_CORE_LOG(logLevel, ...) ::LimeEngine::Logger::GetCoreLogger().Log(logLevel, __VA_ARGS__)
 
 #ifdef _DEBUG

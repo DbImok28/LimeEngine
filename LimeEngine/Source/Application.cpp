@@ -27,7 +27,6 @@ namespace LimeEngine
 
 		Engine engine(std::move(window), std::move(renderer));
 
-		LE_CORE_LOG_TRACE("Load map");
 		auto map = std::make_unique<TestMap>(&engine);
 		map->Load();
 		engine.sceneLayer.GetScene().SetupAttachment(std::move(map));

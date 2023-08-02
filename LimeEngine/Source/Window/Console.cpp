@@ -10,15 +10,6 @@
 
 namespace LimeEngine
 {
-#ifdef LE_CONSOLE
-	std::unique_ptr<Console> Console::mainConsole = Console::Create({});
-
-	Console& Console::GetConsole()
-	{
-		return *mainConsole;
-	}
-#endif
-
 	std::unique_ptr<Console> Console::Create(const ConsoleArgs& args)
 	{
 #if defined(LE_BUILD_PLATFORM_WINDOWS)
@@ -28,4 +19,13 @@ namespace LimeEngine
 		return nullptr;
 #endif
 	}
+
+#ifdef LE_CONSOLE
+	std::unique_ptr<Console> Console::mainConsole = Console::Create({});
+
+	Console& Console::GetConsole()
+	{
+		return *mainConsole;
+	}
+#endif
 }

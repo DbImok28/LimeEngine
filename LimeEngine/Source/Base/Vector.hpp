@@ -107,7 +107,7 @@ namespace LimeEngine
 template <>
 struct std::formatter<LimeEngine::Vector> : std::formatter<std::string>
 {
-	auto format(LimeEngine::Vector vec, format_context& context)
+	auto format(LimeEngine::Vector vec, std::format_context& context)
 	{
 		return std::format_to(context.out(), "x:{:< 8} y:{:< 8} z:{:< 8}", vec.x, vec.y, vec.z);
 	}

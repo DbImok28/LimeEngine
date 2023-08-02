@@ -16,6 +16,9 @@ namespace LimeEngine
 
 	class Console
 	{
+	public:
+		static std::unique_ptr<Console> Create(const ConsoleArgs& args);
+
 #ifdef LE_CONSOLE
 	private:
 		static std::unique_ptr<Console> mainConsole;
@@ -23,9 +26,6 @@ namespace LimeEngine
 	public:
 		static Console& GetConsole();
 #endif
-
-	public:
-		static std::unique_ptr<Console> Create(const ConsoleArgs& args);
 
 	public:
 		virtual ~Console(){};

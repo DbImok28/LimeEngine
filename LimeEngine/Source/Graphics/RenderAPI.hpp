@@ -13,4 +13,6 @@ namespace LimeEngine
 		DirectX11
 #endif
 	};
+
+	std::string RenderAPIToString(RenderAPI api) noexcept;
 }
