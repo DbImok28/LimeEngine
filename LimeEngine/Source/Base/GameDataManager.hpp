@@ -68,9 +68,10 @@ namespace LimeEngine
 		{
 			return Emplace<Mesh>(resourcePath, resourcePath, graphicFactory, segmentData);
 		}
-		[[nodiscard]] GameResourceRef<MasterMaterial> CreateMasterMaterial(const ResourcePath& resourcePath, IBindable* vertexShader, IBindable* pixelShader, MaterialType type)
+		[[nodiscard]] GameResourceRef<MasterMaterial> CreateMasterMaterial(
+			const ResourcePath& resourcePath, std::unique_ptr<IBindable> vertexShader, std::unique_ptr<IBindable> pixelShader, MaterialType type)
 		{
-			return Emplace<MasterMaterial>(resourcePath, resourcePath, vertexShader, pixelShader, type);
+			return Emplace<MasterMaterial>(resourcePath, resourcePath, std::move(vertexShader), std::move(pixelShader), type);
 		}
 		[[nodiscard]] GameResourceRef<Texture2D> CreateTexture2D(const ResourcePath& resourcePath, const std::wstring& filePath, TextureType type)
 		{

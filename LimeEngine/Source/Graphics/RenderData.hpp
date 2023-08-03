@@ -11,6 +11,6 @@ namespace LimeEngine
 	{
 	public:
 		virtual ~MeshRenderData() = default;
-		virtual void BindData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix) = 0;
+		virtual void BindData(MaterialInstance* materialInstance, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix) = 0;
 	};
 }

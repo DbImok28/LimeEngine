@@ -8,34 +8,48 @@ namespace LimeEngine
 {
 	Material::Material(const ResourcePath& resourcePath, MaterialType type) noexcept : GameResource(resourcePath), type(type) {}
 
-	void Material::AddTexture(GameResourceRef<Texture2D> texture) noexcept
-	{
-		textures.push_back(texture);
-	}
-
-	const std::vector<GameResourceRef<Texture2D>>& Material::GetTextures() const noexcept
-	{
-		return textures;
-	}
-
-	void Material::SetTextures(const std::vector<GameResourceRef<Texture2D>>& textures) noexcept
-	{
-		this->textures = textures;
-	}
-
 	MaterialType Material::GetType() const noexcept
 	{
 		return type;
 	}
 
-	MasterMaterial::MasterMaterial(const ResourcePath& resourcePath, IBindable* vertexShader, IBindable* pixelShader, MaterialType type) noexcept :
-		Material(resourcePath, type), vertexShader(vertexShader), pixelShader(pixelShader)
+	std::shared_ptr<MaterialInstance> Material::GetInstance()
+	{
+		return std::make_shared<MaterialInstance>(GetRef<Material>());
+	}
+
+	// --
+
+	MasterMaterial::MasterMaterial(const ResourcePath& resourcePath, std::unique_ptr<IBindable> vertexShader, std::unique_ptr<IBindable> pixelShader, MaterialType type) noexcept :
+		Material(resourcePath, type), vertexShader(std::move(vertexShader)), pixelShader(std::move(pixelShader))
 	{}
 
 	void MasterMaterial::ApplyMaterial() noexcept
 	{
 		vertexShader->Bind();
 		pixelShader->Bind();
+	}
+
+	// --
+
+	void MaterialInstance::AddTexture(GameResourceRef<Texture2D> texture) noexcept
+	{
+		textures.push_back(texture);
+	}
+
+	const std::vector<GameResourceRef<Texture2D>>& MaterialInstance::GetTextures() const noexcept
+	{
+		return textures;
+	}
+
+	void MaterialInstance::SetTextures(const std::vector<GameResourceRef<Texture2D>>& textures) noexcept
+	{
+		this->textures = textures;
+	}
+
+	void MaterialInstance::ApplyMaterial() noexcept
+	{
+		material->ApplyMaterial();
 		for (auto& texture : textures)
 		{
 			texture->Bind();

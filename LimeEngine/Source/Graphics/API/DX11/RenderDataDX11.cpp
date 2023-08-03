@@ -19,9 +19,9 @@ namespace LimeEngine
 		GFX_CHECK_HR_MSG(transformConstantBuffer.Initialize(), "Failed to initialize constant buffer Coordinates.");
 	}
 
-	void MeshRenderDataDX11::ApplyMaterial(Material* material)
+	void MeshRenderDataDX11::ApplyMaterial(MaterialInstance* materialInstance)
 	{
-		material->ApplyMaterial();
+		materialInstance->ApplyMaterial();
 	}
 
 	void MeshRenderDataDX11::ApplyTransform(const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
@@ -38,10 +38,10 @@ namespace LimeEngine
 		transformConstantBuffer.Bind();
 	}
 
-	void MeshRenderDataDX11::BindData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
+	void MeshRenderDataDX11::BindData(MaterialInstance* materialInstance, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
 	{
 		ApplyBuffers();
 		ApplyTransform(cameraComponent, transformMatrix);
-		ApplyMaterial(material);
+		ApplyMaterial(materialInstance);
 	}
 }

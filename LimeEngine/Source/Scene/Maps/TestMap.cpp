@@ -17,7 +17,7 @@ namespace LimeEngine
 
 		auto& inputDevice = engine->inputLayer.GetInputDevice();
 
-		// Configuration
+		// Input
 		inputDevice.AddAxisMapping({
 			"MoveForward", {{ InputKey::W, 1.0f }, { InputKey::S, -1.0f }}
         });
@@ -33,15 +33,19 @@ namespace LimeEngine
 
 		inputDevice.BindActionEvent("Print", InputActionType::Pressed, []() { LE_LOG_DEBUG("Press F"); });
 		inputDevice.BindActionEvent("Print", InputActionType::Released, []() { LE_LOG_DEBUG("Released F"); });
-		// Graphic
+
+		// GraphicFactory
 		auto graphicFactory = engine->renderLayer.GetGraphicFactory();
 
-		// Loading
+		// DataManager
 		auto& gameDataManager = engine->dataLayer.GetGameDataManager();
 
+		// Load materials
 		static auto vertexShader = graphicFactory->CreateVertexShader(Paths::ShaderFolder / "VertexShader.cso", MaterialType::Solid);
 		static auto pixelShader = graphicFactory->CreatePixelShader(Paths::ShaderFolder / "PixelShader.cso");
+		auto material = gameDataManager.CreateMasterMaterial("EngineContent/M_Cat", std::move(vertexShader), std::move(pixelShader), MaterialType::Solid);
 
+		// Load meshes
 		std::vector<Vertex> vertices = {
 			{-1.0f,  1.0f,  -1.0f, 0.0f,  1.0f,  0.0f,  0.0f, 1.0f},
             { 1.0f,  1.0f,  -1.0f, 0.0f,  1.0f,  0.0f,  0.0f, 0.0f},
@@ -76,11 +80,15 @@ namespace LimeEngine
 		std::vector<uint> indices = { 3, 1, 0, 2, 1, 3, 6, 4, 5, 7, 4, 6, 11, 9, 8, 10, 9, 11, 14, 12, 13, 15, 12, 14, 19, 17, 16, 18, 17, 19, 22, 20, 21, 23, 20, 22 };
 		auto boxMesh = gameDataManager.CreateMesh("EngineContent/Cube", vertices, indices);
 
+		// Paths
+		FPath TextureFolder = Paths::ContentFolder / "Textures";
+
 		// Box
-		auto texture = gameDataManager.CreateTexture2D("EngineContent/T_Cat", Paths::ContentFolder / "Textures" / "cat.jpg", TextureType::Diffuse);
-		auto material = gameDataManager.CreateMasterMaterial("EngineContent/Cat", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
-		material.Get()->AddTexture(texture);
-		boxMesh->segments[0].SetMaterial(material.Get());
+		auto texture = gameDataManager.CreateTexture2D("EngineContent/T_Cat", TextureFolder / "cat.jpg", TextureType::Diffuse);
+		auto boxMaterialInstance = material->GetInstance();
+
+		boxMaterialInstance->AddTexture(texture);
+		boxMesh->segments[0].SetMaterial(boxMaterialInstance);
 
 		auto box1Object = SetupAttachment<MeshObject>(engine, "Box1");
 		box1Object->SetMesh(boxMesh);
@@ -89,32 +97,32 @@ namespace LimeEngine
 		box2Component->SetMesh(boxMesh);
 
 		// UVMapping
-		auto UVMappingTexture = gameDataManager.CreateTexture2D("EngineContent/T_UVMapping", Paths::ContentFolder / "Textures" / "UVMapping.jpg", TextureType::Diffuse);
-		auto UVMappingMaterial = gameDataManager.CreateMasterMaterial("EngineContent/M_UVMapping", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
-		UVMappingMaterial.Get()->AddTexture(UVMappingTexture);
+		auto UVMappingTexture = gameDataManager.CreateTexture2D("EngineContent/T_UVMapping", TextureFolder / "UVMapping.jpg", TextureType::Diffuse);
+		auto UVMappingMaterialInstance = material->GetInstance();
+		UVMappingMaterialInstance->AddTexture(UVMappingTexture);
 
 		// Sphere material
-		auto SphereTexture = gameDataManager.CreateTexture2D("EngineContent/T_Sphere", Paths::ContentFolder / "Textures" / "Sphere.png", TextureType::Diffuse);
-		auto SphereMaterial = gameDataManager.CreateMasterMaterial("EngineContent/M_Sphere", vertexShader.get(), pixelShader.get(), MaterialType::Solid);
-		SphereMaterial.Get()->AddTexture(SphereTexture);
+		auto SphereTexture = gameDataManager.CreateTexture2D("EngineContent/T_Sphere", TextureFolder / "Sphere.png", TextureType::Diffuse);
+		auto SphereMaterialInstance = material->GetInstance();
+		SphereMaterialInstance->AddTexture(SphereTexture);
 
 		// Primitives
 		auto planeMesh = Plane(40, 10, 12).CreateMesh(engine, "EngineContent/Plane");
-		planeMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
+		planeMesh->segments[0].SetMaterial(UVMappingMaterialInstance);
 
 		auto planeObject = SetupAttachment<MeshObject>(engine, "Plane");
 		planeObject->SetTransform(Transform(10.05f, 0.1f, 10));
 		planeObject->SetMesh(planeMesh);
 
 		auto sphereMesh = Sphere(10, 16, 16).CreateMesh(engine, "EngineContent/Sphere");
-		sphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
+		sphereMesh->segments[0].SetMaterial(UVMappingMaterialInstance);
 
 		auto sphereObject = SetupAttachment<MeshObject>(engine, "Sphere");
 		sphereObject->SetTransform(Transform(10.005f, 0, 10));
 		sphereObject->SetMesh(sphereMesh);
 
 		auto cubesphereMesh = Cubesphere(10, 3).CreateMesh(engine, "EngineContent/Cubesphere");
-		cubesphereMesh->segments[0].SetMaterial(UVMappingMaterial.Get());
+		cubesphereMesh->segments[0].SetMaterial(UVMappingMaterialInstance);
 
 		auto cubesphereObject = SetupAttachment<MeshObject>(engine, "Cubesphere");
 		cubesphereObject->SetTransform(Transform(-10.0005f, 0, 10));

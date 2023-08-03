@@ -17,10 +17,10 @@ namespace LimeEngine
 		virtual ~MeshRenderDataDX11() override = default;
 
 		void InitializeBuffers(const std::vector<Vertex>& vertices, const std::vector<uint>& indices);
-		void ApplyMaterial(Material* material);
+		void ApplyMaterial(MaterialInstance* materialInstance);
 		void ApplyTransform(const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix);
 		void ApplyBuffers() noexcept;
-		virtual void BindData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix) override;
+		virtual void BindData(MaterialInstance* materialInstance, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix) override;
 
 	public:
 		RendererDX11& renderer;

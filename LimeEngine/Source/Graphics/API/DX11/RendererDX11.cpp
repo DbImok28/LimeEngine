@@ -166,7 +166,7 @@ namespace LimeEngine
 		for (auto& segment : mesh.segments)
 		{
 			if (!(camera && segment.GetMaterial())) return;
-			segment.BindRenderData(segment.GetMaterial(), camera, transformMatrix);
+			segment.BindRenderData(segment.GetMaterial().get(), camera, transformMatrix);
 			deviceContext->DrawIndexed(segment.IndicesCount(), 0, 0);
 		}
 	}

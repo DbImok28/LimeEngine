@@ -36,14 +36,14 @@ namespace LimeEngine
 		meshRenderData(graphicFactory->CreateMeshRenderData(verticesAndIndices.first, verticesAndIndices.second))
 	{}
 
-	void MeshSegment::SetMaterial(Material* material) noexcept
+	void MeshSegment::SetMaterial(std::shared_ptr<MaterialInstance> materialInstance) noexcept
 	{
-		this->material = material;
+		material = materialInstance;
 	}
 
-	void MeshSegment::BindRenderData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
+	void MeshSegment::BindRenderData(MaterialInstance* materialInstance, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
 	{
-		meshRenderData->BindData(material, cameraComponent, transformMatrix);
+		meshRenderData->BindData(materialInstance, cameraComponent, transformMatrix);
 	}
 
 	uint MeshSegment::IndicesCount() const noexcept
@@ -51,7 +51,7 @@ namespace LimeEngine
 		return static_cast<uint>(indices.size());
 	}
 
-	Material* MeshSegment::GetMaterial() const noexcept
+	std::shared_ptr<MaterialInstance> MeshSegment::GetMaterial() const noexcept
 	{
 		return material;
 	}

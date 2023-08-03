@@ -18,17 +18,17 @@ namespace LimeEngine
 		MeshSegment(const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices);
 		MeshSegment(const GraphicFactory* graphicFactory, const std::pair<std::vector<Vertex>, std::vector<uint>>& verticesAndIndices);
 
-		void SetMaterial(Material* material) noexcept;
-		void BindRenderData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix);
+		void SetMaterial(std::shared_ptr<MaterialInstance> materialInstance) noexcept;
+		void BindRenderData(MaterialInstance* materialInstance, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix);
 		uint IndicesCount() const noexcept;
-		Material* GetMaterial() const noexcept;
+		std::shared_ptr<MaterialInstance> GetMaterial() const noexcept;
 		const std::vector<Vertex>& GetVertices() const noexcept;
 		const std::vector<uint>& GetIndices() const noexcept;
 
 	private:
 		std::vector<Vertex> vertices;
 		std::vector<uint> indices;
-		Material* material = nullptr;
+		std::shared_ptr<MaterialInstance> material = nullptr;
 
 	public:
 		std::unique_ptr<MeshRenderData> meshRenderData;
