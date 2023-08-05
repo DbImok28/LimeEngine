@@ -10,8 +10,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
 	using namespace LimeEngine;
 	try
 	{
-		auto app = LimeEngine::CreateApplication();
-		app->Run();
+		LimeEngine::CreateApplication()->Run();
 
 		return EXIT_SUCCESS;
 	}

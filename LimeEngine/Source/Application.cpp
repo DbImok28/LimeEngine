@@ -9,19 +9,34 @@
 
 #include "Scene/Maps/TestMap.hpp"
 
-#ifdef LE_ENABLE_COM
-	#include "Platform/Windows/WindowsExceptions.hpp"
-	#include <objbase.h>
+#if defined(LE_BUILD_PLATFORM_WINDOWS)
+	#if defined(LE_ENABLE_COM)
+		#include "Platform/Windows/WindowsExceptions.hpp"
+		#include <objbase.h>
+	#endif
 #endif
 
 namespace LimeEngine
 {
+#if defined(LE_BUILD_PLATFORM_WINDOWS)
+	void Application::Initialize()
+	{
+	#if defined(LE_ENABLE_COM)
+		CHECK_HR(CoInitializeEx(NULL, COINIT_MULTITHREADED));
+	#endif
+	}
+#else
+	void Application::Initialize() {}
+#endif
+
+	Application::Application()
+	{
+		Initialize();
+		StaticInitializer::Initialize();
+	}
+
 	void Application::Run()
 	{
-#ifdef LE_ENABLE_COM
-		CHECK_HR(CoInitializeEx(NULL, COINIT_MULTITHREADED));
-#endif
-		StaticInitializer::Initialize();
 		auto window = Window::Create(WindowArgs(TEXT("LimeEngine"), 1080, 720));
 		auto renderer = Renderer::Create(RenderAPI::Auto, *window.get(), DisplayMode::Windowed, false);
 

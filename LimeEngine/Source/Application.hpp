@@ -14,8 +14,10 @@ namespace LimeEngine
 		LE_DELETE_MOVE_COPY(Application)
 
 	public:
-		Application() = default;
+		Application();
 		virtual ~Application() = default;
-		void Run();
+
+		virtual void Run();
+		void Initialize();
 	};
 }

@@ -8,7 +8,7 @@ elseif(RENDERER STREQUAL "DirectX")
     if(HLSL_SHADER_FILES)
         set_source_files_properties(${HLSL_VERTEX_SHADER} PROPERTIES ShaderType "vs")
         set_source_files_properties(${HLSL_PIXEL_SHADERS} PROPERTIES ShaderType "ps")
-        set_source_files_properties(${HLSL_SHADER_FILES} PROPERTIES ShaderModel "4_0")
+        set_source_files_properties(${HLSL_SHADER_FILES} PROPERTIES ShaderModel "5_0")
 
         file(MAKE_DIRECTORY ${SHADER_OUTPUT_DIR})
         foreach(FILE ${HLSL_SHADER_FILES})
