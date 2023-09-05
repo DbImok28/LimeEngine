@@ -4,7 +4,7 @@
 #include "lepch.hpp"
 #include "ShadersDX11.hpp"
 #include "ExceptionsDX11.hpp"
-#include "Helpers/StringHelper.hpp"
+#include "Utility/StringUtility.hpp"
 #include "Graphics/Material.hpp"
 
 namespace LimeEngine

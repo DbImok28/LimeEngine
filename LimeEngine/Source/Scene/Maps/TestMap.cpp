@@ -4,7 +4,7 @@
 #include "lepch.hpp"
 #include "TestMap.hpp"
 #include "Engine.hpp"
-#include "Helpers/Paths.hpp"
+#include "Utility/Paths.hpp"
 #include "Scene/Objects/MeshObject.hpp"
 #include "Base/Primitives.hpp"
 #include "Graphics/GraphicFactory.hpp"

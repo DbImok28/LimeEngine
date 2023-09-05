@@ -3,7 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
-#include "Helpers/Timer.hpp"
+#include "Utility/Timer.hpp"
 #include "Layer/DataLayer.hpp"
 #include "Layer/WindowLayer.hpp"
 #include "Layer/InputLayer.hpp"

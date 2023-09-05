@@ -6,7 +6,7 @@
 #include "DirectXDef.hpp"
 #include "GraphicAdapter.hpp"
 #include "ExceptionsDX11.hpp"
-#include "Helpers/Paths.hpp"
+#include "Utility/Paths.hpp"
 #include "BindableDX11.hpp"
 #include "GraphicFactoryDX11.hpp"
 

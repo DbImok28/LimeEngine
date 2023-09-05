@@ -5,7 +5,7 @@
 
 namespace LimeEngine
 {
-	class StringHelper
+	class StringUtility
 	{
 	public:
 		static std::wstring StringToWide(const std::string& str);

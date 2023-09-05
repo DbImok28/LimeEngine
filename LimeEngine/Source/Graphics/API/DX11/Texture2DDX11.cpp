@@ -4,7 +4,7 @@
 #include "lepch.hpp"
 #include "Texture2DDX11.hpp"
 #include "ExceptionsDX11.hpp"
-#include "Helpers/Paths.hpp"
+#include "Utility/Paths.hpp"
 #include <DirectXTK/WICTextureLoader.h>
 #include <DirectXTK/DDSTextureLoader.h>
 

@@ -2,9 +2,9 @@
 // See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
-#include <filesystem>
-#include "Helpers/MacroUnility.hpp"
 #include "Base/PlatformDetection.hpp"
+#include "Utility/MacroUtility.hpp"
+#include "Utility/ClassUtility.hpp"
 
 #ifdef _DEBUG
 	#define LE_DEBUG
@@ -20,28 +20,16 @@
 	#error "Platform not supported!"
 #endif
 
-#define LE_DELETE_COPY(ClassName)         \
-	ClassName(const ClassName&) = delete; \
-	ClassName& operator=(const ClassName&) = delete;
-
-#define LE_DELETE_MOVE(ClassName)    \
-	ClassName(ClassName&&) = delete; \
-	ClassName& operator=(ClassName&&) = delete;
-
-#define LE_DELETE_MOVE_COPY(ClassName) \
-	LE_DELETE_COPY(ClassName)          \
-	LE_DELETE_MOVE(ClassName)
-
-#define LE_CONSOLE
-#define LE_LOG_PRESET_FULL
-#define LE_ENABLE_ASSERTION
-#define LE_ENABLE_IMGUI
-#define LE_ENABLE_RENDER_API_DX11
+#include "StaticConfig.hpp"
 
 #if defined(LE_ENABLE_RENDER_API_DX11)
 	#define LE_ENABLE_COM
 #endif
 
+namespace std::filesystem
+{
+	class path;
+}
 namespace LimeEngine
 {
 	using FPath = std::filesystem::path;
