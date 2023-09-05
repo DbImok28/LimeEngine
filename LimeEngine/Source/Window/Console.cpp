@@ -20,7 +20,7 @@ namespace LimeEngine
 #endif
 	}
 
-#ifdef LE_CONSOLE
+#ifdef LE_ENABLE_CONSOLE
 	std::unique_ptr<Console> Console::mainConsole = Console::Create({});
 
 	Console& Console::GetConsole()

@@ -19,7 +19,7 @@ namespace LimeEngine
 	public:
 		static std::unique_ptr<Console> Create(const ConsoleArgs& args);
 
-#ifdef LE_CONSOLE
+#ifdef LE_ENABLE_CONSOLE
 	private:
 		static std::unique_ptr<Console> mainConsole;
 

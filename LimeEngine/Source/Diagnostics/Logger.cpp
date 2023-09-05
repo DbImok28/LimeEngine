@@ -20,7 +20,7 @@ namespace LimeEngine
 	void Logger::Initialize(const std::string& name)
 	{
 		std::vector<spdlog::sink_ptr> sinks;
-#ifdef LE_CONSOLE
+#ifdef LE_ENABLE_CONSOLE
 		sinks.emplace_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
 #endif
 		sinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("Logs/LastOutputLog.log", true));
