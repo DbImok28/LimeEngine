@@ -23,7 +23,7 @@
       },
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "cl",
-        "CMAKE_BUILD_TYPE": "RELEASE"
+        "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
@@ -32,7 +32,7 @@
       "description": "Sets debug build type and x64 architecture",
       "inherits": "x64-Release",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "DEBUG"
+        "CMAKE_BUILD_TYPE": "Debug"
       }
     }
   ],
