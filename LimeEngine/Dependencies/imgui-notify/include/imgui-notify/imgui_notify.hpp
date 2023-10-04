@@ -7,32 +7,24 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <chrono>
 #include "font_awesome_5.hpp"
 #include "fa_solid_900.hpp"
 
-#define NOTIFY_MAX_MSG_LENGTH    4096 // Max message content length
-#define NOTIFY_PADDING_X         20.f // Bottom-left X padding
-#define NOTIFY_PADDING_Y         20.f // Bottom-left Y padding
-#define NOTIFY_PADDING_MESSAGE_Y 10.f // Padding Y between each message
-#define NOTIFY_FADE_IN_OUT_TIME  150  // Fade in and out duration
-#define NOTIFY_DEFAULT_DISMISS   3000 // Auto dismiss after X ms (default, applied only of no data provided in constructors)
-#define NOTIFY_OPACITY           1.0f // 0-1 Toast opacity
-#define NOTIFY_TOAST_FLAGS                                                                                                                                          \
-	ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoBringToFrontOnFocus \
-		| ImGuiWindowFlags_NoFocusOnAppearing
+#define NOTIFY_MAX_MSG_LENGTH			4096		// Max message content length
+#define NOTIFY_PADDING_X				20.f		// Bottom-left X padding
+#define NOTIFY_PADDING_Y				20.f		// Bottom-left Y padding
+#define NOTIFY_PADDING_MESSAGE_Y		10.f		// Padding Y between each message
+#define NOTIFY_FADE_IN_OUT_TIME			150			// Fade in and out duration
+#define NOTIFY_DEFAULT_DISMISS			3000		// Auto dismiss after X ms (default, applied only of no data provided in constructors)
+#define NOTIFY_OPACITY					1.0f		// 0-1 Toast opacity
+#define NOTIFY_TOAST_FLAGS				ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoFocusOnAppearing
 // Comment out if you don't want any separator between title and content
 #define NOTIFY_USE_SEPARATOR
 
-#define NOTIFY_INLINE             inline
-#define NOTIFY_NULL_OR_EMPTY(str) (!str || !strlen(str))
-#define NOTIFY_FORMAT(fn, format, ...) \
-	if (format)                        \
-	{                                  \
-		va_list args;                  \
-		va_start(args, format);        \
-		fn(format, args, __VA_ARGS__); \
-		va_end(args);                  \
-	}
+#define NOTIFY_INLINE					inline
+#define NOTIFY_NULL_OR_EMPTY(str)		(!str ||! strlen(str))
+#define NOTIFY_FORMAT(fn, format, ...)	if (format) { va_list args; va_start(args, format); fn(format, args, ##__VA_ARGS__); va_end(args); }
 
 typedef int ImGuiToastType;
 typedef int ImGuiToastPhase;
@@ -72,49 +64,31 @@ enum ImGuiToastPos_
 class ImGuiToast
 {
 private:
-	ImGuiToastType type = ImGuiToastType_None;
-	char title[NOTIFY_MAX_MSG_LENGTH];
-	char content[NOTIFY_MAX_MSG_LENGTH];
-	int dismiss_time = NOTIFY_DEFAULT_DISMISS;
-	uint64_t creation_time = 0;
+	ImGuiToastType	type = ImGuiToastType_None;
+	char			title[NOTIFY_MAX_MSG_LENGTH];
+	char			content[NOTIFY_MAX_MSG_LENGTH];
+	int				dismiss_time = NOTIFY_DEFAULT_DISMISS;
+	uint64_t		creation_time = 0;
 
 private:
 	// Setters
 
-	NOTIFY_INLINE auto set_title(const char* format, va_list args)
-	{
-		vsnprintf(this->title, sizeof(this->title), format, args);
-	}
+	NOTIFY_INLINE auto set_title(const char* format, va_list args) { vsnprintf(this->title, sizeof(this->title), format, args); }
 
-	NOTIFY_INLINE auto set_content(const char* format, va_list args)
-	{
-		vsnprintf(this->content, sizeof(this->content), format, args);
-	}
+	NOTIFY_INLINE auto set_content(const char* format, va_list args) { vsnprintf(this->content, sizeof(this->content), format, args); }
 
 public:
-	NOTIFY_INLINE auto set_title(const char* format, ...) -> void
-	{
-		NOTIFY_FORMAT(this->set_title, format);
-	}
 
-	NOTIFY_INLINE auto set_content(const char* format, ...) -> void
-	{
-		NOTIFY_FORMAT(this->set_content, format);
-	}
+	NOTIFY_INLINE auto set_title(const char* format, ...) -> void { NOTIFY_FORMAT(this->set_title, format); }
 
-	NOTIFY_INLINE auto set_type(const ImGuiToastType& type) -> void
-	{
-		IM_ASSERT(type < ImGuiToastType_COUNT);
-		this->type = type;
-	};
+	NOTIFY_INLINE auto set_content(const char* format, ...) -> void { NOTIFY_FORMAT(this->set_content, format); }
+
+	NOTIFY_INLINE auto set_type(const ImGuiToastType& type) -> void { IM_ASSERT(type < ImGuiToastType_COUNT); this->type = type; };
 
 public:
 	// Getters
 
-	NOTIFY_INLINE auto get_title() -> char*
-	{
-		return this->title;
-	};
+	NOTIFY_INLINE auto get_title() -> char* { return this->title; };
 
 	NOTIFY_INLINE auto get_default_title() -> const char*
 	{
@@ -122,31 +96,42 @@ public:
 		{
 			switch (this->type)
 			{
-				case ImGuiToastType_None: return NULL;
-				case ImGuiToastType_Success: return "Success";
-				case ImGuiToastType_Warning: return "Warning";
-				case ImGuiToastType_Error: return "Error";
-				case ImGuiToastType_Info: return "Info";
+			case ImGuiToastType_None:
+				return NULL;
+			case ImGuiToastType_Success:
+				return "Success";
+			case ImGuiToastType_Warning:
+				return "Warning";
+			case ImGuiToastType_Error:
+				return "Error";
+			case ImGuiToastType_Info:
+				return "Info";
+			default:
+				return NULL;
 			}
 		}
 
 		return this->title;
 	};
 
-	NOTIFY_INLINE auto get_type() -> const ImGuiToastType&
-	{
-		return this->type;
-	};
+	NOTIFY_INLINE auto get_type() -> const ImGuiToastType& { return this->type; };
 
-	NOTIFY_INLINE auto get_color() -> const ImVec4&
+	NOTIFY_INLINE auto get_color() -> const ImVec4
 	{
 		switch (this->type)
 		{
-			case ImGuiToastType_None: return { 255, 255, 255, 255 };  // White
-			case ImGuiToastType_Success: return { 0, 255, 0, 255 };   // Green
-			case ImGuiToastType_Warning: return { 255, 255, 0, 255 }; // Yellow
-			case ImGuiToastType_Error: return { 255, 0, 0, 255 };     // Error
-			case ImGuiToastType_Info: return { 0, 157, 255, 255 };    // Blue
+		case ImGuiToastType_None:
+			return { 255, 255, 255, 255 }; // White
+		case ImGuiToastType_Success:
+			return { 0, 255, 0, 255 }; // Green
+		case ImGuiToastType_Warning:
+			return { 255, 255, 0, 255 }; // Yellow
+		case ImGuiToastType_Error:
+			return { 255, 0, 0, 255 }; // Error
+		case ImGuiToastType_Info:
+			return { 0, 157, 255, 255 }; // Blue
+		default:
+			return { 255, 255, 255, 255 }; // White
 		}
 	}
 
@@ -154,25 +139,26 @@ public:
 	{
 		switch (this->type)
 		{
-			case ImGuiToastType_None: return NULL;
-			case ImGuiToastType_Success: return ICON_FA_CHECK_CIRCLE;
-			case ImGuiToastType_Warning: return ICON_FA_EXCLAMATION_TRIANGLE;
-			case ImGuiToastType_Error: return ICON_FA_TIMES_CIRCLE;
-			case ImGuiToastType_Info: return ICON_FA_INFO_CIRCLE;
+		case ImGuiToastType_None:
+			return NULL;
+		case ImGuiToastType_Success:
+			return ICON_FA_CHECK_CIRCLE;
+		case ImGuiToastType_Warning:
+			return ICON_FA_EXCLAMATION_TRIANGLE;
+		case ImGuiToastType_Error:
+			return ICON_FA_TIMES_CIRCLE;
+		case ImGuiToastType_Info:
+			return ICON_FA_INFO_CIRCLE;
+		default:
+			return NULL;
 		}
 	}
 
-	NOTIFY_INLINE auto get_content() -> char*
-	{
-		return this->content;
-	};
+	NOTIFY_INLINE auto get_content() -> char* { return this->content; };
 
-	NOTIFY_INLINE auto get_elapsed_time()
-	{
-		return GetTickCount64() - this->creation_time;
-	}
+	NOTIFY_INLINE auto get_elapsed_time() { return get_tick_count() - this->creation_time; }
 
-	NOTIFY_INLINE auto get_phase() -> const ImGuiToastPhase&
+	NOTIFY_INLINE auto get_phase() -> const ImGuiToastPhase
 	{
 		const auto elapsed = get_elapsed_time();
 
@@ -211,6 +197,12 @@ public:
 		return 1.f * NOTIFY_OPACITY;
 	}
 
+	NOTIFY_INLINE static auto get_tick_count() -> const unsigned long long
+	{
+		using namespace std::chrono;
+		return duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+	}
+
 public:
 	// Constructors
 
@@ -220,21 +212,15 @@ public:
 
 		this->type = type;
 		this->dismiss_time = dismiss_time;
-		this->creation_time = GetTickCount64();
+		this->creation_time = get_tick_count();
 
 		memset(this->title, 0, sizeof(this->title));
 		memset(this->content, 0, sizeof(this->content));
 	}
 
-	ImGuiToast(ImGuiToastType type, const char* format, ...) : ImGuiToast(type)
-	{
-		NOTIFY_FORMAT(this->set_content, format);
-	}
+	ImGuiToast(ImGuiToastType type, const char* format, ...) : ImGuiToast(type) { NOTIFY_FORMAT(this->set_content, format); }
 
-	ImGuiToast(ImGuiToastType type, int dismiss_time, const char* format, ...) : ImGuiToast(type, dismiss_time)
-	{
-		NOTIFY_FORMAT(this->set_content, format);
-	}
+	ImGuiToast(ImGuiToastType type, int dismiss_time, const char* format, ...) : ImGuiToast(type, dismiss_time) { NOTIFY_FORMAT(this->set_content, format); }
 };
 
 namespace ImGui
@@ -244,7 +230,7 @@ namespace ImGui
 	/// <summary>
 	/// Insert a new toast in the list
 	/// </summary>
-	NOTIFY_INLINE VOID InsertNotification(const ImGuiToast& toast)
+	NOTIFY_INLINE void InsertNotification(const ImGuiToast& toast)
 	{
 		notifications.push_back(toast);
 	}
@@ -253,7 +239,7 @@ namespace ImGui
 	/// Remove a toast from the list by its index
 	/// </summary>
 	/// <param name="index">index of the toast to remove</param>
-	NOTIFY_INLINE VOID RemoveNotification(int index)
+	NOTIFY_INLINE void RemoveNotification(int index)
 	{
 		notifications.erase(notifications.begin() + index);
 	}
@@ -261,7 +247,7 @@ namespace ImGui
 	/// <summary>
 	/// Render toasts, call at the end of your rendering!
 	/// </summary>
-	NOTIFY_INLINE VOID RenderNotifications()
+	NOTIFY_INLINE void RenderNotifications()
 	{
 		const auto vp_size = GetMainViewport()->Size;
 
@@ -290,8 +276,8 @@ namespace ImGui
 			text_color.w = opacity;
 
 			// Generate new unique name for this toast
-			char window_name[50];
-			sprintf_s(window_name, "##TOAST%d", i);
+			char window_name[50]{};
+			snprintf(window_name, sizeof(window_name), "##TOAST%d", i);
 
 			//PushStyleColor(ImGuiCol_Text, text_color);
 			SetNextWindowBgAlpha(opacity);
@@ -316,14 +302,16 @@ namespace ImGui
 				if (!NOTIFY_NULL_OR_EMPTY(title))
 				{
 					// If a title and an icon is set, we want to render on same line
-					if (!NOTIFY_NULL_OR_EMPTY(icon)) SameLine();
+					if (!NOTIFY_NULL_OR_EMPTY(icon))
+						SameLine();
 
 					Text(title); // Render title text
 					was_title_rendered = true;
 				}
 				else if (!NOTIFY_NULL_OR_EMPTY(default_title))
 				{
-					if (!NOTIFY_NULL_OR_EMPTY(icon)) SameLine();
+					if (!NOTIFY_NULL_OR_EMPTY(icon))
+						SameLine();
 
 					Text(default_title); // Render default title text (ImGuiToastType_Success -> "Success", etc...)
 					was_title_rendered = true;
@@ -363,7 +351,7 @@ namespace ImGui
 	/// Adds font-awesome font, must be called ONCE on initialization
 	/// <param name="FontDataOwnedByAtlas">Fonts are loaded from read-only memory, should be set to false!</param>
 	/// </summary>
-	NOTIFY_INLINE VOID MergeIconsWithLatestFont(float font_size, bool FontDataOwnedByAtlas = false)
+	NOTIFY_INLINE void MergeIconsWithLatestFont(float font_size, bool FontDataOwnedByAtlas = false)
 	{
 		static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
 
