@@ -1,11 +1,9 @@
 {
-  "version": 3,
+  "version": 4,
   "configurePresets": [
     {
-      "name": "Base",
-      "description": "Sets Ninja generator, build and install directory",
+      "name": "base",
       "hidden": true,
-      "generator": "Ninja",
       "binaryDir": "${sourceDir}/Intermediates/Build/${presetName}",
       "installDir": "${sourceDir}/Build/${presetName}",
       "cacheVariables": {
@@ -13,42 +11,98 @@
       }
     },
     {
-      "name": "x64-Release",
-      "displayName": "x64 Release",
-      "description": "Sets release build type and x64 architecture",
-      "inherits": "Base",
+      "name": "windows-x64",
+      "hidden": true,
+      "inherits": "base",
+
       "architecture": {
         "value": "x64",
         "strategy": "external"
       },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
       "cacheVariables": {
-        "CMAKE_CXX_COMPILER": "cl",
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/Intermediates/Binaries/win64"
       }
     },
     {
-      "name": "x64-Debug",
-      "displayName": "x64 Debug",
-      "description": "Sets debug build type and x64 architecture",
-      "inherits": "x64-Release",
+      "name": "ninja-multi-cl",
+      "displayName": "Ninja Multi-Config cl",
+      "description": "Building Windows using Ninja Multi-Config generator and cl compiler",
+      "inherits": "windows-x64",
+      "generator": "Ninja Multi-Config",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_C_COMPILER": "cl.exe",
+        "CMAKE_CXX_COMPILER": "cl.exe"
       }
+    },
+    {
+      "name": "ninja-multi",
+      "displayName": "Ninja Multi-Config",
+      "description": "Building Windows using the Ninja Multi-Config generator",
+      "inherits": "windows-x64",
+      "generator": "Ninja Multi-Config"
+    },
+    {
+      "name": "vs22",
+      "displayName": "VS 2022",
+      "description": "Building Windows using the Visual Studio 17 2022 generator",
+      "inherits": "windows-x64",
+      "generator": "Visual Studio 17 2022"
     }
   ],
   "buildPresets": [
     {
-      "name": "Default-build-windows",
-      "displayName": "Default Build",
-      "description": "Default build on windows",
-      "configurePreset": "x64-Debug"
+      "name": "base-debug",
+      "hidden": true,
+      "configuration": "Debug",
+      "verbose": true
     },
     {
-      "name": "Verbose-build-windows",
-      "displayName": "Verbose Build",
-      "description": "Verbose build on windows",
-      "inherits": "Default-build-windows",
-      "nativeToolOptions": [ "-v" ]
+      "name": "base-release",
+      "hidden": true,
+      "configuration": "Release"
+    },
+    {
+      "name": "ninja-multi-cl-debug",
+      "displayName": "Debug",
+      "configurePreset": "ninja-multi-cl",
+      "inherits": "base-debug"
+    },
+    {
+      "name": "ninja-multi-cl-release",
+      "displayName": "Release",
+      "configurePreset": "ninja-multi-cl",
+      "inherits": "base-release"
+    },
+
+    {
+      "name": "ninja-multi-debug",
+      "displayName": "Debug",
+      "configurePreset": "ninja-multi",
+      "inherits": "base-debug"
+    },
+    {
+      "name": "ninja-multi-release",
+      "displayName": "Release",
+      "configurePreset": "ninja-multi",
+      "inherits": "base-release" 
+    },
+
+    {
+      "name": "vs22-debug",
+      "displayName": "Debug",
+      "configurePreset": "vs22",
+      "inherits": "base-debug"
+    },
+    {
+      "name": "vs22-release",
+      "displayName": "Release",
+      "configurePreset": "vs22",
+      "inherits": "base-release"
     }
   ]
 }
