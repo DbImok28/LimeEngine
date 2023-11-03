@@ -33,7 +33,7 @@ namespace LimeEngine
 						{
 							case VK_SHIFT:
 							{
-								UINT scancode = (lParam & 0x00ff0000) >> 16;
+								UINT scancode = static_cast<UINT>((lParam & 0x00ff0000) >> 16);
 								OnKeyboardKeyPressed(static_cast<InputKey>(MapVirtualKey(scancode, MAPVK_VSC_TO_VK_EX)));
 								break;
 							}
@@ -67,7 +67,7 @@ namespace LimeEngine
 				{
 					case VK_SHIFT:
 					{
-						UINT scancode = (lParam & 0x00ff0000) >> 16;
+						UINT scancode = static_cast<UINT>((lParam & 0x00ff0000) >> 16);
 						OnKeyboardKeyReleased(static_cast<InputKey>(MapVirtualKey(scancode, MAPVK_VSC_TO_VK_EX)));
 						break;
 					}

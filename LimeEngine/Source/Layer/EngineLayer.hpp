@@ -11,6 +11,7 @@ namespace LimeEngine
 	{
 	public:
 		explicit EngineLayer(Engine* engine) : engine(engine) {}
+		virtual ~EngineLayer() = default;
 
 		virtual void Update() = 0;
 

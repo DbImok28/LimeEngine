@@ -11,7 +11,7 @@
 
 namespace LimeEngine
 {
-	FPath Paths::GetPathToExeFolder() noexcept
+	FPath Paths::GetPathToExeFolder()
 	{
 #if defined(LE_BUILD_PLATFORM_WINDOWS)
 		std::array<wchar_t, MAX_PATH> filePath = { '\0' };

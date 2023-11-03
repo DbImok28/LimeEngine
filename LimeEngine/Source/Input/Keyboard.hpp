@@ -72,10 +72,10 @@ namespace LimeEngine
 		static constexpr size_t nKeys = 256;
 		static constexpr size_t maxBufferSize = 16;
 
-		bool autoRepeatKeys = false;
-		bool autoRepeatChars = true;
 		std::bitset<nKeys> keyStates = false;
 		std::queue<KeyboardEvent> keyBuffer;
 		std::queue<wchar_t> charBuffer;
+		bool autoRepeatKeys = false;
+		bool autoRepeatChars = true;
 	};
 }

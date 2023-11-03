@@ -10,6 +10,7 @@ namespace LimeEngine
 	class ScenePrimaryComponent
 	{
 		friend SceneLayer;
+		LE_DELETE_COPY(ScenePrimaryComponent)
 
 	public:
 		ScenePrimaryComponent(const std::string& primaryName = "ScenePrimaryComponent") : primaryName(primaryName) {}

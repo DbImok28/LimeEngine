@@ -9,6 +9,8 @@ namespace LimeEngine
 {
 	class InputLayer : public EngineLayer
 	{
+		LE_DELETE_COPY(InputLayer);
+
 	public:
 		InputLayer(Engine* engine, InputDevice& inputDevice);
 

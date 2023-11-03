@@ -119,7 +119,7 @@ namespace LimeEngine
 
 		ImFontConfig font_cfg;
 		font_cfg.FontDataOwnedByAtlas = false;
-		io.Fonts->AddFontFromMemoryTTF((void*)tahoma, sizeof(tahoma), 15.f, &font_cfg);
+		io.Fonts->AddFontFromMemoryTTF(reinterpret_cast<void*>(const_cast<unsigned char*>(tahoma)), sizeof(tahoma), 15.f, &font_cfg);
 		ImGui::MergeIconsWithLatestFont(16.f, false);
 	}
 
@@ -477,87 +477,87 @@ namespace LimeEngine
 
 	bool RuntimeEditor::Input(const std::string& label, char& var, char min, char max, float speed)
 	{
-		return Drag(label.c_str(), var, min, max, speed);
+		return Drag(label, var, min, max, speed);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, int8& var, int8 min, int8 max, float speed)
 	{
-		return Drag(label.c_str(), var, min, max, speed);
+		return Drag(label, var, min, max, speed);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, int16& var, int16 min, int16 max, float speed)
 	{
-		return Drag(label.c_str(), var, min, max, speed);
+		return Drag(label, var, min, max, speed);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, int32& var, int32 min, int32 max, float speed)
 	{
-		return Drag(label.c_str(), var, min, max, speed);
+		return Drag(label, var, min, max, speed);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, int64& var, int64 min, int64 max, float speed)
 	{
-		return Drag(label.c_str(), var, min, max, speed);
+		return Drag(label, var, min, max, speed);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, uint8& var, uint8 min, uint8 max, float speed)
 	{
-		return Drag(label.c_str(), var, min, max, speed);
+		return Drag(label, var, min, max, speed);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, uint16& var, uint16 min, uint16 max, float speed)
 	{
-		return Drag(label.c_str(), var, min, max, speed);
+		return Drag(label, var, min, max, speed);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, uint32& var, uint32 min, uint32 max, float speed)
 	{
-		return Drag(label.c_str(), var, min, max, speed);
+		return Drag(label, var, min, max, speed);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, uint64& var, uint64 min, uint64 max, float speed)
 	{
-		return Drag(label.c_str(), var, min, max, speed);
+		return Drag(label, var, min, max, speed);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, float& var, float min, float max, float speed)
 	{
-		return Drag(label.c_str(), var, min, max, speed);
+		return Drag(label, var, min, max, speed);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, double& var, double min, double max, float speed)
 	{
-		return Drag(label.c_str(), var, min, max, speed);
+		return Drag(label, var, min, max, speed);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, bool& var)
 	{
-		return CheckBox(label.c_str(), var);
+		return CheckBox(label, var);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, std::string& var)
 	{
-		return TextField(label.c_str(), var);
+		return TextField(label, var);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, char* buf, size_t bufSize)
 	{
-		return TextField(label.c_str(), buf, bufSize);
+		return TextField(label, buf, bufSize);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, const std::string& hint, std::string& var)
 	{
-		return TextField(label.c_str(), hint, var);
+		return TextField(label, hint, var);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, const std::string& hint, char* buf, size_t bufSize)
 	{
-		return TextField(label.c_str(), hint, buf, bufSize);
+		return TextField(label, hint, buf, bufSize);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, Vector& vec, float min, float max, float speed)
 	{
-		return Drag(label.c_str(), vec, min, max, speed);
+		return Drag(label, vec, min, max, speed);
 	}
 
 	bool RuntimeEditor::Input(const std::string& label, Transform& transform)

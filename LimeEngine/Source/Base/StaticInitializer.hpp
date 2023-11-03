@@ -16,12 +16,12 @@ namespace LimeEngine
 	{
 		struct OrderFunctionsByPriority
 		{
-			bool operator()(std::pair<int8, std::function<void()>>& item1, std::pair<int8, std::function<void()>> item2);
+			bool operator()(const std::pair<int8, std::function<void()>>& item1, const std::pair<int8, std::function<void()>>& item2) const;
 		};
 
 	public:
 		static auto& GetFunctionsForStaticInit();
-		static uint8 Add(std::function<void()> func, int8 priority = 0);
+		static int8 Add(std::function<void()> func, int8 priority = 0);
 		static void Initialize();
 	};
 }

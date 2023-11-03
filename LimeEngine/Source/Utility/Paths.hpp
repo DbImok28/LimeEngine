@@ -8,7 +8,7 @@ namespace LimeEngine
 	class Paths
 	{
 	private:
-		static FPath GetPathToExeFolder() noexcept;
+		static FPath GetPathToExeFolder();
 
 	public:
 		static const FPath ExeFolder;

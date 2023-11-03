@@ -10,6 +10,7 @@ namespace LimeEngine
 	{
 	public:
 		virtual ~Event() = default;
+
 		static const char* GetStaticType()
 		{
 			return "Event";

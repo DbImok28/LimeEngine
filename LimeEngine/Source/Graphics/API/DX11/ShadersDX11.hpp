@@ -13,7 +13,6 @@ namespace LimeEngine
 	public:
 		explicit VertexShaderDX11(RendererDX11& renderer) noexcept;
 		VertexShaderDX11(RendererDX11& renderer, const FPath& filePath, MaterialType materialType);
-		virtual ~VertexShaderDX11() override = default;
 
 		void Initialize(const FPath& filePath, MaterialType materialType);
 		virtual void Bind() noexcept override;
@@ -33,7 +32,6 @@ namespace LimeEngine
 	public:
 		explicit PixelShaderDX11(RendererDX11& renderer) noexcept;
 		PixelShaderDX11(RendererDX11& renderer, const FPath& filePath);
-		virtual ~PixelShaderDX11() override = default;
 
 		void Initialize(const FPath& filePath);
 		virtual void Bind() noexcept override;

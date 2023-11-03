@@ -10,11 +10,6 @@ namespace LimeEngine
 
 	InputActionKey::InputActionKey(InputKey inputKey, bool alt, bool shift, bool ctrl, bool cmd) noexcept : inputKey(inputKey), alt(alt), shift(shift), ctrl(ctrl), cmd(cmd) {}
 
-	bool InputActionKey::CheckInputKey(InputKey inputKey) const noexcept
-	{
-		return (!this->alt || alt) && (!this->shift || shift) && (!this->ctrl || ctrl) && (!this->cmd || cmd);
-	}
-
 	bool InputActionKey::CheckSystemKey(bool alt, bool shift, bool ctrl, bool cmd) const noexcept
 	{
 		return (!this->alt || alt) && (!this->shift || shift) && (!this->ctrl || ctrl) && (!this->cmd || cmd);
@@ -198,8 +193,7 @@ namespace LimeEngine
 		else
 		{
 			auto keyMatchHandlers = keyActionEvents.equal_range(InputActionKey(key));
-			auto currentInputKeyState = InputActionKey(key, alt, shift, ctrl, cmd);
-
+			
 			for (auto& it = keyMatchHandlers.first; it != keyMatchHandlers.second; it++)
 			{
 				if (it->first.CheckSystemKey(alt, shift, ctrl, cmd))

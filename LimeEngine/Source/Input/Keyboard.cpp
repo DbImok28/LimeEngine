@@ -26,7 +26,7 @@ namespace LimeEngine
 
 	bool Keyboard::KeyIsPressed(const InputKey key) const noexcept
 	{
-		return keyStates[static_cast<int>(key)];
+		return keyStates[static_cast<size_t>(key)];
 	}
 
 	bool Keyboard::AltIsPressed() const noexcept
@@ -127,14 +127,14 @@ namespace LimeEngine
 
 	void Keyboard::OnKeyPressed(const InputKey key)
 	{
-		keyStates[static_cast<int>(key)] = true;
+		keyStates[static_cast<size_t>(key)] = true;
 		keyBuffer.push(KeyboardEvent(InputActionType::Pressed, key));
 		TrimBuffer(keyBuffer);
 	}
 
 	void Keyboard::OnKeyReleased(const InputKey key)
 	{
-		keyStates[static_cast<int>(key)] = false;
+		keyStates[static_cast<size_t>(key)] = false;
 		keyBuffer.push(KeyboardEvent(InputActionType::Released, key));
 		TrimBuffer(keyBuffer);
 	}

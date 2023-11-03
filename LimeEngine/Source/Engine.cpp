@@ -7,7 +7,7 @@
 namespace LimeEngine
 {
 	Engine::Engine(std::unique_ptr<Window>&& window, std::unique_ptr<Renderer>&& renderer) :
-		windowLayer(this, std::move(window)), inputLayer(this, windowLayer.GetWindow().GetInputDevice()), renderLayer(this, std::move(renderer), windowLayer.GetWindow()),
+		windowLayer(this, std::move(window)), inputLayer(this, windowLayer.GetWindow().GetInputDevice()), renderLayer(this, std::move(renderer)),
 		dataLayer(this, renderLayer.GetGraphicFactory()), sceneLayer(this), editorLayer(this)
 	{
 		windowLayer.GetWindow().events.Bind(WindowEventType::Close, this, &Engine::Close);

@@ -7,7 +7,7 @@
 
 namespace LimeEngine
 {
-	RenderLayer::RenderLayer(Engine* engine, std::unique_ptr<Renderer>&& renderer, Window& window) : EngineLayer(engine), renderer(std::move(renderer)) {}
+	RenderLayer::RenderLayer(Engine* engine, std::unique_ptr<Renderer>&& renderer) : EngineLayer(engine), renderer(std::move(renderer)) {}
 
 	void RenderLayer::Update()
 	{

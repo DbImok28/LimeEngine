@@ -112,11 +112,11 @@ namespace LimeEngine
 	{
 		std::vector<Vector> result;
 		result.reserve(static_cast<size_t>(vertexCount) * static_cast<size_t>(vertexCount));
-		for (float i = 0.0f; i < vertexCount; ++i)
+		for (float i = 0.0f; i < static_cast<float>(vertexCount); ++i)
 		{
 			float a2 = Math::toRadians * (45.0f - 90.0f * i / static_cast<float>(vertexCount - 1u)); // normal
 			Vector n2{ -Math::Sin(a2), Math::Cos(a2), 0.0f };                                        // plane rotating along Z-axis
-			for (float j = 0.0f; j < vertexCount; ++j)
+			for (float j = 0.0f; j < static_cast<float>(vertexCount); ++j)
 			{
 				float a1 = Math::toRadians * (-45.0f + 90.0f * j / static_cast<float>(vertexCount - 1u)); // normal
 				Vector n1{ -Math::Sin(a1), 0.0f, -Math::Cos(a1) };                                        // plane rotating along Y-axis
@@ -173,8 +173,8 @@ namespace LimeEngine
 		}
 		for (uint8 i = 0u; i < rings; ++i)
 		{
-			uint16 k1 = i * (segments + 1);
-			uint16 k2 = k1 + segments + 1;
+			uint16 k1 = i * (segments + 1u);
+			uint16 k2 = k1 + segments + 1u;
 
 			for (uint8 j = 0u; j < segments; ++j, ++k1, ++k2)
 			{

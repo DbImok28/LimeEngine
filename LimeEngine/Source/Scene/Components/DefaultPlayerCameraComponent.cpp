@@ -75,7 +75,7 @@ namespace LimeEngine
 	void DefaultPlayerCameraComponent::OnResize(const Event& e)
 	{
 		const auto& resizeEvent = CastEvent<ResizeWindowEvent>(e);
-		Resize(resizeEvent.width, resizeEvent.height);
+		Resize(static_cast<float>(resizeEvent.width), static_cast<float>(resizeEvent.height));
 	}
 
 	void DefaultPlayerCameraComponent::AttachCamera() noexcept

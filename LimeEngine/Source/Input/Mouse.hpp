@@ -103,16 +103,17 @@ namespace LimeEngine
 		MultiEventDispatcher<MouseEventType> events;
 
 	private:
+		static constexpr size_t maxBufferSize = 16;
+
 		std::queue<MouseEvent> buffer;
+		int wheelDelta = 0;
+		int x = 0;
+		int y = 0;
 		bool leftIsDown = false;
 		bool rightIsDown = false;
 		bool middleIsDown = false;
 		bool isInWindow = false;
 		bool thumbForwardIsDown = false;
 		bool thumbBackIsDown = false;
-		int wheelDelta = 0;
-		int x = 0;
-		int y = 0;
-		static constexpr size_t maxBufferSize = 16;
 	};
 }

@@ -9,6 +9,8 @@ namespace LimeEngine
 {
 	class WindowLayer : public EngineLayer
 	{
+		LE_DELETE_COPY(WindowLayer);
+
 	public:
 		WindowLayer(Engine* engine, std::unique_ptr<Window>&& window);
 

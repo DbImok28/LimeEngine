@@ -76,7 +76,7 @@ namespace LimeEngine
 		}
 
 	protected:
-		bool defaultFullscreenModeIsExclusive;
 		Window& window;
+		bool defaultFullscreenModeIsExclusive;
 	};
 }

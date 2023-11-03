@@ -8,12 +8,12 @@ namespace LimeEngine
 {
 	WindowsConsole::WindowsConsole(const ConsoleArgs& args)
 	{
-		Open(args);
+		WindowsConsole::Open(args);
 	}
 
 	WindowsConsole::~WindowsConsole()
 	{
-		Close();
+		WindowsConsole::Close();
 	}
 
 	bool WindowsConsole::Open(const ConsoleArgs& args)

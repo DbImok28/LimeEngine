@@ -49,12 +49,12 @@ namespace LimeEngine
 
 	float Renderer::GetWidth() const noexcept
 	{
-		return renderOutput->GetWidth();
+		return static_cast<float>(renderOutput->GetWidth());
 	}
 
 	float Renderer::GetHeight() const noexcept
 	{
-		return renderOutput->GetHeight();
+		return static_cast<float>(renderOutput->GetHeight());
 	}
 
 	void Renderer::AddToRender(IDrawable* drawable)

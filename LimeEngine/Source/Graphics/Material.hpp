@@ -17,6 +17,8 @@ namespace LimeEngine
 
 	class Material : public GameResource
 	{
+		LE_DELETE_COPY(Material)
+
 	public:
 		Material(const ResourcePath& resourcePath, MaterialType type) noexcept;
 
@@ -31,6 +33,8 @@ namespace LimeEngine
 
 	class MasterMaterial : public Material
 	{
+		LE_DELETE_COPY(MasterMaterial)
+
 	public:
 		MasterMaterial(const ResourcePath& resourcePath, std::unique_ptr<IBindable> vertexShader, std::unique_ptr<IBindable> pixelShader, MaterialType type) noexcept;
 		virtual void ApplyMaterial() noexcept override;
@@ -43,7 +47,7 @@ namespace LimeEngine
 	class MaterialInstance
 	{
 	public:
-		MaterialInstance(GameResourceRef<Material> material) : material(material) {}
+		explicit MaterialInstance(GameResourceRef<Material> material) : material(material) {}
 		virtual ~MaterialInstance() = default;
 
 		void AddTexture(GameResourceRef<Texture2D> texture) noexcept;

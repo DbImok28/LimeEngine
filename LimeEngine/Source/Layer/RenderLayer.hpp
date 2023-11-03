@@ -9,8 +9,10 @@ namespace LimeEngine
 {
 	class RenderLayer : public EngineLayer
 	{
+		LE_DELETE_COPY(RenderLayer);
+
 	public:
-		RenderLayer(Engine* engine, std::unique_ptr<Renderer>&& renderer, Window& window);
+		RenderLayer(Engine* engine, std::unique_ptr<Renderer>&& renderer);
 
 		void Update() override;
 		void AddToRender(IDrawable* drawable);

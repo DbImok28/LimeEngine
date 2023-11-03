@@ -13,7 +13,6 @@ namespace LimeEngine
 	{
 	public:
 		explicit VertexBufferDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
-		virtual ~VertexBufferDX11() override = default;
 
 		HRESULT Initialize(const std::vector<T>& vertices, uint offset = 0u) noexcept
 		{
@@ -50,7 +49,7 @@ namespace LimeEngine
 		{
 			return bufferSize;
 		}
-		const uint Stride() const noexcept
+		uint Stride() const noexcept
 		{
 			return stride;
 		}
@@ -72,7 +71,6 @@ namespace LimeEngine
 	{
 	public:
 		explicit IndexBufferDX11(RendererDX11& renderer) noexcept;
-		virtual ~IndexBufferDX11() override = default;
 
 		HRESULT Initialize(const std::vector<uint>& indices) noexcept;
 		virtual void Bind() noexcept override;
@@ -90,7 +88,6 @@ namespace LimeEngine
 	{
 	public:
 		explicit ConstantBufferDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer), data{} {}
-		virtual ~ConstantBufferDX11() override = default;
 
 		HRESULT Initialize() noexcept
 		{

@@ -14,7 +14,6 @@ namespace LimeEngine
 	{
 	public:
 		MeshRenderDataDX11(RendererDX11& renderer, const std::vector<Vertex>& vertices, const std::vector<uint>& indices);
-		virtual ~MeshRenderDataDX11() override = default;
 
 		void InitializeBuffers(const std::vector<Vertex>& vertices, const std::vector<uint>& indices);
 		void ApplyMaterial(MaterialInstance* materialInstance);

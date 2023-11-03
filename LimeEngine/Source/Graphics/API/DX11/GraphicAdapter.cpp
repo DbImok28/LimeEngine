@@ -21,9 +21,9 @@ namespace LimeEngine
 		return adapters;
 	}
 
-	GraphicAdapter::GraphicAdapter(IDXGIAdapter* pAdapter) : adapter(pAdapter)
+	GraphicAdapter::GraphicAdapter(IDXGIAdapter* adapter) : adapter(adapter)
 	{
-		HRESULT hr = pAdapter->GetDesc(&desc);
+		HRESULT hr = adapter->GetDesc(&desc);
 		GFX_CHECK_HR_NOINFO(hr);
 	}
 }

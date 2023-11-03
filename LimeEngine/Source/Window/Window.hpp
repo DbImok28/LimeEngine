@@ -53,6 +53,8 @@ namespace LimeEngine
 
 	class Window
 	{
+		LE_DELETE_COPY(Window)
+
 	public:
 		static std::unique_ptr<Window> Create(const WindowArgs& args = WindowArgs());
 
@@ -94,7 +96,7 @@ namespace LimeEngine
 
 	private:
 		std::unique_ptr<Input> input;
-		bool ñlipCursorInWindowMode = false;
-		bool ñlipCursorInFullScreenMode = true;
+		bool clipCursorInWindowMode = false;
+		bool clipCursorInFullScreenMode = true;
 	};
 }

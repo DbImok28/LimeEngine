@@ -43,7 +43,6 @@ namespace LimeEngine
 		mutable XMMATRIX viewMatrix = XMMatrixIdentity();
 		mutable XMMATRIX projectionMatrix = XMMatrixIdentity();
 		ProjectionType projectionType = ProjectionType::Perspective;
-		float aspectRatio;
 
 	public:
 		float width;
@@ -51,5 +50,8 @@ namespace LimeEngine
 		float fovDegrees;
 		float nearZ;
 		float farZ;
+
+	private:
+		float aspectRatio;
 	};
 }

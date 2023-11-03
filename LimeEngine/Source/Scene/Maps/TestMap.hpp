@@ -8,8 +8,10 @@ namespace LimeEngine
 {
 	class TestMap : public SceneMap
 	{
+		LE_DELETE_COPY(TestMap)
+
 	public:
-		TestMap(Engine* engine) : SceneMap(engine, "TestMap") {}
+		explicit TestMap(Engine* engine) : SceneMap(engine, "TestMap") {}
 
 		void Load() override;
 		virtual void Update() override;

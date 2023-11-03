@@ -20,7 +20,6 @@ namespace LimeEngine
 		explicit InputActionKey(InputKey inputKey) noexcept;
 		InputActionKey(InputKey inputKey, bool alt, bool shift, bool ctrl, bool cmd) noexcept;
 
-		bool CheckInputKey(InputKey inputKey) const noexcept;
 		bool CheckSystemKey(bool alt, bool shift, bool ctrl, bool cmd) const noexcept;
 		bool NeedSystemKey() const noexcept;
 

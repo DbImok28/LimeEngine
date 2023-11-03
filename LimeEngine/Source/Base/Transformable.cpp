@@ -50,7 +50,7 @@ namespace LimeEngine
 
 	void Transformable::AddLocation(float x, float y, float z) noexcept
 	{
-		transform.location.Add({ x, y, z });
+		transform.location.Add(Vector{ x, y, z });
 		isTransformChange = true;
 	}
 
@@ -142,7 +142,7 @@ namespace LimeEngine
 
 	void Transformable::AddScale(float x, float y, float z) noexcept
 	{
-		transform.scale.Add({ x, y, z });
+		transform.scale.Add(Vector{ x, y, z });
 		isTransformChange = true;
 	}
 

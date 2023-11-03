@@ -35,23 +35,23 @@ namespace LimeEngine
 
 	bool Window::GetClipCursorInWindowMode() const noexcept
 	{
-		return ñlipCursorInWindowMode;
+		return clipCursorInWindowMode;
 	}
 
 	void Window::SetClipCursorInWindowMode(bool value) noexcept
 	{
-		ñlipCursorInWindowMode = value;
+		clipCursorInWindowMode = value;
 		UpdateCursor();
 	}
 
 	bool Window::GetClipCursorInFullScreenMode() const noexcept
 	{
-		return ñlipCursorInFullScreenMode;
+		return clipCursorInFullScreenMode;
 	}
 
 	void Window::SetClipCursorInFullScreenMode(bool value) noexcept
 	{
-		ñlipCursorInFullScreenMode = value;
+		clipCursorInFullScreenMode = value;
 		UpdateCursor();
 	}
 

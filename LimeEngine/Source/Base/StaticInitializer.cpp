@@ -6,7 +6,7 @@
 
 namespace LimeEngine
 {
-	bool StaticInitializer::OrderFunctionsByPriority::operator()(std::pair<int8, std::function<void()>>& item1, std::pair<int8, std::function<void()>> item2)
+	bool StaticInitializer::OrderFunctionsByPriority::operator()(const std::pair<int8, std::function<void()>>& item1, const std::pair<int8, std::function<void()>>& item2) const
 	{
 		return item1.first < item2.first;
 	}
@@ -17,7 +17,7 @@ namespace LimeEngine
 		return functions;
 	}
 
-	uint8 StaticInitializer::Add(std::function<void()> func, int8 priority)
+	int8 StaticInitializer::Add(std::function<void()> func, int8 priority)
 	{
 		GetFunctionsForStaticInit().push(std::make_pair(priority, func));
 		return 0;

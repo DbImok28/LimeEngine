@@ -72,15 +72,15 @@ namespace LimeEngine
 
 		RECT wr = { 0 };
 		wr.left = 100;
-		wr.right = width + wr.left;
+		wr.right = static_cast<LONG>(width) + wr.left;
 		wr.top = 100;
-		wr.bottom = height + wr.top;
-		if (!AdjustWindowRect(&wr, styles, FALSE)) throw WND_LAST_EXCEPTION();
+		wr.bottom = static_cast<LONG>(height) + wr.top;
+		if (!AdjustWindowRect(&wr, static_cast<DWORD>(styles), FALSE)) throw WND_LAST_EXCEPTION();
 
 		hWnd = CreateWindow(
 			WindowClass::GetName(),
 			args.title.c_str(),
-			styles,
+			static_cast<DWORD>(styles),
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
 			wr.right - wr.left,
@@ -224,8 +224,8 @@ namespace LimeEngine
 	std::pair<uint, uint> WindowsWindow::GetScreenResolution() const
 	{
 		auto screenRect = GetScreenRect();
-		uint monitorWidth = screenRect.right - screenRect.left;
-		uint monitorHeight = screenRect.bottom - screenRect.top;
+		uint monitorWidth = static_cast<uint>(screenRect.right - screenRect.left);
+		uint monitorHeight = static_cast<uint>(screenRect.bottom - screenRect.top);
 		return { monitorWidth, monitorHeight };
 	}
 
