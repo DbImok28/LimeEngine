@@ -47,12 +47,12 @@ namespace LimeEngine
 template <>
 struct std::formatter<LimeEngine::Transform> : std::formatter<std::string>
 {
-	constexpr auto parse(std::format_parse_context& ctx)
+	constexpr auto parse(std::format_parse_context& ctx) const
 	{
-		return ctx.end();
+		return ctx.begin();
 	}
 
-	auto format(LimeEngine::Transform transform, format_context& ctx)
+	auto format(LimeEngine::Transform transform, auto& ctx) const
 	{
 		return std::format_to(ctx.out(), "Location {}\nRotation {}\nScale    {}", transform.location, transform.rotation, transform.scale);
 	}
