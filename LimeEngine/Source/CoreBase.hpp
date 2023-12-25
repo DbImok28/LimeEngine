@@ -2,7 +2,9 @@
 // See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
-#include "Base/PlatformDetection.hpp"
+#include "Utility/PlatformDetection.hpp"
+#include "Utility/CompilerDetection.hpp"
+#include "Utility/CompilerTools.hpp"
 #include "Utility/MacroUtility.hpp"
 #include "Utility/ClassUtility.hpp"
 

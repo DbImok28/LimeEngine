@@ -13,11 +13,11 @@ namespace LimeEngine
 		explicit WindowsConsole(const ConsoleArgs& args);
 		virtual ~WindowsConsole();
 
-		bool Open(const ConsoleArgs& args) override;
-		bool Close() noexcept override;
-		void Print(tstring_view msg, PrimaryColor color = PrimaryColor::Gray) noexcept override;
-		void SetTitle(const tstring& title) noexcept override;
-		void SetMinLength(int16 minLength) const noexcept override;
+		virtual bool Open(const ConsoleArgs& args) override;
+		virtual bool Close() noexcept override;
+		virtual void Print(tstring_view msg, PrimaryColor color = PrimaryColor::Gray) noexcept override;
+		virtual void SetTitle(const tstring& title) noexcept override;
+		virtual void SetMinLength(int16 minLength) const noexcept override;
 
 	private:
 		bool RedirectIO() const noexcept;

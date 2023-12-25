@@ -58,11 +58,6 @@ namespace LimeEngine
 template <>
 struct std::formatter<LimeEngine::Rotator> : std::formatter<std::string>
 {
-	constexpr auto parse(std::format_parse_context& ctx) const
-	{
-		return ctx.begin();
-	}
-
 	auto format(LimeEngine::Rotator rot, auto& ctx) const
 	{
 		return std::format_to(ctx.out(), "x:{:< 8} y:{:< 8} z:{:< 8}", rot.roll, rot.pitch, rot.yaw);

@@ -6,34 +6,20 @@
 #include "CoreBase.hpp"
 #include "Engine.hpp"
 #include "Base/StaticInitializer.hpp"
+#include "Platform/Platform.hpp"
 
 #include "Scene/Maps/TestMap.hpp"
 
-#if defined(LE_BUILD_PLATFORM_WINDOWS)
-	#if defined(LE_ENABLE_COM)
-		#include "Platform/Windows/WindowsExceptions.hpp"
-		#include <objbase.h>
-	#endif
-#endif
-
 namespace LimeEngine
 {
-#if defined(LE_BUILD_PLATFORM_WINDOWS)
-	void Application::Initialize()
-	{
-	#if defined(LE_ENABLE_COM)
-		CHECK_HR(CoInitializeEx(NULL, COINIT_MULTITHREADED));
-	#endif
-	}
-#else
-	void Application::Initialize() {}
-#endif
-
 	Application::Application()
 	{
+		Platform::Initialize();
 		Initialize();
 		StaticInitializer::Initialize();
 	}
+
+	void Application::Initialize() {}
 
 	void Application::Run()
 	{

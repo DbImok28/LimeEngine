@@ -17,7 +17,7 @@ namespace LimeEngine
 		Application();
 		virtual ~Application() = default;
 
-		virtual void Run();
 		void Initialize();
+		virtual void Run();
 	};
 }

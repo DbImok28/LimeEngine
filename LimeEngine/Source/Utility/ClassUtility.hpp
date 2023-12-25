@@ -14,3 +14,20 @@
 #define LE_DELETE_MOVE_COPY(ClassName) \
 	LE_DELETE_COPY(ClassName)          \
 	LE_DELETE_MOVE(ClassName)
+
+#define LE_DEFAULT_COPY(ClassName)         \
+	ClassName(const ClassName&) = default; \
+	ClassName& operator=(const ClassName&) = default;
+
+#define LE_DEFAULT_MOVE(ClassName)             \
+	ClassName(ClassName&&) noexcept = default; \
+	ClassName& operator=(ClassName&&) noexcept = default;
+
+#define LE_DEFAULT_MOVE_COPY(ClassName) \
+	LE_DEFAULT_COPY(ClassName)          \
+	LE_DEFAULT_MOVE(ClassName)
+
+#define LE_NON_CONSTRUCTIBLE(ClassName) \
+	ClassName() = delete;               \
+	LE_DELETE_COPY(ClassName)           \
+	LE_DELETE_MOVE(ClassName)
