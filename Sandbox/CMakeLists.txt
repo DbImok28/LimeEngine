@@ -3,6 +3,7 @@
 # GitHub: https://github.com/RubyCircle/LimeEngine
 
 cmake_minimum_required(VERSION 3.20)
+include(../CMakeTools.cmake)
 
 set(PROJECT_NAME Sandbox)
 project(${PROJECT_NAME} LANGUAGES CXX)
@@ -12,7 +13,10 @@ set_target_properties(${TARGET} PROPERTIES
     CXX_STANDARD_REQUIRED YES
     CXX_EXTENSIONS NO
     CXX_STANDARD 23
+    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
 )
+
+get_target_property(TARGET_TYPE ${PROJECT_NAME} TYPE)
 
 # Compile shaders
 set(RENDERER "DirectX")
@@ -23,7 +27,8 @@ set(HLSL_VERTEX_SHADER
 set(HLSL_PIXEL_SHADERS
     # ...
 )
-include(../CompileShaders.cmake)
+CompileShaders()
+DisableRTTI()
 
 # Dependencies
 set(${PROJECT_NAME}_DEPENDENCIES_INCLUDES
@@ -91,6 +96,6 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION .)
-install(FILES $<TARGET_PDB_FILE:${PROJECT_NAME}> DESTINATION . OPTIONAL)
+InstallPDB()
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/Content DESTINATION . OPTIONAL)
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Shaders DESTINATION . OPTIONAL)

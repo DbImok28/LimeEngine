@@ -14,6 +14,8 @@
 #include <cassert>
 #include <concepts>
 
+#include <locale>
+#include <codecvt>
 #include <string>
 #include <sstream>
 #include <format>

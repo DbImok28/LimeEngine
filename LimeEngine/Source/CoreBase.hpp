@@ -13,10 +13,14 @@
 #endif
 
 #if defined(LE_BUILD_PLATFORM_WINDOWS)
-	#ifdef LE_BUILD_DLL
-		#define LE_API __declspec(dllexport)
+	#if defined(LE_BUILD_DYNAMIC_LINK)
+		#ifdef LE_BUILD_DLL
+			#define LE_API __declspec(dllexport)
+		#else
+			#define LE_API __declspec(dllimport)
+		#endif
 	#else
-		#define LE_API __declspec(dllimport)
+		#define LE_API
 	#endif
 #else
 	#error "Platform not supported!"

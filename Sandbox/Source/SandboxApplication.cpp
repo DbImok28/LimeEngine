@@ -7,9 +7,6 @@ namespace Sandbox
 {
 	class SandboxApplication : public LimeEngine::Application
 	{
-	public:
-		SandboxApplication() {}
-		~SandboxApplication() {}
 	};
 }
 

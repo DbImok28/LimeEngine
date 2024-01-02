@@ -6,13 +6,13 @@
 
 namespace LimeEngine
 {
-	std::wstring StringUtility::StringToWide(const std::string& str)
+	std::wstring StringUtility::Char8ToWide(const std::string& str)
 	{
-		return std::wstring(str.begin(), str.end());
+		return std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>>{}.from_bytes(str);
 	}
 
-	std::string StringUtility::StringToChar8(const std::wstring& str)
+	std::string StringUtility::WideToChar8(const std::wstring& str)
 	{
-		return std::string(str.begin(), str.end());
+		return std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>>{}.to_bytes(str);
 	}
 }
