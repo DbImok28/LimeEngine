@@ -19,7 +19,7 @@ namespace LimeEngine
 		std::vector<D3D11_INPUT_ELEMENT_DESC> MakeInputLayout(MaterialType materialType) const;
 		ID3D11VertexShader* GetShader() const noexcept;
 		ID3D10Blob* GetBuffer() const noexcept;
-		ID3D11InputLayout* GatInputLoyout() const noexcept;
+		ID3D11InputLayout* GetInputLoyout() const noexcept;
 
 	private:
 		com_ptr<ID3D11VertexShader> shader = nullptr;

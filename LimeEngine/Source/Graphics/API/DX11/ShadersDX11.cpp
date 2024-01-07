@@ -18,6 +18,7 @@ namespace LimeEngine
 
 	void VertexShaderDX11::Initialize(const FPath& filePath, MaterialType materialType)
 	{
+		auto& context = GetRenderContext();
 		HRESULT hr = D3DReadFileToBlob(filePath.c_str(), shaderBuffer.GetAddressOf());
 		if (FAILED(hr))
 		{
@@ -25,19 +26,9 @@ namespace LimeEngine
 			oss << "Failed to load vertex shader: " << filePath;
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
-		hr = GetDevice()->CreateVertexShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
-		if (FAILED(hr))
-		{
-			std::ostringstream oss;
-			oss << "Failed to create vertex shader: " << filePath;
-			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
-		}
-
 		auto loyout = MakeInputLayout(materialType);
-		GFX_CHECK_HR_MSG(
-			GetDevice()->CreateInputLayout(
-				loyout.data(), static_cast<uint>(loyout.size()), shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), inputLoyout.GetAddressOf()),
-			"Failed to create InputLayout.");
+		context.CreateVertexShader(
+			loyout.data(), static_cast<uint>(loyout.size()), shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), inputLoyout.GetAddressOf(), shader.GetAddressOf());
 	}
 
 	std::vector<D3D11_INPUT_ELEMENT_DESC> VertexShaderDX11::MakeInputLayout(MaterialType materialType) const
@@ -64,15 +55,16 @@ namespace LimeEngine
 		return shaderBuffer.Get();
 	}
 
-	ID3D11InputLayout* VertexShaderDX11::GatInputLoyout() const noexcept
+	ID3D11InputLayout* VertexShaderDX11::GetInputLoyout() const noexcept
 	{
 		return inputLoyout.Get();
 	}
 
 	void VertexShaderDX11::Bind() noexcept
 	{
-		GetDeviceContext()->IASetInputLayout(GatInputLoyout());
-		GetDeviceContext()->VSSetShader(GetShader(), NULL, 0);
+		auto& context = GetRenderContext();
+		context.SetInputLayout(GetInputLoyout());
+		context.SetVertexShader(GetShader());
 	}
 
 	// --
@@ -86,6 +78,7 @@ namespace LimeEngine
 
 	void PixelShaderDX11::Initialize(const FPath& filePath)
 	{
+		auto& context = GetRenderContext();
 		HRESULT hr = D3DReadFileToBlob(filePath.c_str(), shaderBuffer.GetAddressOf());
 		if (FAILED(hr))
 		{
@@ -93,18 +86,13 @@ namespace LimeEngine
 			oss << "Failed to load pixel shader: " << filePath;
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
-		hr = GetDevice()->CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
-		if (FAILED(hr))
-		{
-			std::stringstream oss;
-			oss << "Failed to create pixel shader: " << filePath;
-			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
-		}
+		context.CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), shader.GetAddressOf());
 	}
 
 	void PixelShaderDX11::Bind() noexcept
 	{
-		GetDeviceContext()->PSSetShader(GetShader(), NULL, 0);
+		auto& context = GetRenderContext();
+		context.SetPixelShader(GetShader());
 	}
 
 	ID3D11PixelShader* PixelShaderDX11::GetShader() const noexcept

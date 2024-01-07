@@ -1,0 +1,87 @@
+// Copyright (C) Pavel Jakushik - All rights reserved
+// See the LICENSE file for copyright and licensing details.
+// GitHub: https://github.com/RubyCircle/LimeEngine
+#pragma once
+#include "CoreBase.hpp"
+#include "DirectXDef.hpp"
+#include "ExceptionsDX11.hpp"
+#include "GraphicAdapter.hpp"
+
+namespace LimeEngine
+{
+	class RenderContextDX11
+	{
+		LE_DELETE_MOVE_COPY(RenderContextDX11)
+
+	public:
+		RenderContextDX11() = default;
+
+		void SetOutputBuffer(ID3D11Texture2D* buffer);
+
+		void CreateDevice();
+		void CreateDepthStencil(uint width, uint height);
+		void CreateDepthStencilState();
+		void CreateRasterizerState();
+		void CreateSamplerState();
+		void CreateViewport(uint width, uint height);
+		void CreateSwapChain(IDXGISwapChain** outSwapchain, void* windowHandle, uint refreshRate);
+
+		void CreateInputLayout(
+			const D3D11_INPUT_ELEMENT_DESC* inputDescs, uint inputDescsCount, const void* shaderBuffer, uint shaderBufferSize, ID3D11InputLayout** outInputLoyout);
+		void CreateVertexShader(const void* shaderBuffer, uint shaderBufferSize, ID3D11VertexShader** outShader);
+		void CreateVertexShader(
+			const D3D11_INPUT_ELEMENT_DESC* inputDescs,
+			uint inputDescsCount,
+			const void* shaderBuffer,
+			uint shaderBufferSize,
+			ID3D11InputLayout** outInputLoyout,
+			ID3D11VertexShader** outShader);
+
+		void CreatePixelShader(const void* shaderBuffer, uint shaderBufferSize, ID3D11PixelShader** outShader);
+
+		void DestroyRenderTargetView();
+		void DestroyDepthStencilView();
+		void DestroyDepthStencilBuffer();
+
+		void ClearRenderTargetView(float bgColorRGBA[]);
+		void ClearDepthStencilView();
+
+		void MakeWindowAssociation(void* windowHandle);
+
+		void SetRenderTargets();
+		void SetTriangleTopology();
+		void SetStates();
+
+		void SetInputLayout(ID3D11InputLayout* inputLayout);
+		void SetVertexShader(ID3D11VertexShader* shader);
+		void SetPixelShader(ID3D11PixelShader* shader);
+		void SetShaderResources(uint slotIndex, ID3D11ShaderResourceView* const* resources, uint count = 1);
+
+		void DrawIndexed(uint indicesCount, uint offset = 0u);
+		void Flush();
+
+	public:
+		ID3D11Device* GetDevice() const noexcept;
+		ID3D11DeviceContext* GetDeviceContext() const noexcept;
+
+		const GraphicAdapter& GetGraphicAdapter() const noexcept;
+		IDXGIFactory* GetDXGIFactory() const noexcept;
+
+	private:
+		GraphicAdapter graphicAdapter;
+
+		com_ptr<ID3D11RenderTargetView> renderTargetView = nullptr;
+
+		com_ptr<ID3D11DepthStencilView> depthStencilView = nullptr;
+		com_ptr<ID3D11Texture2D> depthStencilBuffer = nullptr;
+		com_ptr<ID3D11DepthStencilState> depthStencilState = nullptr;
+
+		com_ptr<ID3D11RasterizerState> rasterizerState = nullptr;
+
+		com_ptr<ID3D11SamplerState> samplerState = nullptr;
+
+		com_ptr<IDXGIFactory> dxgiFactory = nullptr;
+		com_ptr<ID3D11Device> device = nullptr;
+		com_ptr<ID3D11DeviceContext> deviceContext = nullptr;
+	};
+}

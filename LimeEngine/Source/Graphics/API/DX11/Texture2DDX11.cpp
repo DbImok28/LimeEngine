@@ -25,13 +25,13 @@ namespace LimeEngine
 
 	void Texture2DDX11::Initialize(const uint8_t* pData, size_t size)
 	{
-		auto device = renderer.GetDevice();
+		auto device = renderer.context.GetDevice();
 		GFX_CHECK_HR_MSG(DirectX::CreateWICTextureFromMemory(device, pData, size, texture.GetAddressOf(), textureView.GetAddressOf()), "Failed to create texture from memory.");
 	}
 
 	void Texture2DDX11::Initialize(const FPath& filePath)
 	{
-		auto device = renderer.GetDevice();
+		auto device = renderer.context.GetDevice();
 		HRESULT hr;
 		if (filePath.extension() == ".dds")
 		{
@@ -54,7 +54,7 @@ namespace LimeEngine
 
 	void Texture2DDX11::Bind() noexcept
 	{
-		renderer.GetDeviceContext()->PSSetShaderResources(0, 1, GetViewAddress());
+		renderer.context.SetShaderResources(0, GetViewAddress());
 	}
 
 	ID3D11ShaderResourceView* Texture2DDX11::GetView() const noexcept

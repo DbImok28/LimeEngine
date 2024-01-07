@@ -23,7 +23,7 @@ namespace LimeEngine
 
 		virtual void Init() = 0;
 		virtual void Present() = 0;
-		virtual void Clear() = 0;
+		virtual void Destroy() = 0;
 		virtual void Resize(uint width, uint height) = 0;
 		virtual void OnResize(uint width, uint height) = 0;
 		virtual void SetDisplayMode(DisplayMode mode) = 0;

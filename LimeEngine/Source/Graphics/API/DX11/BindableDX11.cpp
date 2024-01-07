@@ -9,16 +9,21 @@ namespace LimeEngine
 {
 	ID3D11Device* BindableDX11::GetDevice() const noexcept
 	{
-		return renderer.device.Get();
+		return renderer.context.GetDevice();
 	}
 
 	ID3D11DeviceContext* BindableDX11::GetDeviceContext() const noexcept
 	{
-		return renderer.deviceContext.Get();
+		return renderer.context.GetDeviceContext();
 	}
 
 	RendererDX11& BindableDX11::GetRenderer() const noexcept
 	{
 		return renderer;
+	}
+
+	RenderContextDX11& BindableDX11::GetRenderContext() const noexcept
+	{
+		return renderer.context;
 	}
 }

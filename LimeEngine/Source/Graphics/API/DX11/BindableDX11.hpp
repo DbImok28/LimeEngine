@@ -4,11 +4,10 @@
 #pragma once
 #include "DirectXDef.hpp"
 #include "Graphics/IBindable.hpp"
+#include "RendererDX11.hpp"
 
 namespace LimeEngine
 {
-	class RendererDX11;
-
 	class BindableDX11 : public IBindable
 	{
 	public:
@@ -18,6 +17,7 @@ namespace LimeEngine
 		ID3D11Device* GetDevice() const noexcept;
 		ID3D11DeviceContext* GetDeviceContext() const noexcept;
 		RendererDX11& GetRenderer() const noexcept;
+		RenderContextDX11& GetRenderContext() const noexcept;
 
 	private:
 		RendererDX11& renderer;

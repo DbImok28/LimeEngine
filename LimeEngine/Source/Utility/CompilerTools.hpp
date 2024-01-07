@@ -5,11 +5,15 @@
 #include "Utility/CompilerDetection.hpp"
 
 #if defined(LE_COMPILER_CLANG)
-	#define RESTRICT __restrict__
+	#define RESTRICT       __restrict__
+	#define LE_FORCEINLINE inline
 #elif defined(LE_COMPILER_GCC)
-	#define RESTRICT __restrict
+	#define RESTRICT       __restrict
+	#define LE_FORCEINLINE inline
 #elif defined(LE_COMPILER_MSVC)
-	#define RESTRICT __restrict
+	#define RESTRICT       __restrict
+	#define LE_FORCEINLINE __forceinline
 #else
 	#define RESTRICT
+	#define LE_FORCEINLINE inline
 #endif

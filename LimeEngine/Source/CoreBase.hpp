@@ -42,7 +42,7 @@ namespace LimeEngine
 }
 
 #include "Base/Debugger.hpp"
-#include "Base/String.hpp"
+#include "Base/BaseTypes.hpp"
 #include "Base/StaticInitializer.hpp"
 #include "Diagnostics/Logger.hpp"
 #include "Diagnostics/RuntimeEditor.hpp"

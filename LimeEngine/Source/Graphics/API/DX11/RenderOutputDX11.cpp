@@ -32,22 +32,8 @@ namespace LimeEngine
 	{
 		if (swapchain == nullptr)
 		{
-			DXGI_SWAP_CHAIN_DESC scd = { 0 };
-			scd.Windowed = TRUE;
-			scd.BufferDesc.RefreshRate.Numerator = refreshRate;
-			scd.BufferDesc.RefreshRate.Denominator = 1;
-			scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-			scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-			scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-			scd.SampleDesc.Count = 1;
-			scd.SampleDesc.Quality = 0;
-			scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-			scd.BufferCount = 1;
-			scd.OutputWindow = reinterpret_cast<HWND>(window.GetHandle());
-			scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-			scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-			GFX_CHECK_HR(renderer.GetDXGIFactory()->CreateSwapChain(renderer.GetDevice(), &scd, swapchain.GetAddressOf()));
-			GFX_CHECK_HR(renderer.GetDXGIFactory()->MakeWindowAssociation(reinterpret_cast<HWND>(window.GetHandle()), DXGI_MWA_NO_WINDOW_CHANGES));
+			renderer.context.CreateSwapChain(swapchain.GetAddressOf(), window.GetHandle(), refreshRate);
+			renderer.context.MakeWindowAssociation(window.GetHandle());
 			backBuffer = nullptr;
 		}
 		if (backBuffer == nullptr)
@@ -59,7 +45,7 @@ namespace LimeEngine
 	void WindowRenderOutputDX11::Bind()
 	{
 		LE_CORE_ASSERT((swapchain != nullptr) && (backBuffer != nullptr), "RenderOutput is not initialized");
-		renderer.SetOutputBuffer(backBuffer.Get());
+		renderer.context.SetOutputBuffer(backBuffer.Get());
 	}
 
 	void WindowRenderOutputDX11::Present()
@@ -70,13 +56,13 @@ namespace LimeEngine
 		if (FAILED(hr = swapchain->Present(1, NULL)))
 		{
 			if (hr == DXGI_ERROR_DEVICE_REMOVED)
-				throw GFX_EXCEPTION_HR(renderer.GetDevice()->GetDeviceRemovedReason());
+				throw GFX_EXCEPTION_HR(renderer.context.GetDevice()->GetDeviceRemovedReason());
 			else
 				throw GFX_EXCEPTION_HR(hr);
 		}
 	}
 
-	void WindowRenderOutputDX11::Clear()
+	void WindowRenderOutputDX11::Destroy()
 	{
 		backBuffer.Reset();
 	}

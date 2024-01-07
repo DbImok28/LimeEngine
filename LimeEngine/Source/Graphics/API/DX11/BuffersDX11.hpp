@@ -95,9 +95,9 @@ namespace LimeEngine
 			desc.Usage = D3D11_USAGE_DYNAMIC;
 			desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 			desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-			desc.MiscFlags = 0;
+			desc.MiscFlags = 0u;
 			desc.ByteWidth = static_cast<uint>(sizeof(T) + (16 - (sizeof(T) % 16)));
-			desc.StructureByteStride = 0;
+			desc.StructureByteStride = 0u;
 
 			return GetDevice()->CreateBuffer(&desc, 0, buffer.GetAddressOf());
 		}

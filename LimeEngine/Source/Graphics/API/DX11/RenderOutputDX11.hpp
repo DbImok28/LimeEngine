@@ -18,7 +18,7 @@ namespace LimeEngine
 		void Init() override;
 		void Bind() override;
 		void Present() override;
-		void Clear() override;
+		void Destroy() override;
 		void Resize(uint width, uint height) override;
 		void OnResize(uint width, uint height) override;
 		void SetDisplayMode(DisplayMode newMode) override;
