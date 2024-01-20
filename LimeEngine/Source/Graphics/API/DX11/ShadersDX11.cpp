@@ -78,7 +78,7 @@ namespace LimeEngine
 
 	void PixelShaderDX11::Initialize(const FPath& filePath)
 	{
-		auto& context = GetRenderContext();
+		const auto& context = GetRenderContext();
 		HRESULT hr = D3DReadFileToBlob(filePath.c_str(), shaderBuffer.GetAddressOf());
 		if (FAILED(hr))
 		{

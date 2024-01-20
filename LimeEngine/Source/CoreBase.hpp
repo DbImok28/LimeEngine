@@ -14,10 +14,10 @@
 
 #if defined(LE_BUILD_PLATFORM_WINDOWS)
 	#if defined(LE_BUILD_DYNAMIC_LINK)
-		#ifdef LE_BUILD_DLL
-			#define LE_API __declspec(dllexport)
+		#if defined(LE_BUILD_DLL)
+			#define LE_API LE_DYNAMIC_LIB_EXPORT
 		#else
-			#define LE_API __declspec(dllimport)
+			#define LE_API LE_DYNAMIC_LIB_IMPORT
 		#endif
 	#else
 		#define LE_API

@@ -14,28 +14,19 @@ namespace LimeEngine
 	public:
 		explicit VertexBufferDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
 
-		HRESULT Initialize(const std::vector<T>& vertices, uint offset = 0u) noexcept
+		void Initialize(const std::vector<T>& vertices, uint offset = 0u)
 		{
 			if (buffer.Get()) buffer.Reset();
 			bufferSize = static_cast<uint>(vertices.size());
 			this->offset = offset;
 
-			D3D11_BUFFER_DESC vertexBufferDesc = { 0 };
-			vertexBufferDesc.ByteWidth = stride * bufferSize;
-			vertexBufferDesc.StructureByteStride = stride;
-			vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-			vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-			vertexBufferDesc.CPUAccessFlags = 0u;
-			vertexBufferDesc.MiscFlags = 0u;
-
-			D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
-			vertexBufferData.pSysMem = vertices.data();
-
-			return GetDevice()->CreateBuffer(&vertexBufferDesc, &vertexBufferData, buffer.GetAddressOf());
+			GFX_CHECK_HR_MSG(
+				GetRenderContext().TryCreateBuffer(buffer.GetAddressOf(), vertices.data(), stride * bufferSize, stride, D3D11_BIND_VERTEX_BUFFER),
+				"Failed to initialize vertex buffer");
 		}
 		virtual void Bind() noexcept override
 		{
-			GetDeviceContext()->IASetVertexBuffers(0u, 1u, GetAddressOf(), StridePtr(), &offset);
+			GetRenderContext().SetVertexBuffers(0u, GetAddressOf(), 1u, StridePtr(), &offset);
 		}
 		ID3D11Buffer* Get() const noexcept
 		{
@@ -72,7 +63,7 @@ namespace LimeEngine
 	public:
 		explicit IndexBufferDX11(RendererDX11& renderer) noexcept;
 
-		HRESULT Initialize(const std::vector<uint>& indices) noexcept;
+		void Initialize(const std::vector<uint>& indices);
 		virtual void Bind() noexcept override;
 		ID3D11Buffer* Get() const noexcept;
 		ID3D11Buffer* const* GetAddressOf() const noexcept;
@@ -89,26 +80,16 @@ namespace LimeEngine
 	public:
 		explicit ConstantBufferDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer), data{} {}
 
-		HRESULT Initialize() noexcept
+		void Initialize()
 		{
-			D3D11_BUFFER_DESC desc = { 0 };
-			desc.Usage = D3D11_USAGE_DYNAMIC;
-			desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-			desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-			desc.MiscFlags = 0u;
-			desc.ByteWidth = static_cast<uint>(sizeof(T) + (16 - (sizeof(T) % 16)));
-			desc.StructureByteStride = 0u;
-
-			return GetDevice()->CreateBuffer(&desc, 0, buffer.GetAddressOf());
+			uint bufferSize = static_cast<uint>(sizeof(T) + (16 - (sizeof(T) % 16)));
+			GFX_CHECK_HR_MSG(
+				GetRenderContext().TryCreateBuffer(buffer.GetAddressOf(), bufferSize, 0u, D3D11_BIND_CONSTANT_BUFFER, D3D11_USAGE_DYNAMIC, D3D11_CPU_ACCESS_WRITE),
+				"Failed to initialize constant buffer");
 		}
 		void ApplyChanges()
 		{
-			D3D11_MAPPED_SUBRESOURCE mappedResorce;
-			HRESULT hr = GetDeviceContext()->Map(buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResorce);
-			GFX_CHECK_HR_MSG(hr, "Failed to map constant buffer.");
-
-			CopyMemory(mappedResorce.pData, &data, sizeof(T));
-			GetDeviceContext()->Unmap(buffer.Get(), 0);
+			GetRenderContext().RewriteResource(buffer.Get(), 0u, data);
 		}
 		ID3D11Buffer* Get() const noexcept
 		{
@@ -131,12 +112,12 @@ namespace LimeEngine
 	{
 	public:
 		using ConstantBufferDX11<T>::GetAddressOf;
-		using ConstantBufferDX11<T>::GetDeviceContext;
+		using ConstantBufferDX11<T>::GetRenderContext;
 		using ConstantBufferDX11<T>::ConstantBufferDX11;
 
 		virtual void Bind() noexcept override
 		{
-			GetDeviceContext()->VSSetConstantBuffers(0, 1, GetAddressOf());
+			GetRenderContext().SetVertexShaderConstantBuffers(0u, GetAddressOf(), 1u);
 		}
 	};
 
@@ -145,12 +126,12 @@ namespace LimeEngine
 	{
 	public:
 		using ConstantBufferDX11<T>::GetAddressOf;
-		using ConstantBufferDX11<T>::GetDeviceContext;
+		using ConstantBufferDX11<T>::GetRenderContext;
 		using ConstantBufferDX11<T>::ConstantBufferDX11;
 
 		virtual void Bind() noexcept override
 		{
-			GetDeviceContext()->PSSetConstantBuffers(0, 1, GetAddressOf());
+			GetRenderContext().SetPixelShaderConstantBuffers(0u, GetAddressOf(), 1u);
 		}
 	};
 }

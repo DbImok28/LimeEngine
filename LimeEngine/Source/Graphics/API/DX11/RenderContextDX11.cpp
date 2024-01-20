@@ -105,7 +105,7 @@ namespace LimeEngine
 		deviceContext->RSSetViewports(1, &viewport);
 	}
 
-	void RenderContextDX11::CreateSwapChain(IDXGISwapChain** outSwapchain, void* windowHandle, uint refreshRate)
+	void RenderContextDX11::CreateSwapChain(IDXGISwapChain** outSwapchain, void* windowHandle, uint refreshRate) const
 	{
 		DXGI_SWAP_CHAIN_DESC scd = { 0 };
 		scd.Windowed = TRUE;
@@ -125,12 +125,12 @@ namespace LimeEngine
 	}
 
 	void RenderContextDX11::CreateInputLayout(
-		const D3D11_INPUT_ELEMENT_DESC* inputDescs, uint inputDescsCount, const void* shaderBuffer, uint shaderBufferSize, ID3D11InputLayout** outInputLoyout)
+		const D3D11_INPUT_ELEMENT_DESC* inputDescs, uint inputDescsCount, const void* shaderBuffer, uint shaderBufferSize, ID3D11InputLayout** outInputLoyout) const
 	{
 		GFX_CHECK_HR(device->CreateInputLayout(inputDescs, inputDescsCount, shaderBuffer, shaderBufferSize, outInputLoyout));
 	}
 
-	void RenderContextDX11::CreateVertexShader(const void* shaderBuffer, uint shaderBufferSize, ID3D11VertexShader** outShader)
+	void RenderContextDX11::CreateVertexShader(const void* shaderBuffer, uint shaderBufferSize, ID3D11VertexShader** outShader) const
 	{
 		GFX_CHECK_HR(device->CreateVertexShader(shaderBuffer, shaderBufferSize, NULL, outShader));
 	}
@@ -141,15 +141,56 @@ namespace LimeEngine
 		const void* shaderBuffer,
 		uint shaderBufferSize,
 		ID3D11InputLayout** outInputLoyout,
-		ID3D11VertexShader** outShader)
+		ID3D11VertexShader** outShader) const
 	{
 		CreateInputLayout(inputDescs, inputDescsCount, shaderBuffer, shaderBufferSize, outInputLoyout);
 		CreateVertexShader(shaderBuffer, shaderBufferSize, outShader);
 	}
 
-	void RenderContextDX11::CreatePixelShader(const void* shaderBuffer, uint shaderBufferSize, ID3D11PixelShader** outShader)
+	void RenderContextDX11::CreatePixelShader(const void* shaderBuffer, uint shaderBufferSize, ID3D11PixelShader** outShader) const
 	{
 		GFX_CHECK_HR(device->CreatePixelShader(shaderBuffer, shaderBufferSize, NULL, outShader));
+	}
+
+	HRESULT RenderContextDX11::TryCreateBuffer(
+		ID3D11Buffer** outBuffer, const void* initData, uint byteSize, uint stride, uint bindFlags, D3D11_USAGE usage, uint CPUAccessFlags, uint miscFlags) const
+	{
+		D3D11_BUFFER_DESC indexBufferDesc = { 0 };
+		indexBufferDesc.ByteWidth = byteSize;
+		indexBufferDesc.StructureByteStride = stride;
+		indexBufferDesc.Usage = usage;
+		indexBufferDesc.BindFlags = bindFlags;
+		indexBufferDesc.CPUAccessFlags = CPUAccessFlags;
+		indexBufferDesc.MiscFlags = miscFlags;
+
+		D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
+		indexBufferData.pSysMem = initData;
+
+		return device->CreateBuffer(&indexBufferDesc, &indexBufferData, outBuffer);
+	}
+
+	HRESULT RenderContextDX11::TryCreateBuffer(ID3D11Buffer** outBuffer, uint byteSize, uint stride, uint bindFlags, D3D11_USAGE usage, uint CPUAccessFlags, uint miscFlags) const
+	{
+		D3D11_BUFFER_DESC indexBufferDesc = { 0 };
+		indexBufferDesc.ByteWidth = byteSize;
+		indexBufferDesc.StructureByteStride = stride;
+		indexBufferDesc.Usage = usage;
+		indexBufferDesc.BindFlags = bindFlags;
+		indexBufferDesc.CPUAccessFlags = CPUAccessFlags;
+		indexBufferDesc.MiscFlags = miscFlags;
+
+		return device->CreateBuffer(&indexBufferDesc, nullptr, outBuffer);
+	}
+
+	void RenderContextDX11::CreateBuffer(
+		ID3D11Buffer** outBuffer, const void* initData, uint byteSize, uint stride, uint bindFlags, D3D11_USAGE usage, uint CPUAccessFlags, uint miscFlags) const
+	{
+		GFX_CHECK_HR(TryCreateBuffer(outBuffer, initData, byteSize, stride, bindFlags, usage, CPUAccessFlags, miscFlags));
+	}
+
+	void RenderContextDX11::CreateBuffer(ID3D11Buffer** outBuffer, uint byteSize, uint stride, uint bindFlags, D3D11_USAGE usage, uint CPUAccessFlags, uint miscFlags) const
+	{
+		GFX_CHECK_HR(TryCreateBuffer(outBuffer, byteSize, stride, bindFlags, usage, CPUAccessFlags, miscFlags));
 	}
 
 	void RenderContextDX11::DestroyRenderTargetView()
@@ -217,6 +258,50 @@ namespace LimeEngine
 	void RenderContextDX11::SetShaderResources(uint slotIndex, ID3D11ShaderResourceView* const* resources, uint count)
 	{
 		deviceContext->PSSetShaderResources(slotIndex, count, resources);
+	}
+
+	void RenderContextDX11::SetIndexBuffer(ID3D11Buffer* buffer, DXGI_FORMAT format, uint offset)
+	{
+		deviceContext->IASetIndexBuffer(buffer, format, offset);
+	}
+
+	void RenderContextDX11::SetVertexBuffers(uint slotIndex, ID3D11Buffer* const* buffers, uint buffersCount, const uint* strides, const uint* offsets)
+	{
+		deviceContext->IASetVertexBuffers(slotIndex, buffersCount, buffers, strides, offsets);
+	}
+
+	void RenderContextDX11::SetVertexShaderConstantBuffers(uint slotIndex, ID3D11Buffer* const* buffers, uint buffersCount)
+	{
+		deviceContext->VSSetConstantBuffers(slotIndex, buffersCount, buffers);
+	}
+
+	void RenderContextDX11::SetPixelShaderConstantBuffers(uint slotIndex, ID3D11Buffer* const* buffers, uint buffersCount)
+	{
+		deviceContext->PSSetConstantBuffers(slotIndex, buffersCount, buffers);
+	}
+
+	HRESULT RenderContextDX11::TryMapResource(ID3D11Resource* resource, uint subresource, D3D11_MAP mapType, uint mapFlags, D3D11_MAPPED_SUBRESOURCE* mappedResource) const
+	{
+		return deviceContext->Map(resource, subresource, mapType, mapFlags, mappedResource);
+	}
+
+	void RenderContextDX11::MapResource(ID3D11Resource* resource, uint subresource, D3D11_MAP mapType, uint mapFlags, D3D11_MAPPED_SUBRESOURCE* mappedResource) const
+	{
+		GFX_CHECK_HR(TryMapResource(resource, subresource, mapType, mapFlags, mappedResource));
+	}
+
+	void RenderContextDX11::UnmapResource(ID3D11Resource* resource, uint subresource) const
+	{
+		deviceContext->Unmap(resource, subresource);
+	}
+
+	void RenderContextDX11::RewriteResource(ID3D11Resource* resource, uint subresource, const void* data, uint dataSize) const
+	{
+		D3D11_MAPPED_SUBRESOURCE mappedResource;
+		MapResource(resource, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+		CopyMemory(mappedResource.pData, data, dataSize);
+		UnmapResource(resource, 0);
 	}
 
 	void RenderContextDX11::DrawIndexed(uint indicesCount, uint offset)

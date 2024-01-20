@@ -14,9 +14,9 @@ namespace LimeEngine
 
 	void MeshRenderDataDX11::InitializeBuffers(const std::vector<Vertex>& vertices, const std::vector<uint>& indices)
 	{
-		GFX_CHECK_HR_MSG(vertexBuffer.Initialize(vertices), "Failed to initialize vertex buffer.");
-		GFX_CHECK_HR_MSG(indexBuffer.Initialize(indices), "Failed to initialize index buffer.");
-		GFX_CHECK_HR_MSG(transformConstantBuffer.Initialize(), "Failed to initialize constant buffer Coordinates.");
+		vertexBuffer.Initialize(vertices);
+		indexBuffer.Initialize(indices);
+		transformConstantBuffer.Initialize();
 	}
 
 	void MeshRenderDataDX11::ApplyMaterial(MaterialInstance* materialInstance)

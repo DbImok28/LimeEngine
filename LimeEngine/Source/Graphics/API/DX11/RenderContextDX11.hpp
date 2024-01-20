@@ -24,20 +24,42 @@ namespace LimeEngine
 		void CreateRasterizerState();
 		void CreateSamplerState();
 		void CreateViewport(uint width, uint height);
-		void CreateSwapChain(IDXGISwapChain** outSwapchain, void* windowHandle, uint refreshRate);
+		void CreateSwapChain(IDXGISwapChain** outSwapchain, void* windowHandle, uint refreshRate) const;
 
 		void CreateInputLayout(
-			const D3D11_INPUT_ELEMENT_DESC* inputDescs, uint inputDescsCount, const void* shaderBuffer, uint shaderBufferSize, ID3D11InputLayout** outInputLoyout);
-		void CreateVertexShader(const void* shaderBuffer, uint shaderBufferSize, ID3D11VertexShader** outShader);
+			const D3D11_INPUT_ELEMENT_DESC* inputDescs, uint inputDescsCount, const void* shaderBuffer, uint shaderBufferSize, ID3D11InputLayout** outInputLoyout) const;
+		void CreateVertexShader(const void* shaderBuffer, uint shaderBufferSize, ID3D11VertexShader** outShader) const;
 		void CreateVertexShader(
 			const D3D11_INPUT_ELEMENT_DESC* inputDescs,
 			uint inputDescsCount,
 			const void* shaderBuffer,
 			uint shaderBufferSize,
 			ID3D11InputLayout** outInputLoyout,
-			ID3D11VertexShader** outShader);
+			ID3D11VertexShader** outShader) const;
+		void CreatePixelShader(const void* shaderBuffer, uint shaderBufferSize, ID3D11PixelShader** outShader) const;
 
-		void CreatePixelShader(const void* shaderBuffer, uint shaderBufferSize, ID3D11PixelShader** outShader);
+		HRESULT TryCreateBuffer(
+			ID3D11Buffer** outBuffer,
+			const void* initData,
+			uint byteSize,
+			uint stride,
+			uint bindFlags,
+			D3D11_USAGE usage = D3D11_USAGE_DEFAULT,
+			uint CPUAccessFlags = 0u,
+			uint miscFlags = 0u) const;
+		HRESULT TryCreateBuffer(
+			ID3D11Buffer** outBuffer, uint byteSize, uint stride, uint bindFlags, D3D11_USAGE usage = D3D11_USAGE_DEFAULT, uint CPUAccessFlags = 0u, uint miscFlags = 0u) const;
+		void CreateBuffer(
+			ID3D11Buffer** outBuffer,
+			const void* initData,
+			uint byteSize,
+			uint stride,
+			uint bindFlags,
+			D3D11_USAGE usage = D3D11_USAGE_DEFAULT,
+			uint CPUAccessFlags = 0u,
+			uint miscFlags = 0u) const;
+		void CreateBuffer(
+			ID3D11Buffer** outBuffer, uint byteSize, uint stride, uint bindFlags, D3D11_USAGE usage = D3D11_USAGE_DEFAULT, uint CPUAccessFlags = 0u, uint miscFlags = 0u) const;
 
 		void DestroyRenderTargetView();
 		void DestroyDepthStencilView();
@@ -55,7 +77,23 @@ namespace LimeEngine
 		void SetInputLayout(ID3D11InputLayout* inputLayout);
 		void SetVertexShader(ID3D11VertexShader* shader);
 		void SetPixelShader(ID3D11PixelShader* shader);
-		void SetShaderResources(uint slotIndex, ID3D11ShaderResourceView* const* resources, uint count = 1);
+		void SetShaderResources(uint slotIndex, ID3D11ShaderResourceView* const* resources, uint count = 1u);
+
+		void SetIndexBuffer(ID3D11Buffer* buffer, DXGI_FORMAT format, uint offset = 0u);
+		void SetVertexBuffers(uint slotIndex, ID3D11Buffer* const* buffers, uint buffersCount, const uint* strides, const uint* offsets);
+
+		void SetVertexShaderConstantBuffers(uint slotIndex, ID3D11Buffer* const* buffers, uint buffersCount);
+		void SetPixelShaderConstantBuffers(uint slotIndex, ID3D11Buffer* const* buffers, uint buffersCount);
+
+		HRESULT TryMapResource(ID3D11Resource* resource, uint subresource, D3D11_MAP mapType, uint mapFlags, D3D11_MAPPED_SUBRESOURCE* mappedResource) const;
+		void MapResource(ID3D11Resource* resource, uint subresource, D3D11_MAP mapType, uint mapFlags, D3D11_MAPPED_SUBRESOURCE* mappedResource) const;
+		void UnmapResource(ID3D11Resource* resource, uint subresource) const;
+		void RewriteResource(ID3D11Resource* resource, uint subresource, const void* data, uint dataSize) const;
+		template <typename T>
+		void RewriteResource(ID3D11Resource* resource, uint subresource, const T& data) const
+		{
+			RewriteResource(resource, subresource, &data, sizeof(T));
+		}
 
 		void DrawIndexed(uint indicesCount, uint offset = 0u);
 		void Flush();
