@@ -207,7 +207,12 @@ namespace LimeEngine
 		inDockSpace = true;
 	}
 
-	void RuntimeEditor::NewPanel(const std::string& name)
+	EditorPanel RuntimeEditor::MakePanel(const std::string& name)
+	{
+		return EditorPanel(name);
+	}
+
+	void RuntimeEditor::BeginPanel(const std::string& name)
 	{
 		if (inPanel)
 		{
@@ -228,205 +233,205 @@ namespace LimeEngine
 
 	bool RuntimeEditor::Drag(const std::string& label, char& var, char min, char max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragScalar(label.c_str(), ImGuiDataType_S8, &var, speed, &min, &max);
 	}
 
 	bool RuntimeEditor::Drag(const std::string& label, int8& var, int8 min, int8 max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragScalar(label.c_str(), ImGuiDataType_S8, &var, speed, &min, &max);
 	}
 
 	bool RuntimeEditor::Drag(const std::string& label, int16& var, int16 min, int16 max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragScalar(label.c_str(), ImGuiDataType_S16, &var, speed, &min, &max);
 	}
 
 	bool RuntimeEditor::Drag(const std::string& label, int32& var, int32 min, int32 max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragScalar(label.c_str(), ImGuiDataType_S32, &var, speed, &min, &max);
 	}
 
 	bool RuntimeEditor::Drag(const std::string& label, int64& var, int64 min, int64 max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragScalar(label.c_str(), ImGuiDataType_S64, &var, speed, &min, &max);
 	}
 
 	bool RuntimeEditor::Drag(const std::string& label, uint8& var, uint8 min, uint8 max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragScalar(label.c_str(), ImGuiDataType_U8, &var, speed, &min, &max);
 	}
 
 	bool RuntimeEditor::Drag(const std::string& label, uint16& var, uint16 min, uint16 max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragScalar(label.c_str(), ImGuiDataType_U16, &var, speed, &min, &max);
 	}
 
 	bool RuntimeEditor::Drag(const std::string& label, uint32& var, uint32 min, uint32 max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragScalar(label.c_str(), ImGuiDataType_U32, &var, speed, &min, &max);
 	}
 
 	bool RuntimeEditor::Drag(const std::string& label, uint64& var, uint64 min, uint64 max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragScalar(label.c_str(), ImGuiDataType_U64, &var, speed, &min, &max);
 	}
 
 	bool RuntimeEditor::Drag(const std::string& label, float& var, float min, float max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragScalar(label.c_str(), ImGuiDataType_Float, &var, speed, &min, &max);
 	}
 
 	bool RuntimeEditor::Drag(const std::string& label, double& var, double min, double max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragScalar(label.c_str(), ImGuiDataType_Double, &var, speed, &min, &max);
 	}
 
 	bool RuntimeEditor::Drag(const std::string& label, Vector& vec, float min, float max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragFloat3(label.c_str(), reinterpret_cast<float*>(&vec), speed, min, max);
 	}
 
 	bool RuntimeEditor::Drag(const std::string& label, Rotator& rot, float min, float max, float speed)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::DragFloat3(label.c_str(), reinterpret_cast<float*>(&rot), speed, min, max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, char& var, char min, char max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderScalar(label.c_str(), ImGuiDataType_S8, &var, &min, &max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, int8& var, int8 min, int8 max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderScalar(label.c_str(), ImGuiDataType_S8, &var, &min, &max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, int16& var, int16 min, int16 max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderScalar(label.c_str(), ImGuiDataType_S16, &var, &min, &max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, int32& var, int32 min, int32 max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderScalar(label.c_str(), ImGuiDataType_S32, &var, &min, &max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, int64& var, int64 min, int64 max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderScalar(label.c_str(), ImGuiDataType_S64, &var, &min, &max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, uint8& var, uint8 min, uint8 max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderScalar(label.c_str(), ImGuiDataType_U8, &var, &min, &max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, uint16& var, uint16 min, uint16 max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderScalar(label.c_str(), ImGuiDataType_U16, &var, &min, &max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, uint32& var, uint32 min, uint32 max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderScalar(label.c_str(), ImGuiDataType_U32, &var, &min, &max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, uint64& var, uint64 min, uint64 max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderScalar(label.c_str(), ImGuiDataType_U64, &var, &min, &max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, float& var, float min, float max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderScalar(label.c_str(), ImGuiDataType_Float, &var, &min, &max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, double& var, double min, double max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderScalar(label.c_str(), ImGuiDataType_Double, &var, &min, &max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, Vector& vec, float min, float max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderFloat3(label.c_str(), reinterpret_cast<float*>(&vec), min, max);
 	}
 
 	bool RuntimeEditor::Slider(const std::string& label, Rotator& rot, float min, float max)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::SliderFloat3(label.c_str(), reinterpret_cast<float*>(&rot), min, max);
 	}
 
 	bool RuntimeEditor::TextField(const std::string& label, std::string& var)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::InputText(label.c_str(), &var);
 	}
 
 	bool RuntimeEditor::TextField(const std::string& label, char* buf, size_t bufSize)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::InputText(label.c_str(), buf, bufSize);
 	}
 
 	bool RuntimeEditor::TextField(const std::string& label, const std::string& hint, std::string& var)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::InputTextWithHint(label.c_str(), hint.c_str(), &var);
 	}
 
 	bool RuntimeEditor::TextField(const std::string& label, const std::string& hint, char* buf, size_t bufSize)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::InputTextWithHint(label.c_str(), hint.c_str(), buf, bufSize);
 	}
 
 	bool RuntimeEditor::MultilineTextField(const std::string& label, std::string& var)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::InputTextMultiline(label.c_str(), &var);
 	}
 
 	bool RuntimeEditor::MultilineTextField(const std::string& label, char* buf, size_t bufSize)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::InputText(label.c_str(), buf, bufSize);
 	}
 
 	bool RuntimeEditor::CheckBox(const std::string& label, bool& var)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::Checkbox(label.c_str(), &var);
 	}
 
 	bool RuntimeEditor::Button(const std::string& label)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		return ImGui::Button(label.c_str());
 	}
 
@@ -438,13 +443,13 @@ namespace LimeEngine
 
 	void RuntimeEditor::Text(const std::string& str)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		ImGui::Text(str.c_str());
 	}
 
 	void RuntimeEditor::Text(const std::string& label, const std::string& str)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		ImGui::LabelText(label.c_str(), str.c_str());
 	}
 
@@ -562,7 +567,7 @@ namespace LimeEngine
 
 	bool RuntimeEditor::Input(const std::string& label, Transform& transform)
 	{
-		if (!inPanel) NewPanel("None");
+		if (!inPanel) BeginPanel("None");
 		Text(label);
 		ImGui::PushID(label.c_str());
 		bool changed = false;

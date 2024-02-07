@@ -15,9 +15,9 @@ namespace LimeEngine
 		LE_CORE_LOG_TRACE("Creating a {} renderer", RenderAPIToString(api));
 		switch (api)
 		{
-			case LimeEngine::RenderAPI::Auto: [[fallthrough]];
+			case LimeEngine::RenderAPI::Auto:
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case LimeEngine::RenderAPI::DirectX11: return std::make_unique<RendererDX11>(window, mode, defaultFullscreenModeIsExclusive); break;
+			case LimeEngine::RenderAPI::DirectX11: return std::make_unique<RendererDX11>(window, mode, defaultFullscreenModeIsExclusive);
 #endif
 			default: break;
 		}

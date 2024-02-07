@@ -32,6 +32,7 @@ namespace LimeEngine
 
 	public:
 		virtual const GraphicFactory* GetGraphicFactory() const noexcept override;
+		virtual std::string GetVideoAdapterName() const noexcept override;
 
 	public:
 		RenderContextDX11 context;

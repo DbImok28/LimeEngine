@@ -12,7 +12,7 @@ namespace LimeEngine
 {
 	class Engine;
 	class Mesh;
-	class Material;
+	class MaterialBase;
 	class Texture2D;
 
 	class GameDataManager
@@ -68,10 +68,10 @@ namespace LimeEngine
 		{
 			return Emplace<Mesh>(resourcePath, resourcePath, graphicFactory, segmentData);
 		}
-		[[nodiscard]] GameResourceRef<MasterMaterial> CreateMasterMaterial(
-			const ResourcePath& resourcePath, std::unique_ptr<IBindable> vertexShader, std::unique_ptr<IBindable> pixelShader, MaterialType type)
+		[[nodiscard]] GameResourceRef<MaterialBase> CreateMaterial(
+			const ResourcePath& resourcePath, std::unique_ptr<IBindable>&& vertexShader, std::unique_ptr<IBindable>&& pixelShader, MaterialType type)
 		{
-			return Emplace<MasterMaterial>(resourcePath, resourcePath, std::move(vertexShader), std::move(pixelShader), type);
+			return Register(resourcePath, graphicFactory->CreateMaterial(resourcePath, std::move(vertexShader), std::move(pixelShader), type));
 		}
 		[[nodiscard]] GameResourceRef<Texture2D> CreateTexture2D(const ResourcePath& resourcePath, const std::wstring& filePath, TextureType type)
 		{
@@ -81,7 +81,7 @@ namespace LimeEngine
 		// Load
 
 		GameResourceRef<Mesh> LoadMesh(const ResourcePath& resourcePath);
-		GameResourceRef<Material> LoadMaterial(const ResourcePath& resourcePath);
+		GameResourceRef<MaterialBase> LoadMaterial(const ResourcePath& resourcePath);
 		GameResourceRef<Texture2D> LoadTexture2D(const ResourcePath& resourcePath);
 
 	private:

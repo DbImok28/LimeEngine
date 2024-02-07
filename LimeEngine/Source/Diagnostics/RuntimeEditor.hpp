@@ -9,6 +9,7 @@ namespace LimeEngine
 {
 	class InputDevice;
 	class Event;
+	class EditorPanel;
 
 	enum class NotificationType
 	{
@@ -30,7 +31,9 @@ namespace LimeEngine
 		static void Destroy();
 		static void Processing(float deltaTime);
 		static void Render();
-		static void NewPanel(const std::string& name);
+
+		[[nodiscard]] static EditorPanel MakePanel(const std::string& name);
+		static void BeginPanel(const std::string& name);
 		static void EndPanel();
 
 	private:
@@ -114,5 +117,18 @@ namespace LimeEngine
 	private:
 		static bool inPanel;
 		static bool inDockSpace;
+	};
+
+	class EditorPanel
+	{
+	public:
+		EditorPanel(const std::string& name) noexcept
+		{
+			RuntimeEditor::BeginPanel(name);
+		}
+		~EditorPanel() noexcept
+		{
+			RuntimeEditor::EndPanel();
+		}
 	};
 }

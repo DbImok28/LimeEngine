@@ -4,6 +4,7 @@
 #pragma once
 #include "DirectXDef.hpp"
 #include "ExceptionsDX11.hpp"
+#include "Utility/StringUtility.hpp"
 
 namespace LimeEngine
 {
@@ -18,6 +19,10 @@ namespace LimeEngine
 	public:
 		GraphicAdapter() noexcept = default;
 		explicit GraphicAdapter(IDXGIAdapter* adapter);
+
+		std::string GetName() const noexcept;
+
+	public:
 		IDXGIAdapter* adapter = nullptr;
 		DXGI_ADAPTER_DESC desc = { 0 };
 	};

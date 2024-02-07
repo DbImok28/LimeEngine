@@ -15,12 +15,12 @@ namespace LimeEngine
 
 	class MaterialInstance;
 
-	class Material : public GameResource
+	class MaterialBase : public GameResource
 	{
-		LE_DELETE_COPY(Material)
+		LE_DELETE_COPY(MaterialBase)
 
 	public:
-		Material(const ResourcePath& resourcePath, MaterialType type) noexcept;
+		MaterialBase(const ResourcePath& resourcePath, MaterialType type) noexcept;
 
 		virtual void ApplyMaterial() noexcept = 0;
 		MaterialType GetType() const noexcept;
@@ -31,23 +31,10 @@ namespace LimeEngine
 		MaterialType type;
 	};
 
-	class MasterMaterial : public Material
-	{
-		LE_DELETE_COPY(MasterMaterial)
-
-	public:
-		MasterMaterial(const ResourcePath& resourcePath, std::unique_ptr<IBindable> vertexShader, std::unique_ptr<IBindable> pixelShader, MaterialType type) noexcept;
-		virtual void ApplyMaterial() noexcept override;
-
-	private:
-		std::unique_ptr<IBindable> vertexShader;
-		std::unique_ptr<IBindable> pixelShader;
-	};
-
 	class MaterialInstance
 	{
 	public:
-		explicit MaterialInstance(GameResourceRef<Material> material) : material(material) {}
+		explicit MaterialInstance(GameResourceRef<MaterialBase> material) : material(material) {}
 		virtual ~MaterialInstance() = default;
 
 		void AddTexture(GameResourceRef<Texture2D> texture) noexcept;
@@ -57,7 +44,7 @@ namespace LimeEngine
 		virtual void ApplyMaterial() noexcept;
 
 	private:
-		GameResourceRef<Material> material;
+		GameResourceRef<MaterialBase> material;
 		std::vector<GameResourceRef<Texture2D>> textures;
 	};
 }

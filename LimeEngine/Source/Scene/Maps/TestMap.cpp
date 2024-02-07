@@ -43,7 +43,7 @@ namespace LimeEngine
 		// Load materials
 		static auto vertexShader = graphicFactory->CreateVertexShader(Paths::ShaderFolder / "VertexShader.cso", MaterialType::Solid);
 		static auto pixelShader = graphicFactory->CreatePixelShader(Paths::ShaderFolder / "PixelShader.cso");
-		auto material = gameDataManager.CreateMasterMaterial("EngineContent/M_Cat", std::move(vertexShader), std::move(pixelShader), MaterialType::Solid);
+		auto material = gameDataManager.CreateMaterial("EngineContent/M_Cat", std::move(vertexShader), std::move(pixelShader), MaterialType::Solid);
 
 		// Load meshes
 		std::vector<Vertex> vertices = {
@@ -135,7 +135,7 @@ namespace LimeEngine
 
 	void TestMap::Update()
 	{
-		RuntimeEditor::NewPanel("Properties");
+		RuntimeEditor::BeginPanel("Properties");
 		for (auto& object : GetSubObjects())
 		{
 			if (object != nullptr)
@@ -154,7 +154,7 @@ namespace LimeEngine
 		}
 		RuntimeEditor::EndPanel();
 
-		RuntimeEditor::NewPanel("Info");
+		RuntimeEditor::BeginPanel("Info");
 		for (auto& object : GetSubObjects())
 		{
 			RuntimeEditor::Text(object->GetObjectName(), std::format("{}", object->GetObjectTransform()));

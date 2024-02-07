@@ -6,31 +6,17 @@
 
 namespace LimeEngine
 {
-	Material::Material(const ResourcePath& resourcePath, MaterialType type) noexcept : GameResource(resourcePath), type(type) {}
+	MaterialBase::MaterialBase(const ResourcePath& resourcePath, MaterialType type) noexcept : GameResource(resourcePath), type(type) {}
 
-	MaterialType Material::GetType() const noexcept
+	MaterialType MaterialBase::GetType() const noexcept
 	{
 		return type;
 	}
 
-	std::shared_ptr<MaterialInstance> Material::GetInstance()
+	std::shared_ptr<MaterialInstance> MaterialBase::GetInstance()
 	{
-		return std::make_shared<MaterialInstance>(GetRef<Material>());
+		return std::make_shared<MaterialInstance>(GetRef<MaterialBase>());
 	}
-
-	// --
-
-	MasterMaterial::MasterMaterial(const ResourcePath& resourcePath, std::unique_ptr<IBindable> vertexShader, std::unique_ptr<IBindable> pixelShader, MaterialType type) noexcept :
-		Material(resourcePath, type), vertexShader(std::move(vertexShader)), pixelShader(std::move(pixelShader))
-	{}
-
-	void MasterMaterial::ApplyMaterial() noexcept
-	{
-		vertexShader->Bind();
-		pixelShader->Bind();
-	}
-
-	// --
 
 	void MaterialInstance::AddTexture(GameResourceRef<Texture2D> texture) noexcept
 	{

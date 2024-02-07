@@ -35,6 +35,8 @@ namespace LimeEngine
 		void AddToRender(IDrawable* drawable);
 		void RemoveFromRender(const IDrawable* drawable) noexcept;
 
+		virtual std::string GetVideoAdapterName() const noexcept = 0;
+
 	protected:
 		CameraComponent* camera = nullptr;
 		std::unique_ptr<RenderOutput> renderOutput = nullptr;

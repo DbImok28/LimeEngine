@@ -104,4 +104,9 @@ namespace LimeEngine
 	{
 		return &graphicFactory;
 	}
+
+	std::string RendererDX11::GetVideoAdapterName() const noexcept
+	{
+		return context.GetGraphicAdapter().GetName();
+	}
 }

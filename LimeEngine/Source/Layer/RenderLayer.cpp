@@ -11,7 +11,11 @@ namespace LimeEngine
 
 	void RenderLayer::Update()
 	{
-		RuntimeEditor::NewPanel("Window");
+		RuntimeEditor::BeginPanel("Renderer");
+		RuntimeEditor::Text("GPU Name", renderer->GetVideoAdapterName());
+		RuntimeEditor::EndPanel();
+
+		RuntimeEditor::BeginPanel("Window");
 		RuntimeEditor::Text("Width", std::to_string(renderer->GetWidth()));
 		RuntimeEditor::Text("Height", std::to_string(renderer->GetHeight()));
 
@@ -38,6 +42,8 @@ namespace LimeEngine
 				renderer->SetDisplayMode(DisplayMode::Windowed);
 			}
 		}
+		RuntimeEditor::EndPanel();
+
 		renderer->Render();
 	}
 

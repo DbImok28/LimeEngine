@@ -26,4 +26,9 @@ namespace LimeEngine
 		HRESULT hr = adapter->GetDesc(&desc);
 		GFX_CHECK_HR_NOINFO(hr);
 	}
+
+	std::string GraphicAdapter::GetName() const noexcept
+	{
+		return StringUtility::WideToChar8(desc.Description);
+	}
 }
