@@ -3,135 +3,75 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
-#include "ExceptionsDX11.hpp"
-#include "BindableDX11.hpp"
+#include "Graphics/Buffers.hpp"
+#include "RendererDX11.hpp"
 
 namespace LimeEngine
 {
-	template <typename T>
-	class VertexBufferDX11 : public BindableDX11
+	class VertexBufferDX11 : public VertexBuffer
 	{
 	public:
-		explicit VertexBufferDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
+		VertexBufferDX11(const void* vertices, uint count, uint stride, uint offset = 0u);
 
-		void Initialize(const std::vector<T>& vertices, uint offset = 0u)
-		{
-			if (buffer.Get()) buffer.Reset();
-			bufferSize = static_cast<uint>(vertices.size());
-			this->offset = offset;
-
-			GFX_CHECK_HR_MSG(
-				GetRenderContext().TryCreateBuffer(buffer.GetAddressOf(), vertices.data(), stride * bufferSize, stride, D3D11_BIND_VERTEX_BUFFER),
-				"Failed to initialize vertex buffer");
-		}
-		virtual void Bind() noexcept override
-		{
-			GetRenderContext().SetVertexBuffers(0u, GetAddressOf(), 1u, StridePtr(), &offset);
-		}
-		ID3D11Buffer* Get() const noexcept
-		{
-			return buffer.Get();
-		}
-		ID3D11Buffer* const* GetAddressOf() const noexcept
-		{
-			return buffer.GetAddressOf();
-		}
-		uint VertexCount() const noexcept
-		{
-			return bufferSize;
-		}
-		uint Stride() const noexcept
-		{
-			return stride;
-		}
-		const uint* StridePtr() const noexcept
-		{
-			return &stride;
-		}
+		virtual void Bind() noexcept override;
+		ID3D11Buffer* Get() const noexcept;
+		ID3D11Buffer* const* GetAddressOf() const noexcept;
+		uint VertexCount() const noexcept;
+		uint Stride() const noexcept;
+		const uint* StridePtr() const noexcept;
 
 	public:
 		uint offset = 0u;
 
 	private:
 		com_ptr<ID3D11Buffer> buffer;
-		uint stride = sizeof(T);
-		uint bufferSize = 0u;
+		uint stride = 0u;
+		uint count = 0u;
 	};
 
-	class IndexBufferDX11 : public BindableDX11
+	class IndexBufferDX11 : public IndexBuffer
 	{
 	public:
-		explicit IndexBufferDX11(RendererDX11& renderer) noexcept;
+		IndexBufferDX11(const uint* indices, uint count);
 
-		void Initialize(const std::vector<uint>& indices);
-		virtual void Bind() noexcept override;
+		void Bind() noexcept;
 		ID3D11Buffer* Get() const noexcept;
 		ID3D11Buffer* const* GetAddressOf() const noexcept;
 		uint Count() const noexcept;
 
 	private:
 		com_ptr<ID3D11Buffer> buffer;
-		uint bufferSize = 0u;
+		uint count = 0u;
 	};
 
-	template <typename T>
-	class ConstantBufferDX11 : public BindableDX11
+	class ConstantBufferBaseDX11
 	{
 	public:
-		explicit ConstantBufferDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer), data{} {}
+		ConstantBufferBaseDX11(const void* data, uint dataSize);
 
-		void Initialize()
-		{
-			uint bufferSize = static_cast<uint>(sizeof(T) + (16 - (sizeof(T) % 16)));
-			GFX_CHECK_HR_MSG(
-				GetRenderContext().TryCreateBuffer(buffer.GetAddressOf(), bufferSize, 0u, D3D11_BIND_CONSTANT_BUFFER, D3D11_USAGE_DYNAMIC, D3D11_CPU_ACCESS_WRITE),
-				"Failed to initialize constant buffer");
-		}
-		void ApplyChanges()
-		{
-			GetRenderContext().RewriteResource(buffer.Get(), 0u, data);
-		}
-		ID3D11Buffer* Get() const noexcept
-		{
-			return buffer.Get();
-		}
-		ID3D11Buffer* const* GetAddressOf() const noexcept
-		{
-			return buffer.GetAddressOf();
-		}
-
-	public:
-		T data;
+		void ApplyChanges(const void* data, uint dataSize);
+		ID3D11Buffer* Get() const noexcept;
+		ID3D11Buffer* const* GetAddressOf() const noexcept;
 
 	private:
 		com_ptr<ID3D11Buffer> buffer;
 	};
 
-	template <typename T>
-	class VertexShaderConstantBufferDX11 : public ConstantBufferDX11<T>
+	class VSConstantBufferBaseDX11 : public ConstantBufferBaseDX11, public VSConstantBufferBase
 	{
 	public:
-		using ConstantBufferDX11<T>::GetAddressOf;
-		using ConstantBufferDX11<T>::GetRenderContext;
-		using ConstantBufferDX11<T>::ConstantBufferDX11;
+		using ConstantBufferBaseDX11::ConstantBufferBaseDX11;
 
-		virtual void Bind() noexcept override
-		{
-			GetRenderContext().SetVertexShaderConstantBuffers(0u, GetAddressOf(), 1u);
-		}
+		virtual void Bind() noexcept override;
+		virtual void ApplyChanges(const void* data, uint dataSize) override;
 	};
 
-	template <typename T>
-	class PixelShaderConstantBufferDX11 : public ConstantBufferDX11<T>
+	class PSConstantBufferBaseDX11 : public ConstantBufferBaseDX11, public PSConstantBufferBase
 	{
 	public:
-		using ConstantBufferDX11<T>::GetAddressOf;
-		using ConstantBufferDX11<T>::GetRenderContext;
-		using ConstantBufferDX11<T>::ConstantBufferDX11;
+		using ConstantBufferBaseDX11::ConstantBufferBaseDX11;
 
-		virtual void Bind() noexcept override
-		{
-			GetRenderContext().SetPixelShaderConstantBuffers(0u, GetAddressOf(), 1u);
-		}
+		virtual void Bind() noexcept override;
+		virtual void ApplyChanges(const void* data, uint dataSize) override;
 	};
 }

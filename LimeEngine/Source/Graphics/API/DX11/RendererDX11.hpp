@@ -4,33 +4,37 @@
 #pragma once
 #include "Graphics/Renderer.hpp"
 #include "RenderContextDX11.hpp"
+#include "RenderOutputDX11.hpp"
 #include "GraphicFactoryDX11.hpp"
 
 namespace LimeEngine
 {
-	class RendererDX11 : public Renderer
+	class RendererDX11 final : public Renderer
 	{
 		friend class BindableDX11;
 		LE_DELETE_MOVE_COPY(RendererDX11)
 
 	public:
-		explicit RendererDX11(Window& window, DisplayMode mode = DisplayMode::Windowed, bool defaultFullscreenModeIsExclusive = false);
+		RendererDX11();
 		virtual ~RendererDX11();
 
 	public:
+		virtual void Init(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs) override;
 		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) override;
+
 		void Resize(uint width, uint height);
 		void CreateAllBuffers();
 		void DestroyAllBuffers();
 
 	private:
-		void Init(DisplayMode mode);
-
 		void Render() override;
 		void PreProcessing();
 		void PostProcessing();
 
 	public:
+		virtual RenderOutput& GetRenderOutput() noexcept override;
+		virtual const RenderOutput& GetRenderOutput() const noexcept override;
+
 		virtual const GraphicFactory* GetGraphicFactory() const noexcept override;
 		virtual std::string GetVideoAdapterName() const noexcept override;
 
@@ -39,5 +43,6 @@ namespace LimeEngine
 
 	private:
 		GraphicFactoryDX11 graphicFactory;
+		WindowRenderOutputDX11 renderOutput;
 	};
 }

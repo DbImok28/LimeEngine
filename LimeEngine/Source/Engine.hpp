@@ -18,7 +18,7 @@ namespace LimeEngine
 		LE_DELETE_MOVE_COPY(Engine)
 
 	public:
-		Engine(std::unique_ptr<Window>&& window, std::unique_ptr<Renderer>&& renderer);
+		Engine(std::unique_ptr<Window>&& window);
 		virtual ~Engine();
 
 		int Start();

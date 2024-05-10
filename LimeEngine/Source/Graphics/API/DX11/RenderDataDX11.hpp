@@ -13,18 +13,16 @@ namespace LimeEngine
 	class MeshRenderDataDX11 : public MeshRenderData
 	{
 	public:
-		MeshRenderDataDX11(RendererDX11& renderer, const std::vector<Vertex>& vertices, const std::vector<uint>& indices);
+		MeshRenderDataDX11(const std::vector<Vertex>& vertices, const std::vector<uint>& indices);
 
-		void InitializeBuffers(const std::vector<Vertex>& vertices, const std::vector<uint>& indices);
 		void ApplyMaterial(MaterialInstance* materialInstance);
 		void ApplyTransform(const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix);
 		void ApplyBuffers() noexcept;
 		virtual void BindData(MaterialInstance* materialInstance, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix) override;
 
 	public:
-		RendererDX11& renderer;
-		VertexBufferDX11<Vertex> vertexBuffer;
-		IndexBufferDX11 indexBuffer;
-		VertexShaderConstantBufferDX11<VSTransformConstantBuffer> transformConstantBuffer;
+		std::unique_ptr<VertexBuffer> vertexBuffer;
+		std::unique_ptr<IndexBuffer> indexBuffer;
+		VSConstantBuffer<VSTransformConstantBuffer> transformConstantBuffer;
 	};
 }

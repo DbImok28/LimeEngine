@@ -14,69 +14,54 @@ namespace LimeEngine
 		FullscreenExclusive
 	};
 
+	class RenderOutputArgs
+	{
+	public:
+		RenderOutputArgs(Window* window, DisplayMode mode = DisplayMode::Windowed, bool defaultFullscreenModeIsExclusive = false) noexcept :
+			window(window), mode(mode), defaultFullscreenModeIsExclusive(defaultFullscreenModeIsExclusive)
+		{}
+
+		Window* window = nullptr;
+		DisplayMode mode = DisplayMode::Windowed;
+		bool defaultFullscreenModeIsExclusive = false;
+	};
+
 	class RenderOutput : public IBindable
 	{
 	public:
-		virtual ~RenderOutput() = default;
-		virtual uint GetWidth() const noexcept = 0;
-		virtual uint GetHeight() const noexcept = 0;
+		virtual ~RenderOutput();
 
-		virtual void Init() = 0;
-		virtual void Present() = 0;
-		virtual void Destroy() = 0;
-		virtual void Resize(uint width, uint height) = 0;
-		virtual void OnResize(uint width, uint height) = 0;
-		virtual void SetDisplayMode(DisplayMode mode) = 0;
-		DisplayMode GetDisplayMode() const noexcept
-		{
-			return displayMode;
-		}
-
-	protected:
-		DisplayMode displayMode = DisplayMode::Windowed;
-	};
-
-	class WindowRenderOutput : public RenderOutput
-	{
 	public:
-		explicit WindowRenderOutput(Window& window, bool defaultFullscreenModeIsExclusive = false) :
-			window(window), defaultFullscreenModeIsExclusive(defaultFullscreenModeIsExclusive)
-		{
-			window.events.Bind(WindowEventType::Resize, this, &WindowRenderOutput::OnResizeEvent);
-		}
-		virtual ~WindowRenderOutput()
-		{
-			window.events.Unbind(WindowEventType::Resize, this, &WindowRenderOutput::OnResizeEvent);
-		}
-		Window& GetWindow() noexcept
-		{
-			return window;
-		}
-		const Window& GetWindow() const noexcept
-		{
-			return window;
-		}
-		virtual uint GetWidth() const noexcept override
-		{
-			return window.GetWidth();
-		}
-		virtual uint GetHeight() const noexcept override
-		{
-			return window.GetHeight();
-		}
-		void SetDefaultFullscreenMode(bool isExclusive) noexcept
-		{
-			defaultFullscreenModeIsExclusive = isExclusive;
-		}
+		virtual void Init(const RenderOutputArgs& args) = 0;
 
-		void OnResizeEvent(const Event& e)
-		{
-			auto& resizeEvent = CastEvent<ResizeWindowEvent>(e);
-			OnResize(resizeEvent.width, resizeEvent.height);
-		}
+		virtual void Create() = 0;
+		virtual void Destroy() = 0;
+		virtual void Present() = 0;
+
+		virtual void Resize(uint width, uint height) = 0;
 
 	protected:
-		Window& window;
-		bool defaultFullscreenModeIsExclusive;
+		virtual void OnResize(uint width, uint height) = 0;
+
+	private:
+		void OnResizeEvent(const Event& e);
+
+	public:
+		void SetupDisplayMode(DisplayMode mode, bool isExclusive);
+		void SetDefaultFullscreenMode(bool isExclusive) noexcept;
+
+		Window* GetWindow() noexcept;
+		void SetWindow(Window* newWindow);
+
+		uint GetWidth() const noexcept;
+		uint GetHeight() const noexcept;
+
+		DisplayMode GetDisplayMode() const noexcept;
+		virtual void SetDisplayMode(DisplayMode mode) = 0;
+
+	protected:
+		Window* window = nullptr;
+		bool defaultFullscreenModeIsExclusive = false;
+		DisplayMode displayMode = DisplayMode::Windowed;
 	};
 }

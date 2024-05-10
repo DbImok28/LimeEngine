@@ -7,31 +7,32 @@
 
 namespace LimeEngine
 {
-	RenderLayer::RenderLayer(Engine* engine, std::unique_ptr<Renderer>&& renderer) : EngineLayer(engine), renderer(std::move(renderer)) {}
+	RenderLayer::RenderLayer(Engine* engine) : EngineLayer(engine) {}
 
 	void RenderLayer::Update()
 	{
+		auto& renderer = Renderer::GetRenderer();
 		RuntimeEditor::BeginPanel("Renderer");
-		RuntimeEditor::Text("GPU Name", renderer->GetVideoAdapterName());
+		RuntimeEditor::Text("GPU Name", renderer.GetVideoAdapterName());
 		RuntimeEditor::EndPanel();
 
 		RuntimeEditor::BeginPanel("Window");
-		RuntimeEditor::Text("Width", std::to_string(renderer->GetWidth()));
-		RuntimeEditor::Text("Height", std::to_string(renderer->GetHeight()));
+		RuntimeEditor::Text("Width", std::to_string(renderer.GetWidth()));
+		RuntimeEditor::Text("Height", std::to_string(renderer.GetHeight()));
 
-		auto winMode = renderer->GetDisplayMode();
+		auto winMode = renderer.GetDisplayMode();
 		if (winMode == DisplayMode::Windowed || winMode == DisplayMode::FullscreenWindowed)
 		{
 			if (RuntimeEditor::Button("Change windowed mode to FullscreenExclusive"))
 			{
-				renderer->SetDisplayMode(DisplayMode::FullscreenExclusive);
+				renderer.SetDisplayMode(DisplayMode::FullscreenExclusive);
 			}
 		}
 		if (winMode == DisplayMode::Windowed)
 		{
 			if (RuntimeEditor::Button("Change windowed mode to FullscreenWindowed"))
 			{
-				renderer->SetDisplayMode(DisplayMode::FullscreenWindowed);
+				renderer.SetDisplayMode(DisplayMode::FullscreenWindowed);
 			}
 		}
 
@@ -39,36 +40,36 @@ namespace LimeEngine
 		{
 			if (RuntimeEditor::Button("Change windowed mode to Windowed"))
 			{
-				renderer->SetDisplayMode(DisplayMode::Windowed);
+				renderer.SetDisplayMode(DisplayMode::Windowed);
 			}
 		}
 		RuntimeEditor::EndPanel();
 
-		renderer->Render();
+		renderer.Render();
 	}
 
 	const CameraComponent* RenderLayer::GetRenderCamera() const noexcept
 	{
-		return renderer->GetCamera();
+		return Renderer::GetRenderer().GetCamera();
 	}
 
 	void RenderLayer::SetRenderCamera(CameraComponent* camera) noexcept
 	{
-		renderer->SetCamera(camera);
+		Renderer::GetRenderer().SetCamera(camera);
 	}
 
 	void RenderLayer::AddToRender(IDrawable* drawable)
 	{
-		renderer->AddToRender(drawable);
+		Renderer::GetRenderer().AddToRender(drawable);
 	}
 
 	void RenderLayer::RemoveFromRender(const IDrawable* drawable) noexcept
 	{
-		renderer->RemoveFromRender(drawable);
+		Renderer::GetRenderer().RemoveFromRender(drawable);
 	}
 
 	const GraphicFactory* RenderLayer::GetGraphicFactory() noexcept
 	{
-		return renderer->GetGraphicFactory();
+		return Renderer::GetRenderer().GetGraphicFactory();
 	}
 }

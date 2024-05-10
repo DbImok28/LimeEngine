@@ -3,29 +3,16 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #include "lepch.hpp"
 #include "Renderer.hpp"
-
-#ifdef LE_ENABLE_RENDER_API_DX11
-	#include "Graphics/API/DX11/RendererDX11.hpp"
-#endif
+#include "RenderAPI.hpp"
 
 namespace LimeEngine
 {
-	std::unique_ptr<Renderer> Renderer::Create(RenderAPI api, Window& window, DisplayMode mode, bool defaultFullscreenModeIsExclusive)
-	{
-		LE_CORE_LOG_TRACE("Creating a {} renderer", RenderAPIToString(api));
-		switch (api)
-		{
-			case LimeEngine::RenderAPI::Auto:
-#if defined(LE_ENABLE_RENDER_API_DX11)
-			case LimeEngine::RenderAPI::DirectX11: return std::make_unique<RendererDX11>(window, mode, defaultFullscreenModeIsExclusive);
-#endif
-			default: break;
-		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create renderer.");
-		return nullptr;
-	}
+	std::unique_ptr<Renderer> Renderer::renderer = RenderAPI::CreateRenderer(RenderAPI::DefaultRenderAPI);
 
-	Renderer::Renderer(std::unique_ptr<RenderOutput>&& renderOutput) : renderOutput(std::move(renderOutput)) {}
+	void Renderer::Create(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs)
+	{
+		renderer->Init(renderOutputArgs, rendererArgs);
+	}
 
 	const CameraComponent* Renderer::GetCamera() const noexcept
 	{
@@ -39,22 +26,22 @@ namespace LimeEngine
 
 	DisplayMode Renderer::GetDisplayMode() const noexcept
 	{
-		return renderOutput->GetDisplayMode();
+		return GetRenderOutput().GetDisplayMode();
 	}
 
 	void Renderer::SetDisplayMode(DisplayMode mode)
 	{
-		renderOutput->SetDisplayMode(mode);
+		GetRenderOutput().SetDisplayMode(mode);
 	}
 
 	float Renderer::GetWidth() const noexcept
 	{
-		return static_cast<float>(renderOutput->GetWidth());
+		return static_cast<float>(GetRenderOutput().GetWidth());
 	}
 
 	float Renderer::GetHeight() const noexcept
 	{
-		return static_cast<float>(renderOutput->GetHeight());
+		return static_cast<float>(GetRenderOutput().GetHeight());
 	}
 
 	void Renderer::AddToRender(IDrawable* drawable)

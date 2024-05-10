@@ -12,7 +12,7 @@ namespace LimeEngine
 		LE_DELETE_COPY(RenderLayer);
 
 	public:
-		RenderLayer(Engine* engine, std::unique_ptr<Renderer>&& renderer);
+		RenderLayer(Engine* engine);
 
 		void Update() override;
 		void AddToRender(IDrawable* drawable);
@@ -22,8 +22,5 @@ namespace LimeEngine
 		void SetRenderCamera(CameraComponent* camera) noexcept;
 
 		const GraphicFactory* GetGraphicFactory() noexcept;
-
-	private:
-		std::unique_ptr<Renderer> renderer;
 	};
 }

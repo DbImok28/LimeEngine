@@ -44,7 +44,7 @@ namespace LimeEngine
 	{
 	public:
 		static void StaticInitialize();
-		LE_STATIC_INITIALIZE(StaticInitialize, std::numeric_limits<int8>::max());
+		LE_STATIC_INITIALIZE_IMMEDIATE(StaticInitialize);
 
 	public:
 		inline static Logger GetCoreLogger() noexcept

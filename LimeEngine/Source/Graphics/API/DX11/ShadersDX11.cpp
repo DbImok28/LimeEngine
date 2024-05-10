@@ -9,16 +9,17 @@
 
 namespace LimeEngine
 {
-	VertexShaderDX11::VertexShaderDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
+	// VertexShaderDX11
 
-	VertexShaderDX11::VertexShaderDX11(RendererDX11& renderer, const FPath& filePath, MaterialType materialType) : BindableDX11(renderer)
+	VertexShaderDX11::VertexShaderDX11() noexcept {}
+
+	VertexShaderDX11::VertexShaderDX11(const FPath& filePath, MaterialType materialType)
 	{
 		Initialize(filePath, materialType);
 	}
 
 	void VertexShaderDX11::Initialize(const FPath& filePath, MaterialType materialType)
 	{
-		auto& context = GetRenderContext();
 		HRESULT hr = D3DReadFileToBlob(filePath.c_str(), shaderBuffer.GetAddressOf());
 		if (FAILED(hr))
 		{
@@ -27,7 +28,7 @@ namespace LimeEngine
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 		auto loyout = MakeInputLayout(materialType);
-		context.CreateVertexShader(
+		Renderer::GetRenderer<RendererDX11>().context.CreateVertexShader(
 			loyout.data(), static_cast<uint>(loyout.size()), shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), inputLoyout.GetAddressOf(), shader.GetAddressOf());
 	}
 
@@ -62,23 +63,22 @@ namespace LimeEngine
 
 	void VertexShaderDX11::Bind() noexcept
 	{
-		auto& context = GetRenderContext();
+		auto& context = Renderer::GetRenderer<RendererDX11>().context;
 		context.SetInputLayout(GetInputLoyout());
 		context.SetVertexShader(GetShader());
 	}
 
-	// --
+	// PixelShaderDX11
 
-	PixelShaderDX11::PixelShaderDX11(RendererDX11& renderer) noexcept : BindableDX11(renderer) {}
+	PixelShaderDX11::PixelShaderDX11() noexcept {}
 
-	PixelShaderDX11::PixelShaderDX11(RendererDX11& renderer, const FPath& filePath) : BindableDX11(renderer)
+	PixelShaderDX11::PixelShaderDX11(const FPath& filePath)
 	{
 		Initialize(filePath);
 	}
 
 	void PixelShaderDX11::Initialize(const FPath& filePath)
 	{
-		const auto& context = GetRenderContext();
 		HRESULT hr = D3DReadFileToBlob(filePath.c_str(), shaderBuffer.GetAddressOf());
 		if (FAILED(hr))
 		{
@@ -86,13 +86,12 @@ namespace LimeEngine
 			oss << "Failed to load pixel shader: " << filePath;
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
-		context.CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), shader.GetAddressOf());
+		Renderer::GetRenderer<RendererDX11>().context.CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), shader.GetAddressOf());
 	}
 
 	void PixelShaderDX11::Bind() noexcept
 	{
-		auto& context = GetRenderContext();
-		context.SetPixelShader(GetShader());
+		Renderer::GetRenderer<RendererDX11>().context.SetPixelShader(GetShader());
 	}
 
 	ID3D11PixelShader* PixelShaderDX11::GetShader() const noexcept

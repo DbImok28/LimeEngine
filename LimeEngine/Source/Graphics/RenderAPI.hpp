@@ -3,16 +3,27 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
+#include "Renderer.hpp"
 
 namespace LimeEngine
 {
-	enum class RenderAPI
+	enum class RenderAPIType
 	{
-		Auto,
+		None,
 #ifdef LE_ENABLE_RENDER_API_DX11
 		DirectX11
 #endif
 	};
 
-	std::string RenderAPIToString(RenderAPI api) noexcept;
+	std::string RenderAPIToString(RenderAPIType api) noexcept;
+
+	class RenderAPI
+	{
+		RenderAPI() = delete;
+
+	public:
+		static std::unique_ptr<Renderer> CreateRenderer(RenderAPIType api);
+
+		static RenderAPIType DefaultRenderAPI;
+	};
 }

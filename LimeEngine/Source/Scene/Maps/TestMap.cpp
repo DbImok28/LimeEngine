@@ -8,6 +8,7 @@
 #include "Scene/Objects/MeshObject.hpp"
 #include "Base/Primitives.hpp"
 #include "Graphics/GraphicFactory.hpp"
+#include "Graphics/Shaders.hpp"
 
 namespace LimeEngine
 {
@@ -41,8 +42,8 @@ namespace LimeEngine
 		auto& gameDataManager = engine->dataLayer.GetGameDataManager();
 
 		// Load materials
-		static auto vertexShader = graphicFactory->CreateVertexShader(Paths::ShaderFolder / "VertexShader.cso", MaterialType::Solid);
-		static auto pixelShader = graphicFactory->CreatePixelShader(Paths::ShaderFolder / "PixelShader.cso");
+		static auto vertexShader = VertexShader::Create(Paths::ShaderFolder / "VertexShader.cso", MaterialType::Solid);
+		static auto pixelShader = PixelShader::Create(Paths::ShaderFolder / "PixelShader.cso");
 		auto material = gameDataManager.CreateMaterial("EngineContent/M_Cat", std::move(vertexShader), std::move(pixelShader), MaterialType::Solid);
 
 		// Load meshes

@@ -9,6 +9,13 @@
 #define LE_STATIC_INITIALIZE(...)              LE_MACRO_OVERLOAD(LE_STATIC_INITIALIZE, __VA_ARGS__)
 #define LE_STATIC_INITIALIZE_1(func)           static const inline ::LimeEngine::int8 _VarForStaticFunctionInit_##func = ::LimeEngine::StaticInitializer::Add(func)
 #define LE_STATIC_INITIALIZE_2(func, priority) static const inline ::LimeEngine::int8 _VarForStaticFunctionInit_##func = ::LimeEngine::StaticInitializer::Add(func, priority)
+#define LE_STATIC_INITIALIZE_IMMEDIATE(func)                             \
+	static inline ::LimeEngine::int8 _FuncForStaticFunctionInit_##func() \
+	{                                                                    \
+		func();                                                          \
+		return 0;                                                        \
+	}                                                                    \
+	static const inline ::LimeEngine::int8 _VarForStaticFunctionInit_##func = _FuncForStaticFunctionInit_##func()
 
 namespace LimeEngine
 {

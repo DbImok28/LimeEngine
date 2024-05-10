@@ -26,7 +26,6 @@ namespace LimeEngine
 		virtual std::unique_ptr<Texture2D> CreateTexture2D(const ResourcePath& resourcePath, const FPath& filePath, TextureType type) const = 0;
 		virtual std::unique_ptr<MaterialBase> CreateMaterial(
 			const ResourcePath& resourcePath, std::unique_ptr<IBindable>&& vertexShader, std::unique_ptr<IBindable>&& pixelShader, MaterialType type) const = 0;
-		virtual std::unique_ptr<WindowRenderOutput> CreateRenderOutput(Window& window) const = 0;
 
 		std::unique_ptr<MaterialBase> CreateMaterial(const ResourcePath& resourcePath, const GameResourceData& data) const
 		{

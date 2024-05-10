@@ -2,17 +2,18 @@
 // See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
-#include "BindableDX11.hpp"
+#include "RendererDX11.hpp"
+#include "Graphics/Shaders.hpp"
 
 namespace LimeEngine
 {
 	enum class MaterialType;
 
-	class VertexShaderDX11 : public BindableDX11
+	class VertexShaderDX11 : public IBindable, public VertexShader
 	{
 	public:
-		explicit VertexShaderDX11(RendererDX11& renderer) noexcept;
-		VertexShaderDX11(RendererDX11& renderer, const FPath& filePath, MaterialType materialType);
+		explicit VertexShaderDX11() noexcept;
+		VertexShaderDX11(const FPath& filePath, MaterialType materialType);
 
 		void Initialize(const FPath& filePath, MaterialType materialType);
 		virtual void Bind() noexcept override;
@@ -27,11 +28,11 @@ namespace LimeEngine
 		com_ptr<ID3D11InputLayout> inputLoyout = nullptr;
 	};
 
-	class PixelShaderDX11 : public BindableDX11
+	class PixelShaderDX11 : public IBindable, public PixelShader
 	{
 	public:
-		explicit PixelShaderDX11(RendererDX11& renderer) noexcept;
-		PixelShaderDX11(RendererDX11& renderer, const FPath& filePath);
+		explicit PixelShaderDX11() noexcept;
+		PixelShaderDX11(const FPath& filePath);
 
 		void Initialize(const FPath& filePath);
 		virtual void Bind() noexcept override;

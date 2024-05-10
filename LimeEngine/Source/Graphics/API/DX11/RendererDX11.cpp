@@ -9,16 +9,20 @@
 
 namespace LimeEngine
 {
-	RendererDX11::RendererDX11(Window& window, DisplayMode mode, bool defaultFullscreenModeIsExclusive) :
-		Renderer(std::make_unique<WindowRenderOutputDX11>(*this, window, defaultFullscreenModeIsExclusive)), graphicFactory(*this)
+	RendererDX11::RendererDX11() : graphicFactory(*this) {}
+
+	void RendererDX11::Init(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs)
 	{
-		Init(mode);
-		RuntimeEditor::Init(window.GetHandle(), context.GetDevice(), context.GetDeviceContext());
+		context.CreateDevice();
+		renderOutput.Init(renderOutputArgs);
+		CreateAllBuffers();
+		context.CreateRasterizerState();
+		context.CreateSamplerState();
 	}
 
 	RendererDX11::~RendererDX11()
 	{
-		renderOutput->SetDisplayMode(DisplayMode::Windowed);
+		GetRenderOutput().SetDisplayMode(DisplayMode::Windowed);
 		RuntimeEditor::Destroy();
 	}
 
@@ -30,12 +34,12 @@ namespace LimeEngine
 
 	void RendererDX11::CreateAllBuffers()
 	{
-		uint width = renderOutput->GetWidth();
-		uint height = renderOutput->GetHeight();
+		uint width = GetRenderOutput().GetWidth();
+		uint height = GetRenderOutput().GetHeight();
 
-		renderOutput->Init();
+		GetRenderOutput().Create();
 		context.CreateDepthStencil(width, height);
-		renderOutput->Bind();
+		GetRenderOutput().Bind();
 		context.CreateDepthStencilState();
 		context.CreateViewport(width, height);
 	}
@@ -45,24 +49,8 @@ namespace LimeEngine
 		context.DestroyRenderTargetView();
 		context.DestroyDepthStencilView();
 		context.DestroyDepthStencilBuffer();
-		renderOutput->Destroy();
+		GetRenderOutput().Destroy();
 		context.Flush();
-	}
-
-	void RendererDX11::Init(DisplayMode mode)
-	{
-		context.CreateDevice();
-		if (mode == DisplayMode::FullscreenExclusive)
-		{
-			renderOutput->Init();
-			renderOutput->SetDisplayMode(mode);
-		}
-		else
-		{
-			CreateAllBuffers();
-		}
-		context.CreateRasterizerState();
-		context.CreateSamplerState();
 	}
 
 	void RendererDX11::Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix)
@@ -97,7 +85,17 @@ namespace LimeEngine
 	void RendererDX11::PostProcessing()
 	{
 		RuntimeEditor::Render();
-		renderOutput->Present();
+		GetRenderOutput().Present();
+	}
+
+	RenderOutput& RendererDX11::GetRenderOutput() noexcept
+	{
+		return renderOutput;
+	}
+
+	const RenderOutput& RendererDX11::GetRenderOutput() const noexcept
+	{
+		return renderOutput;
 	}
 
 	const GraphicFactory* RendererDX11::GetGraphicFactory() const noexcept

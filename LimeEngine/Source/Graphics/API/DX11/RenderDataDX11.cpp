@@ -6,18 +6,9 @@
 
 namespace LimeEngine
 {
-	MeshRenderDataDX11::MeshRenderDataDX11(RendererDX11& renderer, const std::vector<Vertex>& vertices, const std::vector<uint>& indices) :
-		renderer(renderer), vertexBuffer(renderer), indexBuffer(renderer), transformConstantBuffer(renderer)
-	{
-		InitializeBuffers(vertices, indices);
-	}
-
-	void MeshRenderDataDX11::InitializeBuffers(const std::vector<Vertex>& vertices, const std::vector<uint>& indices)
-	{
-		vertexBuffer.Initialize(vertices);
-		indexBuffer.Initialize(indices);
-		transformConstantBuffer.Initialize();
-	}
+	MeshRenderDataDX11::MeshRenderDataDX11(const std::vector<Vertex>& vertices, const std::vector<uint>& indices) :
+		vertexBuffer(VertexBuffer::Create(vertices)), indexBuffer(IndexBuffer::Create(indices)), transformConstantBuffer()
+	{}
 
 	void MeshRenderDataDX11::ApplyMaterial(MaterialInstance* materialInstance)
 	{
@@ -33,8 +24,8 @@ namespace LimeEngine
 
 	void MeshRenderDataDX11::ApplyBuffers() noexcept
 	{
-		indexBuffer.Bind();
-		vertexBuffer.Bind();
+		indexBuffer->Bind();
+		vertexBuffer->Bind();
 		transformConstantBuffer.Bind();
 	}
 

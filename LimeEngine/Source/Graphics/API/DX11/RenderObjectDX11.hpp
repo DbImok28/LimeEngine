@@ -3,15 +3,14 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "DirectXDef.hpp"
-#include "Graphics/IBindable.hpp"
 #include "RendererDX11.hpp"
 
 namespace LimeEngine
 {
-	class BindableDX11 : public IBindable
+	class RenderObjectDX11
 	{
 	public:
-		explicit BindableDX11(RendererDX11& renderer) : renderer(renderer) {}
+		explicit RenderObjectDX11(RendererDX11& renderer) : renderer(renderer) {}
 
 	protected:
 		ID3D11Device* GetDevice() const noexcept;
