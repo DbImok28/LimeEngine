@@ -9,7 +9,7 @@ namespace LimeEngine
 {
 	enum class MaterialType;
 
-	class VertexShaderDX11 : public IBindable, public VertexShader
+	class VertexShaderDX11 : public VertexShader
 	{
 	public:
 		explicit VertexShaderDX11() noexcept;
@@ -28,7 +28,7 @@ namespace LimeEngine
 		com_ptr<ID3D11InputLayout> inputLoyout = nullptr;
 	};
 
-	class PixelShaderDX11 : public IBindable, public PixelShader
+	class PixelShaderDX11 : public PixelShader
 	{
 	public:
 		explicit PixelShaderDX11() noexcept;

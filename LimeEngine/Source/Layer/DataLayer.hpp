@@ -12,7 +12,7 @@ namespace LimeEngine
 		LE_DELETE_COPY(DataLayer)
 
 	public:
-		DataLayer(Engine* engine, const GraphicFactory* graphicFactory);
+		DataLayer(Engine* engine);
 
 		void Update() override;
 		GameDataManager& GetGameDataManager() noexcept;

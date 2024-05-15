@@ -4,6 +4,7 @@
 #include "lepch.hpp"
 #include "Shaders.hpp"
 #include "RenderAPI.hpp"
+#include "Graphics/Material.hpp"
 
 #if defined(LE_ENABLE_RENDER_API_DX11)
 	#include "API/DX11/ShadersDX11.hpp"

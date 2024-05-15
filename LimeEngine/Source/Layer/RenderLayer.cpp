@@ -67,9 +67,4 @@ namespace LimeEngine
 	{
 		Renderer::GetRenderer().RemoveFromRender(drawable);
 	}
-
-	const GraphicFactory* RenderLayer::GetGraphicFactory() noexcept
-	{
-		return Renderer::GetRenderer().GetGraphicFactory();
-	}
 }

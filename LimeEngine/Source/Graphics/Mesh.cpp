@@ -22,28 +22,24 @@ namespace LimeEngine
 			other.vertices = {};
 			other.indices = {};
 			other.material = nullptr;
-			other.meshRenderData = nullptr;
 		}
 		return *this;
 	}
 
-	MeshSegment::MeshSegment(const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices) :
-		vertices(vertices), indices(indices), meshRenderData(graphicFactory->CreateMeshRenderData(vertices, indices))
+	MeshSegment::MeshSegment(const std::vector<Vertex>& vertices, const std::vector<uint>& indices) : vertices(vertices), indices(indices), meshRenderData(vertices, indices) {}
+
+	MeshSegment::MeshSegment(const std::pair<std::vector<Vertex>, std::vector<uint>>& verticesAndIndices) :
+		vertices(verticesAndIndices.first), indices(verticesAndIndices.second), meshRenderData(verticesAndIndices.first, verticesAndIndices.second)
 	{}
 
-	MeshSegment::MeshSegment(const GraphicFactory* graphicFactory, const std::pair<std::vector<Vertex>, std::vector<uint>>& verticesAndIndices) :
-		vertices(verticesAndIndices.first), indices(verticesAndIndices.second),
-		meshRenderData(graphicFactory->CreateMeshRenderData(verticesAndIndices.first, verticesAndIndices.second))
-	{}
-
-	void MeshSegment::SetMaterial(std::shared_ptr<MaterialInstance> materialInstance) noexcept
+	void MeshSegment::SetMaterial(const std::shared_ptr<Material>& material) noexcept
 	{
-		material = materialInstance;
+		this->material = material;
 	}
 
-	void MeshSegment::BindRenderData(MaterialInstance* materialInstance, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
+	void MeshSegment::BindRenderData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)
 	{
-		meshRenderData->BindData(materialInstance, cameraComponent, transformMatrix);
+		meshRenderData.BindData(material, cameraComponent, transformMatrix);
 	}
 
 	uint MeshSegment::IndicesCount() const noexcept
@@ -51,7 +47,7 @@ namespace LimeEngine
 		return static_cast<uint>(indices.size());
 	}
 
-	std::shared_ptr<MaterialInstance> MeshSegment::GetMaterial() const noexcept
+	std::shared_ptr<Material> MeshSegment::GetMaterial() const noexcept
 	{
 		return material;
 	}
@@ -68,19 +64,17 @@ namespace LimeEngine
 
 	Mesh::Mesh(const ResourcePath& resourcePath, std::vector<MeshSegment>&& segments) : GameResource(resourcePath), segments(std::move(segments)) {}
 
-	Mesh::Mesh(const ResourcePath& resourcePath, const GraphicFactory* graphicFactory, const std::vector<std::pair<std::vector<Vertex>, std::vector<uint>>>& segmentData) :
-		GameResource(resourcePath), segments()
+	Mesh::Mesh(const ResourcePath& resourcePath, const std::vector<std::pair<std::vector<Vertex>, std::vector<uint>>>& segmentData) : GameResource(resourcePath), segments()
 	{
 		segments.reserve(segmentData.size());
 		for (auto& [vertices, indices] : segmentData)
 		{
-			segments.emplace_back(graphicFactory, vertices, indices);
+			segments.emplace_back(vertices, indices);
 		}
 	}
 
-	Mesh::Mesh(const ResourcePath& resourcePath, const GraphicFactory* graphicFactory, const std::vector<Vertex>& vertices, const std::vector<uint>& indices) :
-		GameResource(resourcePath), segments()
+	Mesh::Mesh(const ResourcePath& resourcePath, const std::vector<Vertex>& vertices, const std::vector<uint>& indices) : GameResource(resourcePath), segments()
 	{
-		segments.emplace_back(graphicFactory, vertices, indices);
+		segments.emplace_back(vertices, indices);
 	}
 }

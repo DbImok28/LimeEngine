@@ -66,6 +66,7 @@ namespace LimeEngine
 		}
 
 	public:
+		GameResourceRef() noexcept : resource(nullptr) {}
 		GameResourceRef(const GameResourceRef& other) noexcept : resource(other.resource)
 		{
 			if (resource) resource->IncreaseRef();

@@ -7,7 +7,6 @@
 #include "Utility/Paths.hpp"
 #include "Scene/Objects/MeshObject.hpp"
 #include "Base/Primitives.hpp"
-#include "Graphics/GraphicFactory.hpp"
 #include "Graphics/Shaders.hpp"
 
 namespace LimeEngine
@@ -34,9 +33,6 @@ namespace LimeEngine
 
 		inputDevice.BindActionEvent("Print", InputActionType::Pressed, []() { LE_LOG_DEBUG("Press F"); });
 		inputDevice.BindActionEvent("Print", InputActionType::Released, []() { LE_LOG_DEBUG("Released F"); });
-
-		// GraphicFactory
-		auto graphicFactory = engine->renderLayer.GetGraphicFactory();
 
 		// DataManager
 		auto& gameDataManager = engine->dataLayer.GetGameDataManager();
@@ -86,9 +82,9 @@ namespace LimeEngine
 
 		// Box
 		auto texture = gameDataManager.CreateTexture2D("EngineContent/T_Cat", TextureFolder / "cat.jpg", TextureType::Diffuse);
-		auto boxMaterialInstance = material->GetInstance();
+		auto boxMaterialInstance = material->Instantiate();
 
-		boxMaterialInstance->AddTexture(texture);
+		boxMaterialInstance->SetTextureParameter(texture, 0u);
 		boxMesh->segments[0].SetMaterial(boxMaterialInstance);
 
 		auto box1Object = SetupAttachment<MeshObject>(engine, "Box1");
@@ -99,13 +95,13 @@ namespace LimeEngine
 
 		// UVMapping
 		auto UVMappingTexture = gameDataManager.CreateTexture2D("EngineContent/T_UVMapping", TextureFolder / "UVMapping.jpg", TextureType::Diffuse);
-		auto UVMappingMaterialInstance = material->GetInstance();
-		UVMappingMaterialInstance->AddTexture(UVMappingTexture);
+		auto UVMappingMaterialInstance = material->Instantiate();
+		UVMappingMaterialInstance->SetTextureParameter(UVMappingTexture, 0u);
 
 		// Sphere material
 		auto SphereTexture = gameDataManager.CreateTexture2D("EngineContent/T_Sphere", TextureFolder / "Sphere.png", TextureType::Diffuse);
-		auto SphereMaterialInstance = material->GetInstance();
-		SphereMaterialInstance->AddTexture(SphereTexture);
+		auto SphereMaterialInstance = material->Instantiate();
+		SphereMaterialInstance->SetTextureParameter(SphereTexture, 0u);
 
 		// Primitives
 		auto planeMesh = Plane(40, 10, 12).CreateMesh(engine, "EngineContent/Plane");

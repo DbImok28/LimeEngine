@@ -20,7 +20,5 @@ namespace LimeEngine
 
 		const CameraComponent* GetRenderCamera() const noexcept;
 		void SetRenderCamera(CameraComponent* camera) noexcept;
-
-		const GraphicFactory* GetGraphicFactory() noexcept;
 	};
 }

@@ -4,10 +4,11 @@
 #pragma once
 #include "CoreBase.hpp"
 #include "IBindable.hpp"
-#include "Graphics/Material.hpp"
 
 namespace LimeEngine
 {
+	enum class MaterialType;
+
 	class VertexShader : public IBindable
 	{
 	public:

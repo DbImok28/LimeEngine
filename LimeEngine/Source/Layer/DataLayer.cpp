@@ -7,7 +7,7 @@
 
 namespace LimeEngine
 {
-	DataLayer::DataLayer(Engine* engine, const GraphicFactory* graphicFactory) : EngineLayer(engine), gameDataManager(engine, graphicFactory) {}
+	DataLayer::DataLayer(Engine* engine) : EngineLayer(engine), gameDataManager(engine) {}
 
 	void DataLayer::Update()
 	{

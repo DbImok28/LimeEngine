@@ -6,39 +6,36 @@
 
 namespace LimeEngine
 {
-	MaterialBase::MaterialBase(const ResourcePath& resourcePath, MaterialType type) noexcept : GameResource(resourcePath), type(type) {}
-
-	MaterialType MaterialBase::GetType() const noexcept
+	std::shared_ptr<Material> MaterialAsset::Instantiate()
 	{
-		return type;
+		return std::make_unique<Material>(GetRef<MaterialAsset>());
 	}
 
-	std::shared_ptr<MaterialInstance> MaterialBase::GetInstance()
+	void Material::ApplyMaterial() noexcept
 	{
-		return std::make_shared<MaterialInstance>(GetRef<MaterialBase>());
-	}
+		asset->vertexShader->Bind();
+		asset->pixelShader->Bind();
 
-	void MaterialInstance::AddTexture(GameResourceRef<Texture2D> texture) noexcept
-	{
-		textures.push_back(texture);
-	}
-
-	const std::vector<GameResourceRef<Texture2D>>& MaterialInstance::GetTextures() const noexcept
-	{
-		return textures;
-	}
-
-	void MaterialInstance::SetTextures(const std::vector<GameResourceRef<Texture2D>>& textures) noexcept
-	{
-		this->textures = textures;
-	}
-
-	void MaterialInstance::ApplyMaterial() noexcept
-	{
-		material->ApplyMaterial();
+		// TODO: add slot count check
+		uint slotIndex = 0;
 		for (auto& texture : textures)
 		{
-			texture->Bind();
+			texture->Bind(slotIndex++);
 		}
+	}
+
+	void Material::SetTextureParameter(const GameResourceRef<Texture2D>& texture, uint slotIndex) noexcept
+	{
+		if (slotIndex >= textures.size())
+		{
+			textures.resize(slotIndex + 1);
+		}
+		textures[slotIndex] = texture;
+	}
+
+	GameResourceRef<Texture2D> Material::GetTextureParameter(uint slotIndex) noexcept
+	{
+		if (slotIndex > textures.size()) return GameResourceRef<Texture2D>::NullRef();
+		return textures[slotIndex];
 	}
 }

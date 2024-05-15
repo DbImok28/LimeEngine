@@ -9,8 +9,6 @@
 
 namespace LimeEngine
 {
-	RendererDX11::RendererDX11() : graphicFactory(*this) {}
-
 	void RendererDX11::Init(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs)
 	{
 		context.CreateDevice();
@@ -96,11 +94,6 @@ namespace LimeEngine
 	const RenderOutput& RendererDX11::GetRenderOutput() const noexcept
 	{
 		return renderOutput;
-	}
-
-	const GraphicFactory* RendererDX11::GetGraphicFactory() const noexcept
-	{
-		return &graphicFactory;
 	}
 
 	std::string RendererDX11::GetVideoAdapterName() const noexcept

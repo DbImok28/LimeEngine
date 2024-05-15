@@ -4,7 +4,6 @@
 #pragma once
 #include "RenderOutput.hpp"
 #include "RenderQueue.hpp"
-#include "GraphicFactory.hpp"
 #include "Scene/Components/CameraComponent.hpp"
 #include "Scene/Components/MeshComponent.hpp"
 
@@ -29,8 +28,6 @@ namespace LimeEngine
 		virtual void Init(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs) = 0;
 		virtual void Render() = 0;
 		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) = 0;
-
-		virtual const GraphicFactory* GetGraphicFactory() const noexcept = 0;
 
 		const CameraComponent* GetCamera() const noexcept;
 		void SetCamera(CameraComponent* camera) noexcept;

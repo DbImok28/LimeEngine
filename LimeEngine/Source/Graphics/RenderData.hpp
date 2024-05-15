@@ -4,13 +4,30 @@
 #pragma once
 #include "Material.hpp"
 #include "Scene/Components/CameraComponent.hpp"
+#include "Base/Vertex.hpp"
+#include "Buffers.hpp"
+#include "ConstantBuffers.hpp"
 
 namespace LimeEngine
 {
 	class MeshRenderData
 	{
 	public:
+		MeshRenderData(const std::vector<Vertex>& vertices, const std::vector<uint>& indices) :
+			vertexBuffer(VertexBuffer::Create(vertices)), indexBuffer(IndexBuffer::Create(indices)), transformConstantBuffer()
+		{}
+		MeshRenderData(MeshRenderData&& other) noexcept;
+		MeshRenderData& operator=(MeshRenderData&& other) noexcept;
 		virtual ~MeshRenderData() = default;
-		virtual void BindData(MaterialInstance* materialInstance, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix) = 0;
+
+		void ApplyMaterial(Material* material);
+		void ApplyTransform(const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix);
+		void ApplyBuffers() noexcept;
+		void BindData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix);
+
+	public:
+		std::unique_ptr<VertexBuffer> vertexBuffer;
+		std::unique_ptr<IndexBuffer> indexBuffer;
+		VSConstantBuffer<VSTransformConstantBuffer> transformConstantBuffer;
 	};
 }

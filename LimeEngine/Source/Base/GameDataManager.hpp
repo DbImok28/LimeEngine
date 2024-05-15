@@ -3,7 +3,6 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "GameDataLoader.hpp"
-#include "Graphics/GraphicFactory.hpp"
 #include "Graphics/Mesh.hpp"
 #include "Graphics/Material.hpp"
 #include "Graphics/Texture2D.hpp"
@@ -18,7 +17,7 @@ namespace LimeEngine
 	class GameDataManager
 	{
 	public:
-		GameDataManager(Engine* engine, const GraphicFactory* graphicFactory) noexcept;
+		GameDataManager(Engine* engine) noexcept;
 
 		GameResourceData LoadResourceData(const ResourcePath& resourcePath, const std::string& loadParams) const
 		{
@@ -62,31 +61,30 @@ namespace LimeEngine
 
 		[[nodiscard]] GameResourceRef<Mesh> CreateMesh(const ResourcePath& resourcePath, const std::vector<Vertex>& vertices, const std::vector<uint>& indices)
 		{
-			return Emplace<Mesh>(resourcePath, resourcePath, graphicFactory, vertices, indices);
+			return Emplace<Mesh>(resourcePath, resourcePath, vertices, indices);
 		}
 		[[nodiscard]] GameResourceRef<Mesh> CreateMesh(const ResourcePath& resourcePath, const std::vector<std::pair<std::vector<Vertex>, std::vector<uint>>>& segmentData)
 		{
-			return Emplace<Mesh>(resourcePath, resourcePath, graphicFactory, segmentData);
+			return Emplace<Mesh>(resourcePath, resourcePath, segmentData);
 		}
-		[[nodiscard]] GameResourceRef<MaterialBase> CreateMaterial(
-			const ResourcePath& resourcePath, std::unique_ptr<IBindable>&& vertexShader, std::unique_ptr<IBindable>&& pixelShader, MaterialType type)
+		[[nodiscard]] GameResourceRef<MaterialAsset> CreateMaterial(
+			const ResourcePath& resourcePath, std::unique_ptr<VertexShader>&& vertexShader, std::unique_ptr<PixelShader>&& pixelShader, MaterialType type)
 		{
-			return Register(resourcePath, graphicFactory->CreateMaterial(resourcePath, std::move(vertexShader), std::move(pixelShader), type));
+			return Emplace<MaterialAsset>(resourcePath, resourcePath, std::move(vertexShader), std::move(pixelShader), type);
 		}
 		[[nodiscard]] GameResourceRef<Texture2D> CreateTexture2D(const ResourcePath& resourcePath, const std::wstring& filePath, TextureType type)
 		{
-			return Register(resourcePath, graphicFactory->CreateTexture2D(resourcePath, filePath, type));
+			return Register(resourcePath, Texture2D::Create(resourcePath, filePath, type));
 		}
 
 		// Load
 
 		GameResourceRef<Mesh> LoadMesh(const ResourcePath& resourcePath);
-		GameResourceRef<MaterialBase> LoadMaterial(const ResourcePath& resourcePath);
+		GameResourceRef<MaterialAsset> LoadMaterial(const ResourcePath& resourcePath);
 		GameResourceRef<Texture2D> LoadTexture2D(const ResourcePath& resourcePath);
 
 	private:
 		std::map<ResourcePath, std::unique_ptr<GameResource>> resources;
-		const GraphicFactory* graphicFactory;
 		Engine* engine;
 		GameDataLoader loader;
 	};
