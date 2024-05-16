@@ -8,10 +8,13 @@
 
 namespace LimeEngine
 {
-	EditorLayer::EditorLayer(Engine* engine) : EngineLayer(engine) {}
+	EditorLayer& EditorLayer::GetEditorLayer()
+	{
+		return GetEngine().editorLayer;
+	}
 
 	void EditorLayer::Update()
 	{
-		engine->sceneLayer.DebugUpdate();
+		GetEngine().sceneLayer.DebugUpdate();
 	}
 }

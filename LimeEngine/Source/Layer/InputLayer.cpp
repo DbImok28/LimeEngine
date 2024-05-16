@@ -4,18 +4,27 @@
 #pragma once
 #include "lepch.hpp"
 #include "InputLayer.hpp"
+#include "Engine.hpp"
 
 namespace LimeEngine
 {
-	InputLayer::InputLayer(Engine* engine, InputDevice& inputDevice) : EngineLayer(engine), inputDevice(inputDevice) {}
-
 	void InputLayer::Update()
 	{
-		inputDevice.OnUpdate();
+		if (inputDevice) inputDevice->OnUpdate();
+	}
+
+	InputLayer& InputLayer::GetInputLayer()
+	{
+		return GetEngine().inputLayer;
+	}
+
+	void InputLayer::SetInputDevice(InputDevice* inputDevice)
+	{
+		this->inputDevice = inputDevice;
 	}
 
 	InputDevice& InputLayer::GetInputDevice()
 	{
-		return inputDevice;
+		return *inputDevice;
 	}
 }

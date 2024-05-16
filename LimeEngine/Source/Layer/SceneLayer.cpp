@@ -4,9 +4,15 @@
 #pragma once
 #include "lepch.hpp"
 #include "SceneLayer.hpp"
+#include "Engine.hpp"
 
 namespace LimeEngine
 {
+	SceneLayer& SceneLayer::GetSceneLayer()
+	{
+		return GetEngine().sceneLayer;
+	}
+
 	void SceneLayer::Update()
 	{
 		scene->UpdateSubPrimaryComponents();

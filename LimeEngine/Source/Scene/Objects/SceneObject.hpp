@@ -9,7 +9,7 @@ namespace LimeEngine
 	class SceneObject : public SceneComponent
 	{
 	public:
-		explicit SceneObject(Engine* engine, const std::string& objectName = "SceneObject") noexcept;
+		explicit SceneObject(const std::string& objectName = "SceneObject") noexcept : SceneComponent(objectName) {}
 		virtual ~SceneObject() noexcept = default;
 
 		std::string GetObjectName() const noexcept;

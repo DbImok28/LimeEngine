@@ -12,12 +12,15 @@ namespace LimeEngine
 		LE_DELETE_COPY(InputLayer);
 
 	public:
-		InputLayer(Engine* engine, InputDevice& inputDevice);
+		InputLayer() = default;
+		InputLayer(InputDevice* inputDevice) : inputDevice(inputDevice) {}
+		static InputLayer& GetInputLayer();
 
 		void Update() override;
+		void SetInputDevice(InputDevice* inputDevice);
 		InputDevice& GetInputDevice();
 
 	private:
-		InputDevice& inputDevice;
+		InputDevice* inputDevice = nullptr;
 	};
 }

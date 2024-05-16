@@ -5,13 +5,13 @@
 #include "Primitives.hpp"
 #include "Vertex.hpp"
 #include "Math.hpp"
-#include "Engine.hpp"
+#include "Layer/DataLayer.hpp"
 
 namespace LimeEngine
 {
-	GameResourceRef<Mesh> Primitive::CreateMesh(Engine* engine, const ResourcePath& resourcePath) const
+	GameResourceRef<Mesh> Primitive::CreateMesh(const ResourcePath& resourcePath) const
 	{
-		return engine->dataLayer.GetGameDataManager().CreateMesh(resourcePath, vertices, indices);
+		return DataLayer::GetDataLayer().GetGameDataManager().CreateMesh(resourcePath, vertices, indices);
 	}
 
 	Plane::Plane(float size, uint8 segmentsLength, uint8 segmentsWidth)

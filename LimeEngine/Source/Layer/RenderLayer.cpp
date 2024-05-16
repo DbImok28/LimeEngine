@@ -4,10 +4,14 @@
 #pragma once
 #include "lepch.hpp"
 #include "RenderLayer.hpp"
+#include "Engine.hpp"
 
 namespace LimeEngine
 {
-	RenderLayer::RenderLayer(Engine* engine) : EngineLayer(engine) {}
+	RenderLayer& RenderLayer::GetRenderLayer()
+	{
+		return GetEngine().renderLayer;
+	}
 
 	void RenderLayer::Update()
 	{

@@ -11,7 +11,8 @@ namespace LimeEngine
 		LE_DELETE_COPY(EditorLayer)
 
 	public:
-		explicit EditorLayer(Engine* engine);
+		EditorLayer() = default;
+		static EditorLayer& GetEditorLayer();
 
 		void Update() override;
 	};

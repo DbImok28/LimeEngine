@@ -6,8 +6,6 @@
 
 namespace LimeEngine
 {
-	SceneMap::SceneMap(Engine* engine, const std::string& mapName) : engine(engine), ScenePrimaryComponent(mapName) {}
-
 	SceneObject* SceneMap::SetupAttachment(std::unique_ptr<SceneObject>&& object)
 	{
 		return reinterpret_cast<SceneObject*>(SetupPrimaryAttachment(std::move(object)));

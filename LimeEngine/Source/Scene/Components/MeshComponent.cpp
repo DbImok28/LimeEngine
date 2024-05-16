@@ -7,7 +7,7 @@
 
 namespace LimeEngine
 {
-	MeshComponent::MeshComponent(Engine* engine, const std::string& componentName) : SceneComponent(engine, componentName), mesh(GameResourceRef<Mesh>::NullRef())
+	MeshComponent::MeshComponent(const std::string& componentName) : SceneComponent(componentName), mesh(GameResourceRef<Mesh>::NullRef())
 	{
 		ShowMesh();
 	}
@@ -19,7 +19,7 @@ namespace LimeEngine
 
 	void MeshComponent::SetMesh(const ResourcePath& resourcePath)
 	{
-		mesh = engine->dataLayer.GetGameDataManager().LoadMesh(resourcePath);
+		mesh = DataLayer::GetDataLayer().GetGameDataManager().LoadMesh(resourcePath);
 	}
 
 	void MeshComponent::SetMesh(GameResourceRef<Mesh> mesh)
@@ -44,14 +44,14 @@ namespace LimeEngine
 	{
 		if (isVisible) return;
 		isVisible = true;
-		engine->renderLayer.AddToRender(this);
+		RenderLayer::GetRenderLayer().AddToRender(this);
 	}
 
 	void MeshComponent::HideMesh()
 	{
 		if (!isVisible) return;
 		isVisible = false;
-		engine->renderLayer.RemoveFromRender(this);
+		RenderLayer::GetRenderLayer().RemoveFromRender(this);
 	}
 
 	void MeshComponent::Draw(Renderer& renderer)

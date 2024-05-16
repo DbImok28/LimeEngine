@@ -7,8 +7,6 @@
 
 namespace LimeEngine
 {
-	GameDataManager::GameDataManager(Engine* engine) noexcept : engine(engine) {}
-
 	GameResourceRef<Mesh> GameDataManager::LoadMesh(const ResourcePath& resourcePath)
 	{
 		if (auto res = GetStoredResource<Mesh>(resourcePath); res) return *res;

@@ -6,9 +6,9 @@
 
 namespace LimeEngine
 {
-	MeshObject::MeshObject(Engine* engine, const std::string& objectName) : SceneObject(engine, objectName)
+	MeshObject::MeshObject(const std::string& objectName) : SceneObject(objectName)
 	{
-		meshComponent = SetupAttachment<MeshComponent>(engine, "MeshComponent");
+		meshComponent = SetupAttachment<MeshComponent>("MeshComponent");
 	}
 
 	void MeshObject::SetMesh(const ResourcePath& resourcePath)

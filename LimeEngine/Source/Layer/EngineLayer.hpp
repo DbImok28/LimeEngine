@@ -10,12 +10,10 @@ namespace LimeEngine
 	class EngineLayer
 	{
 	public:
-		explicit EngineLayer(Engine* engine) : engine(engine) {}
+		EngineLayer() = default;
 		virtual ~EngineLayer() = default;
+		static Engine& GetEngine();
 
 		virtual void Update() = 0;
-
-	protected:
-		Engine* engine;
 	};
 }

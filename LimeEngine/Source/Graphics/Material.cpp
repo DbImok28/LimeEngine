@@ -28,7 +28,7 @@ namespace LimeEngine
 	{
 		if (slotIndex >= textures.size())
 		{
-			textures.resize(slotIndex + 1);
+			textures.resize(slotIndex + 1u);
 		}
 		textures[slotIndex] = texture;
 	}

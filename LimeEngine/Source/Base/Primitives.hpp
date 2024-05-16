@@ -10,7 +10,7 @@ namespace LimeEngine
 	class Primitive
 	{
 	public:
-		GameResourceRef<Mesh> CreateMesh(Engine* engine, const ResourcePath& resourcePath) const;
+		GameResourceRef<Mesh> CreateMesh(const ResourcePath& resourcePath) const;
 
 	protected:
 		std::vector<Vertex> vertices;

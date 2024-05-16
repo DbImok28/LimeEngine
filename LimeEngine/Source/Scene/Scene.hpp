@@ -10,7 +10,7 @@ namespace LimeEngine
 	class Scene : public ScenePrimaryComponent
 	{
 	public:
-		explicit Scene(Engine* engine);
+		Scene() : ScenePrimaryComponent("Scene") {}
 
 		SceneMap* SetupAttachment(std::unique_ptr<SceneMap>&& map);
 		template <std::derived_from<SceneMap> TMap, typename... TArgs>

@@ -12,10 +12,14 @@ namespace LimeEngine
 		LE_DELETE_COPY(WindowLayer);
 
 	public:
-		WindowLayer(Engine* engine, std::unique_ptr<Window>&& window);
+		WindowLayer() : window(std::move(window)) {}
+		WindowLayer(std::unique_ptr<Window>&& window) : window(std::move(window)) {}
+		static WindowLayer& GetWindowLayer();
 
 		void Update() override;
+
 		Window& GetWindow() noexcept;
+		void SetWindow(std::unique_ptr<Window>&& window) noexcept;
 
 	private:
 		std::unique_ptr<Window> window;

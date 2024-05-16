@@ -4,18 +4,27 @@
 #pragma once
 #include "lepch.hpp"
 #include "WindowLayer.hpp"
+#include "Engine.hpp"
 
 namespace LimeEngine
 {
-	WindowLayer::WindowLayer(Engine* engine, std::unique_ptr<Window>&& window) : EngineLayer(engine), window(std::move(window)) {}
+	WindowLayer& WindowLayer::GetWindowLayer()
+	{
+		return GetEngine().windowLayer;
+	}
 
 	void WindowLayer::Update()
 	{
-		window->OnUpdate();
+		if (window) window->OnUpdate();
 	}
 
 	Window& WindowLayer::GetWindow() noexcept
 	{
 		return *window.get();
+	}
+
+	void WindowLayer::SetWindow(std::unique_ptr<Window>&& window) noexcept
+	{
+		this->window = std::move(window);
 	}
 }

@@ -4,10 +4,14 @@
 #pragma once
 #include "lepch.hpp"
 #include "DataLayer.hpp"
+#include "Engine.hpp"
 
 namespace LimeEngine
 {
-	DataLayer::DataLayer(Engine* engine) : EngineLayer(engine), gameDataManager(engine) {}
+	DataLayer& DataLayer::GetDataLayer()
+	{
+		return GetEngine().dataLayer;
+	}
 
 	void DataLayer::Update()
 	{

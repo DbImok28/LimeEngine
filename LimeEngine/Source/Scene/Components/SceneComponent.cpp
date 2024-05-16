@@ -1,16 +1,12 @@
 // Copyright (C) Pavel Jakushik - All rights reserved
 // See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
-#include "SceneComponent.hpp"
-#include "SceneComponent.hpp"
 #include "lepch.hpp"
 #include "SceneComponent.hpp"
 #include "Scene/Objects/SceneObject.hpp"
 
 namespace LimeEngine
 {
-	SceneComponent::SceneComponent(Engine* engine, const std::string& componentName) noexcept : engine(engine), ScenePrimaryComponent(componentName), Transformable() {}
-
 	SceneComponent* SceneComponent::SetupAttachment(std::unique_ptr<SceneComponent>&& component) noexcept
 	{
 		auto attachedComponent = reinterpret_cast<SceneComponent*>(SetupPrimaryAttachment(std::move(component)));

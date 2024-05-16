@@ -18,6 +18,7 @@ namespace LimeEngine
 		LE_DELETE_MOVE_COPY(Engine)
 
 	public:
+		Engine();
 		Engine(std::unique_ptr<Window>&& window);
 		virtual ~Engine();
 
@@ -42,5 +43,14 @@ namespace LimeEngine
 
 		Timer timer;
 		float deltaTime = 0.0f;
+
+	public:
+		static void Initialize() noexcept;
+		static void Initialize(const WindowArgs& windowArgs, const RendererArgs& renderArgs) noexcept;
+		static void Initialize(std::unique_ptr<Window>&& window) noexcept;
+		static Engine& GetEngine() noexcept;
+
+	private:
+		static Engine engine;
 	};
 }

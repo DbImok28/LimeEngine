@@ -23,17 +23,11 @@ namespace LimeEngine
 
 	void Application::Run()
 	{
-		auto window = Window::Create(WindowArgs(TEXT("LimeEngine"), 1080, 720));
-		//auto renderer = Renderer::Create(*window.get(), DisplayMode::Windowed, false);
-		/*Renderer::GetRenderer().Init(RenderOutputArgs(window.get()), RendererArgs{});*/
-		Renderer::Create(RenderOutputArgs(window.get()), RendererArgs{});
+		Engine::Initialize();
 
-		Engine engine(std::move(window));
-
-		auto map = std::make_unique<TestMap>(&engine);
+		auto map = std::make_unique<TestMap>();
 		map->Load();
-		engine.sceneLayer.GetScene().SetupAttachment(std::move(map));
-
-		engine.Start();
+		SceneLayer::GetSceneLayer().GetScene().SetupAttachment(std::move(map));
+		Engine::GetEngine().Start();
 	}
 }

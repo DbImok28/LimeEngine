@@ -6,8 +6,10 @@
 
 namespace LimeEngine
 {
+	Engine::Engine() : windowLayer(), inputLayer(), renderLayer(), dataLayer(), sceneLayer(), editorLayer() {}
+
 	Engine::Engine(std::unique_ptr<Window>&& window) :
-		windowLayer(this, std::move(window)), inputLayer(this, windowLayer.GetWindow().GetInputDevice()), renderLayer(this), dataLayer(this), sceneLayer(this), editorLayer(this)
+		windowLayer(std::move(window)), inputLayer(&windowLayer.GetWindow().GetInputDevice()), renderLayer(), dataLayer(), sceneLayer(), editorLayer()
 	{
 		windowLayer.GetWindow().events.Bind(WindowEventType::Close, this, &Engine::Close);
 	}
@@ -50,5 +52,37 @@ namespace LimeEngine
 	void Engine::Close(const Event& e)
 	{
 		Close(CastEvent<CloseWindowEvent>(e).exitCode);
+	}
+
+	// static
+
+	Engine Engine::engine;
+
+	void Engine::Initialize() noexcept
+	{
+		// TODO: Load settings from file
+
+		auto window = Window::Create(WindowArgs(TEXT("LimeEngine"), 1080, 720));
+		Renderer::Create(RenderOutputArgs(window.get()), RendererArgs{});
+		Engine::Initialize(std::move(window));
+	}
+
+	void Engine::Initialize(const WindowArgs& windowArgs, const RendererArgs& renderArgs) noexcept
+	{
+		auto window = Window::Create(windowArgs);
+		Renderer::Create(RenderOutputArgs(window.get()), renderArgs);
+		Engine::Initialize(std::move(window));
+	}
+
+	void Engine::Initialize(std::unique_ptr<Window>&& window) noexcept
+	{
+		engine.windowLayer.SetWindow(std::move(window));
+		engine.inputLayer.SetInputDevice(&engine.windowLayer.GetWindow().GetInputDevice());
+		engine.windowLayer.GetWindow().events.Bind(WindowEventType::Close, &engine, &Engine::Close);
+	}
+
+	Engine& Engine::GetEngine() noexcept
+	{
+		return engine;
 	}
 }

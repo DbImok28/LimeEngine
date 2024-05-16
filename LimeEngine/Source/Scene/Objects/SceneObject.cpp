@@ -6,8 +6,6 @@
 
 namespace LimeEngine
 {
-	SceneObject::SceneObject(Engine* engine, const std::string& objectName) noexcept : SceneComponent(engine, objectName) {}
-
 	std::string SceneObject::GetObjectName() const noexcept
 	{
 		return GetComponentName();

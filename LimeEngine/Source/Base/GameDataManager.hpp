@@ -17,7 +17,7 @@ namespace LimeEngine
 	class GameDataManager
 	{
 	public:
-		GameDataManager(Engine* engine) noexcept;
+		GameDataManager() = default;
 
 		GameResourceData LoadResourceData(const ResourcePath& resourcePath, const std::string& loadParams) const
 		{
@@ -85,7 +85,6 @@ namespace LimeEngine
 
 	private:
 		std::map<ResourcePath, std::unique_ptr<GameResource>> resources;
-		Engine* engine;
 		GameDataLoader loader;
 	};
 }

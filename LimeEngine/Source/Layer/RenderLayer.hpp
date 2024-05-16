@@ -12,7 +12,8 @@ namespace LimeEngine
 		LE_DELETE_COPY(RenderLayer);
 
 	public:
-		RenderLayer(Engine* engine);
+		RenderLayer() = default;
+		static RenderLayer& GetRenderLayer();
 
 		void Update() override;
 		void AddToRender(IDrawable* drawable);

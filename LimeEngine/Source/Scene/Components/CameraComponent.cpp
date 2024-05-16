@@ -1,16 +1,14 @@
 // Copyright (C) Pavel Jakushik - All rights reserved
 // See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
-#include "lepch.hpp"
 #include "CameraComponent.hpp"
-#include "Engine.hpp"
 #include "Base/Math.hpp"
 
 namespace LimeEngine
 {
-	CameraComponent::CameraComponent(
-		Engine* engine, const std::string& componentName, float width, float height, ProjectionType projectionType, float fovDegrees, float nearZ, float farZ) noexcept :
-		SceneComponent(engine, componentName),
+	CameraComponent::CameraComponent(const std::string& componentName, float width, float height, ProjectionType projectionType, float fovDegrees, float nearZ, float farZ) noexcept
+		:
+		SceneComponent(componentName),
 		projectionType(projectionType), width(width), height(height), fovDegrees(fovDegrees), nearZ(nearZ), farZ(farZ), aspectRatio(width / height)
 	{
 		SetProjectionType(projectionType);

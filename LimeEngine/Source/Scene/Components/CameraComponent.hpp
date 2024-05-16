@@ -15,7 +15,6 @@ namespace LimeEngine
 			Orthographic
 		};
 		explicit CameraComponent(
-			Engine* engine,
 			const std::string& componentName = "DefaultPlayerCameraComponent",
 			float width = 1080,
 			float height = 720,

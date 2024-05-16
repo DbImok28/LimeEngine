@@ -11,7 +11,7 @@ namespace LimeEngine
 		LE_DELETE_COPY(TestMap)
 
 	public:
-		explicit TestMap(Engine* engine) : SceneMap(engine, "TestMap") {}
+		TestMap() : SceneMap("TestMap") {}
 
 		void Load() override;
 		virtual void Update() override;

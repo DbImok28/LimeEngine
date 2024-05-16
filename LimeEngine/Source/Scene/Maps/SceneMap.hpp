@@ -10,7 +10,7 @@ namespace LimeEngine
 	{
 
 	public:
-		explicit SceneMap(Engine* engine, const std::string& mapName = "SceneMap");
+		explicit SceneMap(const std::string& mapName = "SceneMap") : ScenePrimaryComponent(mapName) {}
 		virtual ~SceneMap() noexcept = default;
 
 		virtual void Load(){};
@@ -25,8 +25,5 @@ namespace LimeEngine
 		const std::vector<std::unique_ptr<SceneObject>>& GetSubObjects() const noexcept;
 
 		std::string GetMapName() const noexcept;
-
-	protected:
-		Engine* engine = nullptr;
 	};
 }

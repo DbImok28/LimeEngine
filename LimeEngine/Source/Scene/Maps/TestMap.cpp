@@ -15,7 +15,7 @@ namespace LimeEngine
 	{
 		LE_CORE_LOG_TRACE("Load map: {}", GetMapName());
 
-		auto& inputDevice = engine->inputLayer.GetInputDevice();
+		auto& inputDevice = InputLayer::GetInputLayer().GetInputDevice();
 
 		// Input
 		inputDevice.AddAxisMapping({
@@ -35,7 +35,7 @@ namespace LimeEngine
 		inputDevice.BindActionEvent("Print", InputActionType::Released, []() { LE_LOG_DEBUG("Released F"); });
 
 		// DataManager
-		auto& gameDataManager = engine->dataLayer.GetGameDataManager();
+		auto& gameDataManager = DataLayer::GetDataLayer().GetGameDataManager();
 
 		// Load materials
 		static auto vertexShader = VertexShader::Create(Paths::ShaderFolder / "VertexShader.cso", MaterialType::Solid);
@@ -87,9 +87,9 @@ namespace LimeEngine
 		boxMaterialInstance->SetTextureParameter(texture, 0u);
 		boxMesh->segments[0].SetMaterial(boxMaterialInstance);
 
-		auto box1Object = SetupAttachment<MeshObject>(engine, "Box1");
+		auto box1Object = SetupAttachment<MeshObject>("Box1");
 		box1Object->SetMesh(boxMesh);
-		auto box2Component = box1Object->SetupAttachment<MeshComponent>(engine, "Box2");
+		auto box2Component = box1Object->SetupAttachment<MeshComponent>("Box2");
 		box2Component->SetTransform(Transform(0, 10, 0));
 		box2Component->SetMesh(boxMesh);
 
@@ -104,29 +104,29 @@ namespace LimeEngine
 		SphereMaterialInstance->SetTextureParameter(SphereTexture, 0u);
 
 		// Primitives
-		auto planeMesh = Plane(40, 10, 12).CreateMesh(engine, "EngineContent/Plane");
+		auto planeMesh = Plane(40, 10, 12).CreateMesh("EngineContent/Plane");
 		planeMesh->segments[0].SetMaterial(UVMappingMaterialInstance);
 
-		auto planeObject = SetupAttachment<MeshObject>(engine, "Plane");
+		auto planeObject = SetupAttachment<MeshObject>("Plane");
 		planeObject->SetTransform(Transform(10.05f, 0.1f, 10));
 		planeObject->SetMesh(planeMesh);
 
-		auto sphereMesh = Sphere(10, 16, 16).CreateMesh(engine, "EngineContent/Sphere");
+		auto sphereMesh = Sphere(10, 16, 16).CreateMesh("EngineContent/Sphere");
 		sphereMesh->segments[0].SetMaterial(UVMappingMaterialInstance);
 
-		auto sphereObject = SetupAttachment<MeshObject>(engine, "Sphere");
+		auto sphereObject = SetupAttachment<MeshObject>("Sphere");
 		sphereObject->SetTransform(Transform(10.005f, 0, 10));
 		sphereObject->SetMesh(sphereMesh);
 
-		auto cubesphereMesh = Cubesphere(10, 3).CreateMesh(engine, "EngineContent/Cubesphere");
+		auto cubesphereMesh = Cubesphere(10, 3).CreateMesh("EngineContent/Cubesphere");
 		cubesphereMesh->segments[0].SetMaterial(UVMappingMaterialInstance);
 
-		auto cubesphereObject = SetupAttachment<MeshObject>(engine, "Cubesphere");
+		auto cubesphereObject = SetupAttachment<MeshObject>("Cubesphere");
 		cubesphereObject->SetTransform(Transform(-10.0005f, 0, 10));
 		cubesphereObject->SetMesh(cubesphereMesh);
 
 		// Camera
-		auto playerCamera = SetupAttachment<SceneObject>(engine)->SetupAttachment<DefaultPlayerCameraComponent>(engine, "PlayerCamera");
+		auto playerCamera = SetupAttachment<SceneObject>()->SetupAttachment<DefaultPlayerCameraComponent>("PlayerCamera");
 		playerCamera->SetTransform(Transform(0, 5, -10));
 	}
 

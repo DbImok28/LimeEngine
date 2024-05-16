@@ -11,7 +11,7 @@ namespace LimeEngine
 	class MeshComponent : public SceneComponent, IDrawable
 	{
 	public:
-		explicit MeshComponent(Engine* engine, const std::string& componentName = "MeshComponent");
+		explicit MeshComponent(const std::string& componentName = "MeshComponent");
 		~MeshComponent();
 
 		void SetMesh(const ResourcePath& resourcePath);
