@@ -36,9 +36,13 @@ namespace LimeEngine
 
 		// DataManager
 		auto& gameDataManager = DataLayer::GetDataLayer().GetGameDataManager();
-
 		// Load materials
-		static auto vertexShader = VertexShader::Create(Paths::ShaderFolder / "VertexShader.cso", MaterialType::Solid);
+		InputLayout InputLayout = {
+			{"POSITION",  ShaderDataType::RGB32F, true},
+            { "NORMAL",   ShaderDataType::RGB32F, true},
+            { "TEXCOORD", ShaderDataType::RG32F,  true}
+		};
+		static auto vertexShader = VertexShader::Create(Paths::ShaderFolder / "VertexShader.cso", InputLayout);
 		static auto pixelShader = PixelShader::Create(Paths::ShaderFolder / "PixelShader.cso");
 		auto material = gameDataManager.CreateMaterial("EngineContent/M_Cat", std::move(vertexShader), std::move(pixelShader), MaterialType::Solid);
 

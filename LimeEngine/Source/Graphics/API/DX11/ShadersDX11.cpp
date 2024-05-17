@@ -5,21 +5,67 @@
 #include "ShadersDX11.hpp"
 #include "ExceptionsDX11.hpp"
 #include "Utility/StringUtility.hpp"
-#include "Graphics/Material.hpp"
 
 namespace LimeEngine
 {
-	// VertexShaderDX11
+	///////////////////////////////////////////////// InputLayout
+
+	DXGI_FORMAT ConvertToDX11ShaderDataType(ShaderDataType type)
+	{
+		switch (type)
+		{
+			case ShaderDataType::R8: return DXGI_FORMAT::DXGI_FORMAT_R8_UNORM;
+			case ShaderDataType::RG8: return DXGI_FORMAT::DXGI_FORMAT_R8G8_UNORM;
+			case ShaderDataType::RGBA8: return DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
+			case ShaderDataType::RGBA8_SRGB: return DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+			case ShaderDataType::R16F: return DXGI_FORMAT::DXGI_FORMAT_R16_FLOAT;
+			case ShaderDataType::RG16F: return DXGI_FORMAT::DXGI_FORMAT_R16G16_FLOAT;
+			case ShaderDataType::RGBA16F: return DXGI_FORMAT::DXGI_FORMAT_R16G16B16A16_FLOAT;
+			case ShaderDataType::R32F: return DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT;
+			case ShaderDataType::RG32F: return DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT;
+			case ShaderDataType::RGB32F: return DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT;
+			case ShaderDataType::RGBA32F: return DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT;
+			case ShaderDataType::RGB10A2: return DXGI_FORMAT::DXGI_FORMAT_R10G10B10A2_UNORM;
+			case ShaderDataType::RGB10_XR_BIAS_A2: return DXGI_FORMAT::DXGI_FORMAT_R10G10B10_XR_BIAS_A2_UNORM;
+			case ShaderDataType::BGRA8: return DXGI_FORMAT::DXGI_FORMAT_B8G8R8A8_UNORM;
+			case ShaderDataType::BGRA8_SRGB: return DXGI_FORMAT::DXGI_FORMAT_B8G8R8A8_UNORM_SRGB;
+		}
+		LE_CORE_ASSERT(false, "Unknown ShaderDataType");
+		return DXGI_FORMAT::DXGI_FORMAT_UNKNOWN;
+	}
+
+	std::vector<D3D11_INPUT_ELEMENT_DESC> ConvertToDX11InputLayout(const InputLayout& inputLayout)
+	{
+		std::vector<D3D11_INPUT_ELEMENT_DESC> inputLayoutDX11{};
+		inputLayoutDX11.reserve(inputLayout.GetSize());
+		bool isFirst = true;
+		for (auto& element : inputLayout)
+		{
+			inputLayoutDX11.push_back({ element.name.c_str(),
+										0,
+										ConvertToDX11ShaderDataType(element.dataType),
+										0,
+										isFirst ? 0 : D3D11_APPEND_ALIGNED_ELEMENT,
+										element.perVertex ? D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA : D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_INSTANCE_DATA,
+										0 });
+			isFirst = false;
+		}
+		return inputLayoutDX11;
+	}
+
+	///////////////////////////////////////////////// VertexShaderDX11
 
 	VertexShaderDX11::VertexShaderDX11() noexcept {}
 
-	VertexShaderDX11::VertexShaderDX11(const FPath& filePath, MaterialType materialType)
+	VertexShaderDX11::VertexShaderDX11(const FPath& filePath, const InputLayout& inputLayout)
 	{
-		Initialize(filePath, materialType);
+		Initialize(filePath, inputLayout);
 	}
 
-	void VertexShaderDX11::Initialize(const FPath& filePath, MaterialType materialType)
+	void VertexShaderDX11::Initialize(const FPath& filePath, const InputLayout& inputLayout)
 	{
+		this->inputLayout = inputLayout;
+
 		HRESULT hr = D3DReadFileToBlob(filePath.c_str(), shaderBuffer.GetAddressOf());
 		if (FAILED(hr))
 		{
@@ -27,23 +73,14 @@ namespace LimeEngine
 			oss << "Failed to load vertex shader: " << filePath;
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
-		auto loyout = MakeInputLayout(materialType);
+		auto loyout = ConvertToDX11InputLayout(this->inputLayout);
 		Renderer::GetRenderer<RendererDX11>().context.CreateVertexShader(
-			loyout.data(), static_cast<uint>(loyout.size()), shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), inputLoyout.GetAddressOf(), shader.GetAddressOf());
-	}
-
-	std::vector<D3D11_INPUT_ELEMENT_DESC> VertexShaderDX11::MakeInputLayout(MaterialType materialType) const
-	{
-		switch (materialType)
-		{
-			case MaterialType::Solid:
-				return {
-					{"POSITION",  0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,                            D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0},
-					{ "NORMAL",   0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0},
-					{ "TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT,    0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA, 0},
-				};
-			default: throw GFX_EXCEPTION_MSG("This material type is not supported.");
-		}
+			loyout.data(),
+			static_cast<uint>(loyout.size()),
+			shaderBuffer->GetBufferPointer(),
+			shaderBuffer->GetBufferSize(),
+			inputLoyoutDX11.GetAddressOf(),
+			shader.GetAddressOf());
 	}
 
 	ID3D11VertexShader* VertexShaderDX11::GetShader() const noexcept
@@ -56,19 +93,19 @@ namespace LimeEngine
 		return shaderBuffer.Get();
 	}
 
-	ID3D11InputLayout* VertexShaderDX11::GetInputLoyout() const noexcept
+	ID3D11InputLayout* VertexShaderDX11::GetInputLoyoutDX11() const noexcept
 	{
-		return inputLoyout.Get();
+		return inputLoyoutDX11.Get();
 	}
 
 	void VertexShaderDX11::Bind() noexcept
 	{
 		auto& context = Renderer::GetRenderer<RendererDX11>().context;
-		context.SetInputLayout(GetInputLoyout());
+		context.SetInputLayout(GetInputLoyoutDX11());
 		context.SetVertexShader(GetShader());
 	}
 
-	// PixelShaderDX11
+	///////////////////////////////////////////////// PixelShaderDX11
 
 	PixelShaderDX11::PixelShaderDX11() noexcept {}
 

@@ -7,7 +7,29 @@
 
 namespace LimeEngine
 {
-	// VertexBufferDX11
+	///////////////////////////////////////////////// VertexBufferDX11
+
+	VertexBufferDX11::VertexBufferDX11(const void* vertices, uint count, uint stride, uint offset)
+	{
+		Initialize(vertices, count, stride, offset);
+	}
+
+	void VertexBufferDX11::Initialize(const void* vertices, uint count, uint stride, uint offset)
+	{
+		this->count = count;
+		this->stride = stride;
+		this->offset = offset;
+
+		Reset();
+		GFX_CHECK_HR_MSG(
+			Renderer::GetRenderer<RendererDX11>().context.TryCreateBuffer(buffer.GetAddressOf(), vertices, stride * count, stride, D3D11_BIND_VERTEX_BUFFER),
+			"Failed to initialize vertex buffer");
+	}
+
+	void VertexBufferDX11::Reset()
+	{
+		if (buffer.Get()) buffer.Reset();
+	}
 
 	void VertexBufferDX11::Bind() noexcept
 	{
@@ -24,21 +46,12 @@ namespace LimeEngine
 		return buffer.GetAddressOf();
 	}
 
-	VertexBufferDX11::VertexBufferDX11(const void* vertices, uint count, uint stride, uint offset) : count(count), stride(stride), offset(offset)
-	{
-		if (buffer.Get()) buffer.Reset();
-
-		GFX_CHECK_HR_MSG(
-			Renderer::GetRenderer<RendererDX11>().context.TryCreateBuffer(buffer.GetAddressOf(), vertices, stride * count, stride, D3D11_BIND_VERTEX_BUFFER),
-			"Failed to initialize vertex buffer");
-	}
-
-	uint VertexBufferDX11::VertexCount() const noexcept
+	uint VertexBufferDX11::GetCount() const noexcept
 	{
 		return count;
 	}
 
-	uint VertexBufferDX11::Stride() const noexcept
+	uint VertexBufferDX11::GetStride() const noexcept
 	{
 		return stride;
 	}
@@ -48,13 +61,31 @@ namespace LimeEngine
 		return &stride;
 	}
 
-	// IndexBufferDX11
-
-	IndexBufferDX11::IndexBufferDX11(const uint* indices, uint count) : count(count)
+	uint VertexBufferDX11::GetOffset() const noexcept
 	{
+		return offset;
+	}
+
+	///////////////////////////////////////////////// IndexBufferDX11
+
+	IndexBufferDX11::IndexBufferDX11(const uint* indices, uint count)
+	{
+		Initialize(indices, count);
+	}
+
+	void IndexBufferDX11::Initialize(const uint* indices, uint count)
+	{
+		this->count = count;
+
+		Reset();
 		GFX_CHECK_HR_MSG(
 			Renderer::GetRenderer<RendererDX11>().context.TryCreateBuffer(buffer.GetAddressOf(), indices, sizeof(uint) * count, sizeof(uint), D3D11_BIND_INDEX_BUFFER),
 			"Failed to initialize index buffer");
+	}
+
+	void IndexBufferDX11::Reset()
+	{
+		if (buffer.Get()) buffer.Reset();
 	}
 
 	void IndexBufferDX11::Bind() noexcept
@@ -72,12 +103,12 @@ namespace LimeEngine
 		return buffer.GetAddressOf();
 	}
 
-	uint IndexBufferDX11::Count() const noexcept
+	uint IndexBufferDX11::GetCount() const noexcept
 	{
 		return count;
 	}
 
-	// ConstantBufferBaseDX11
+	///////////////////////////////////////////////// ConstantBufferBaseDX11
 
 	ConstantBufferBaseDX11::ConstantBufferBaseDX11(const void* data, uint dataSize)
 	{
@@ -103,7 +134,7 @@ namespace LimeEngine
 		return buffer.GetAddressOf();
 	}
 
-	// VSConstantBufferBaseDX11
+	///////////////////////////////////////////////// VSConstantBufferBaseDX11
 
 	void VSConstantBufferBaseDX11::Bind() noexcept
 	{
@@ -115,7 +146,7 @@ namespace LimeEngine
 		ConstantBufferBaseDX11::ApplyChanges(data, dataSize);
 	}
 
-	// PSConstantBufferBaseDX11
+	///////////////////////////////////////////////// PSConstantBufferBaseDX11
 
 	void PSConstantBufferBaseDX11::Bind() noexcept
 	{

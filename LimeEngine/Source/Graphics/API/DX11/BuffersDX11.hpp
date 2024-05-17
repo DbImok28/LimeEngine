@@ -13,20 +13,21 @@ namespace LimeEngine
 	public:
 		VertexBufferDX11(const void* vertices, uint count, uint stride, uint offset = 0u);
 
+		void Initialize(const void* vertices, uint count, uint stride, uint offset = 0u);
+		void Reset();
 		virtual void Bind() noexcept override;
+
 		ID3D11Buffer* Get() const noexcept;
 		ID3D11Buffer* const* GetAddressOf() const noexcept;
-		uint VertexCount() const noexcept;
-		uint Stride() const noexcept;
+		virtual uint GetCount() const noexcept override;
+		uint GetStride() const noexcept;
 		const uint* StridePtr() const noexcept;
-
-	public:
-		uint offset = 0u;
+		uint GetOffset() const noexcept;
 
 	private:
 		com_ptr<ID3D11Buffer> buffer;
 		uint stride = 0u;
-		uint count = 0u;
+		uint offset = 0u;
 	};
 
 	class IndexBufferDX11 : public IndexBuffer
@@ -34,14 +35,16 @@ namespace LimeEngine
 	public:
 		IndexBufferDX11(const uint* indices, uint count);
 
-		void Bind() noexcept;
+		void Initialize(const uint* indices, uint count);
+		void Reset();
+		virtual void Bind() noexcept override;
+
 		ID3D11Buffer* Get() const noexcept;
 		ID3D11Buffer* const* GetAddressOf() const noexcept;
-		uint Count() const noexcept;
+		virtual uint GetCount() const noexcept override;
 
 	private:
 		com_ptr<ID3D11Buffer> buffer;
-		uint count = 0u;
 	};
 
 	class ConstantBufferBaseDX11

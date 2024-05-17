@@ -26,8 +26,8 @@ namespace LimeEngine
 		void BindData(Material* material, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix);
 
 	public:
-		std::unique_ptr<VertexBuffer> vertexBuffer;
-		std::unique_ptr<IndexBuffer> indexBuffer;
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		std::shared_ptr<IndexBuffer> indexBuffer;
 		VSConstantBuffer<VSTransformConstantBuffer> transformConstantBuffer;
 	};
 }

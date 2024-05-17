@@ -10,26 +10,48 @@ namespace LimeEngine
 	{
 	public:
 		template <typename T>
-		static std::unique_ptr<VertexBuffer> Create(const std::vector<T>& vertices, uint offset = 0u)
+		static std::shared_ptr<VertexBuffer> Create(const std::vector<T>& vertices, uint offset = 0u)
 		{
 			return Create(vertices.data(), vertices.size(), sizeof(T), offset);
 		}
 		template <typename T>
-		static std::unique_ptr<VertexBuffer> Create(T* vertices, uint count, uint offset = 0u)
+		static std::shared_ptr<VertexBuffer> Create(T* vertices, uint count, uint offset = 0u)
 		{
 			return Create(vertices, count, sizeof(T), offset);
 		}
-		static std::unique_ptr<VertexBuffer> Create(const void* vertices, uint count, uint stride, uint offset = 0u);
+		static std::shared_ptr<VertexBuffer> Create(const void* vertices, uint count, uint stride, uint offset = 0u);
+
+	public:
+		virtual ~VertexBuffer() = default;
+
+		virtual uint GetCount() const noexcept
+		{
+			return count;
+		}
+
+	protected:
+		uint count = 0u;
 	};
 
 	class IndexBuffer : public IBindable
 	{
 	public:
-		static std::unique_ptr<IndexBuffer> Create(const std::vector<uint>& indices)
+		static std::shared_ptr<IndexBuffer> Create(const std::vector<uint>& indices)
 		{
 			return Create(indices.data(), indices.size());
 		}
-		static std::unique_ptr<IndexBuffer> Create(const uint* indices, uint count);
+		static std::shared_ptr<IndexBuffer> Create(const uint* indices, uint count);
+
+	public:
+		virtual ~IndexBuffer() = default;
+
+		virtual uint GetCount() const noexcept
+		{
+			return count;
+		}
+
+	protected:
+		uint count = 0u;
 	};
 
 	// ======================================
@@ -37,6 +59,7 @@ namespace LimeEngine
 	class ConstantBufferBase : public IBindable
 	{
 	public:
+		virtual ~ConstantBufferBase() = default;
 		virtual void ApplyChanges(const void* data, uint dataSize) = 0;
 	};
 
@@ -44,22 +67,22 @@ namespace LimeEngine
 	{
 	public:
 		template <typename T>
-		static std::unique_ptr<VSConstantBufferBase> Create(T* data)
+		static std::shared_ptr<VSConstantBufferBase> Create(T* data)
 		{
 			return Create(data, sizeof(T));
 		}
-		static std::unique_ptr<VSConstantBufferBase> Create(const void* data, uint dataSize);
+		static std::shared_ptr<VSConstantBufferBase> Create(const void* data, uint dataSize);
 	};
 
 	class PSConstantBufferBase : public ConstantBufferBase
 	{
 	public:
 		template <typename T>
-		static std::unique_ptr<PSConstantBufferBase> Create(T* data)
+		static std::shared_ptr<PSConstantBufferBase> Create(T* data)
 		{
 			return Create(data, sizeof(T));
 		}
-		static std::unique_ptr<PSConstantBufferBase> Create(const void* data, uint dataSize);
+		static std::shared_ptr<PSConstantBufferBase> Create(const void* data, uint dataSize);
 	};
 
 	// ======================================
@@ -87,7 +110,7 @@ namespace LimeEngine
 
 	public:
 		T data{};
-		std::unique_ptr<TBuff> buff;
+		std::shared_ptr<TBuff> buff;
 	};
 
 	template <typename T>
