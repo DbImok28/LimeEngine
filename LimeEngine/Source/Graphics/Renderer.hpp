@@ -18,7 +18,7 @@ namespace LimeEngine
 		LE_DELETE_MOVE_COPY(Renderer)
 
 	public:
-		static void Create(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs);
+		static void Initialize(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs);
 
 	public:
 		Renderer() noexcept = default;
@@ -40,7 +40,6 @@ namespace LimeEngine
 		void AddToRender(IDrawable* drawable);
 		void RemoveFromRender(const IDrawable* drawable) noexcept;
 
-		virtual std::string GetVideoAdapterName() const noexcept = 0;
 		virtual RenderOutput& GetRenderOutput() noexcept = 0;
 		virtual const RenderOutput& GetRenderOutput() const noexcept = 0;
 

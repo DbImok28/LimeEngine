@@ -3,6 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "lepch.hpp"
+#include "Graphics/RenderAPI.hpp"
 #include "RenderLayer.hpp"
 #include "Engine.hpp"
 
@@ -17,7 +18,7 @@ namespace LimeEngine
 	{
 		auto& renderer = Renderer::GetRenderer();
 		RuntimeEditor::BeginPanel("Renderer");
-		RuntimeEditor::Text("GPU Name", renderer.GetVideoAdapterName());
+		RuntimeEditor::Text("GPU Name", RenderAPI::GetRenderAPI().GetVideoAdapterName());
 		RuntimeEditor::EndPanel();
 
 		RuntimeEditor::BeginPanel("Window");

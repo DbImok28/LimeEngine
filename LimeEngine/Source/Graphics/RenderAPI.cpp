@@ -5,6 +5,7 @@
 
 #ifdef LE_ENABLE_RENDER_API_DX11
 	#include "Graphics/API/DX11/RendererDX11.hpp"
+	#include "Graphics/API/DX11/RenderAPIDX11.hpp"
 #endif
 
 namespace LimeEngine
@@ -43,4 +44,26 @@ namespace LimeEngine
 		LE_CORE_ASSERT(false, "Unknown render API. Failed to create renderer");
 		return nullptr;
 	}
+
+	std::unique_ptr<RenderAPI> RenderAPI::CreateRendererAPI(RenderAPIType api)
+	{
+		LE_CORE_LOG_TRACE("Creating a {} renderer", RenderAPIToString(api));
+		switch (api)
+		{
+			case RenderAPIType::None: break;
+#if defined(LE_ENABLE_RENDER_API_DX11)
+			case RenderAPIType::DirectX11: return std::make_unique<RenderAPIDX11>();
+#endif
+			default: break;
+		}
+		LE_CORE_ASSERT(false, "Unknown render API. Failed to create renderer");
+		return nullptr;
+	}
+
+	void RenderAPI::Initialize()
+	{
+		rendererAPI = CreateRendererAPI(DefaultRenderAPI);
+	}
+
+	std::unique_ptr<RenderAPI> RenderAPI::rendererAPI;
 }

@@ -3,7 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "Graphics/Texture2D.hpp"
-#include "RendererDX11.hpp"
+#include "RenderAPIDX11.hpp"
 
 namespace LimeEngine
 {

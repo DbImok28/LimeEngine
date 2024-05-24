@@ -22,7 +22,7 @@ namespace LimeEngine
 
 		Reset();
 		GFX_CHECK_HR_MSG(
-			Renderer::GetRenderer<RendererDX11>().context.TryCreateBuffer(buffer.GetAddressOf(), vertices, stride * count, stride, D3D11_BIND_VERTEX_BUFFER),
+			RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().TryCreateBuffer(buffer.GetAddressOf(), vertices, stride * count, stride, D3D11_BIND_VERTEX_BUFFER),
 			"Failed to initialize vertex buffer");
 	}
 
@@ -33,7 +33,7 @@ namespace LimeEngine
 
 	void VertexBufferDX11::Bind() noexcept
 	{
-		Renderer::GetRenderer<RendererDX11>().context.SetVertexBuffers(0u, GetAddressOf(), 1u, StridePtr(), &offset);
+		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().SetVertexBuffers(0u, GetAddressOf(), 1u, StridePtr(), &offset);
 	}
 
 	ID3D11Buffer* VertexBufferDX11::Get() const noexcept
@@ -79,7 +79,7 @@ namespace LimeEngine
 
 		Reset();
 		GFX_CHECK_HR_MSG(
-			Renderer::GetRenderer<RendererDX11>().context.TryCreateBuffer(buffer.GetAddressOf(), indices, sizeof(uint) * count, sizeof(uint), D3D11_BIND_INDEX_BUFFER),
+			RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().TryCreateBuffer(buffer.GetAddressOf(), indices, sizeof(uint) * count, sizeof(uint), D3D11_BIND_INDEX_BUFFER),
 			"Failed to initialize index buffer");
 	}
 
@@ -90,7 +90,7 @@ namespace LimeEngine
 
 	void IndexBufferDX11::Bind() noexcept
 	{
-		Renderer::GetRenderer<RendererDX11>().context.SetIndexBuffer(Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT);
+		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().SetIndexBuffer(Get(), DXGI_FORMAT::DXGI_FORMAT_R32_UINT);
 	}
 
 	ID3D11Buffer* IndexBufferDX11::Get() const noexcept
@@ -114,14 +114,14 @@ namespace LimeEngine
 	{
 		uint bufferSize = static_cast<uint>(dataSize + (16u - (dataSize % 16u)));
 		GFX_CHECK_HR_MSG(
-			Renderer::GetRenderer<RendererDX11>().context.TryCreateBuffer(
+			RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().TryCreateBuffer(
 				buffer.GetAddressOf(), bufferSize, 0u, D3D11_BIND_CONSTANT_BUFFER, D3D11_USAGE_DYNAMIC, D3D11_CPU_ACCESS_WRITE),
 			"Failed to initialize constant buffer");
 	}
 
 	void ConstantBufferBaseDX11::ApplyChanges(const void* data, uint dataSize)
 	{
-		Renderer::GetRenderer<RendererDX11>().context.RewriteResource(buffer.Get(), 0u, data, dataSize);
+		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().RewriteResource(buffer.Get(), 0u, data, dataSize);
 	}
 
 	ID3D11Buffer* ConstantBufferBaseDX11::Get() const noexcept
@@ -138,7 +138,7 @@ namespace LimeEngine
 
 	void VSConstantBufferBaseDX11::Bind() noexcept
 	{
-		Renderer::GetRenderer<RendererDX11>().context.SetVertexShaderConstantBuffers(0u, GetAddressOf(), 1u);
+		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().SetVertexShaderConstantBuffers(0u, GetAddressOf(), 1u);
 	}
 
 	void VSConstantBufferBaseDX11::ApplyChanges(const void* data, uint dataSize)
@@ -150,7 +150,7 @@ namespace LimeEngine
 
 	void PSConstantBufferBaseDX11::Bind() noexcept
 	{
-		Renderer::GetRenderer<RendererDX11>().context.SetPixelShaderConstantBuffers(0u, GetAddressOf(), 1u);
+		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().SetPixelShaderConstantBuffers(0u, GetAddressOf(), 1u);
 	}
 
 	void PSConstantBufferBaseDX11::ApplyChanges(const void* data, uint dataSize)

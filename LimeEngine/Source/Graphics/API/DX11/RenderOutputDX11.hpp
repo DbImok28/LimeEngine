@@ -23,17 +23,18 @@ namespace LimeEngine
 		virtual void Present() override;
 		virtual void Resize(uint width, uint height) override;
 		virtual void SetDisplayMode(DisplayMode newMode) override;
+		virtual RenderTarget& GetRenderTarget() override;
+		virtual DepthStencil& GetDepthStencilBuffer() override;
 
 	private:
 		virtual void OnResize(uint width, uint height) override;
 		void OnResizeActionEvent();
 
-	public:
-		ID3D11Texture2D* GetBackBuffer() const noexcept;
-
 	private:
 		uint refreshRate = 60u;
 		com_ptr<IDXGISwapChain> swapchain = nullptr;
 		com_ptr<ID3D11Texture2D> backBuffer = nullptr;
+		WindowRenderTargetDX11 renderTarget;
+		DepthStencilDX11 depthStencilBuffer;
 	};
 }

@@ -2,7 +2,7 @@
 // See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
-#include "RendererDX11.hpp"
+#include "RenderAPIDX11.hpp"
 #include "Graphics/Shaders.hpp"
 
 namespace LimeEngine

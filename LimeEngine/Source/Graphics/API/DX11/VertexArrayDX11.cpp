@@ -9,7 +9,7 @@ namespace LimeEngine
 {
 	void VertexArrayDX11::Bind()
 	{
-		Renderer::GetRenderer<RendererDX11>().context.SetVertexBuffers(0u, dx11Buffers.data(), vertexBuffers.size(), strides.data(), offsets.data());
+		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().SetVertexBuffers(0u, dx11Buffers.data(), vertexBuffers.size(), strides.data(), offsets.data());
 	}
 
 	void VertexArrayDX11::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) noexcept

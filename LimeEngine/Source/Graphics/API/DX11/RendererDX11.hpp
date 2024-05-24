@@ -5,6 +5,8 @@
 #include "Graphics/Renderer.hpp"
 #include "RenderContextDX11.hpp"
 #include "RenderOutputDX11.hpp"
+#include "RenderStatesDX11.hpp"
+#include "RenderViewportDX11.hpp"
 
 namespace LimeEngine
 {
@@ -23,7 +25,7 @@ namespace LimeEngine
 
 		void Resize(uint width, uint height);
 		void CreateAllBuffers();
-		void DestroyAllBuffers();
+		void SetTriangleTopology();
 
 	private:
 		void Render() override;
@@ -31,14 +33,22 @@ namespace LimeEngine
 		void PostProcessing();
 
 	public:
-		virtual RenderOutput& GetRenderOutput() noexcept override;
-		virtual const RenderOutput& GetRenderOutput() const noexcept override;
-		virtual std::string GetVideoAdapterName() const noexcept override;
-
-	public:
-		RenderContextDX11 context;
+		virtual RenderOutput& GetRenderOutput() noexcept override
+		{
+			return renderOutput;
+		}
+		virtual const RenderOutput& GetRenderOutput() const noexcept override
+		{
+			return renderOutput;
+		}
 
 	private:
 		WindowRenderOutputDX11 renderOutput;
+
+		DepthStencilStateDX11 depthStencilState;
+		RasterizerStateDX11 rasterizerState;
+		SamplerStateDX11 samplerState;
+
+		RenderViewportDX11 viewport;
 	};
 }

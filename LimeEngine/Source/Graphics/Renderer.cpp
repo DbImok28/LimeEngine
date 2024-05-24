@@ -7,10 +7,11 @@
 
 namespace LimeEngine
 {
-	std::unique_ptr<Renderer> Renderer::renderer = RenderAPI::CreateRenderer(RenderAPI::DefaultRenderAPI);
+	std::unique_ptr<Renderer> Renderer::renderer;
 
-	void Renderer::Create(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs)
+	void Renderer::Initialize(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs)
 	{
+		renderer = RenderAPI::CreateRenderer(RenderAPI::DefaultRenderAPI);
 		renderer->Init(renderOutputArgs, rendererArgs);
 	}
 

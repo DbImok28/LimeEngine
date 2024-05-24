@@ -74,7 +74,7 @@ namespace LimeEngine
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 		auto loyout = ConvertToDX11InputLayout(this->inputLayout);
-		Renderer::GetRenderer<RendererDX11>().context.CreateVertexShader(
+		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().CreateVertexShader(
 			loyout.data(),
 			static_cast<uint>(loyout.size()),
 			shaderBuffer->GetBufferPointer(),
@@ -100,7 +100,7 @@ namespace LimeEngine
 
 	void VertexShaderDX11::Bind() noexcept
 	{
-		auto& context = Renderer::GetRenderer<RendererDX11>().context;
+		auto& context = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext();
 		context.SetInputLayout(GetInputLoyoutDX11());
 		context.SetVertexShader(GetShader());
 	}
@@ -123,12 +123,12 @@ namespace LimeEngine
 			oss << "Failed to load pixel shader: " << filePath;
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
-		Renderer::GetRenderer<RendererDX11>().context.CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), shader.GetAddressOf());
+		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), shader.GetAddressOf());
 	}
 
 	void PixelShaderDX11::Bind() noexcept
 	{
-		Renderer::GetRenderer<RendererDX11>().context.SetPixelShader(GetShader());
+		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().SetPixelShader(GetShader());
 	}
 
 	ID3D11PixelShader* PixelShaderDX11::GetShader() const noexcept

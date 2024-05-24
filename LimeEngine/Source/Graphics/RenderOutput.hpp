@@ -2,6 +2,7 @@
 // See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
+#include "RenderTarget.hpp"
 #include "IBindable.hpp"
 #include "Window/Window.hpp"
 
@@ -58,6 +59,9 @@ namespace LimeEngine
 
 		DisplayMode GetDisplayMode() const noexcept;
 		virtual void SetDisplayMode(DisplayMode mode) = 0;
+
+		virtual RenderTarget& GetRenderTarget() = 0;
+		virtual DepthStencil& GetDepthStencilBuffer() = 0;
 
 	protected:
 		Window* window = nullptr;

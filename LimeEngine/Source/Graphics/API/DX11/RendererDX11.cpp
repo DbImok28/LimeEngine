@@ -3,6 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #include "lepch.hpp"
 #include "RendererDX11.hpp"
+#include "RenderAPIDX11.hpp"
 #include "Scene/Components/MeshComponent.hpp"
 #include "Graphics/Mesh.hpp"
 #include "RenderOutputDX11.hpp"
@@ -11,11 +12,8 @@ namespace LimeEngine
 {
 	void RendererDX11::Init(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs)
 	{
-		context.CreateDevice();
 		renderOutput.Init(renderOutputArgs);
 		CreateAllBuffers();
-		context.CreateRasterizerState();
-		context.CreateSamplerState();
 	}
 
 	RendererDX11::~RendererDX11()
@@ -27,28 +25,17 @@ namespace LimeEngine
 	void RendererDX11::Resize(uint width, uint height)
 	{
 		LE_CORE_LOG_TRACE("Resize renderer(width: {}, height: {})", width, height);
-		CreateAllBuffers();
+		viewport.SetSize(width, height);
 	}
 
 	void RendererDX11::CreateAllBuffers()
 	{
-		uint width = GetRenderOutput().GetWidth();
-		uint height = GetRenderOutput().GetHeight();
-
-		GetRenderOutput().Create();
-		context.CreateDepthStencil(width, height);
-		GetRenderOutput().Bind();
-		context.CreateDepthStencilState();
-		context.CreateViewport(width, height);
+		viewport.Initialize(GetRenderOutput().GetWidth(), GetRenderOutput().GetHeight());
 	}
 
-	void RendererDX11::DestroyAllBuffers()
+	void RendererDX11::SetTriangleTopology()
 	{
-		context.DestroyRenderTargetView();
-		context.DestroyDepthStencilView();
-		context.DestroyDepthStencilBuffer();
-		GetRenderOutput().Destroy();
-		context.Flush();
+		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().SetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	}
 
 	void RendererDX11::Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix)
@@ -57,7 +44,7 @@ namespace LimeEngine
 		{
 			if (!(camera && segment.GetMaterial())) return;
 			segment.BindRenderData(segment.GetMaterial().get(), camera, transformMatrix);
-			context.DrawIndexed(segment.IndicesCount());
+			RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().DrawIndexed(segment.IndicesCount());
 		}
 	}
 
@@ -72,32 +59,24 @@ namespace LimeEngine
 	void RendererDX11::PreProcessing()
 	{
 		float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
-		context.SetRenderTargets();
-		context.ClearRenderTargetView(bgcolor);
-		context.ClearDepthStencilView();
+		//context.SetRenderTargets();
+		auto& windowRT = renderOutput.GetRenderTarget();
+		auto& windowDSB = renderOutput.GetDepthStencilBuffer();
 
-		context.SetTriangleTopology();
-		context.SetStates();
+		viewport.Bind();
+		windowRT.Bind(&windowDSB);
+		windowRT.Clear(bgcolor);
+		windowDSB.Clear();
+
+		SetTriangleTopology();
+		depthStencilState.Bind();
+		rasterizerState.Bind();
+		samplerState.Bind();
 	}
 
 	void RendererDX11::PostProcessing()
 	{
 		RuntimeEditor::Render();
 		GetRenderOutput().Present();
-	}
-
-	RenderOutput& RendererDX11::GetRenderOutput() noexcept
-	{
-		return renderOutput;
-	}
-
-	const RenderOutput& RendererDX11::GetRenderOutput() const noexcept
-	{
-		return renderOutput;
-	}
-
-	std::string RendererDX11::GetVideoAdapterName() const noexcept
-	{
-		return context.GetGraphicAdapter().GetName();
 	}
 }

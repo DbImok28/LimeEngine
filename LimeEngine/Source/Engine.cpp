@@ -3,6 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #include "lepch.hpp"
 #include "Engine.hpp"
+#include "Graphics/RenderAPI.hpp"
 
 namespace LimeEngine
 {
@@ -63,14 +64,16 @@ namespace LimeEngine
 		// TODO: Load settings from file
 
 		auto window = Window::Create(WindowArgs(TEXT("LimeEngine"), 1080, 720));
-		Renderer::Create(RenderOutputArgs(window.get()), RendererArgs{});
+		RenderAPI::Initialize();
+		Renderer::Initialize(RenderOutputArgs(window.get()), RendererArgs{});
 		Engine::Initialize(std::move(window));
 	}
 
 	void Engine::Initialize(const WindowArgs& windowArgs, const RendererArgs& renderArgs) noexcept
 	{
 		auto window = Window::Create(windowArgs);
-		Renderer::Create(RenderOutputArgs(window.get()), renderArgs);
+		RenderAPI::Initialize();
+		Renderer::Initialize(RenderOutputArgs(window.get()), renderArgs);
 		Engine::Initialize(std::move(window));
 	}
 
