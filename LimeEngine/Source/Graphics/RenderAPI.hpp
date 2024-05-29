@@ -9,23 +9,31 @@ namespace LimeEngine
 {
 	enum class RenderAPIType
 	{
-		None,
+		None = 0,
 #ifdef LE_ENABLE_RENDER_API_DX11
-		DirectX11
+		DirectX11 = 1
 #endif
 	};
 
 	std::string RenderAPIToString(RenderAPIType api) noexcept;
 
+	enum class PrimitiveTopology
+	{
+		TriangleList
+	};
+
 	class RenderAPI
 	{
 	public:
-		static std::unique_ptr<Renderer> CreateRenderer(RenderAPIType api);
 		static std::unique_ptr<RenderAPI> CreateRendererAPI(RenderAPIType api);
 
 		static void Initialize();
 
 	public:
+		virtual void SetPrimitiveTopology(PrimitiveTopology topology) const noexcept = 0;
+		virtual void DrawIndexed(uint indicesCount) const noexcept = 0;
+		virtual void BindPipline() = 0;
+
 		virtual RenderAPIType GetRenderAPIType() const noexcept = 0;
 		virtual std::string GetVideoAdapterName() const noexcept = 0;
 

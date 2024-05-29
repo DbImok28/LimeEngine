@@ -12,7 +12,7 @@ namespace LimeEngine
 		std::unique_ptr<DepthStencil> Create(uint width, uint height);
 
 	public:
-		virtual void Clear(float clearDepth = 1.0f, uint clearStencil = 0u) = 0;
+		virtual void Clear(float clearDepth = 1.0f, uint8 clearStencil = 0u) = 0;
 		virtual void ClearDepth(float clearDepth = 1.0f) = 0;
 		virtual void ClearStencil(uint clearStencil = 0u) = 0;
 		virtual void Resize(uint width, uint height) = 0;

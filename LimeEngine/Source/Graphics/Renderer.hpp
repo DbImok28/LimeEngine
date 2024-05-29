@@ -18,16 +18,16 @@ namespace LimeEngine
 		LE_DELETE_MOVE_COPY(Renderer)
 
 	public:
-		static void Initialize(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs);
-
-	public:
 		Renderer() noexcept = default;
-		virtual ~Renderer() = default;
+		Renderer(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs);
 
 	public:
-		virtual void Init(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs) = 0;
-		virtual void Render() = 0;
-		virtual void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix) = 0;
+		void Init(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs);
+		void Render();
+		void PreProcessing();
+		void PostProcessing();
+
+		void Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix);
 
 		const CameraComponent* GetCamera() const noexcept;
 		void SetCamera(CameraComponent* camera) noexcept;
@@ -38,10 +38,15 @@ namespace LimeEngine
 		float GetHeight() const noexcept;
 
 		void AddToRender(IDrawable* drawable);
-		void RemoveFromRender(const IDrawable* drawable) noexcept;
+		void RemoveFromRender(const IDrawable* drawable);
 
-		virtual RenderOutput& GetRenderOutput() noexcept = 0;
-		virtual const RenderOutput& GetRenderOutput() const noexcept = 0;
+		//TODO: Add ability to add and Remove RenderOutput
+		void RemoveRenderOutput();
+		RenderOutput& GetRenderOutput() noexcept;
+		const RenderOutput& GetRenderOutput() const noexcept;
+
+	private:
+		std::unique_ptr<RenderOutput> renderOutput;
 
 	protected:
 		CameraComponent* camera = nullptr;
@@ -50,15 +55,10 @@ namespace LimeEngine
 	public:
 		inline static Renderer& GetRenderer() noexcept
 		{
-			return *renderer.get();
-		}
-		template <typename T>
-		inline static T& GetRenderer() noexcept
-		{
-			return *reinterpret_cast<T*>(renderer.get());
+			return renderer;
 		}
 
 	private:
-		static std::unique_ptr<Renderer> renderer;
+		static Renderer renderer;
 	};
 }

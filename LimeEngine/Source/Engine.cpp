@@ -4,6 +4,7 @@
 #include "lepch.hpp"
 #include "Engine.hpp"
 #include "Graphics/RenderAPI.hpp"
+#include "Graphics/Renderer.hpp"
 
 namespace LimeEngine
 {
@@ -57,15 +58,13 @@ namespace LimeEngine
 
 	// static
 
-	Engine Engine::engine;
-
 	void Engine::Initialize() noexcept
 	{
 		// TODO: Load settings from file
 
 		auto window = Window::Create(WindowArgs(TEXT("LimeEngine"), 1080, 720));
 		RenderAPI::Initialize();
-		Renderer::Initialize(RenderOutputArgs(window.get()), RendererArgs{});
+		Renderer::GetRenderer().Init(RenderOutputArgs(window.get()), RendererArgs{});
 		Engine::Initialize(std::move(window));
 	}
 
@@ -73,7 +72,7 @@ namespace LimeEngine
 	{
 		auto window = Window::Create(windowArgs);
 		RenderAPI::Initialize();
-		Renderer::Initialize(RenderOutputArgs(window.get()), renderArgs);
+		Renderer::GetRenderer().Init(RenderOutputArgs(window.get()), renderArgs);
 		Engine::Initialize(std::move(window));
 	}
 

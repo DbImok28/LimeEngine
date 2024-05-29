@@ -7,6 +7,8 @@
 
 namespace LimeEngine
 {
+	class Renderer;
+
 	class RenderLayer : public EngineLayer
 	{
 		LE_DELETE_COPY(RenderLayer);
@@ -17,7 +19,7 @@ namespace LimeEngine
 
 		void Update() override;
 		void AddToRender(IDrawable* drawable);
-		void RemoveFromRender(const IDrawable* drawable) noexcept;
+		void RemoveFromRender(const IDrawable* drawable);
 
 		const CameraComponent* GetRenderCamera() const noexcept;
 		void SetRenderCamera(CameraComponent* camera) noexcept;

@@ -73,14 +73,13 @@ namespace LimeEngine
 			oss << "Failed to load vertex shader: " << filePath;
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
+
 		auto loyout = ConvertToDX11InputLayout(this->inputLayout);
-		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().CreateVertexShader(
-			loyout.data(),
-			static_cast<uint>(loyout.size()),
-			shaderBuffer->GetBufferPointer(),
-			shaderBuffer->GetBufferSize(),
-			inputLoyoutDX11.GetAddressOf(),
-			shader.GetAddressOf());
+		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
+
+		GFX_CHECK_HR(device->CreateInputLayout(
+			loyout.data(), static_cast<uint>(loyout.size()), shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), inputLoyoutDX11.GetAddressOf()));
+		GFX_CHECK_HR(device->CreateVertexShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf()));
 	}
 
 	ID3D11VertexShader* VertexShaderDX11::GetShader() const noexcept
@@ -100,9 +99,9 @@ namespace LimeEngine
 
 	void VertexShaderDX11::Bind() noexcept
 	{
-		auto& context = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext();
-		context.SetInputLayout(GetInputLoyoutDX11());
-		context.SetVertexShader(GetShader());
+		auto deviceContext = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext();
+		deviceContext->IASetInputLayout(GetInputLoyoutDX11());
+		deviceContext->VSSetShader(GetShader(), NULL, 0u);
 	}
 
 	///////////////////////////////////////////////// PixelShaderDX11
@@ -123,12 +122,15 @@ namespace LimeEngine
 			oss << "Failed to load pixel shader: " << filePath;
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
-		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), shader.GetAddressOf());
+
+		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
+		device->CreatePixelShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf());
 	}
 
 	void PixelShaderDX11::Bind() noexcept
 	{
-		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().SetPixelShader(GetShader());
+		auto deviceContext = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext();
+		deviceContext->PSSetShader(GetShader(), NULL, 0u);
 	}
 
 	ID3D11PixelShader* PixelShaderDX11::GetShader() const noexcept

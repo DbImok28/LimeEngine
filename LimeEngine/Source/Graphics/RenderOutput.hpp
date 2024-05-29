@@ -3,6 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "RenderTarget.hpp"
+#include "RenderViewport.hpp"
 #include "IBindable.hpp"
 #include "Window/Window.hpp"
 
@@ -30,6 +31,9 @@ namespace LimeEngine
 	class RenderOutput : public IBindable
 	{
 	public:
+		static std::unique_ptr<RenderOutput> CreateWindowRenderOutput(const RenderOutputArgs& args);
+
+	public:
 		virtual ~RenderOutput();
 
 	public:
@@ -42,7 +46,7 @@ namespace LimeEngine
 		virtual void Resize(uint width, uint height) = 0;
 
 	protected:
-		virtual void OnResize(uint width, uint height) = 0;
+		virtual void OnWindowResize(uint width, uint height) = 0;
 
 	private:
 		void OnResizeEvent(const Event& e);
@@ -61,6 +65,7 @@ namespace LimeEngine
 		virtual void SetDisplayMode(DisplayMode mode) = 0;
 
 		virtual RenderTarget& GetRenderTarget() = 0;
+		virtual RenderViewport& GetRenderViewport() = 0;
 		virtual DepthStencil& GetDepthStencilBuffer() = 0;
 
 	protected:

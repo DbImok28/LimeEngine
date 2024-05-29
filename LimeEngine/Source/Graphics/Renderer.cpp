@@ -7,12 +7,54 @@
 
 namespace LimeEngine
 {
-	std::unique_ptr<Renderer> Renderer::renderer;
-
-	void Renderer::Initialize(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs)
+	Renderer::Renderer(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs)
 	{
-		renderer = RenderAPI::CreateRenderer(RenderAPI::DefaultRenderAPI);
-		renderer->Init(renderOutputArgs, rendererArgs);
+		Init(renderOutputArgs, rendererArgs);
+	}
+
+	void Renderer::Init(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs)
+	{
+		renderOutput = RenderOutput::CreateWindowRenderOutput(renderOutputArgs);
+	}
+
+	void Renderer::Render()
+	{
+		if (!camera || !renderOutput) return;
+		PreProcessing();
+		renderQueue.Draw(*this);
+		PostProcessing();
+	}
+
+	void Renderer::PreProcessing()
+	{
+		float bgcolor[] = { 0.92f, 0.24f, 0.24f, 1.0f };
+		auto& windowRT = renderOutput->GetRenderTarget();
+		auto& windowDSB = renderOutput->GetDepthStencilBuffer();
+
+		renderOutput->GetRenderViewport().Bind();
+		windowRT.Bind(&windowDSB);
+		windowRT.Clear(bgcolor);
+		windowDSB.Clear();
+
+		RenderAPI::GetRenderAPI().SetPrimitiveTopology(PrimitiveTopology::TriangleList);
+		RenderAPI::GetRenderAPI().BindPipline();
+	}
+
+	void Renderer::PostProcessing()
+	{
+		RuntimeEditor::Render();
+		GetRenderOutput().Present();
+	}
+
+	void Renderer::Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix)
+	{
+		for (auto& segment : mesh.segments)
+		{
+			if (!(camera && segment.GetMaterial())) return;
+			segment.BindRenderData(segment.GetMaterial().get(), camera, transformMatrix);
+
+			RenderAPI::GetRenderAPI().DrawIndexed(segment.IndicesCount());
+		}
 	}
 
 	const CameraComponent* Renderer::GetCamera() const noexcept
@@ -50,8 +92,23 @@ namespace LimeEngine
 		renderQueue.Add(drawable);
 	}
 
-	void Renderer::RemoveFromRender(const IDrawable* drawable) noexcept
+	void Renderer::RemoveFromRender(const IDrawable* drawable)
 	{
 		renderQueue.Remove(drawable);
+	}
+
+	void Renderer::RemoveRenderOutput()
+	{
+		renderOutput = nullptr;
+	}
+
+	RenderOutput& Renderer::GetRenderOutput() noexcept
+	{
+		return *renderOutput;
+	}
+
+	const RenderOutput& Renderer::GetRenderOutput() const noexcept
+	{
+		return *renderOutput;
 	}
 }

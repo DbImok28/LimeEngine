@@ -3,7 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "Graphics/IBindable.hpp"
-#include "RenderContextDX11.hpp"
+#include "DirectXDef.hpp"
 
 namespace LimeEngine
 {
@@ -12,10 +12,8 @@ namespace LimeEngine
 	public:
 		DepthStencilStateDX11();
 
+		void Initialize(ID3D11Device* device = nullptr);
 		virtual void Bind() override;
-
-	private:
-		void Initialize();
 
 	private:
 		com_ptr<ID3D11DepthStencilState> depthStencilState = nullptr;
@@ -26,10 +24,7 @@ namespace LimeEngine
 	public:
 		RasterizerStateDX11();
 
-	private:
-		void Initialize();
-
-	public:
+		void Initialize(ID3D11Device* device = nullptr);
 		virtual void Bind() override;
 
 	private:
@@ -40,10 +35,9 @@ namespace LimeEngine
 	{
 	public:
 		SamplerStateDX11();
-		virtual void Bind() override;
 
-	private:
-		void Initialize();
+		void Initialize(ID3D11Device* device = nullptr);
+		virtual void Bind() override;
 
 	private:
 		com_ptr<ID3D11SamplerState> samplerState = nullptr;

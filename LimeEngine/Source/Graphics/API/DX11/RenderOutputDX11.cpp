@@ -3,11 +3,15 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #include "lepch.hpp"
 #include "RenderAPIDX11.hpp"
-#include "RendererDX11.hpp"
 #include "RenderOutputDX11.hpp"
 
 namespace LimeEngine
 {
+	WindowRenderOutputDX11::WindowRenderOutputDX11(const RenderOutputArgs& args)
+	{
+		Init(args);
+	}
+
 	WindowRenderOutputDX11::~WindowRenderOutputDX11()
 	{
 		window->GetInputDevice().UnbindActionEvent("Engine.ResizeWindow", InputActionType::Pressed, this, &WindowRenderOutputDX11::OnResizeActionEvent);
@@ -15,6 +19,7 @@ namespace LimeEngine
 		{
 			swapchain->SetFullscreenState(FALSE, NULL);
 		}
+		RuntimeEditor::Destroy();
 	}
 
 	void WindowRenderOutputDX11::Init(const RenderOutputArgs& args)
@@ -31,16 +36,33 @@ namespace LimeEngine
 		inputDevice.BindActionEvent("Engine.ResizeWindow", InputActionType::Pressed, this, &WindowRenderOutputDX11::OnResizeActionEvent);
 
 		SetupDisplayMode(args.mode, args.defaultFullscreenModeIsExclusive);
-		RuntimeEditor::Init(
-			window->GetHandle(), RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().GetDevice(), RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().GetDeviceContext());
+		RuntimeEditor::Init(window->GetHandle(), RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice(), RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext());
 	}
 
 	void WindowRenderOutputDX11::Create()
 	{
 		if (swapchain == nullptr)
 		{
-			RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().CreateSwapChain(swapchain.GetAddressOf(), window->GetHandle(), refreshRate);
-			RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().MakeWindowAssociation(window->GetHandle());
+			auto dxgiFactory = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDXGIFactory();
+			auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
+
+			DXGI_SWAP_CHAIN_DESC scd = { 0 };
+			scd.Windowed = TRUE;
+			scd.BufferDesc.RefreshRate.Numerator = refreshRate;
+			scd.BufferDesc.RefreshRate.Denominator = 1u;
+			scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+			scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+			scd.SampleDesc.Count = 1u;
+			scd.SampleDesc.Quality = 0u;
+			scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+			scd.BufferCount = 1u;
+			scd.OutputWindow = reinterpret_cast<HWND>(window->GetHandle());
+			scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+			scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+			GFX_CHECK_HR(dxgiFactory->CreateSwapChain(device, &scd, swapchain.GetAddressOf()));
+			GFX_CHECK_HR(dxgiFactory->MakeWindowAssociation(reinterpret_cast<HWND>(window->GetHandle()), DXGI_MWA_NO_WINDOW_CHANGES));
+
 			backBuffer = nullptr;
 		}
 		if (backBuffer == nullptr)
@@ -51,6 +73,8 @@ namespace LimeEngine
 			D3D11_TEXTURE2D_DESC bufferDesc;
 			backBuffer.Get()->GetDesc(&bufferDesc);
 			depthStencilBuffer.Initialize(bufferDesc.Width, bufferDesc.Height);
+
+			viewport.Initialize(bufferDesc.Width, bufferDesc.Height);
 		}
 	}
 
@@ -72,24 +96,10 @@ namespace LimeEngine
 		if (FAILED(hr = swapchain->Present(1u, NULL)))
 		{
 			if (hr == DXGI_ERROR_DEVICE_REMOVED)
-				throw GFX_EXCEPTION_HR(RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().GetDevice()->GetDeviceRemovedReason());
+				throw GFX_EXCEPTION_HR(RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice()->GetDeviceRemovedReason());
 			else
 				throw GFX_EXCEPTION_HR(hr);
 		}
-	}
-
-	void WindowRenderOutputDX11::Resize(uint width, uint height)
-	{
-		DXGI_MODE_DESC BufferDesc = { 0 };
-		BufferDesc.Width = width;
-		BufferDesc.Height = height;
-		BufferDesc.RefreshRate.Numerator = refreshRate;
-		BufferDesc.RefreshRate.Denominator = 1u;
-		BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-		BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-
-		GFX_CHECK_HR(swapchain->ResizeTarget(&BufferDesc));
 	}
 
 	void WindowRenderOutputDX11::SetDisplayMode(DisplayMode newMode)
@@ -134,17 +144,21 @@ namespace LimeEngine
 		displayMode = newMode;
 	}
 
-	RenderTarget& WindowRenderOutputDX11::GetRenderTarget()
+	void WindowRenderOutputDX11::Resize(uint width, uint height)
 	{
-		return renderTarget;
+		DXGI_MODE_DESC BufferDesc = { 0 };
+		BufferDesc.Width = width;
+		BufferDesc.Height = height;
+		BufferDesc.RefreshRate.Numerator = refreshRate;
+		BufferDesc.RefreshRate.Denominator = 1u;
+		BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+		BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+
+		GFX_CHECK_HR(swapchain->ResizeTarget(&BufferDesc));
 	}
 
-	DepthStencil& WindowRenderOutputDX11::GetDepthStencilBuffer()
-	{
-		return depthStencilBuffer;
-	}
-
-	void WindowRenderOutputDX11::OnResize(uint width, uint height)
+	void WindowRenderOutputDX11::OnWindowResize(uint width, uint height)
 	{
 		LE_CORE_ASSERT(swapchain != nullptr, "Swapchain is not initialized");
 
@@ -156,7 +170,8 @@ namespace LimeEngine
 		}
 
 		// Reset buffers
-		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().GetDeviceContext()->OMSetRenderTargets(0u, nullptr, nullptr);
+		auto deviceContext = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext();
+		deviceContext->OMSetRenderTargets(0u, nullptr, nullptr);
 		renderTarget.Reset();
 		depthStencilBuffer.Reset();
 		backBuffer.Reset();
@@ -168,8 +183,9 @@ namespace LimeEngine
 		GFX_CHECK_HR(swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backBuffer.GetAddressOf())));
 		renderTarget.Initialize(backBuffer.Get());
 		depthStencilBuffer.Resize(width, height);
+		viewport.SetSize(width, height);
 
-		Renderer::GetRenderer<RendererDX11>().Resize(width, height);
+		OnResize(width, height);
 	}
 
 	void WindowRenderOutputDX11::OnResizeActionEvent()
@@ -189,5 +205,20 @@ namespace LimeEngine
 				SetDisplayMode(DisplayMode::FullscreenWindowed);
 			}
 		}
+	}
+
+	RenderTarget& WindowRenderOutputDX11::GetRenderTarget()
+	{
+		return renderTarget;
+	}
+
+	RenderViewport& WindowRenderOutputDX11::GetRenderViewport()
+	{
+		return viewport;
+	}
+
+	DepthStencil& WindowRenderOutputDX11::GetDepthStencilBuffer()
+	{
+		return depthStencilBuffer;
 	}
 }

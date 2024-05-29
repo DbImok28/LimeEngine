@@ -4,8 +4,26 @@
 #include "lepch.hpp"
 #include "RenderOutput.hpp"
 
+#ifdef LE_ENABLE_RENDER_API_DX11
+	#include "Graphics/API/DX11/RenderOutputDX11.hpp"
+#endif
+
 namespace LimeEngine
 {
+	std::unique_ptr<RenderOutput> RenderOutput::CreateWindowRenderOutput(const RenderOutputArgs& args)
+	{
+		switch (RenderAPI::DefaultRenderAPI)
+		{
+			case RenderAPIType::None: break;
+#if defined(LE_ENABLE_RENDER_API_DX11)
+			case RenderAPIType::DirectX11: return std::make_unique<WindowRenderOutputDX11>(args);
+#endif
+			default: break;
+		}
+		LE_CORE_ASSERT(false, "Unknown render API. Failed to create WindowRenderOutput");
+		return nullptr;
+	}
+
 	RenderOutput::~RenderOutput()
 	{
 		if (window) window->events.Unbind(WindowEventType::Resize, this, &RenderOutput::OnResizeEvent);
@@ -53,6 +71,7 @@ namespace LimeEngine
 	void RenderOutput::OnResizeEvent(const Event& e)
 	{
 		auto& resizeEvent = CastEvent<ResizeWindowEvent>(e);
-		OnResize(resizeEvent.width, resizeEvent.height);
+		LE_CORE_LOG_TRACE("Resize WindowRenderOutput (width: {}, height: {})", resizeEvent.width, resizeEvent.height);
+		OnWindowResize(resizeEvent.width, resizeEvent.height);
 	}
 }

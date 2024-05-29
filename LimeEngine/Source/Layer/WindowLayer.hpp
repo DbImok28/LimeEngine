@@ -14,6 +14,8 @@ namespace LimeEngine
 	public:
 		WindowLayer() : window(std::move(window)) {}
 		WindowLayer(std::unique_ptr<Window>&& window) : window(std::move(window)) {}
+		~WindowLayer();
+
 		static WindowLayer& GetWindowLayer();
 
 		void Update() override;

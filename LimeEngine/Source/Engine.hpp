@@ -36,8 +36,8 @@ namespace LimeEngine
 	public:
 		WindowLayer windowLayer;
 		InputLayer inputLayer;
-		RenderLayer renderLayer;
 		DataLayer dataLayer;
+		RenderLayer renderLayer;
 		SceneLayer sceneLayer;
 		EditorLayer editorLayer;
 

@@ -17,7 +17,7 @@ namespace LimeEngine
 		void Initialize(uint width, uint height);
 
 	public:
-		virtual void Clear(float clearDepth = 1.0f, uint clearStencil = 0u) override;
+		virtual void Clear(float clearDepth = 1.0f, uint8 clearStencil = 0u) override;
 		virtual void ClearDepth(float clearDepth = 1.0f) override;
 		virtual void ClearStencil(uint clearStencil = 0u) override;
 		virtual void Resize(uint width, uint height) override;

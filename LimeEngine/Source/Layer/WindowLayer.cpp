@@ -8,6 +8,11 @@
 
 namespace LimeEngine
 {
+	WindowLayer::~WindowLayer()
+	{
+		Renderer::GetRenderer().RemoveRenderOutput();
+	}
+
 	WindowLayer& WindowLayer::GetWindowLayer()
 	{
 		return GetEngine().windowLayer;

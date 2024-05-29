@@ -28,13 +28,15 @@ namespace LimeEngine
 
 	void RenderViewportDX11::Bind()
 	{
-		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().GetDeviceContext()->RSSetViewports(1, &viewport);
+		auto deviceContext = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext();
+		deviceContext->RSSetViewports(1, &viewport);
 	}
 
 	void RenderViewportDX11::Unbind()
 	{
 		D3D11_VIEWPORT nullViewport = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
-		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().GetDeviceContext()->RSSetViewports(1, &nullViewport);
+		auto deviceContext = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext();
+		deviceContext->RSSetViewports(1, &nullViewport);
 	}
 
 	void RenderViewportDX11::SetSize(uint width, uint height)
@@ -62,6 +64,7 @@ namespace LimeEngine
 		{
 			viewportsDX11.emplace_back(reinterpret_cast<const RenderViewportDX11*>(&viewport)->GetViewport());
 		}
-		RenderAPI::GetRenderAPI<RenderAPIDX11>().GetContext().GetDeviceContext()->RSSetViewports(viewportsDX11.size(), viewportsDX11.data());
+		auto deviceContext = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext();
+		deviceContext->RSSetViewports(viewportsDX11.size(), viewportsDX11.data());
 	}
 }

@@ -68,7 +68,7 @@ namespace LimeEngine
 		Renderer::GetRenderer().AddToRender(drawable);
 	}
 
-	void RenderLayer::RemoveFromRender(const IDrawable* drawable) noexcept
+	void RenderLayer::RemoveFromRender(const IDrawable* drawable)
 	{
 		Renderer::GetRenderer().RemoveFromRender(drawable);
 	}
