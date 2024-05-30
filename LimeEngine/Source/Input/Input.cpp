@@ -6,14 +6,19 @@
 
 namespace LimeEngine
 {
+	void Input::SetInputDevice(InputDevice* inputDevice) noexcept
+	{
+		this->inputDevice = inputDevice;
+	}
+
 	InputDevice& Input::GetInputDevice() noexcept
 	{
-		return inputDevice;
+		return *inputDevice;
 	}
 
 	const InputDevice& Input::GetInputDevice() const noexcept
 	{
-		return inputDevice;
+		return *inputDevice;
 	}
 
 	void Input::OnKeyPressed(InputKey key) noexcept

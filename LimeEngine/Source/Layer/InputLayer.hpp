@@ -13,14 +13,12 @@ namespace LimeEngine
 
 	public:
 		InputLayer() = default;
-		InputLayer(InputDevice* inputDevice) : inputDevice(inputDevice) {}
 		static InputLayer& GetInputLayer();
 
 		void Update() override;
-		void SetInputDevice(InputDevice* inputDevice);
 		InputDevice& GetInputDevice();
 
 	private:
-		InputDevice* inputDevice = nullptr;
+		InputDevice inputDevice;
 	};
 }

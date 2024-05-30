@@ -19,23 +19,19 @@ namespace LimeEngine
 
 	public:
 		Engine();
-		Engine(std::unique_ptr<Window>&& window);
-		virtual ~Engine();
 
 		int Start();
 		void UpdateLayers();
 
 		void Close(int exitCode = 0);
-
-	private:
 		void Close(const Event& e);
 
 	private:
 		std::optional<int> exitCode;
 
 	public:
-		WindowLayer windowLayer;
 		InputLayer inputLayer;
+		WindowLayer windowLayer;
 		DataLayer dataLayer;
 		RenderLayer renderLayer;
 		SceneLayer sceneLayer;
@@ -45,9 +41,7 @@ namespace LimeEngine
 		float deltaTime = 0.0f;
 
 	public:
-		static void Initialize() noexcept;
-		static void Initialize(const WindowArgs& windowArgs, const RendererArgs& renderArgs) noexcept;
-		static void Initialize(std::unique_ptr<Window>&& window) noexcept;
+		static void Initialize();
 		static Engine& GetEngine() noexcept;
 
 	private:

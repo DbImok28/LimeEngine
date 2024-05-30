@@ -9,20 +9,14 @@
 
 namespace LimeEngine
 {
-	class RendererArgs
-	{
-	};
-
 	class Renderer
 	{
 		LE_DELETE_MOVE_COPY(Renderer)
 
 	public:
 		Renderer() noexcept = default;
-		Renderer(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs);
 
 	public:
-		void Init(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs);
 		void Render();
 		void PreProcessing();
 		void PostProcessing();
@@ -41,6 +35,7 @@ namespace LimeEngine
 		void RemoveFromRender(const IDrawable* drawable);
 
 		//TODO: Add ability to add and Remove RenderOutput
+		void SetRenderOutput(std::unique_ptr<RenderOutput>&& renderOutput);
 		void RemoveRenderOutput();
 		RenderOutput& GetRenderOutput() noexcept;
 		const RenderOutput& GetRenderOutput() const noexcept;

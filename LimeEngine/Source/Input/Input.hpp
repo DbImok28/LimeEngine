@@ -11,6 +11,7 @@ namespace LimeEngine
 	public:
 		virtual ~Input() = default;
 
+		void SetInputDevice(InputDevice* inputDevice) noexcept;
 		InputDevice& GetInputDevice() noexcept;
 		const InputDevice& GetInputDevice() const noexcept;
 
@@ -33,6 +34,6 @@ namespace LimeEngine
 		void OnMouseEnter() noexcept;
 
 	private:
-		InputDevice inputDevice;
+		InputDevice* inputDevice;
 	};
 }

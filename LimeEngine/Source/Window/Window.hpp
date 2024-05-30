@@ -84,7 +84,6 @@ namespace LimeEngine
 		void SetClipCursorInFullScreenMode(bool value) noexcept;
 		virtual void UpdateCursor() const = 0;
 
-	protected:
 		Input& GetInput() noexcept;
 		const Input& GetInput() const noexcept;
 

@@ -7,6 +7,7 @@
 #include "Engine.hpp"
 #include "Base/StaticInitializer.hpp"
 #include "Platform/Platform.hpp"
+#include "Graphics/RenderAPI.hpp"
 
 #include "Scene/Maps/TestMap.hpp"
 
@@ -17,14 +18,14 @@ namespace LimeEngine
 		Platform::Initialize();
 		Initialize();
 		StaticInitializer::Initialize();
+		RenderAPI::Initialize();
+		Engine::Initialize();
 	}
 
 	void Application::Initialize() {}
 
 	void Application::Run()
 	{
-		Engine::Initialize();
-
 		auto map = std::make_unique<TestMap>();
 		map->Load();
 		SceneLayer::GetSceneLayer().GetScene().SetupAttachment(std::move(map));

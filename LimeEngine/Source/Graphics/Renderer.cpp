@@ -7,16 +7,6 @@
 
 namespace LimeEngine
 {
-	Renderer::Renderer(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs)
-	{
-		Init(renderOutputArgs, rendererArgs);
-	}
-
-	void Renderer::Init(const RenderOutputArgs& renderOutputArgs, const RendererArgs& rendererArgs)
-	{
-		renderOutput = RenderOutput::CreateWindowRenderOutput(renderOutputArgs);
-	}
-
 	void Renderer::Render()
 	{
 		if (!camera || !renderOutput) return;
@@ -95,6 +85,11 @@ namespace LimeEngine
 	void Renderer::RemoveFromRender(const IDrawable* drawable)
 	{
 		renderQueue.Remove(drawable);
+	}
+
+	void Renderer::SetRenderOutput(std::unique_ptr<RenderOutput>&& renderOutput)
+	{
+		this->renderOutput = std::move(renderOutput);
 	}
 
 	void Renderer::RemoveRenderOutput()

@@ -10,6 +10,7 @@ namespace LimeEngine
 {
 	WindowLayer::~WindowLayer()
 	{
+		window->events.Unbind(WindowEventType::Close, &Engine::GetEngine(), &Engine::Close);
 		Renderer::GetRenderer().RemoveRenderOutput();
 	}
 
@@ -23,13 +24,22 @@ namespace LimeEngine
 		if (window) window->OnUpdate();
 	}
 
-	Window& WindowLayer::GetWindow() noexcept
-	{
-		return *window.get();
-	}
-
 	void WindowLayer::SetWindow(std::unique_ptr<Window>&& window) noexcept
 	{
 		this->window = std::move(window);
+		this->window->GetInput().SetInputDevice(&InputLayer::GetInputLayer().GetInputDevice());
+		this->window->events.Bind(WindowEventType::Close, &Engine::GetEngine(), &Engine::Close);
+
+		Renderer::GetRenderer().SetRenderOutput(RenderOutput::CreateWindowRenderOutput(RenderOutputArgs(this->window.get())));
+	}
+
+	void WindowLayer::SetWindow(const WindowArgs& windowArgs) noexcept
+	{
+		SetWindow(Window::Create(windowArgs));
+	}
+
+	Window& WindowLayer::GetWindow() noexcept
+	{
+		return *window.get();
 	}
 }

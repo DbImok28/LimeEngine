@@ -3,23 +3,11 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #include "lepch.hpp"
 #include "Engine.hpp"
-#include "Graphics/RenderAPI.hpp"
 #include "Graphics/Renderer.hpp"
 
 namespace LimeEngine
 {
 	Engine::Engine() : windowLayer(), inputLayer(), renderLayer(), dataLayer(), sceneLayer(), editorLayer() {}
-
-	Engine::Engine(std::unique_ptr<Window>&& window) :
-		windowLayer(std::move(window)), inputLayer(&windowLayer.GetWindow().GetInputDevice()), renderLayer(), dataLayer(), sceneLayer(), editorLayer()
-	{
-		windowLayer.GetWindow().events.Bind(WindowEventType::Close, this, &Engine::Close);
-	}
-
-	Engine::~Engine()
-	{
-		windowLayer.GetWindow().events.Unbind(WindowEventType::Close, this, &Engine::Close);
-	}
 
 	int Engine::Start()
 	{
@@ -58,29 +46,10 @@ namespace LimeEngine
 
 	// static
 
-	void Engine::Initialize() noexcept
+	void Engine::Initialize()
 	{
 		// TODO: Load settings from file
-
-		auto window = Window::Create(WindowArgs(TEXT("LimeEngine"), 1080, 720));
-		RenderAPI::Initialize();
-		Renderer::GetRenderer().Init(RenderOutputArgs(window.get()), RendererArgs{});
-		Engine::Initialize(std::move(window));
-	}
-
-	void Engine::Initialize(const WindowArgs& windowArgs, const RendererArgs& renderArgs) noexcept
-	{
-		auto window = Window::Create(windowArgs);
-		RenderAPI::Initialize();
-		Renderer::GetRenderer().Init(RenderOutputArgs(window.get()), renderArgs);
-		Engine::Initialize(std::move(window));
-	}
-
-	void Engine::Initialize(std::unique_ptr<Window>&& window) noexcept
-	{
-		engine.windowLayer.SetWindow(std::move(window));
-		engine.inputLayer.SetInputDevice(&engine.windowLayer.GetWindow().GetInputDevice());
-		engine.windowLayer.GetWindow().events.Bind(WindowEventType::Close, &engine, &Engine::Close);
+		WindowLayer::GetWindowLayer().SetWindow(WindowArgs(TEXT("LimeEngine"), 1080, 720));
 	}
 
 	Engine& Engine::GetEngine() noexcept

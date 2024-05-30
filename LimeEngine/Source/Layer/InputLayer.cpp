@@ -10,7 +10,7 @@ namespace LimeEngine
 {
 	void InputLayer::Update()
 	{
-		if (inputDevice) inputDevice->OnUpdate();
+		inputDevice.OnUpdate();
 	}
 
 	InputLayer& InputLayer::GetInputLayer()
@@ -18,13 +18,8 @@ namespace LimeEngine
 		return GetEngine().inputLayer;
 	}
 
-	void InputLayer::SetInputDevice(InputDevice* inputDevice)
-	{
-		this->inputDevice = inputDevice;
-	}
-
 	InputDevice& InputLayer::GetInputDevice()
 	{
-		return *inputDevice;
+		return inputDevice;
 	}
 }
