@@ -39,31 +39,17 @@ namespace LimeEngine
 		return nullptr;
 	}
 
-	std::shared_ptr<VSConstantBufferBase> VSConstantBufferBase::Create(const void* data, uint dataSize)
+	std::unique_ptr<ConstantBufferBase> ConstantBufferBase::Create(const void* data, uint dataSize)
 	{
 		switch (RenderAPI::DefaultRenderAPI)
 		{
 			case RenderAPIType::None: break;
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case RenderAPIType::DirectX11: return std::make_shared<VSConstantBufferBaseDX11>(data, dataSize);
+			case RenderAPIType::DirectX11: return std::make_unique<ConstantBufferBaseDX11>(data, dataSize);
 #endif
 			default: break;
 		}
 		LE_CORE_ASSERT(false, "Unknown render API. Failed to create VSConstantBufferBase");
-		return nullptr;
-	}
-
-	std::shared_ptr<PSConstantBufferBase> PSConstantBufferBase::Create(const void* data, uint dataSize)
-	{
-		switch (RenderAPI::DefaultRenderAPI)
-		{
-			case RenderAPIType::None: break;
-#if defined(LE_ENABLE_RENDER_API_DX11)
-			case RenderAPIType::DirectX11: return std::make_shared<PSConstantBufferBaseDX11>(data, dataSize);
-#endif
-			default: break;
-		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create PSConstantBufferBase");
 		return nullptr;
 	}
 }

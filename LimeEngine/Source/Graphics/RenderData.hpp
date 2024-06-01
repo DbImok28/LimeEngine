@@ -28,6 +28,6 @@ namespace LimeEngine
 	public:
 		std::shared_ptr<VertexBuffer> vertexBuffer;
 		std::shared_ptr<IndexBuffer> indexBuffer;
-		VSConstantBuffer<VSTransformConstantBuffer> transformConstantBuffer;
+		ConstantBuffer<VSTransformConstantBuffer> transformConstantBuffer;
 	};
 }

@@ -22,19 +22,19 @@ namespace LimeEngine
 
 		Reset();
 
-		D3D11_BUFFER_DESC indexBufferDesc = { 0 };
-		indexBufferDesc.ByteWidth = stride * count;
-		indexBufferDesc.StructureByteStride = stride;
-		indexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-		indexBufferDesc.CPUAccessFlags = 0u;
-		indexBufferDesc.MiscFlags = 0u;
+		D3D11_BUFFER_DESC bufferDesc = { 0 };
+		bufferDesc.ByteWidth = stride * count;
+		bufferDesc.StructureByteStride = stride;
+		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		bufferDesc.CPUAccessFlags = 0u;
+		bufferDesc.MiscFlags = 0u;
 
-		D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
-		indexBufferData.pSysMem = vertices;
+		D3D11_SUBRESOURCE_DATA bufferData = { 0 };
+		bufferData.pSysMem = vertices;
 
 		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
-		GFX_CHECK_HR_MSG(device->CreateBuffer(&indexBufferDesc, &indexBufferData, buffer.GetAddressOf()), "Failed to initialize vertex buffer");
+		GFX_CHECK_HR_MSG(device->CreateBuffer(&bufferDesc, &bufferData, buffer.GetAddressOf()), "Failed to initialize vertex buffer");
 	}
 
 	void VertexBufferDX11::Reset()
@@ -90,19 +90,19 @@ namespace LimeEngine
 		this->count = count;
 
 		Reset();
-		D3D11_BUFFER_DESC indexBufferDesc = { 0 };
-		indexBufferDesc.ByteWidth = sizeof(uint) * count;
-		indexBufferDesc.StructureByteStride = sizeof(uint);
-		indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-		indexBufferDesc.CPUAccessFlags = 0u;
-		indexBufferDesc.MiscFlags = 0u;
+		D3D11_BUFFER_DESC bufferDesc = { 0 };
+		bufferDesc.ByteWidth = sizeof(uint) * count;
+		bufferDesc.StructureByteStride = sizeof(uint);
+		bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		bufferDesc.CPUAccessFlags = 0u;
+		bufferDesc.MiscFlags = 0u;
 
-		D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
-		indexBufferData.pSysMem = indices;
+		D3D11_SUBRESOURCE_DATA bufferData = { 0 };
+		bufferData.pSysMem = indices;
 
 		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
-		GFX_CHECK_HR_MSG(device->CreateBuffer(&indexBufferDesc, &indexBufferData, buffer.GetAddressOf()), "Failed to initialize vertex buffer");
+		GFX_CHECK_HR_MSG(device->CreateBuffer(&bufferDesc, &bufferData, buffer.GetAddressOf()), "Failed to initialize index buffer");
 	}
 
 	void IndexBufferDX11::Reset()
@@ -137,19 +137,30 @@ namespace LimeEngine
 	{
 		uint bufferSize = static_cast<uint>(dataSize + (16u - (dataSize % 16u)));
 
-		D3D11_BUFFER_DESC indexBufferDesc = { 0 };
-		indexBufferDesc.ByteWidth = bufferSize;
-		indexBufferDesc.StructureByteStride = 0u;
-		indexBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		indexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-		indexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		indexBufferDesc.MiscFlags = 0u;
+		D3D11_BUFFER_DESC bufferDesc = { 0 };
+		bufferDesc.ByteWidth = bufferSize;
+		bufferDesc.StructureByteStride = 0u;
+		bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		bufferDesc.MiscFlags = 0u;
 
-		D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
-		indexBufferData.pSysMem = data;
+		D3D11_SUBRESOURCE_DATA bufferData = { 0 };
+		bufferData.pSysMem = data;
 
 		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
-		GFX_CHECK_HR_MSG(device->CreateBuffer(&indexBufferDesc, &indexBufferData, buffer.GetAddressOf()), "Failed to initialize constant buffer");
+		GFX_CHECK_HR_MSG(device->CreateBuffer(&bufferDesc, &bufferData, buffer.GetAddressOf()), "Failed to initialize constant buffer");
+	}
+
+	void ConstantBufferBaseDX11::Bind(ShaderType shaderType, uint slotIndex) noexcept
+	{
+		auto deviceContext = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext();
+		switch (shaderType)
+		{
+			case LimeEngine::ShaderType::VertexShader: deviceContext->VSSetConstantBuffers(slotIndex, 1u, GetAddressOf()); break;
+			case LimeEngine::ShaderType::PixelShader: deviceContext->PSSetConstantBuffers(slotIndex, 1u, GetAddressOf()); break;
+			default: LE_ASSERT(false, "Failed to bind constant buffer. Invalid shader type"); break;
+		}
 	}
 
 	void ConstantBufferBaseDX11::ApplyChanges(const void* data, uint dataSize)
@@ -170,31 +181,5 @@ namespace LimeEngine
 	ID3D11Buffer* const* ConstantBufferBaseDX11::GetAddressOf() const noexcept
 	{
 		return buffer.GetAddressOf();
-	}
-
-	///////////////////////////////////////////////// VSConstantBufferBaseDX11
-
-	void VSConstantBufferBaseDX11::Bind() noexcept
-	{
-		auto deviceContext = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext();
-		deviceContext->VSSetConstantBuffers(0u, 1u, GetAddressOf());
-	}
-
-	void VSConstantBufferBaseDX11::ApplyChanges(const void* data, uint dataSize)
-	{
-		ConstantBufferBaseDX11::ApplyChanges(data, dataSize);
-	}
-
-	///////////////////////////////////////////////// PSConstantBufferBaseDX11
-
-	void PSConstantBufferBaseDX11::Bind() noexcept
-	{
-		auto deviceContext = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext();
-		deviceContext->PSSetConstantBuffers(0u, 1u, GetAddressOf());
-	}
-
-	void PSConstantBufferBaseDX11::ApplyChanges(const void* data, uint dataSize)
-	{
-		ConstantBufferBaseDX11::ApplyChanges(data, dataSize);
 	}
 }

@@ -44,7 +44,9 @@ namespace LimeEngine
 		};
 		static auto vertexShader = VertexShader::Create(Paths::ShaderFolder / "VertexShader.cso", InputLayout);
 		static auto pixelShader = PixelShader::Create(Paths::ShaderFolder / "PixelShader.cso");
-		auto material = gameDataManager.CreateMaterial("EngineContent/M_Cat", std::move(vertexShader), std::move(pixelShader), MaterialType::Solid);
+
+		auto material = gameDataManager.CreateMaterial("EngineContent/M_Cat", std::move(vertexShader), std::move(pixelShader), {}, MaterialType::Solid);
+		material->parameters.AddParameter("Saturation", 1.0f);
 
 		// Load meshes
 		std::vector<Vertex> vertices = {
@@ -89,6 +91,7 @@ namespace LimeEngine
 		auto boxMaterialInstance = material->Instantiate();
 
 		boxMaterialInstance->SetTextureParameter(texture, 0u);
+		boxMaterialInstance->SetParameter("Saturation", 0.8f);
 		boxMesh->segments[0].SetMaterial(boxMaterialInstance);
 
 		auto box1Object = SetupAttachment<MeshObject>("Box1");

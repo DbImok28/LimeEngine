@@ -47,34 +47,18 @@ namespace LimeEngine
 		com_ptr<ID3D11Buffer> buffer;
 	};
 
-	class ConstantBufferBaseDX11
+	class ConstantBufferBaseDX11 : public ConstantBufferBase
 	{
 	public:
 		ConstantBufferBaseDX11(const void* data, uint dataSize);
 
-		void ApplyChanges(const void* data, uint dataSize);
+		virtual void Bind(ShaderType shaderType, uint slotIndex) noexcept override;
+		virtual void ApplyChanges(const void* data, uint dataSize) override;
+
 		ID3D11Buffer* Get() const noexcept;
 		ID3D11Buffer* const* GetAddressOf() const noexcept;
 
 	private:
 		com_ptr<ID3D11Buffer> buffer;
-	};
-
-	class VSConstantBufferBaseDX11 : public ConstantBufferBaseDX11, public VSConstantBufferBase
-	{
-	public:
-		using ConstantBufferBaseDX11::ConstantBufferBaseDX11;
-
-		virtual void Bind() noexcept override;
-		virtual void ApplyChanges(const void* data, uint dataSize) override;
-	};
-
-	class PSConstantBufferBaseDX11 : public ConstantBufferBaseDX11, public PSConstantBufferBase
-	{
-	public:
-		using ConstantBufferBaseDX11::ConstantBufferBaseDX11;
-
-		virtual void Bind() noexcept override;
-		virtual void ApplyChanges(const void* data, uint dataSize) override;
 	};
 }

@@ -41,7 +41,7 @@ namespace LimeEngine
 	{
 		indexBuffer->Bind();
 		vertexBuffer->Bind();
-		transformConstantBuffer.Bind();
+		transformConstantBuffer.Bind(ShaderType::VertexShader, 1u);
 	}
 
 	void MeshRenderData::BindData(Material* materialInstance, const CameraComponent* cameraComponent, const TempTransformMatrix& transformMatrix)

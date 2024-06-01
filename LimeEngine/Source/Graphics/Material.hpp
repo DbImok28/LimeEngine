@@ -5,6 +5,7 @@
 #include "Texture2D.hpp"
 #include "Base/GameResource.hpp"
 #include "Shaders.hpp"
+#include "MaterialParameters.hpp"
 
 namespace LimeEngine
 {
@@ -22,8 +23,14 @@ namespace LimeEngine
 		LE_DELETE_COPY(MaterialAsset)
 
 	public:
-		MaterialAsset(const ResourcePath& resourcePath, std::unique_ptr<VertexShader>&& vertexShader, std::unique_ptr<PixelShader>&& pixelShader, MaterialType type) noexcept :
-			GameResource(resourcePath), type(type), vertexShader(std::move(vertexShader)), pixelShader(std::move(pixelShader))
+		MaterialAsset(
+			const ResourcePath& resourcePath,
+			std::unique_ptr<VertexShader>&& vertexShader,
+			std::unique_ptr<PixelShader>&& pixelShader,
+			MaterialParameters&& parameters,
+			MaterialType type) noexcept :
+			GameResource(resourcePath),
+			type(type), vertexShader(std::move(vertexShader)), pixelShader(std::move(pixelShader)), parameters(std::move(parameters))
 		{}
 
 		std::shared_ptr<Material> Instantiate();
@@ -31,6 +38,7 @@ namespace LimeEngine
 	public:
 		MaterialType type;
 
+		MaterialParameters parameters;
 		std::unique_ptr<VertexShader> vertexShader;
 		std::unique_ptr<PixelShader> pixelShader;
 	};
@@ -40,15 +48,33 @@ namespace LimeEngine
 		LE_DELETE_COPY(Material)
 
 	public:
-		Material(const GameResourceRef<MaterialAsset>& asset) noexcept : asset(asset) {}
+		Material(const GameResourceRef<MaterialAsset>& asset) noexcept : asset(asset), parameters(asset->parameters) {}
 
 		void ApplyMaterial() noexcept;
 
 		void SetTextureParameter(const GameResourceRef<Texture2D>& texture, uint slotIndex) noexcept;
 		GameResourceRef<Texture2D> GetTextureParameter(uint slotIndex) noexcept;
 
+		template <typename T>
+		void SetParameter(const std::string& name, T value)
+		{
+			parameters.SetParameter(name, value);
+		}
+
+		template <typename T>
+		T GetParameter(const std::string& name)
+		{
+			return parameters.GetParameter<T>(name);
+		}
+
+		GameResourceRef<MaterialAsset> GetAsset()
+		{
+			return asset;
+		}
+
 	protected:
 		std::vector<GameResourceRef<Texture2D>> textures;
 		GameResourceRef<MaterialAsset> asset;
+		MaterialParameterValues parameters;
 	};
 }

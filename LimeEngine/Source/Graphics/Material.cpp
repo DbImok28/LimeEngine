@@ -15,7 +15,7 @@ namespace LimeEngine
 	{
 		asset->vertexShader->Bind();
 		asset->pixelShader->Bind();
-
+		parameters.Bind();
 		// TODO: add slot count check
 		uint slotIndex = 0;
 		for (auto& texture : textures)

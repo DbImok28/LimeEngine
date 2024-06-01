@@ -3,6 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "IBindable.hpp"
+#include "Shaders.hpp"
 
 namespace LimeEngine
 {
@@ -56,47 +57,32 @@ namespace LimeEngine
 
 	// ======================================
 
-	class ConstantBufferBase : public IBindable
+	class ConstantBufferBase
 	{
 	public:
+		template <typename T>
+		static std::unique_ptr<ConstantBufferBase> Create(T* data)
+		{
+			return Create(data, sizeof(T));
+		}
+		static std::unique_ptr<ConstantBufferBase> Create(const void* data, uint dataSize);
+
 		virtual ~ConstantBufferBase() = default;
+
+		virtual void Bind(ShaderType shaderType, uint slotIndex) noexcept = 0;
 		virtual void ApplyChanges(const void* data, uint dataSize) = 0;
 	};
 
-	class VSConstantBufferBase : public ConstantBufferBase
+	template <typename T>
+	class ConstantBuffer
 	{
 	public:
-		template <typename T>
-		static std::shared_ptr<VSConstantBufferBase> Create(T* data)
+		ConstantBuffer() : buff(ConstantBufferBase::Create(&data, sizeof(T))) {}
+		ConstantBuffer(const T& data) : data(data), buff(ConstantBufferBase::Create(&this->data, sizeof(T))) {}
+
+		void Bind(ShaderType shaderType, uint slotIndex) noexcept
 		{
-			return Create(data, sizeof(T));
-		}
-		static std::shared_ptr<VSConstantBufferBase> Create(const void* data, uint dataSize);
-	};
-
-	class PSConstantBufferBase : public ConstantBufferBase
-	{
-	public:
-		template <typename T>
-		static std::shared_ptr<PSConstantBufferBase> Create(T* data)
-		{
-			return Create(data, sizeof(T));
-		}
-		static std::shared_ptr<PSConstantBufferBase> Create(const void* data, uint dataSize);
-	};
-
-	// ======================================
-
-	template <typename TBuff, typename T>
-	class ConstantBuffer : public IBindable
-	{
-	public:
-		ConstantBuffer() : buff(TBuff::Create(&data, sizeof(T))) {}
-		ConstantBuffer(const T& data) : data(data), buff(TBuff::Create(&this->data, sizeof(T))) {}
-
-		virtual void Bind() noexcept override final
-		{
-			buff->Bind();
+			buff->Bind(shaderType, slotIndex);
 		}
 		void ApplyChanges()
 		{
@@ -110,12 +96,6 @@ namespace LimeEngine
 
 	public:
 		T data{};
-		std::shared_ptr<TBuff> buff;
+		std::shared_ptr<ConstantBufferBase> buff;
 	};
-
-	template <typename T>
-	using PSConstantBuffer = ConstantBuffer<PSConstantBufferBase, T>;
-
-	template <typename T>
-	using VSConstantBuffer = ConstantBuffer<VSConstantBufferBase, T>;
 }

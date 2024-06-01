@@ -7,6 +7,12 @@
 
 namespace LimeEngine
 {
+	enum class ShaderType
+	{
+		VertexShader,
+		PixelShader
+	};
+
 	enum class ShaderDataType
 	{
 		R8,

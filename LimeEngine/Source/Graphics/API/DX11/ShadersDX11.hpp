@@ -3,6 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "RenderAPIDX11.hpp"
+#include "BuffersDX11.hpp"
 #include "Graphics/Shaders.hpp"
 
 namespace LimeEngine
