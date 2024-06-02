@@ -7,16 +7,16 @@
 
 namespace LimeEngine
 {
-	SceneComponent* SceneComponent::SetupAttachment(std::unique_ptr<SceneComponent>&& component) noexcept
+	SceneComponent* SceneComponent::SetupAttachment(URef<SceneComponent>&& component) noexcept
 	{
 		auto attachedComponent = reinterpret_cast<SceneComponent*>(SetupPrimaryAttachment(std::move(component)));
 		attachedComponent->SetRootTransform(this);
 		return attachedComponent;
 	}
 
-	const std::vector<std::unique_ptr<SceneComponent>>& SceneComponent::GetSubComponents() const noexcept
+	const std::vector<URef<SceneComponent>>& SceneComponent::GetSubComponents() const noexcept
 	{
-		return reinterpret_cast<const std::vector<std::unique_ptr<SceneComponent>>&>(GetSubPrimaryComponents());
+		return reinterpret_cast<const std::vector<URef<SceneComponent>>&>(GetSubPrimaryComponents());
 	}
 
 	const std::string& SceneComponent::GetComponentName() const noexcept

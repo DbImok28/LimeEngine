@@ -9,7 +9,7 @@ namespace LimeEngine
 	class RenderViewport
 	{
 	public:
-		static std::shared_ptr<RenderViewport> Create(uint width, uint height);
+		static SRef<RenderViewport> Create(uint width, uint height);
 		static void BindMyltipleRenderViewports(const std::vector<RenderViewport>& viewports);
 
 	public:

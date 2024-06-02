@@ -10,7 +10,7 @@ namespace Sandbox
 	};
 }
 
-std::unique_ptr<LimeEngine::Application> LimeEngine::CreateApplication()
+LimeEngine::URef<LimeEngine::Application> LimeEngine::CreateApplication()
 {
-	return std::make_unique<Sandbox::SandboxApplication>();
+	return MakeUnique<Sandbox::SandboxApplication>();
 }

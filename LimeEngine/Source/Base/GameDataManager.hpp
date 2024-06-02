@@ -47,14 +47,14 @@ namespace LimeEngine
 		template <std::derived_from<GameResource> TResource, typename... TArgs>
 		[[nodiscard]] GameResourceRef<TResource> Emplace(const ResourcePath& resourcePath, TArgs&&... args)
 		{
-			return resources.emplace(resourcePath, std::make_unique<TResource>(std::forward<TArgs>(args)...)).first->second->GetRef<TResource>();
+			return resources.emplace(resourcePath, MakeUnique<TResource>(std::forward<TArgs>(args)...)).first->second->GetRef<TResource>();
 		}
-		[[nodiscard]] GameResourceRef<GameResource> Register(const ResourcePath& resourcePath, std::unique_ptr<GameResource>&& resource)
+		[[nodiscard]] GameResourceRef<GameResource> Register(const ResourcePath& resourcePath, URef<GameResource>&& resource)
 		{
 			return resources.emplace(resourcePath, std::move(resource)).first->second->GetRef<GameResource>();
 		}
 		template <std::derived_from<GameResource> TResource>
-		[[nodiscard]] GameResourceRef<TResource> Register(const ResourcePath& resourcePath, std::unique_ptr<TResource>&& resource)
+		[[nodiscard]] GameResourceRef<TResource> Register(const ResourcePath& resourcePath, URef<TResource>&& resource)
 		{
 			return resources.emplace(resourcePath, std::move(resource)).first->second->GetRef<TResource>();
 		}
@@ -69,8 +69,8 @@ namespace LimeEngine
 		}
 		[[nodiscard]] GameResourceRef<MaterialAsset> CreateMaterial(
 			const ResourcePath& resourcePath,
-			std::unique_ptr<VertexShader>&& vertexShader,
-			std::unique_ptr<PixelShader>&& pixelShader,
+			URef<VertexShader>&& vertexShader,
+			URef<PixelShader>&& pixelShader,
 			MaterialParameters&& parameters,
 			MaterialType type)
 		{
@@ -88,7 +88,7 @@ namespace LimeEngine
 		GameResourceRef<Texture2D> LoadTexture2D(const ResourcePath& resourcePath);
 
 	private:
-		std::map<ResourcePath, std::unique_ptr<GameResource>> resources;
+		std::map<ResourcePath, URef<GameResource>> resources;
 		GameDataLoader loader;
 	};
 }

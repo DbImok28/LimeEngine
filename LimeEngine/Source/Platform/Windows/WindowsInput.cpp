@@ -205,7 +205,7 @@ namespace LimeEngine
 				GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, NULL, &dataSize, sizeof(RAWINPUTHEADER));
 				if (dataSize > 0u)
 				{
-					std::unique_ptr<BYTE[]> rawdata = std::make_unique<BYTE[]>(dataSize);
+					URef<BYTE[]> rawdata = MakeUnique<BYTE[]>(dataSize);
 					if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, rawdata.get(), &dataSize, sizeof(RAWINPUTHEADER)) == dataSize)
 					{
 						RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(rawdata.get());

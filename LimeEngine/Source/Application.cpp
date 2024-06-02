@@ -26,7 +26,7 @@ namespace LimeEngine
 
 	void Application::Run()
 	{
-		auto map = std::make_unique<TestMap>();
+		auto map = MakeUnique<TestMap>();
 		map->Load();
 		SceneLayer::GetSceneLayer().GetScene().SetupAttachment(std::move(map));
 		Engine::GetEngine().Start();

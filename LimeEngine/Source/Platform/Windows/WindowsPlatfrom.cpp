@@ -23,14 +23,14 @@ namespace LimeEngine
 	#endif
 	}
 
-	std::unique_ptr<Window> Platform::MakeWindow(const WindowArgs& args)
+	URef<Window> Platform::MakeWindow(const WindowArgs& args)
 	{
-		return std::make_unique<WindowsWindow>(args);
+		return MakeUnique<WindowsWindow>(args);
 	}
 
-	std::unique_ptr<Console> Platform::MakeConsole(const ConsoleArgs& args)
+	URef<Console> Platform::MakeConsole(const ConsoleArgs& args)
 	{
-		return std::make_unique<WindowsConsole>(args);
+		return MakeUnique<WindowsConsole>(args);
 	}
 
 	bool Platform::IsDebuggerAttached() noexcept

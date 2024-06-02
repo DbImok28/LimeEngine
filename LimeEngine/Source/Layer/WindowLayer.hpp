@@ -19,11 +19,11 @@ namespace LimeEngine
 
 		void Update() override;
 
-		void SetWindow(std::unique_ptr<Window>&& window) noexcept;
+		void SetWindow(URef<Window>&& window) noexcept;
 		void SetWindow(const WindowArgs& windowArgs) noexcept;
 		Window& GetWindow() noexcept;
 
 	private:
-		std::unique_ptr<Window> window;
+		URef<Window> window;
 	};
 }

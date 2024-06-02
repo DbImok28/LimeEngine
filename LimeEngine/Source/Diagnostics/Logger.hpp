@@ -75,7 +75,7 @@ namespace LimeEngine
 		}
 
 	private:
-		std::shared_ptr<spdlog::logger> spdLogger;
+		SRef<spdlog::logger> spdLogger;
 	};
 }
 

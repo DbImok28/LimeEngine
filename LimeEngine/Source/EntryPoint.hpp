@@ -2,7 +2,9 @@
 // See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
-extern std::unique_ptr<LimeEngine::Application> LimeEngine::CreateApplication();
+#include "CoreBase.hpp"
+
+extern LimeEngine::URef<LimeEngine::Application> LimeEngine::CreateApplication();
 
 #ifdef LE_BUILD_PLATFORM_WINDOWS
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPTSTR lpCmdLine, _In_ int nCmdShow)

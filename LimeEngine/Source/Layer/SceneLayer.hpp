@@ -12,8 +12,8 @@ namespace LimeEngine
 		LE_DELETE_COPY(SceneLayer)
 
 	public:
-		SceneLayer() : SceneLayer(std::make_unique<Scene>()) {}
-		SceneLayer(std::unique_ptr<Scene>&& scene) : scene(std::move(scene)) {}
+		SceneLayer() : SceneLayer(MakeUnique<Scene>()) {}
+		SceneLayer(URef<Scene>&& scene) : scene(std::move(scene)) {}
 		static SceneLayer& GetSceneLayer();
 
 		void Update() override;
@@ -22,6 +22,6 @@ namespace LimeEngine
 		Scene& GetScene() noexcept;
 
 	private:
-		std::unique_ptr<Scene> scene;
+		URef<Scene> scene;
 	};
 }

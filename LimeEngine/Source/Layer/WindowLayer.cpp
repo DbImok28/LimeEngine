@@ -24,7 +24,7 @@ namespace LimeEngine
 		if (window) window->OnUpdate();
 	}
 
-	void WindowLayer::SetWindow(std::unique_ptr<Window>&& window) noexcept
+	void WindowLayer::SetWindow(URef<Window>&& window) noexcept
 	{
 		this->window = std::move(window);
 		this->window->GetInput().SetInputDevice(&InputLayer::GetInputLayer().GetInputDevice());

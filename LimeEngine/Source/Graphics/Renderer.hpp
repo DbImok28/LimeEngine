@@ -35,13 +35,13 @@ namespace LimeEngine
 		void RemoveFromRender(const IDrawable* drawable);
 
 		//TODO: Add ability to add and Remove RenderOutput
-		void SetRenderOutput(std::unique_ptr<RenderOutput>&& renderOutput);
+		void SetRenderOutput(URef<RenderOutput>&& renderOutput);
 		void RemoveRenderOutput();
 		RenderOutput& GetRenderOutput() noexcept;
 		const RenderOutput& GetRenderOutput() const noexcept;
 
 	private:
-		std::unique_ptr<RenderOutput> renderOutput;
+		URef<RenderOutput> renderOutput;
 
 	protected:
 		CameraComponent* camera = nullptr;

@@ -56,10 +56,10 @@ namespace LimeEngine
 		LE_DELETE_COPY(Window)
 
 	public:
-		static std::unique_ptr<Window> Create(const WindowArgs& args = WindowArgs());
+		static URef<Window> Create(const WindowArgs& args = WindowArgs());
 
 	protected:
-		Window(std::unique_ptr<Input>&& input) noexcept;
+		Window(URef<Input>&& input) noexcept;
 
 	public:
 		virtual ~Window() = default;
@@ -94,7 +94,7 @@ namespace LimeEngine
 		bool fullscreen = false;
 
 	private:
-		std::unique_ptr<Input> input;
+		URef<Input> input;
 		bool clipCursorInWindowMode = false;
 		bool clipCursorInFullScreenMode = true;
 	};

@@ -13,8 +13,8 @@ namespace LimeEngine
 
 	public:
 		static void Initialize();
-		static std::unique_ptr<Window> MakeWindow(const WindowArgs& args = WindowArgs());
-		static std::unique_ptr<Console> MakeConsole(const ConsoleArgs& args);
+		static URef<Window> MakeWindow(const WindowArgs& args = WindowArgs());
+		static URef<Console> MakeConsole(const ConsoleArgs& args);
 
 		static bool IsDebuggerAttached() noexcept;
 

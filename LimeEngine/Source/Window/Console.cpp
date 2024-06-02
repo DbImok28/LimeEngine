@@ -7,13 +7,13 @@
 
 namespace LimeEngine
 {
-	std::unique_ptr<Console> Console::Create(const ConsoleArgs& args)
+	URef<Console> Console::Create(const ConsoleArgs& args)
 	{
 		return Platform::MakeConsole(args);
 	}
 
 #ifdef LE_ENABLE_CONSOLE
-	std::unique_ptr<Console> Console::mainConsole = Console::Create({});
+	URef<Console> Console::mainConsole = Console::Create({});
 
 	Console& Console::GetConsole()
 	{

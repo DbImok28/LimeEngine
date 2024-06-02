@@ -15,14 +15,14 @@ namespace LimeEngine
 
 		virtual void Load(){};
 
-		SceneObject* SetupAttachment(std::unique_ptr<SceneObject>&& object);
+		SceneObject* SetupAttachment(URef<SceneObject>&& object);
 
 		template <std::derived_from<SceneObject> TObject, typename... TArgs>
 		TObject* SetupAttachment(TArgs&&... args) noexcept
 		{
-			return reinterpret_cast<TObject*>(SetupAttachment(std::make_unique<TObject>(std::forward<TArgs>(args)...)));
+			return reinterpret_cast<TObject*>(SetupAttachment(MakeUnique<TObject>(std::forward<TArgs>(args)...)));
 		}
-		const std::vector<std::unique_ptr<SceneObject>>& GetSubObjects() const noexcept;
+		const std::vector<URef<SceneObject>>& GetSubObjects() const noexcept;
 
 		std::string GetMapName() const noexcept;
 	};

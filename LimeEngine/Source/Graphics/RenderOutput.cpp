@@ -10,13 +10,13 @@
 
 namespace LimeEngine
 {
-	std::unique_ptr<RenderOutput> RenderOutput::CreateWindowRenderOutput(const RenderOutputArgs& args)
+	URef<RenderOutput> RenderOutput::CreateWindowRenderOutput(const RenderOutputArgs& args)
 	{
 		switch (RenderAPI::DefaultRenderAPI)
 		{
 			case RenderAPIType::None: break;
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case RenderAPIType::DirectX11: return std::make_unique<WindowRenderOutputDX11>(args);
+			case RenderAPIType::DirectX11: return MakeUnique<WindowRenderOutputDX11>(args);
 #endif
 			default: break;
 		}

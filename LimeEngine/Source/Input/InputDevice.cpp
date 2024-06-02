@@ -33,7 +33,7 @@ namespace LimeEngine
 
 	InputActionKeyHandlers::InputActionKeyHandlers(const std::string& name) noexcept : name(name) {}
 
-	void InputActionKeyHandlers::Bind(InputActionType type, std::unique_ptr<EventHandler<>>&& handler)
+	void InputActionKeyHandlers::Bind(InputActionType type, URef<EventHandler<>>&& handler)
 	{
 		handlers.push_back(std::make_pair(type, std::move(handler)));
 	}
@@ -62,7 +62,7 @@ namespace LimeEngine
 
 	InputAxisKeyHandlers::InputAxisKeyHandlers(const std::string& name) noexcept : name(name) {}
 
-	void InputAxisKeyHandlers::Bind(std::unique_ptr<EventHandler<float>>&& handler)
+	void InputAxisKeyHandlers::Bind(URef<EventHandler<float>>&& handler)
 	{
 		handlers.push_back(std::move(handler));
 	}
@@ -122,10 +122,10 @@ namespace LimeEngine
 
 	void InputDevice::BindActionEvent(const std::string& actionName, InputActionType type, void (*func)())
 	{
-		BindActionEvent(actionName, type, std::make_unique<FunctionEventHandler<>>(func));
+		BindActionEvent(actionName, type, MakeUnique<FunctionEventHandler<>>(func));
 	}
 
-	void InputDevice::BindActionEvent(const std::string& actionName, InputActionType type, std::unique_ptr<EventHandler<>>&& handler)
+	void InputDevice::BindActionEvent(const std::string& actionName, InputActionType type, URef<EventHandler<>>&& handler)
 	{
 		auto findedKeyActionEvent =
 			std::find_if(std::begin(keyActionEvents), std::end(keyActionEvents), [&actionName](const auto& item) { return item.second->name == actionName; });
@@ -248,10 +248,10 @@ namespace LimeEngine
 
 	void InputDevice::BindAxisEvent(const std::string& axisName, void (*func)(float))
 	{
-		BindAxisEvent(axisName, std::make_unique<FunctionEventHandler<float>>(func));
+		BindAxisEvent(axisName, MakeUnique<FunctionEventHandler<float>>(func));
 	}
 
-	void InputDevice::BindAxisEvent(const std::string& axisName, std::unique_ptr<EventHandler<float>>&& handler)
+	void InputDevice::BindAxisEvent(const std::string& axisName, URef<EventHandler<float>>&& handler)
 	{
 		auto findedkeyAxisEvent = std::find_if(std::begin(keyAxisEvents), std::end(keyAxisEvents), [&axisName](const auto& item) { return item.second.second->name == axisName; });
 		if (findedkeyAxisEvent != std::end(keyAxisEvents))

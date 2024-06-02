@@ -32,7 +32,7 @@ namespace LimeEngine
 		vertices(verticesAndIndices.first), indices(verticesAndIndices.second), meshRenderData(verticesAndIndices.first, verticesAndIndices.second)
 	{}
 
-	void MeshSegment::SetMaterial(const std::shared_ptr<Material>& material) noexcept
+	void MeshSegment::SetMaterial(const SRef<Material>& material) noexcept
 	{
 		this->material = material;
 	}
@@ -47,7 +47,7 @@ namespace LimeEngine
 		return static_cast<uint>(indices.size());
 	}
 
-	std::shared_ptr<Material> MeshSegment::GetMaterial() const noexcept
+	SRef<Material> MeshSegment::GetMaterial() const noexcept
 	{
 		return material;
 	}

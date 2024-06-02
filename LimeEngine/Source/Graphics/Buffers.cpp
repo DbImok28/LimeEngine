@@ -11,7 +11,7 @@
 
 namespace LimeEngine
 {
-	std::shared_ptr<VertexBuffer> VertexBuffer::Create(const void* vertices, uint count, uint stride, uint offset)
+	SRef<VertexBuffer> VertexBuffer::Create(const void* vertices, uint count, uint stride, uint offset)
 	{
 		switch (RenderAPI::DefaultRenderAPI)
 		{
@@ -25,7 +25,7 @@ namespace LimeEngine
 		return nullptr;
 	}
 
-	std::shared_ptr<IndexBuffer> IndexBuffer::Create(const uint* indices, uint count)
+	SRef<IndexBuffer> IndexBuffer::Create(const uint* indices, uint count)
 	{
 		switch (RenderAPI::DefaultRenderAPI)
 		{
@@ -39,13 +39,13 @@ namespace LimeEngine
 		return nullptr;
 	}
 
-	std::unique_ptr<ConstantBufferBase> ConstantBufferBase::Create(const void* data, uint dataSize)
+	URef<ConstantBufferBase> ConstantBufferBase::Create(const void* data, uint dataSize)
 	{
 		switch (RenderAPI::DefaultRenderAPI)
 		{
 			case RenderAPIType::None: break;
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case RenderAPIType::DirectX11: return std::make_unique<ConstantBufferBaseDX11>(data, dataSize);
+			case RenderAPIType::DirectX11: return MakeUnique<ConstantBufferBaseDX11>(data, dataSize);
 #endif
 			default: break;
 		}

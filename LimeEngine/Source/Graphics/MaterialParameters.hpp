@@ -48,14 +48,14 @@ namespace LimeEngine
 	{
 	public:
 		template <typename T>
-		MaterialParameter(std::string name, T defaultValue, uint offset) : name(name), offset(offset), info(std::make_unique<MaterialParameterInfo<T>>(defaultValue))
+		MaterialParameter(std::string name, T defaultValue, uint offset) : name(name), offset(offset), info(MakeUnique<MaterialParameterInfo<T>>(defaultValue))
 		{}
 		template <typename T>
-		MaterialParameter(std::string name, T defaultValue) : name(name), info(std::make_unique<MaterialParameterInfo<T>>(defaultValue))
+		MaterialParameter(std::string name, T defaultValue) : name(name), info(MakeUnique<MaterialParameterInfo<T>>(defaultValue))
 		{}
 
 		std::string name;
-		std::unique_ptr<MaterialParameterInfoBase> info;
+		URef<MaterialParameterInfoBase> info;
 		uint offset = 0u;
 	};
 
@@ -138,8 +138,8 @@ namespace LimeEngine
 		void* GetParameter(const std::string& name);
 
 	private:
-		std::unique_ptr<char[]> inputData;
-		std::unique_ptr<ConstantBufferBase> inputDataCB;
+		URef<char[]> inputData;
+		URef<ConstantBufferBase> inputDataCB;
 		const MaterialParameters& parameters;
 		uint inputDataSize;
 		bool isChanged = false;

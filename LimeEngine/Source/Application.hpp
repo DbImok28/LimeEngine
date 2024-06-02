@@ -7,7 +7,7 @@
 namespace LimeEngine
 {
 	class LE_API Application;
-	std::unique_ptr<Application> CreateApplication();
+	URef<Application> CreateApplication();
 
 	class LE_API Application
 	{

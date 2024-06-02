@@ -29,14 +29,14 @@ namespace LimeEngine
 	RenderAPIType RenderAPI::DefaultRenderAPI = RenderAPIType::None;
 #endif
 
-	std::unique_ptr<RenderAPI> RenderAPI::CreateRendererAPI(RenderAPIType api)
+	URef<RenderAPI> RenderAPI::CreateRendererAPI(RenderAPIType api)
 	{
 		LE_CORE_LOG_TRACE("Creating a {} renderer", RenderAPIToString(api));
 		switch (api)
 		{
 			case RenderAPIType::None: break;
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case RenderAPIType::DirectX11: return std::make_unique<RenderAPIDX11>();
+			case RenderAPIType::DirectX11: return MakeUnique<RenderAPIDX11>();
 #endif
 			default: break;
 		}
@@ -49,5 +49,5 @@ namespace LimeEngine
 		rendererAPI = CreateRendererAPI(DefaultRenderAPI);
 	}
 
-	std::unique_ptr<RenderAPI> RenderAPI::rendererAPI;
+	URef<RenderAPI> RenderAPI::rendererAPI;
 }

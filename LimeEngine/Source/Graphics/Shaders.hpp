@@ -87,7 +87,7 @@ namespace LimeEngine
 	class VertexShader : public IBindable
 	{
 	public:
-		static std::unique_ptr<VertexShader> Create(const FPath& filePath, const InputLayout& inputLayout);
+		static URef<VertexShader> Create(const FPath& filePath, const InputLayout& inputLayout);
 
 	public:
 		virtual ~VertexShader() = default;
@@ -104,7 +104,7 @@ namespace LimeEngine
 	class PixelShader : public IBindable
 	{
 	public:
-		static std::unique_ptr<PixelShader> Create(const FPath& filePath);
+		static URef<PixelShader> Create(const FPath& filePath);
 
 	public:
 		virtual ~PixelShader() = default;

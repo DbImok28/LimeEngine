@@ -6,9 +6,9 @@
 
 namespace LimeEngine
 {
-	std::shared_ptr<Material> MaterialAsset::Instantiate()
+	SRef<Material> MaterialAsset::Instantiate()
 	{
-		return std::make_unique<Material>(GetRef<MaterialAsset>());
+		return MakeUnique<Material>(GetRef<MaterialAsset>());
 	}
 
 	void Material::ApplyMaterial() noexcept

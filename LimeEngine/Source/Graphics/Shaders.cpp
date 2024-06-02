@@ -11,13 +11,13 @@
 
 namespace LimeEngine
 {
-	std::unique_ptr<VertexShader> VertexShader::Create(const FPath& filePath, const InputLayout& inputLayout)
+	URef<VertexShader> VertexShader::Create(const FPath& filePath, const InputLayout& inputLayout)
 	{
 		switch (RenderAPI::DefaultRenderAPI)
 		{
 			case RenderAPIType::None: break;
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case RenderAPIType::DirectX11: return std::make_unique<VertexShaderDX11>(filePath, inputLayout);
+			case RenderAPIType::DirectX11: return MakeUnique<VertexShaderDX11>(filePath, inputLayout);
 #endif
 			default: break;
 		}
@@ -25,13 +25,13 @@ namespace LimeEngine
 		return nullptr;
 	}
 
-	std::unique_ptr<PixelShader> PixelShader::Create(const FPath& filePath)
+	URef<PixelShader> PixelShader::Create(const FPath& filePath)
 	{
 		switch (RenderAPI::DefaultRenderAPI)
 		{
 			case RenderAPIType::None: break;
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case RenderAPIType::DirectX11: return std::make_unique<PixelShaderDX11>(filePath);
+			case RenderAPIType::DirectX11: return MakeUnique<PixelShaderDX11>(filePath);
 #endif
 			default: break;
 		}

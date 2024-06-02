@@ -9,7 +9,7 @@ namespace LimeEngine
 	class DepthStencil
 	{
 	public:
-		std::unique_ptr<DepthStencil> Create(uint width, uint height);
+		URef<DepthStencil> Create(uint width, uint height);
 
 	public:
 		virtual void Clear(float clearDepth = 1.0f, uint8 clearStencil = 0u) = 0;
@@ -22,7 +22,7 @@ namespace LimeEngine
 	class RenderTarget
 	{
 	public:
-		std::unique_ptr<RenderTarget> Create(uint width, uint height);
+		URef<RenderTarget> Create(uint width, uint height);
 
 	public:
 		virtual void Bind(DepthStencil* depthStencil = nullptr) = 0;

@@ -153,7 +153,7 @@ public:                                           \
 		{
 			return std::find_if(std::begin(events), std::end(events), [&handler](auto& item) { return (*item == handler); });
 		}
-		void Bind(std::unique_ptr<EventHandler<TArgs...>>&& handler)
+		void Bind(URef<EventHandler<TArgs...>>&& handler)
 		{
 			bool noFinded = FindEventHandler(*handler) == events.end();
 			LE_CORE_ASSERT(noFinded, "Can't bind the same events");
@@ -164,12 +164,12 @@ public:                                           \
 		{
 			LE_CORE_ASSERT(object, "Object pointer cannot be null");
 			LE_CORE_ASSERT(method, "Method pointer cannot be null");
-			if (object && method) Bind(std::make_unique<MethodEventHandler<TObject, TArgs...>>(*object, method));
+			if (object && method) Bind(MakeUnique<MethodEventHandler<TObject, TArgs...>>(*object, method));
 		}
 		void Bind(void (*func)(TArgs...))
 		{
 			LE_CORE_ASSERT(func, "Function pointer cannot be null");
-			if (func) Bind(std::make_unique<FunctionEventHandler<TArgs...>>(func));
+			if (func) Bind(MakeUnique<FunctionEventHandler<TArgs...>>(func));
 		}
 
 		bool Unbind(const EventHandler<TArgs...>& handler) noexcept
@@ -202,7 +202,7 @@ public:                                           \
 		}
 
 	private:
-		std::list<std::unique_ptr<EventHandler<TArgs...>>> events;
+		std::list<URef<EventHandler<TArgs...>>> events;
 	};
 
 	template <typename TKey, typename... TArgs>
@@ -238,7 +238,7 @@ public:                                           \
 			return std::end(events);
 		}
 
-		void Bind(TKey key, std::unique_ptr<EventHandler<TArgs...>>&& handler)
+		void Bind(TKey key, URef<EventHandler<TArgs...>>&& handler)
 		{
 			bool noFinded = FindEventHandler(key, *handler) == events.end();
 			LE_CORE_ASSERT(noFinded, "Can't bind the same events");
@@ -249,12 +249,12 @@ public:                                           \
 		{
 			LE_CORE_ASSERT(object, "Object pointer cannot be null");
 			LE_CORE_ASSERT(method, "Method pointer cannot be null");
-			if (object && method) Bind(key, std::make_unique<MethodEventHandler<TObject, TArgs...>>(*object, method));
+			if (object && method) Bind(key, MakeUnique<MethodEventHandler<TObject, TArgs...>>(*object, method));
 		}
 		void Bind(TKey key, void (*func)(TArgs...))
 		{
 			LE_CORE_ASSERT(func, "Function pointer cannot be null");
-			if (func) Bind(key, std::make_unique<FunctionEventHandler<TArgs...>>(func));
+			if (func) Bind(key, MakeUnique<FunctionEventHandler<TArgs...>>(func));
 		}
 
 		bool Unbind(TKey key, const EventHandler<TArgs...>& handler) noexcept
@@ -288,7 +288,7 @@ public:                                           \
 			return std::find_if(std::begin(handlersForAnyEvents), std::end(handlersForAnyEvents), [&handler](auto& item) { return (*item == handler); });
 		}
 
-		void BindAny(std::unique_ptr<EventHandler<TArgs...>>&& handler)
+		void BindAny(URef<EventHandler<TArgs...>>&& handler)
 		{
 			bool noFinded = FindAnyEventHandler(*handler) == std::end(handlersForAnyEvents);
 			LE_CORE_ASSERT(noFinded, "Can't bind the same events");
@@ -299,12 +299,12 @@ public:                                           \
 		{
 			LE_CORE_ASSERT(object, "Object pointer cannot be null");
 			LE_CORE_ASSERT(method, "Method pointer cannot be null");
-			if (object && method) BindAny(std::make_unique<MethodEventHandler<TObject, TArgs...>>(*object, method));
+			if (object && method) BindAny(MakeUnique<MethodEventHandler<TObject, TArgs...>>(*object, method));
 		}
 		void BindAny(void (*func)(TArgs...))
 		{
 			LE_CORE_ASSERT(func, "Function pointer cannot be null");
-			if (func) BindAny(std::make_unique<FunctionEventHandler<TArgs...>>(func));
+			if (func) BindAny(MakeUnique<FunctionEventHandler<TArgs...>>(func));
 		}
 
 		bool UnbindAny(const EventHandler<TArgs...>& handler) noexcept
@@ -347,8 +347,8 @@ public:                                           \
 		}
 
 	private:
-		std::multimap<TKey, std::unique_ptr<EventHandler<TArgs...>>> events;
-		std::list<std::unique_ptr<EventHandler<TArgs...>>> handlersForAnyEvents;
+		std::multimap<TKey, URef<EventHandler<TArgs...>>> events;
+		std::list<URef<EventHandler<TArgs...>>> handlersForAnyEvents;
 	};
 
 	template <typename TKey>

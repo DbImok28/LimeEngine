@@ -12,7 +12,7 @@ namespace LimeEngine
 		deviceContext->IASetVertexBuffers(0u, vertexBuffers.size(), dx11Buffers.data(), strides.data(), offsets.data());
 	}
 
-	void VertexArrayDX11::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) noexcept
+	void VertexArrayDX11::AddVertexBuffer(const SRef<VertexBuffer>& vertexBuffer) noexcept
 	{
 		this->vertexBuffers.push_back(vertexBuffer);
 		auto dx11buffer = reinterpret_cast<VertexBufferDX11*>(vertexBuffer.get());

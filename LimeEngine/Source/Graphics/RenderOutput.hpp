@@ -31,7 +31,7 @@ namespace LimeEngine
 	class RenderOutput : public IBindable
 	{
 	public:
-		static std::unique_ptr<RenderOutput> CreateWindowRenderOutput(const RenderOutputArgs& args);
+		static URef<RenderOutput> CreateWindowRenderOutput(const RenderOutputArgs& args);
 
 	public:
 		virtual ~RenderOutput();

@@ -17,11 +17,11 @@ namespace LimeEngine
 	class Console
 	{
 	public:
-		static std::unique_ptr<Console> Create(const ConsoleArgs& args);
+		static URef<Console> Create(const ConsoleArgs& args);
 
 #ifdef LE_ENABLE_CONSOLE
 	private:
-		static std::unique_ptr<Console> mainConsole;
+		static URef<Console> mainConsole;
 
 	public:
 		static Console& GetConsole();

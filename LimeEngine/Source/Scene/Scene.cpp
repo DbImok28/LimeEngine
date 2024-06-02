@@ -7,14 +7,14 @@
 
 namespace LimeEngine
 {
-	SceneMap* Scene::SetupAttachment(std::unique_ptr<SceneMap>&& map)
+	SceneMap* Scene::SetupAttachment(URef<SceneMap>&& map)
 	{
 		return reinterpret_cast<SceneMap*>(SetupPrimaryAttachment(std::move(map)));
 	}
 
-	const std::vector<std::unique_ptr<SceneMap>>& Scene::GetSubMaps() const noexcept
+	const std::vector<URef<SceneMap>>& Scene::GetSubMaps() const noexcept
 	{
-		return reinterpret_cast<const std::vector<std::unique_ptr<SceneMap>>&>(GetSubPrimaryComponents());
+		return reinterpret_cast<const std::vector<URef<SceneMap>>&>(GetSubPrimaryComponents());
 	}
 
 	std::string Scene::GetSceneName() const noexcept

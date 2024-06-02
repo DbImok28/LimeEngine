@@ -25,7 +25,7 @@ namespace LimeEngine
 	class RenderAPI
 	{
 	public:
-		static std::unique_ptr<RenderAPI> CreateRendererAPI(RenderAPIType api);
+		static URef<RenderAPI> CreateRendererAPI(RenderAPIType api);
 
 		static void Initialize();
 
@@ -52,6 +52,6 @@ namespace LimeEngine
 		static RenderAPIType DefaultRenderAPI;
 
 	private:
-		static std::unique_ptr<RenderAPI> rendererAPI;
+		static URef<RenderAPI> rendererAPI;
 	};
 }

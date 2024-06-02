@@ -24,23 +24,19 @@ namespace LimeEngine
 
 	public:
 		MaterialAsset(
-			const ResourcePath& resourcePath,
-			std::unique_ptr<VertexShader>&& vertexShader,
-			std::unique_ptr<PixelShader>&& pixelShader,
-			MaterialParameters&& parameters,
-			MaterialType type) noexcept :
+			const ResourcePath& resourcePath, URef<VertexShader>&& vertexShader, URef<PixelShader>&& pixelShader, MaterialParameters&& parameters, MaterialType type) noexcept :
 			GameResource(resourcePath),
 			type(type), vertexShader(std::move(vertexShader)), pixelShader(std::move(pixelShader)), parameters(std::move(parameters))
 		{}
 
-		std::shared_ptr<Material> Instantiate();
+		SRef<Material> Instantiate();
 
 	public:
 		MaterialType type;
 
 		MaterialParameters parameters;
-		std::unique_ptr<VertexShader> vertexShader;
-		std::unique_ptr<PixelShader> pixelShader;
+		URef<VertexShader> vertexShader;
+		URef<PixelShader> pixelShader;
 	};
 
 	class Material

@@ -13,7 +13,7 @@ namespace LimeEngine
 	public:
 		virtual void Bind() override;
 
-		virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) noexcept override;
+		virtual void AddVertexBuffer(const SRef<VertexBuffer>& vertexBuffer) noexcept override;
 
 	private:
 		std::vector<ID3D11Buffer*> dx11Buffers;

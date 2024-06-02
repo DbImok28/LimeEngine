@@ -47,7 +47,7 @@ namespace LimeEngine
 		return wndClassInstance.hInst;
 	}
 
-	WindowsWindow::WindowsWindow(const WindowArgs& args) : Window(std::make_unique<WindowsInput>())
+	WindowsWindow::WindowsWindow(const WindowArgs& args) : Window(MakeUnique<WindowsInput>())
 	{
 		Init(args);
 	}

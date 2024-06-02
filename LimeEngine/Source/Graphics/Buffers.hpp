@@ -11,16 +11,16 @@ namespace LimeEngine
 	{
 	public:
 		template <typename T>
-		static std::shared_ptr<VertexBuffer> Create(const std::vector<T>& vertices, uint offset = 0u)
+		static SRef<VertexBuffer> Create(const std::vector<T>& vertices, uint offset = 0u)
 		{
 			return Create(vertices.data(), vertices.size(), sizeof(T), offset);
 		}
 		template <typename T>
-		static std::shared_ptr<VertexBuffer> Create(T* vertices, uint count, uint offset = 0u)
+		static SRef<VertexBuffer> Create(T* vertices, uint count, uint offset = 0u)
 		{
 			return Create(vertices, count, sizeof(T), offset);
 		}
-		static std::shared_ptr<VertexBuffer> Create(const void* vertices, uint count, uint stride, uint offset = 0u);
+		static SRef<VertexBuffer> Create(const void* vertices, uint count, uint stride, uint offset = 0u);
 
 	public:
 		virtual ~VertexBuffer() = default;
@@ -37,11 +37,11 @@ namespace LimeEngine
 	class IndexBuffer : public IBindable
 	{
 	public:
-		static std::shared_ptr<IndexBuffer> Create(const std::vector<uint>& indices)
+		static SRef<IndexBuffer> Create(const std::vector<uint>& indices)
 		{
 			return Create(indices.data(), indices.size());
 		}
-		static std::shared_ptr<IndexBuffer> Create(const uint* indices, uint count);
+		static SRef<IndexBuffer> Create(const uint* indices, uint count);
 
 	public:
 		virtual ~IndexBuffer() = default;
@@ -61,11 +61,11 @@ namespace LimeEngine
 	{
 	public:
 		template <typename T>
-		static std::unique_ptr<ConstantBufferBase> Create(T* data)
+		static URef<ConstantBufferBase> Create(T* data)
 		{
 			return Create(data, sizeof(T));
 		}
-		static std::unique_ptr<ConstantBufferBase> Create(const void* data, uint dataSize);
+		static URef<ConstantBufferBase> Create(const void* data, uint dataSize);
 
 		virtual ~ConstantBufferBase() = default;
 
@@ -96,6 +96,6 @@ namespace LimeEngine
 
 	public:
 		T data{};
-		std::shared_ptr<ConstantBufferBase> buff;
+		SRef<ConstantBufferBase> buff;
 	};
 }

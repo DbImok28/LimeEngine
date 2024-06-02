@@ -8,12 +8,12 @@
 
 namespace LimeEngine
 {
-	std::unique_ptr<Window> Window::Create(const WindowArgs& args)
+	URef<Window> Window::Create(const WindowArgs& args)
 	{
 		return Platform::MakeWindow();
 	}
 
-	Window::Window(std::unique_ptr<Input>&& input) noexcept : input(std::move(input)) {}
+	Window::Window(URef<Input>&& input) noexcept : input(std::move(input)) {}
 
 	InputDevice& Window::GetInputDevice() noexcept
 	{

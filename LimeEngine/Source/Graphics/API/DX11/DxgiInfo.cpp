@@ -41,7 +41,7 @@ namespace LimeEngine
 #pragma warning(suppress : 6001)
 			CHECK_HR(pDxgiInfoQueue->GetMessage(DXGI_DEBUG_ALL, i, nullptr, &messageLength));
 
-			auto bytes = std::make_unique<byte[]>(messageLength);
+			auto bytes = MakeUnique<byte[]>(messageLength);
 			auto pMessage = reinterpret_cast<DXGI_INFO_QUEUE_MESSAGE*>(bytes.get());
 			CHECK_HR(pDxgiInfoQueue->GetMessage(DXGI_DEBUG_ALL, i, pMessage, &messageLength));
 

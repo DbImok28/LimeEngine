@@ -46,13 +46,13 @@ namespace LimeEngine
 	public:
 		explicit InputActionKeyHandlers(const std::string& name) noexcept;
 
-		void Bind(InputActionType type, std::unique_ptr<EventHandler<>>&& handler);
+		void Bind(InputActionType type, URef<EventHandler<>>&& handler);
 		void Unbind(InputActionType type, const EventHandler<>& handler) noexcept;
 		void Call(InputActionType type);
 
 	public:
 		std::string name;
-		std::vector<std::pair<InputActionType, std::unique_ptr<EventHandler<>>>> handlers;
+		std::vector<std::pair<InputActionType, URef<EventHandler<>>>> handlers;
 	};
 
 	struct InputAxisKey
@@ -76,13 +76,13 @@ namespace LimeEngine
 	public:
 		explicit InputAxisKeyHandlers(const std::string& name) noexcept;
 
-		void Bind(std::unique_ptr<EventHandler<float>>&& handler);
+		void Bind(URef<EventHandler<float>>&& handler);
 		void Unbind(const EventHandler<float>& handler) noexcept;
 		void Call(float scale);
 
 	public:
 		std::string name;
-		std::vector<std::unique_ptr<EventHandler<float>>> handlers;
+		std::vector<URef<EventHandler<float>>> handlers;
 	};
 
 	class Input;
@@ -100,10 +100,10 @@ namespace LimeEngine
 		template <typename TObject>
 		void BindActionEvent(const std::string& actionName, InputActionType type, TObject* const object, void (TObject::*const method)())
 		{
-			BindActionEvent(actionName, type, std::make_unique<MethodEventHandler<TObject>>(*object, method));
+			BindActionEvent(actionName, type, MakeUnique<MethodEventHandler<TObject>>(*object, method));
 		}
 		void BindActionEvent(const std::string& actionName, InputActionType type, void (*func)());
-		void BindActionEvent(const std::string& actionName, InputActionType type, std::unique_ptr<EventHandler<>>&& handler);
+		void BindActionEvent(const std::string& actionName, InputActionType type, URef<EventHandler<>>&& handler);
 		template <typename TObject>
 		void UnbindActionEvent(const std::string& actionName, InputActionType type, TObject* const object, void (TObject::*const method)()) noexcept
 		{
@@ -125,9 +125,9 @@ namespace LimeEngine
 		template <typename TObject>
 		void BindAxisEvent(const std::string& axisName, TObject* const object, void (TObject::*const method)(float))
 		{
-			BindAxisEvent(axisName, std::make_unique<MethodEventHandler<TObject, float>>(*object, method));
+			BindAxisEvent(axisName, MakeUnique<MethodEventHandler<TObject, float>>(*object, method));
 		}
-		void BindAxisEvent(const std::string& axisName, std::unique_ptr<EventHandler<float>>&& handler);
+		void BindAxisEvent(const std::string& axisName, URef<EventHandler<float>>&& handler);
 		template <typename TObject>
 		void UnbindAxisEvent(const std::string& axisName, TObject* const object, void (TObject::*const method)(float)) noexcept
 		{
@@ -168,8 +168,8 @@ namespace LimeEngine
 		Mouse mouse;
 
 	private:
-		std::multimap<InputKey, std::pair<float, std::shared_ptr<InputAxisKeyHandlers>>> keyAxisEvents;
-		std::multimap<InputActionKey, std::shared_ptr<InputActionKeyHandlers>> keyActionEvents;
+		std::multimap<InputKey, std::pair<float, SRef<InputAxisKeyHandlers>>> keyAxisEvents;
+		std::multimap<InputActionKey, SRef<InputActionKeyHandlers>> keyActionEvents;
 		std::list<InputKey> pressedKeys;
 		std::queue<std::pair<InputKey, float>> axisKeyActions;
 		std::queue<std::pair<InputActionType, InputKey>> keyActions;

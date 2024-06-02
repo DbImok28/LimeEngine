@@ -70,4 +70,61 @@ namespace LimeEngine
 	using tifstream = std::basic_ifstream<TCHAR, std::char_traits<TCHAR>>;
 	using tofstream = std::basic_ofstream<TCHAR, std::char_traits<TCHAR>>;
 	using tfstream = std::basic_fstream<TCHAR, std::char_traits<TCHAR>>;
+
+	// TODO: Add get typename function
+
+#if !defined(__PRETTY_FUNCTION__) && !defined(__GNUC__)
+	#define __PRETTY_FUNCTION__ __FUNCSIG__
+#endif
+
+	template <typename T>
+	using URef = std::unique_ptr<T>;
+	template <typename T>
+	using SRef = std::shared_ptr<T>;
+	template <typename T>
+	using WRef = std::weak_ptr<T>;
+
+	template <class T, class... Args>
+	[[nodiscard]] std::enable_if_t<!std::is_array_v<T>, std::shared_ptr<T>> MakeShared(Args&&... args)
+	{
+		static_assert(std::is_constructible<T, Args...>::value, "The arguments provided to MakeShared do not match the constructor of the type T. " __PRETTY_FUNCTION__);
+		return std::make_shared<T>(std::forward<Args>(args)...);
+	}
+
+	template <class T>
+	[[nodiscard]] std::enable_if_t<std::is_unbounded_array_v<T>, std::shared_ptr<T>> MakeShared(const size_t count)
+	{
+		return std::make_shared<T>(count);
+	}
+
+	template <class T>
+	[[nodiscard]] std::enable_if_t<std::is_unbounded_array_v<T>, std::shared_ptr<T>> MakeShared(const size_t count, const std::remove_extent_t<T>& val)
+	{
+		return std::make_shared<T>(count, val);
+	}
+
+	template <class T>
+	[[nodiscard]] std::enable_if_t<std::is_bounded_array_v<T>, std::shared_ptr<T>> MakeShared()
+	{
+		return std::make_shared<T>();
+	}
+
+	template <class T>
+	[[nodiscard]] std::enable_if_t<std::is_bounded_array_v<T>, std::shared_ptr<T>> MakeShared(const std::remove_extent_t<T>& val)
+	{
+		return std::make_shared<T>(val);
+	}
+
+	template <class T, class... Args, std::enable_if_t<!std::is_array_v<T>, int> = 0>
+	[[nodiscard]] constexpr URef<T> MakeUnique(Args&&... args)
+	{
+		static_assert(std::is_constructible<T, Args...>::value, "The arguments provided to MakeUnique do not match the constructor of the type T. " __PRETTY_FUNCTION__);
+		return std::make_unique<T>(std::forward<Args>(args)...);
+	}
+
+	template <class T, std::enable_if_t<std::is_array_v<T> && std::extent_v<T> == 0, int> = 0>
+	[[nodiscard]] constexpr URef<T> MakeUnique(const size_t size)
+	{
+		return std::make_unique<T>(size);
+	}
 }

@@ -11,7 +11,7 @@
 
 namespace LimeEngine
 {
-	std::shared_ptr<RenderViewport> RenderViewport::Create(uint width, uint height)
+	SRef<RenderViewport> RenderViewport::Create(uint width, uint height)
 	{
 		switch (RenderAPI::DefaultRenderAPI)
 		{

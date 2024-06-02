@@ -25,12 +25,12 @@ namespace LimeEngine
 		}
 
 	protected:
-		const std::vector<std::unique_ptr<ScenePrimaryComponent>>& GetSubPrimaryComponents() const noexcept
+		const std::vector<URef<ScenePrimaryComponent>>& GetSubPrimaryComponents() const noexcept
 		{
 			return subPrimaryComponent;
 		}
 
-		ScenePrimaryComponent* SetupPrimaryAttachment(std::unique_ptr<ScenePrimaryComponent>&& component) noexcept
+		ScenePrimaryComponent* SetupPrimaryAttachment(URef<ScenePrimaryComponent>&& component) noexcept
 		{
 			subPrimaryComponent.push_back(std::move(component));
 			return subPrimaryComponent.back().get();
@@ -59,6 +59,6 @@ namespace LimeEngine
 
 	private:
 		std::string primaryName;
-		std::vector<std::unique_ptr<ScenePrimaryComponent>> subPrimaryComponent;
+		std::vector<URef<ScenePrimaryComponent>> subPrimaryComponent;
 	};
 }

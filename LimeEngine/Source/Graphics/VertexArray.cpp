@@ -9,13 +9,13 @@
 
 namespace LimeEngine
 {
-	std::unique_ptr<VertexArray> VertexArray::Create()
+	URef<VertexArray> VertexArray::Create()
 	{
 		switch (RenderAPI::DefaultRenderAPI)
 		{
 			case RenderAPIType::None: break;
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case RenderAPIType::DirectX11: return std::make_unique<VertexArrayDX11>();
+			case RenderAPIType::DirectX11: return MakeUnique<VertexArrayDX11>();
 #endif
 			default: break;
 		}

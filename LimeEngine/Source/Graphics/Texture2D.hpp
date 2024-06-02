@@ -26,9 +26,9 @@ namespace LimeEngine
 	class Texture2D : public GameResource
 	{
 	public:
-		static std::unique_ptr<Texture2D> Create(const ResourcePath& resourcePath, TextureType type);
-		static std::unique_ptr<Texture2D> Create(const ResourcePath& resourcePath, const uint8_t* pData, size_t size, TextureType type);
-		static std::unique_ptr<Texture2D> Create(const ResourcePath& resourcePath, const FPath& filePath, TextureType type);
+		static URef<Texture2D> Create(const ResourcePath& resourcePath, TextureType type);
+		static URef<Texture2D> Create(const ResourcePath& resourcePath, const uint8_t* pData, size_t size, TextureType type);
+		static URef<Texture2D> Create(const ResourcePath& resourcePath, const FPath& filePath, TextureType type);
 
 		Texture2D(const ResourcePath& resourcePath, TextureType type) noexcept;
 

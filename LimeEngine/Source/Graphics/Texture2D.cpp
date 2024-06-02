@@ -11,13 +11,13 @@
 
 namespace LimeEngine
 {
-	std::unique_ptr<Texture2D> Texture2D::Create(const ResourcePath& resourcePath, TextureType type)
+	URef<Texture2D> Texture2D::Create(const ResourcePath& resourcePath, TextureType type)
 	{
 		switch (RenderAPI::DefaultRenderAPI)
 		{
 			case RenderAPIType::None: break;
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case RenderAPIType::DirectX11: return std::make_unique<Texture2DDX11>(resourcePath, type);
+			case RenderAPIType::DirectX11: return MakeUnique<Texture2DDX11>(resourcePath, type);
 #endif
 			default: break;
 		}
@@ -25,13 +25,13 @@ namespace LimeEngine
 		return nullptr;
 	}
 
-	std::unique_ptr<Texture2D> Texture2D::Create(const ResourcePath& resourcePath, const uint8_t* pData, size_t size, TextureType type)
+	URef<Texture2D> Texture2D::Create(const ResourcePath& resourcePath, const uint8_t* pData, size_t size, TextureType type)
 	{
 		switch (RenderAPI::DefaultRenderAPI)
 		{
 			case RenderAPIType::None: break;
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case RenderAPIType::DirectX11: return std::make_unique<Texture2DDX11>(resourcePath, pData, size, type);
+			case RenderAPIType::DirectX11: return MakeUnique<Texture2DDX11>(resourcePath, pData, size, type);
 #endif
 			default: break;
 		}
@@ -39,13 +39,13 @@ namespace LimeEngine
 		return nullptr;
 	}
 
-	std::unique_ptr<Texture2D> Texture2D::Create(const ResourcePath& resourcePath, const FPath& filePath, TextureType type)
+	URef<Texture2D> Texture2D::Create(const ResourcePath& resourcePath, const FPath& filePath, TextureType type)
 	{
 		switch (RenderAPI::DefaultRenderAPI)
 		{
 			case RenderAPIType::None: break;
 #if defined(LE_ENABLE_RENDER_API_DX11)
-			case RenderAPIType::DirectX11: return std::make_unique<Texture2DDX11>(resourcePath, filePath, type);
+			case RenderAPIType::DirectX11: return MakeUnique<Texture2DDX11>(resourcePath, filePath, type);
 #endif
 			default: break;
 		}

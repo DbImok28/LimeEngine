@@ -32,7 +32,7 @@ namespace LimeEngine
 	MaterialParameterValues::MaterialParameterValues(const MaterialParameters& parameters) : parameters(parameters)
 	{
 		inputDataSize = parameters.back().offset + parameters.back().info->GetSize();
-		inputData = std::make_unique<char[]>(inputDataSize);
+		inputData = MakeUnique<char[]>(inputDataSize);
 
 		for (auto& parameter : parameters)
 		{
