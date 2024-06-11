@@ -161,7 +161,7 @@ namespace LimeEngine
 		void OnMouseEnter() noexcept;
 
 	public:
-		void OnUpdate() noexcept;
+		void OnUpdate();
 
 	public:
 		Keyboard keyboard;

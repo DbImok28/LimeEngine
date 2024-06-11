@@ -46,9 +46,9 @@ namespace LimeEngine
 		deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	}
 
-	void RenderAPIDX11::DrawIndexed(uint indicesCount) const noexcept
+	void RenderAPIDX11::DrawIndexed(uint indicesCount) const
 	{
-		deviceContext->DrawIndexed(indicesCount, 0u, 0u);
+		GFX_CHECK_INFO(deviceContext->DrawIndexed(indicesCount, 0u, 0u));
 	}
 
 	void RenderAPIDX11::BindPipline()

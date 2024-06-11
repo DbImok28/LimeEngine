@@ -19,8 +19,8 @@ namespace LimeEngine
 
 		void Update() override;
 
-		void SetWindow(URef<Window>&& window) noexcept;
-		void SetWindow(const WindowArgs& windowArgs) noexcept;
+		void SetWindow(URef<Window>&& window);
+		void SetWindow(const WindowArgs& windowArgs);
 		Window& GetWindow() noexcept;
 
 	private:

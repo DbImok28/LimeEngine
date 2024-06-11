@@ -14,7 +14,7 @@ namespace LimeEngine
 	{
 		std::ostringstream oss;
 		for (auto&& str : info)
-			oss << str;
+			oss << str << std::endl;
 		this->info = oss.str();
 	}
 

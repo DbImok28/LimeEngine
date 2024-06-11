@@ -7,6 +7,10 @@
 #include "RenderLayer.hpp"
 #include "Engine.hpp"
 
+#ifdef LE_DEBUG
+	#include "Graphics/API/DX11/ExceptionsDX11.hpp"
+#endif
+
 namespace LimeEngine
 {
 	RenderLayer& RenderLayer::GetRenderLayer()
@@ -19,6 +23,15 @@ namespace LimeEngine
 		auto& renderer = Renderer::GetRenderer();
 		RuntimeEditor::BeginPanel("Renderer");
 		RuntimeEditor::Text("GPU Name", RenderAPI::GetRenderAPI().GetVideoAdapterName());
+
+		// TODO: Remove
+		RuntimeEditor::Text("DXGI Messages:");
+
+		for (auto& message : dxgiErrorInfo.GetAllMessages())
+		{
+			RuntimeEditor::Text(message);
+		}
+
 		RuntimeEditor::EndPanel();
 
 		RuntimeEditor::BeginPanel("Window");

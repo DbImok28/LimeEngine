@@ -18,7 +18,7 @@ namespace LimeEngine
 		void Initialize();
 
 		virtual void SetPrimitiveTopology(PrimitiveTopology topology) const noexcept override;
-		virtual void DrawIndexed(uint indicesCount) const noexcept override;
+		virtual void DrawIndexed(uint indicesCount) const override;
 		virtual void BindPipline() override;
 
 		virtual RenderAPIType GetRenderAPIType() const noexcept override;

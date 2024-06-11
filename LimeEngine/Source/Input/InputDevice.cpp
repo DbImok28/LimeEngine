@@ -193,7 +193,7 @@ namespace LimeEngine
 		else
 		{
 			auto keyMatchHandlers = keyActionEvents.equal_range(InputActionKey(key));
-			
+
 			for (auto& it = keyMatchHandlers.first; it != keyMatchHandlers.second; it++)
 			{
 				if (it->first.CheckSystemKey(alt, shift, ctrl, cmd))
@@ -408,7 +408,7 @@ namespace LimeEngine
 		mouse.OnMouseEnter();
 	}
 
-	void InputDevice::OnUpdate() noexcept
+	void InputDevice::OnUpdate()
 	{
 		while (!keyActions.empty())
 		{

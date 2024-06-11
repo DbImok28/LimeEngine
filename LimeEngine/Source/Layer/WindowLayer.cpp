@@ -24,7 +24,7 @@ namespace LimeEngine
 		if (window) window->OnUpdate();
 	}
 
-	void WindowLayer::SetWindow(URef<Window>&& window) noexcept
+	void WindowLayer::SetWindow(URef<Window>&& window)
 	{
 		this->window = std::move(window);
 		this->window->GetInput().SetInputDevice(&InputLayer::GetInputLayer().GetInputDevice());
@@ -33,7 +33,7 @@ namespace LimeEngine
 		Renderer::GetRenderer().SetRenderOutput(RenderOutput::CreateWindowRenderOutput(RenderOutputArgs(this->window.get())));
 	}
 
-	void WindowLayer::SetWindow(const WindowArgs& windowArgs) noexcept
+	void WindowLayer::SetWindow(const WindowArgs& windowArgs)
 	{
 		SetWindow(Window::Create(windowArgs));
 	}
