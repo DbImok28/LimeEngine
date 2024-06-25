@@ -10,7 +10,7 @@ namespace LimeEngine
 {
 	///////////////////////////////////////////////// InputLayout
 
-	DXGI_FORMAT ConvertToDX11ShaderDataType(ShaderDataType type)
+	DXGI_FORMAT ShaderDataTypeToDXGIFormat(ShaderDataType type)
 	{
 		switch (type)
 		{
@@ -29,9 +29,35 @@ namespace LimeEngine
 			case ShaderDataType::RGB10_XR_BIAS_A2: return DXGI_FORMAT::DXGI_FORMAT_R10G10B10_XR_BIAS_A2_UNORM;
 			case ShaderDataType::BGRA8: return DXGI_FORMAT::DXGI_FORMAT_B8G8R8A8_UNORM;
 			case ShaderDataType::BGRA8_SRGB: return DXGI_FORMAT::DXGI_FORMAT_B8G8R8A8_UNORM_SRGB;
+			case ShaderDataType::R24G8: return DXGI_FORMAT::DXGI_FORMAT_X24_TYPELESS_G8_UINT;
 		}
 		LE_CORE_ASSERT(false, "Unknown ShaderDataType");
 		return DXGI_FORMAT::DXGI_FORMAT_UNKNOWN;
+	}
+
+	ShaderDataType DXGIFormatToShaderDataType(DXGI_FORMAT format)
+	{
+		switch (format)
+		{
+			case DXGI_FORMAT::DXGI_FORMAT_R8_UNORM: return ShaderDataType::R8;
+			case DXGI_FORMAT::DXGI_FORMAT_R8G8_UNORM: return ShaderDataType::RG8;
+			case DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM: return ShaderDataType::RGBA8;
+			case DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM_SRGB: return ShaderDataType::RGBA8_SRGB;
+			case DXGI_FORMAT::DXGI_FORMAT_R16_FLOAT: return ShaderDataType::R16F;
+			case DXGI_FORMAT::DXGI_FORMAT_R16G16_FLOAT: return ShaderDataType::RG16F;
+			case DXGI_FORMAT::DXGI_FORMAT_R16G16B16A16_FLOAT: return ShaderDataType::RGBA16F;
+			case DXGI_FORMAT::DXGI_FORMAT_R32_FLOAT: return ShaderDataType::R32F;
+			case DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT: return ShaderDataType::RG32F;
+			case DXGI_FORMAT::DXGI_FORMAT_R32G32B32_FLOAT: return ShaderDataType::RGB32F;
+			case DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT: return ShaderDataType::RGBA32F;
+			case DXGI_FORMAT::DXGI_FORMAT_R10G10B10A2_UNORM: return ShaderDataType::RGB10A2;
+			case DXGI_FORMAT::DXGI_FORMAT_R10G10B10_XR_BIAS_A2_UNORM: return ShaderDataType::RGB10_XR_BIAS_A2;
+			case DXGI_FORMAT::DXGI_FORMAT_B8G8R8A8_UNORM: return ShaderDataType::BGRA8;
+			case DXGI_FORMAT::DXGI_FORMAT_B8G8R8A8_UNORM_SRGB: return ShaderDataType::BGRA8_SRGB;
+			case DXGI_FORMAT::DXGI_FORMAT_X24_TYPELESS_G8_UINT: return ShaderDataType::R24G8;
+		}
+		LE_CORE_ASSERT(false, "Unknown DXGI_FORMAT");
+		return ShaderDataType::None;
 	}
 
 	std::vector<D3D11_INPUT_ELEMENT_DESC> ConvertToDX11InputLayout(const InputLayout& inputLayout)
@@ -43,7 +69,7 @@ namespace LimeEngine
 		{
 			inputLayoutDX11.push_back({ element.name.c_str(),
 										0,
-										ConvertToDX11ShaderDataType(element.dataType),
+										ShaderDataTypeToDXGIFormat(element.dataType),
 										0,
 										isFirst ? 0 : D3D11_APPEND_ALIGNED_ELEMENT,
 										element.perVertex ? D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA : D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_INSTANCE_DATA,

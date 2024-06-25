@@ -37,8 +37,8 @@ namespace LimeEngine
 		//TODO: Add ability to add and Remove RenderOutput
 		void SetRenderOutput(URef<RenderOutput>&& renderOutput);
 		void RemoveRenderOutput();
-		RenderOutput& GetRenderOutput() noexcept;
-		const RenderOutput& GetRenderOutput() const noexcept;
+		RenderOutput* GetRenderOutput() noexcept;
+		const RenderOutput* GetRenderOutput() const noexcept;
 
 	private:
 		URef<RenderOutput> renderOutput;

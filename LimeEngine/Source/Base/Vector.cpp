@@ -8,6 +8,8 @@ namespace LimeEngine
 {
 	using namespace DirectX;
 
+	///////////////////////////////////////////////// Vector
+
 	Vector::Vector() noexcept : x(0.0f), y(0.0f), z(0.0f) {}
 
 	Vector::Vector(const TempVector& vec) noexcept
@@ -240,6 +242,12 @@ namespace LimeEngine
 	std::string Vector::ToString() const noexcept
 	{
 		return std::format("{}", *this);
+	}
+
+	std::ostream& operator<<(std::ostream& os, const Vector2D& vec)
+	{
+		os << vec.ToString();
+		return os;
 	}
 
 	std::ostream& operator<<(std::ostream& os, const Vector& vec)

@@ -15,6 +15,8 @@ namespace LimeEngine
 		uint8* data;
 	};
 
+	// TODO: Add ResourcePath to string conversion
+
 	class ResourcePath
 	{
 	public:
@@ -79,6 +81,7 @@ namespace LimeEngine
 		{
 			if (&other != this)
 			{
+				if (resource) resource->ReleaseRef();
 				resource = other.resource;
 				if (resource) resource->IncreaseRef();
 			}
@@ -88,8 +91,10 @@ namespace LimeEngine
 		{
 			if (&other != this)
 			{
+				if (resource) resource->ReleaseRef();
 				resource = std::move(other.resource);
 				other.resource = nullptr;
+				if (resource) resource->IncreaseRef();
 			}
 			return *this;
 		}
@@ -132,6 +137,10 @@ namespace LimeEngine
 		{
 			return resource->GetPath();
 		}
+		uint GetRefCount() const noexcept
+		{
+			return resource->GetRefCount();
+		}
 		bool IsNull() const noexcept
 		{
 			return !resource;
@@ -157,12 +166,15 @@ namespace LimeEngine
 		template <typename TResource>
 		GameResourceRef<TResource> GetRef() noexcept
 		{
-			IncreaseRef();
 			return GameResourceRef<TResource>(static_cast<TResource*>(this));
 		}
 		const ResourcePath& GetPath() const
 		{
 			return resourcePath;
+		}
+		uint GetRefCount() const noexcept
+		{
+			return refCount;
 		}
 
 	private:

@@ -2,6 +2,7 @@
 // See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
+#include "Base/MeshTools.hpp"
 #include "Material.hpp"
 #include "RenderData.hpp"
 

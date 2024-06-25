@@ -31,7 +31,7 @@ namespace LimeEngine
 
 	public:
 		virtual void SetPrimitiveTopology(PrimitiveTopology topology) const noexcept = 0;
-		virtual void DrawIndexed(uint indicesCount) const noexcept = 0;
+		virtual void DrawIndexed(uint indicesCount) const = 0;
 		virtual void BindPipline() = 0;
 
 		virtual RenderAPIType GetRenderAPIType() const noexcept = 0;

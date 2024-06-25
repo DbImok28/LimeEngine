@@ -36,8 +36,9 @@ namespace LimeEngine
 
 		for (auto& parameter : parameters)
 		{
-			auto defaultValue = parameter.info->GetDefaultValue();
-			SetParameter(defaultValue.second, defaultValue.first, parameter.offset);
+			//auto defaultValue = parameter.info->GetDefaultValue();
+			auto [size, value] = parameter.info->GetDefaultValue();
+			SetParameter(value, size, parameter.offset);
 		}
 		isChanged = false;
 		inputDataCB = ConstantBufferBase::Create(inputData.get(), inputDataSize);

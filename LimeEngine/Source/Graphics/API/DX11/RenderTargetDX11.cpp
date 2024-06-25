@@ -5,6 +5,7 @@
 #include "RenderStatesDX11.hpp"
 #include "RenderAPIDX11.hpp"
 #include "RenderTargetDX11.hpp"
+#include "Texture2DDX11.hpp"
 
 namespace LimeEngine
 {
@@ -28,17 +29,20 @@ namespace LimeEngine
 		depthStencilDesc.Height = height;
 		depthStencilDesc.MipLevels = 1u;
 		depthStencilDesc.ArraySize = 1u;
-		depthStencilDesc.Format = DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT;
+		depthStencilDesc.Format = DXGI_FORMAT::DXGI_FORMAT_R24G8_TYPELESS;
+		//depthStencilDesc.Format = DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT;
 		depthStencilDesc.SampleDesc.Count = 1u;
 		depthStencilDesc.SampleDesc.Quality = 0u;
 		depthStencilDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
-		depthStencilDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
+		depthStencilDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE;
 		depthStencilDesc.CPUAccessFlags = 0u;
 		depthStencilDesc.MiscFlags = 0u;
 
 		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
-		GFX_CHECK_HR(device->CreateTexture2D(&depthStencilDesc, NULL, depthStencilTexture.GetAddressOf()));
-		GFX_CHECK_HR(device->CreateDepthStencilView(depthStencilTexture.Get(), NULL, depthStencilTextureView.GetAddressOf()));
+		GFX_CHECK_HR(device->CreateTexture2D(&depthStencilDesc, nullptr, depthStencilTexture.GetAddressOf()));
+
+		CD3D11_DEPTH_STENCIL_VIEW_DESC viewDesc(D3D11_DSV_DIMENSION::D3D11_DSV_DIMENSION_TEXTURE2D, DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT);
+		GFX_CHECK_HR(device->CreateDepthStencilView(depthStencilTexture.Get(), &viewDesc, depthStencilTextureView.GetAddressOf()));
 	}
 
 	void DepthStencilDX11::Clear(float clearDepth, uint8 clearStencil)
@@ -68,6 +72,31 @@ namespace LimeEngine
 	{
 		depthStencilTextureView.Reset();
 		depthStencilTexture.Reset();
+	}
+
+	URef<Texture2D> DepthStencilDX11::GetTexture()
+	{
+		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
+		ID3D11ShaderResourceView* shaderResourceView = nullptr;
+
+		/*D3D11_TEXTURE2D_DESC desc;
+		depthStencilTexture->GetDesc(&desc);*/
+
+		/*D3D11_SHADER_RESOURCE_VIEW_DESC desc;
+		desc.Format = DXGI_FORMAT::DXGI_FORMAT_R24G8_TYPELESS;
+		desc.ViewDimension = D3D_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
+		desc.Texture2D.MipLevels = 1;
+		desc.Texture2D.MostDetailedMip = 1;*/
+
+		CD3D11_SHADER_RESOURCE_VIEW_DESC desc(depthStencilTexture.Get(), D3D_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D, DXGI_FORMAT::DXGI_FORMAT_X24_TYPELESS_G8_UINT);
+
+		GFX_CHECK_HR(device->CreateShaderResourceView(depthStencilTexture.Get(), &desc, &shaderResourceView));
+		return MakeUnique<Texture2DDX11>("DS", depthStencilTexture.Get(), shaderResourceView, TextureType::Diffuse);
+	}
+
+	ID3D11Texture2D* DepthStencilDX11::GetTextureBuffer() const noexcept
+	{
+		return depthStencilTexture.Get();
 	}
 
 	ID3D11DepthStencilView* DepthStencilDX11::GetView() const noexcept
@@ -136,6 +165,19 @@ namespace LimeEngine
 		renderTargetTexture.Reset();
 	}
 
+	URef<Texture2D> RenderTargetDX11::GetTexture()
+	{
+		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
+		ID3D11ShaderResourceView* shaderResourceView;
+		GFX_CHECK_HR(device->CreateShaderResourceView(renderTargetTexture.Get(), nullptr, &shaderResourceView));
+		return MakeUnique<Texture2DDX11>("RT", renderTargetTexture.Get(), shaderResourceView, TextureType::Diffuse);
+	}
+
+	ID3D11Texture2D* RenderTargetDX11::GetTextureBuffer() const noexcept
+	{
+		return renderTargetTexture.Get();
+	}
+
 	ID3D11RenderTargetView* RenderTargetDX11::GetView() const noexcept
 	{
 		return renderTargetView.Get();
@@ -148,8 +190,9 @@ namespace LimeEngine
 
 	////////////////////////////////// WindowRenderTargetDX11
 
-	void LimeEngine::WindowRenderTargetDX11::Initialize(ID3D11Texture2D* outTexture)
+	void WindowRenderTargetDX11::Initialize(ID3D11Texture2D* outTexture)
 	{
+		renderTargetTexture = outTexture;
 		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
 		GFX_CHECK_HR(device->CreateRenderTargetView(outTexture, nullptr, renderTargetView.GetAddressOf()));
 	}
@@ -171,8 +214,31 @@ namespace LimeEngine
 		return false;
 	}
 
-	void LimeEngine::WindowRenderTargetDX11::Reset()
+	void WindowRenderTargetDX11::Reset()
 	{
 		renderTargetView.Reset();
+	}
+
+	URef<Texture2D> WindowRenderTargetDX11::GetTexture()
+	{
+		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
+		ID3D11ShaderResourceView* shaderResourceView;
+		GFX_CHECK_HR(device->CreateShaderResourceView(renderTargetTexture, nullptr, &shaderResourceView));
+		return MakeUnique<Texture2DDX11>("WRT", renderTargetTexture, shaderResourceView, TextureType::Diffuse);
+	}
+
+	ID3D11Texture2D* WindowRenderTargetDX11::GetTextureBuffer() const noexcept
+	{
+		return renderTargetTexture;
+	}
+
+	ID3D11RenderTargetView* WindowRenderTargetDX11::GetView() const noexcept
+	{
+		return renderTargetView.Get();
+	}
+
+	ID3D11RenderTargetView* const* WindowRenderTargetDX11::GetViewAddress() const noexcept
+	{
+		return renderTargetView.GetAddressOf();
 	}
 }

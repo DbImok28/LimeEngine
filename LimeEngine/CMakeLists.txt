@@ -31,19 +31,20 @@ CompileShaders()
 DisableRTTI()
 
 # Dependencies
+# Include directories
 set(${PROJECT_NAME}_DEPENDENCIES_INCLUDES
     PUBLIC
         # TODO: Move spdlog dependencies to PRIVATE
         ${PROJECT_SOURCE_DIR}/Dependencies/spdlog/include
     PRIVATE
-        ${PROJECT_SOURCE_DIR}/Dependencies/DirectXTK/include
+        ${PROJECT_SOURCE_DIR}/Dependencies/stb_image
         ${PROJECT_SOURCE_DIR}/Dependencies/dxerr/include
         ${PROJECT_SOURCE_DIR}/Dependencies/imgui
         ${PROJECT_SOURCE_DIR}/Dependencies/imgui-notify/include
 )
+# Compile
 set(${PROJECT_NAME}_DEPENDENCIES_SOURCES
-    ${PROJECT_SOURCE_DIR}/Dependencies/DirectXTK/include/DirectXTK/WICTextureLoader.cpp
-    ${PROJECT_SOURCE_DIR}/Dependencies/DirectXTK/include/DirectXTK/DDSTextureLoader.cpp
+    ${PROJECT_SOURCE_DIR}/Dependencies/stb_image/stb_image.cpp
     ${PROJECT_SOURCE_DIR}/Dependencies/dxerr/include/dxerr/dxerr.cpp
     ${PROJECT_SOURCE_DIR}/Dependencies/imgui/imgui.cpp
     ${PROJECT_SOURCE_DIR}/Dependencies/imgui/imgui_draw.cpp

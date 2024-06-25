@@ -47,16 +47,20 @@ namespace LimeEngine
 		template <std::derived_from<GameResource> TResource, typename... TArgs>
 		[[nodiscard]] GameResourceRef<TResource> Emplace(const ResourcePath& resourcePath, TArgs&&... args)
 		{
-			return resources.emplace(resourcePath, MakeUnique<TResource>(std::forward<TArgs>(args)...)).first->second->GetRef<TResource>();
-		}
-		[[nodiscard]] GameResourceRef<GameResource> Register(const ResourcePath& resourcePath, URef<GameResource>&& resource)
-		{
-			return resources.emplace(resourcePath, std::move(resource)).first->second->GetRef<GameResource>();
+			const auto& [pos, isInserted] = resources.emplace(resourcePath, MakeUnique<TResource>(std::forward<TArgs>(args)...));
+			LE_CORE_ASSERT(isInserted, "Resource named {} already exists", resourcePath.GetPath());
+			return pos->second->GetRef<TResource>();
 		}
 		template <std::derived_from<GameResource> TResource>
 		[[nodiscard]] GameResourceRef<TResource> Register(const ResourcePath& resourcePath, URef<TResource>&& resource)
 		{
-			return resources.emplace(resourcePath, std::move(resource)).first->second->GetRef<TResource>();
+			const auto& [pos, isInserted] = resources.emplace(resourcePath, std::move(resource));
+			LE_CORE_ASSERT(isInserted, "Resource named {} already exists", resourcePath.GetPath());
+			return pos->second->GetRef<TResource>();
+		}
+		[[nodiscard]] GameResourceRef<GameResource> Register(const ResourcePath& resourcePath, URef<GameResource>&& resource)
+		{
+			return Register<GameResource>(resourcePath, std::move(resource));
 		}
 
 		[[nodiscard]] GameResourceRef<Mesh> CreateMesh(const ResourcePath& resourcePath, const std::vector<Vertex>& vertices, const std::vector<uint>& indices)
@@ -68,17 +72,13 @@ namespace LimeEngine
 			return Emplace<Mesh>(resourcePath, resourcePath, segmentData);
 		}
 		[[nodiscard]] GameResourceRef<MaterialAsset> CreateMaterial(
-			const ResourcePath& resourcePath,
-			URef<VertexShader>&& vertexShader,
-			URef<PixelShader>&& pixelShader,
-			MaterialParameters&& parameters,
-			MaterialType type)
+			const ResourcePath& resourcePath, URef<VertexShader>&& vertexShader, URef<PixelShader>&& pixelShader, MaterialParameters&& parameters, MaterialType type)
 		{
 			return Emplace<MaterialAsset>(resourcePath, resourcePath, std::move(vertexShader), std::move(pixelShader), std::move(parameters), type);
 		}
-		[[nodiscard]] GameResourceRef<Texture2D> CreateTexture2D(const ResourcePath& resourcePath, const std::wstring& filePath, TextureType type)
+		[[nodiscard]] GameResourceRef<Texture2D> CreateTexture2D(const ResourcePath& resourcePath, const std::wstring& filePath, TextureFormat format, TextureType type)
 		{
-			return Register(resourcePath, Texture2D::Create(resourcePath, filePath, type));
+			return Register(resourcePath, Texture2D::Create(resourcePath, filePath, format, type));
 		}
 
 		// Load
@@ -86,6 +86,12 @@ namespace LimeEngine
 		GameResourceRef<Mesh> LoadMesh(const ResourcePath& resourcePath);
 		GameResourceRef<MaterialAsset> LoadMaterial(const ResourcePath& resourcePath);
 		GameResourceRef<Texture2D> LoadTexture2D(const ResourcePath& resourcePath);
+
+	public:
+		const std::map<ResourcePath, URef<GameResource>>& GetAllResources() const noexcept
+		{
+			return resources;
+		}
 
 	private:
 		std::map<ResourcePath, URef<GameResource>> resources;

@@ -18,6 +18,37 @@ namespace LimeEngine
 
 	using TempVector = DirectX::XMVECTOR;
 
+	template <typename T>
+	class CustomVector2D
+	{
+	public:
+		CustomVector2D() noexcept : x(0), y(0) {}
+		CustomVector2D(T x, T y) noexcept : x(x), y(y) {}
+		CustomVector2D(const T vec[2]) noexcept : x(vec[0]), y(vec[1]) {}
+
+		std::string ToString() const noexcept
+		{
+			return std::format("x:{:< 8} y:{:< 8}", x, y);
+		}
+
+		T* GetArray() noexcept
+		{
+			return &x;
+		}
+		uint8 GetSize() noexcept
+		{
+			return 2u;
+		}
+
+	public:
+		T x;
+		T y;
+	};
+
+	using IntVector2D = CustomVector2D<int32>;
+	using UIntVector2D = CustomVector2D<uint32>;
+	using Vector2D = CustomVector2D<float>;
+
 	class Vector
 	{
 	public:
@@ -101,8 +132,18 @@ namespace LimeEngine
 		};
 	};
 
+	std::ostream& operator<<(std::ostream& os, const Vector2D& vec);
 	std::ostream& operator<<(std::ostream& os, const Vector& vec);
 }
+
+template <typename T>
+struct std::formatter<LimeEngine::CustomVector2D<T>> : std::formatter<std::string>
+{
+	auto format(LimeEngine::CustomVector2D<T> vec, auto& ctx) const
+	{
+		return std::format_to(ctx.out(), "x:{:< 8} y:{:< 8}", vec.x, vec.y);
+	}
+};
 
 template <>
 struct std::formatter<LimeEngine::Vector> : std::formatter<std::string>

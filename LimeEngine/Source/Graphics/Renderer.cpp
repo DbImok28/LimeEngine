@@ -33,7 +33,7 @@ namespace LimeEngine
 	void Renderer::PostProcessing()
 	{
 		RuntimeEditor::Render();
-		GetRenderOutput().Present();
+		GetRenderOutput()->Present();
 	}
 
 	void Renderer::Draw(Mesh& mesh, const TempTransformMatrix& transformMatrix)
@@ -59,22 +59,22 @@ namespace LimeEngine
 
 	DisplayMode Renderer::GetDisplayMode() const noexcept
 	{
-		return GetRenderOutput().GetDisplayMode();
+		return GetRenderOutput()->GetDisplayMode();
 	}
 
 	void Renderer::SetDisplayMode(DisplayMode mode)
 	{
-		GetRenderOutput().SetDisplayMode(mode);
+		GetRenderOutput()->SetDisplayMode(mode);
 	}
 
 	float Renderer::GetWidth() const noexcept
 	{
-		return static_cast<float>(GetRenderOutput().GetWidth());
+		return static_cast<float>(GetRenderOutput()->GetWidth());
 	}
 
 	float Renderer::GetHeight() const noexcept
 	{
-		return static_cast<float>(GetRenderOutput().GetHeight());
+		return static_cast<float>(GetRenderOutput()->GetHeight());
 	}
 
 	void Renderer::AddToRender(IDrawable* drawable)
@@ -97,13 +97,13 @@ namespace LimeEngine
 		renderOutput = nullptr;
 	}
 
-	RenderOutput& Renderer::GetRenderOutput() noexcept
+	RenderOutput* Renderer::GetRenderOutput() noexcept
 	{
-		return *renderOutput;
+		return renderOutput.get();
 	}
 
-	const RenderOutput& Renderer::GetRenderOutput() const noexcept
+	const RenderOutput* Renderer::GetRenderOutput() const noexcept
 	{
-		return *renderOutput;
+		return renderOutput.get();
 	}
 }

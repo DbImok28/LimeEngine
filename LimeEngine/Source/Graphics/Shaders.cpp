@@ -43,21 +43,21 @@ namespace LimeEngine
 	{
 		switch (dataType)
 		{
-			case LimeEngine::ShaderDataType::R8: return "R8";
-			case LimeEngine::ShaderDataType::RG8: return "RG8";
-			case LimeEngine::ShaderDataType::RGBA8: return "RGBA8";
-			case LimeEngine::ShaderDataType::RGBA8_SRGB: return "RGBA8_SRGB";
-			case LimeEngine::ShaderDataType::R16F: return "R16F";
-			case LimeEngine::ShaderDataType::RG16F: return "RG16F";
-			case LimeEngine::ShaderDataType::RGBA16F: return "RGBA16F";
-			case LimeEngine::ShaderDataType::R32F: return "R32F";
-			case LimeEngine::ShaderDataType::RG32F: return "RG32F";
-			case LimeEngine::ShaderDataType::RGB32F: return "RGB32F";
-			case LimeEngine::ShaderDataType::RGBA32F: return "RGBA32F";
-			case LimeEngine::ShaderDataType::RGB10A2: return "RGB10A2";
-			case LimeEngine::ShaderDataType::RGB10_XR_BIAS_A2: return "RGB10_XR_BIAS_A2";
-			case LimeEngine::ShaderDataType::BGRA8: return "BGRA8";
-			case LimeEngine::ShaderDataType::BGRA8_SRGB: return "BGRA8_SRGB";
+			case ShaderDataType::R8: return "R8";
+			case ShaderDataType::RG8: return "RG8";
+			case ShaderDataType::RGBA8: return "RGBA8";
+			case ShaderDataType::RGBA8_SRGB: return "RGBA8_SRGB";
+			case ShaderDataType::R16F: return "R16F";
+			case ShaderDataType::RG16F: return "RG16F";
+			case ShaderDataType::RGBA16F: return "RGBA16F";
+			case ShaderDataType::R32F: return "R32F";
+			case ShaderDataType::RG32F: return "RG32F";
+			case ShaderDataType::RGB32F: return "RGB32F";
+			case ShaderDataType::RGBA32F: return "RGBA32F";
+			case ShaderDataType::RGB10A2: return "RGB10A2";
+			case ShaderDataType::RGB10_XR_BIAS_A2: return "RGB10_XR_BIAS_A2";
+			case ShaderDataType::BGRA8: return "BGRA8";
+			case ShaderDataType::BGRA8_SRGB: return "BGRA8_SRGB";
 			default: return "Unknown";
 		}
 	}

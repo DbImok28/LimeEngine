@@ -11,7 +11,7 @@ namespace LimeEngine
 	class DepthStencilDX11 : public DepthStencil
 	{
 	public:
-		DepthStencilDX11() {}
+		DepthStencilDX11() = default;
 		DepthStencilDX11(uint width, uint height);
 
 		void Initialize(uint width, uint height);
@@ -23,6 +23,9 @@ namespace LimeEngine
 		virtual void Resize(uint width, uint height) override;
 		virtual void Reset() override;
 
+		virtual URef<Texture2D> GetTexture() override;
+
+		ID3D11Texture2D* GetTextureBuffer() const noexcept;
 		ID3D11DepthStencilView* GetView() const noexcept;
 		ID3D11DepthStencilView* const* GetViewAddress() const noexcept;
 
@@ -34,7 +37,7 @@ namespace LimeEngine
 	class RenderTargetDX11 : public RenderTarget
 	{
 	public:
-		RenderTargetDX11() {}
+		RenderTargetDX11() = default;
 		RenderTargetDX11(uint width, uint height);
 
 		void Initialize(uint width, uint height);
@@ -45,6 +48,9 @@ namespace LimeEngine
 		virtual bool Resize(uint width, uint height) override;
 		virtual void Reset() override;
 
+		virtual URef<Texture2D> GetTexture() override;
+
+		ID3D11Texture2D* GetTextureBuffer() const noexcept;
 		ID3D11RenderTargetView* GetView() const noexcept;
 		ID3D11RenderTargetView* const* GetViewAddress() const noexcept;
 
@@ -56,7 +62,7 @@ namespace LimeEngine
 	class WindowRenderTargetDX11 : public RenderTarget
 	{
 	public:
-		WindowRenderTargetDX11(){};
+		WindowRenderTargetDX11() = default;
 		WindowRenderTargetDX11(ID3D11Texture2D* outTexture) {}
 
 		void Initialize(ID3D11Texture2D* outTexture);
@@ -67,7 +73,14 @@ namespace LimeEngine
 		virtual bool Resize(uint width, uint height) override;
 		virtual void Reset() override;
 
+		virtual URef<Texture2D> GetTexture() override;
+
+		ID3D11Texture2D* GetTextureBuffer() const noexcept;
+		ID3D11RenderTargetView* GetView() const noexcept;
+		ID3D11RenderTargetView* const* GetViewAddress() const noexcept;
+
 	private:
+		ID3D11Texture2D* renderTargetTexture = nullptr;
 		com_ptr<ID3D11RenderTargetView> renderTargetView = nullptr;
 	};
 }

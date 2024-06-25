@@ -34,6 +34,9 @@ namespace LimeEngine
 
 		BGRA8,
 		BGRA8_SRGB,
+
+		R24G8,
+		None
 	};
 
 	std::string ShaderDataTypeToString(ShaderDataType dataType) noexcept;

@@ -8,7 +8,8 @@
 
 namespace LimeEngine
 {
-	DXGI_FORMAT ConvertToDX11ShaderDataType(ShaderDataType type);
+	DXGI_FORMAT ShaderDataTypeToDXGIFormat(ShaderDataType type);
+	ShaderDataType DXGIFormatToShaderDataType(DXGI_FORMAT format);
 
 	std::vector<D3D11_INPUT_ELEMENT_DESC> ConvertToDX11InputLayout(const InputLayout& inputLayout);
 
