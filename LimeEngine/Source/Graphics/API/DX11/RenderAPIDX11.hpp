@@ -18,6 +18,7 @@ namespace LimeEngine
 		void Initialize();
 
 		virtual void SetPrimitiveTopology(PrimitiveTopology topology) const noexcept override;
+		virtual void EnableBlend(uint8 renderTargetSlot, bool enable) override;
 		virtual void DrawIndexed(uint indicesCount) const override;
 		virtual void BindPipline() override;
 
@@ -41,5 +42,6 @@ namespace LimeEngine
 		DepthStencilStateDX11 depthStencilState;
 		RasterizerStateDX11 rasterizerState;
 		SamplerStateDX11 samplerState;
+		BlendStateDX11 blendState;
 	};
 }

@@ -31,6 +31,7 @@ namespace LimeEngine
 
 	public:
 		virtual void SetPrimitiveTopology(PrimitiveTopology topology) const noexcept = 0;
+		virtual void EnableBlend(uint8 renderTargetSlot, bool enable) = 0;
 		virtual void DrawIndexed(uint indicesCount) const = 0;
 		virtual void BindPipline() = 0;
 

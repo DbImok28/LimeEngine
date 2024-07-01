@@ -9,11 +9,6 @@ namespace LimeEngine
 {
 	////////////////////////////////// DepthStencilStateDX11
 
-	DepthStencilStateDX11::DepthStencilStateDX11()
-	{
-		//Initialize();
-	}
-
 	void DepthStencilStateDX11::Initialize(ID3D11Device* device)
 	{
 		if (!device) device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
@@ -40,11 +35,6 @@ namespace LimeEngine
 	}
 
 	////////////////////////////////// RasterizerStateDX11
-
-	RasterizerStateDX11::RasterizerStateDX11()
-	{
-		//Initialize();
-	}
 
 	void RasterizerStateDX11::Initialize(ID3D11Device* device)
 	{
@@ -74,11 +64,6 @@ namespace LimeEngine
 
 	////////////////////////////////// SamplerStateDX11
 
-	SamplerStateDX11::SamplerStateDX11()
-	{
-		//Initialize();
-	}
-
 	void SamplerStateDX11::Initialize(ID3D11Device* device)
 	{
 		if (!device) device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
@@ -101,5 +86,63 @@ namespace LimeEngine
 	{
 		auto deviceContext = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext();
 		deviceContext->PSSetSamplers(0u, 1u, samplerState.GetAddressOf());
+	}
+
+	////////////////////////////////// BlendStateDX11
+
+	void BlendStateDX11::Initialize(ID3D11Device* device)
+	{
+		if (!device) device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
+
+		D3D11_BLEND_DESC blendDesc = {};
+		blendDesc.AlphaToCoverageEnable = FALSE;
+		blendDesc.IndependentBlendEnable = TRUE;
+		const D3D11_RENDER_TARGET_BLEND_DESC defaultRenderTargetBlendDesc = {
+			FALSE,
+			D3D11_BLEND::D3D11_BLEND_SRC_ALPHA, D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA, D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,
+			D3D11_BLEND::D3D11_BLEND_ONE, D3D11_BLEND::D3D11_BLEND_ZERO, D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,
+			D3D11_COLOR_WRITE_ENABLE::D3D11_COLOR_WRITE_ENABLE_ALL,
+		};
+		for (auto & renderTargetBlendDesc : blendDesc.RenderTarget)
+		{
+			renderTargetBlendDesc = defaultRenderTargetBlendDesc;
+		}
+
+		GFX_CHECK_HR(device->CreateBlendState(&blendDesc, blendState.GetAddressOf()));
+
+		D3D11_BLEND_DESC blendDesc2;
+		blendState->GetDesc(&blendDesc2);
+	}
+
+	void BlendStateDX11::Bind()
+	{
+		auto deviceContext = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext();
+		deviceContext->OMSetBlendState(blendState.Get(), nullptr, 0xffffffff);
+	}
+
+	void BlendStateDX11::EnableBlend(uint8 renderTargetSlot, bool enable)
+	{
+		if (renderTargetSlot > D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT)
+		{
+			LE_CORE_ASSERT(false, "Invalid render target slot to enable blending")
+			return;
+		}
+
+		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
+
+		D3D11_BLEND_DESC blendDesc;
+		blendState->GetDesc(&blendDesc);
+
+		if (blendDesc.RenderTarget[renderTargetSlot].BlendEnable != enable)
+		{
+			const D3D11_RENDER_TARGET_BLEND_DESC renderTargetBlendDesc = {
+				TRUE,
+				D3D11_BLEND::D3D11_BLEND_SRC_ALPHA, D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA, D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,
+				D3D11_BLEND::D3D11_BLEND_ONE, D3D11_BLEND::D3D11_BLEND_ZERO, D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,
+				D3D11_COLOR_WRITE_ENABLE::D3D11_COLOR_WRITE_ENABLE_ALL,
+			};
+			blendDesc.RenderTarget[renderTargetSlot] = renderTargetBlendDesc;
+			GFX_CHECK_HR(device->CreateBlendState(&blendDesc, &blendState));
+		}
 	}
 }

@@ -5,7 +5,6 @@
 #include "Texture2DDX11.hpp"
 #include "ShadersDX11.hpp"
 #include "ExceptionsDX11.hpp"
-#include "Utility/Paths.hpp"
 #include <stb_image.h>
 
 namespace LimeEngine
@@ -137,6 +136,7 @@ namespace LimeEngine
 				channelCount = 4;
 				break;
 			}
+			default: break;
 		}
 		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
 

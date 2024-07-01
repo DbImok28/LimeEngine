@@ -20,7 +20,7 @@ Texture2D objTexture : TEXTURE : register(t0);
 
 float4 main(PS_INPUT input) : SV_TARGET
 {
-    float3 pixelColor = objTexture.Sample(objSamplerState, input.texCoord).xyz * Saturation;
-    return float4(pixelColor, 1.0f);
-    
+    float4 pixelColor = objTexture.Sample(objSamplerState, input.texCoord).rgba;
+    pixelColor.rgb *= Saturation;
+    return pixelColor;
 }

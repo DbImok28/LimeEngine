@@ -26,6 +26,7 @@ namespace LimeEngine
 		windowRT.Clear(bgcolor);
 		windowDSB.Clear();
 
+		RenderAPI::GetRenderAPI().EnableBlend(0, true);
 		RenderAPI::GetRenderAPI().SetPrimitiveTopology(PrimitiveTopology::TriangleList);
 		RenderAPI::GetRenderAPI().BindPipline();
 	}

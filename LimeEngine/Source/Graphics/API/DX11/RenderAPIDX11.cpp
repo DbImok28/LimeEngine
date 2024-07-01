@@ -39,11 +39,17 @@ namespace LimeEngine
 		depthStencilState.Initialize(device.Get());
 		rasterizerState.Initialize(device.Get());
 		samplerState.Initialize(device.Get());
+		blendState.Initialize(device.Get());
 	}
 
 	void RenderAPIDX11::SetPrimitiveTopology(PrimitiveTopology topology) const noexcept
 	{
 		deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	}
+
+	void RenderAPIDX11::EnableBlend(uint8 renderTargetSlot, bool enable)
+	{
+		blendState.EnableBlend(renderTargetSlot, enable);
 	}
 
 	void RenderAPIDX11::DrawIndexed(uint indicesCount) const
@@ -56,6 +62,7 @@ namespace LimeEngine
 		depthStencilState.Bind();
 		rasterizerState.Bind();
 		samplerState.Bind();
+		blendState.Bind();
 	}
 
 	RenderAPIType RenderAPIDX11::GetRenderAPIType() const noexcept

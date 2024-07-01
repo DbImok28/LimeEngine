@@ -18,7 +18,6 @@ namespace LimeEngine
 		void LoadTextureFromMemory(const uint8_t* data, size_t size, TextureFormat format);
 		void LoadTextureFromFile(const FPath& filePath, TextureFormat format);
 		void CreateTextureFromRawData(const uint8_t* data, uint width, uint height, TextureFormat format);
-		bool TryCreateTextureFromRawData(const uint8_t* data, uint width, uint height, TextureFormat format);
 		void UpdateTextureInfo();
 
 		virtual void Bind(uint slotIndex) noexcept override;
