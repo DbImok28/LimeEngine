@@ -21,6 +21,8 @@ namespace LimeEngine
 	class MaterialParameterInfoBase
 	{
 	public:
+		virtual ~MaterialParameterInfoBase() = default;
+
 		virtual std::pair<uint, char*> GetDefaultValue() = 0;
 		virtual uint GetSize() = 0;
 	};
@@ -48,10 +50,10 @@ namespace LimeEngine
 	{
 	public:
 		template <typename T>
-		MaterialParameter(std::string name, T defaultValue, uint offset) : name(name), offset(offset), info(MakeUnique<MaterialParameterInfo<T>>(defaultValue))
+		MaterialParameter(const std::string& name, T defaultValue, uint offset) : name(name), offset(offset), info(MakeUnique<MaterialParameterInfo<T>>(defaultValue))
 		{}
 		template <typename T>
-		MaterialParameter(std::string name, T defaultValue) : name(name), info(MakeUnique<MaterialParameterInfo<T>>(defaultValue))
+		MaterialParameter(const std::string& name, T defaultValue) : name(name), info(MakeUnique<MaterialParameterInfo<T>>(defaultValue))
 		{}
 
 		std::string name;

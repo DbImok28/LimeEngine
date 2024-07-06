@@ -13,8 +13,7 @@ namespace LimeEngine
 
 	void Material::ApplyMaterial() noexcept
 	{
-		asset->vertexShader->Bind();
-		asset->pixelShader->Bind();
+		asset->shaders.Bind();
 		parameters.Bind();
 		// TODO: add slot count check
 		uint slotIndex = 0;

@@ -24,9 +24,9 @@ namespace LimeEngine
 
 	public:
 		MaterialAsset(
-			const ResourcePath& resourcePath, URef<VertexShader>&& vertexShader, URef<PixelShader>&& pixelShader, MaterialParameters&& parameters, MaterialType type) noexcept :
+			const ResourcePath& resourcePath, ShaderArray&& shaders, MaterialParameters&& parameters, MaterialType type) noexcept :
 			GameResource(resourcePath),
-			type(type), vertexShader(std::move(vertexShader)), pixelShader(std::move(pixelShader)), parameters(std::move(parameters))
+			type(type), shaders(std::move(shaders)), parameters(std::move(parameters))
 		{}
 
 		SRef<Material> Instantiate();
@@ -35,8 +35,7 @@ namespace LimeEngine
 		MaterialType type;
 
 		MaterialParameters parameters;
-		URef<VertexShader> vertexShader;
-		URef<PixelShader> pixelShader;
+		ShaderArray shaders;
 	};
 
 	class Material
@@ -44,7 +43,7 @@ namespace LimeEngine
 		LE_DELETE_COPY(Material)
 
 	public:
-		Material(const GameResourceRef<MaterialAsset>& asset) noexcept : asset(asset), parameters(asset->parameters) {}
+		explicit Material(const GameResourceRef<MaterialAsset>& asset) noexcept : asset(asset), parameters(asset->parameters) {}
 
 		void ApplyMaterial() noexcept;
 

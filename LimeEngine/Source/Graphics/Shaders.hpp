@@ -112,4 +112,18 @@ namespace LimeEngine
 	public:
 		virtual ~PixelShader() = default;
 	};
+
+	class ShaderArray : public IBindable
+	{
+	public:
+		ShaderArray() = default;
+		ShaderArray(const InputLayout& inputLayout, const FPath& directoryPath, const std::string& name);
+
+		void Load(const InputLayout& inputLayout, const FPath& directoryPath, const std::string& name);
+		void Add(URef<IBindable>&& shader);
+		virtual void Bind() override;
+
+	private:
+		std::vector<URef<IBindable>> shaders;
+	};
 }
