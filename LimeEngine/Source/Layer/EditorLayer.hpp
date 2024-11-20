@@ -3,6 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "EngineLayer.hpp"
+#include "Diagnostics/OutputLogPanel.hpp"
 
 namespace LimeEngine
 {
@@ -11,9 +12,12 @@ namespace LimeEngine
 		LE_DELETE_COPY(EditorLayer)
 
 	public:
-		EditorLayer() = default;
+		EditorLayer() noexcept : outputLogPanel(Logger::GetCoreLogger()) {}
 		static EditorLayer& GetEditorLayer();
 
 		void Update() override;
+
+	private:
+		OutputLogPanel outputLogPanel;
 	};
 }

@@ -19,7 +19,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API.");
+		LE_ASSERT(false, "Unknown render API.");
 		return "";
 	}
 
@@ -40,7 +40,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create renderer");
+		LE_ASSERT(false, "Unknown render API. Failed to create renderer");
 		return nullptr;
 	}
 

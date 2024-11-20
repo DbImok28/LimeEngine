@@ -54,7 +54,7 @@ namespace LimeEngine
 		stbi_uc* imageData = stbi_load_from_memory(data, size, &width, &height, &sourceChannelCount, stbiFormat);
 		if (!imageData)
 		{
-			LE_CORE_ASSERT(false, "Failed to load image from memory. STBImage error reason: {}", stbi_failure_reason());
+			LE_ASSERT(false, "Failed to load image from memory. STBImage error reason: {}", stbi_failure_reason());
 			return;
 		}
 
@@ -64,7 +64,7 @@ namespace LimeEngine
 		}
 		catch (const std::exception& e)
 		{
-			LE_CORE_ASSERT(false, "Failed to load image from memory. {}", e.what());
+			LE_ASSERT(false, "Failed to load image from memory. {}", e.what());
 		}
 		stbi_image_free(imageData);
 	}
@@ -96,7 +96,7 @@ namespace LimeEngine
 		stbi_uc* imageData = stbi_load(filePath.string().c_str(), &width, &height, &sourceChannelCount, stbiFormat);
 		if (!imageData)
 		{
-			LE_CORE_ASSERT(false, "Failed to load image from file: {}. STBImage error reason: {}", filePath.string().c_str(), stbi_failure_reason());
+			LE_ASSERT(false, "Failed to load image from file: {}. STBImage error reason: {}", filePath.string().c_str(), stbi_failure_reason());
 			return;
 		}
 
@@ -106,7 +106,7 @@ namespace LimeEngine
 		}
 		catch (const std::exception& e)
 		{
-			LE_CORE_ASSERT(false, "Failed to load image from file: {}. {}", filePath.string().c_str(), e.what());
+			LE_ASSERT(false, "Failed to load image from file: {}. {}", filePath.string().c_str(), e.what());
 		}
 		stbi_image_free(imageData);
 	}

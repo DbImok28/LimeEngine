@@ -5,16 +5,27 @@
 #include "Logger.hpp"
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+#include "Diagnostics/LoggerSink.hpp"
 
 namespace LimeEngine
 {
-	Logger Logger::coreLogger{};
-	Logger Logger::appLogger{};
-
-	void Logger::StaticInitialize()
+	Vector4D LogLevelToColor(LogLevel logLevel) noexcept
 	{
-		coreLogger.Initialize("Engine");
-		appLogger.Initialize("App");
+		switch (logLevel)
+		{
+			case LogLevel::Trace: return { 0.5f, 0.5f, 0.5f, 1.0f };
+			case LogLevel::Debug: return { 0.0f, 1.0f, 0.0f, 1.0f };
+			case LogLevel::Info: return { 1.0f, 1.0f, 1.0f, 1.0f };
+			case LogLevel::Warning: return { 1.0f, 1.0f, 0.0f, 1.0f };
+			case LogLevel::Error: return { 1.0f, 0.0f, 0.0f, 1.0f };
+			case LogLevel::CriticalError: return { 1.0f, 0.0f, 0.0f, 1.0f };
+			default: return { 1.0f, 0.0f, 0.0f, 1.0f };
+		}
+	}
+
+	Logger::Logger(const std::string& name)
+	{
+		Initialize(name);
 	}
 
 	void Logger::Initialize(const std::string& name)
@@ -31,25 +42,25 @@ namespace LimeEngine
 		spdlog::register_logger(spdLogger);
 	}
 
-	bool Logger::CheckLogLevel(LogLevel level) const noexcept
+	bool Logger::CheckLogLevel(LogLevel level) noexcept
 	{
 		switch (level)
 		{
-			case LimeEngine::LogLevel::Debug: return true; break;
+			case LogLevel::Debug: return true;
 #if defined(LE_ENABLE_LOG_TRACE)
-			case LimeEngine::LogLevel::Trace: return true; break;
+			case LogLevel::Trace: return true;
 #endif
 #if defined(LE_ENABLE_LOG_INFO)
-			case LimeEngine::LogLevel::Info: return true; break;
+			case LogLevel::Info: return true;
 #endif
 #if defined(LE_ENABLE_LOG_WARNING)
-			case LimeEngine::LogLevel::Warning: return true; break;
+			case LogLevel::Warning: return true;
 #endif
 #if defined(LE_ENABLE_LOG_ERROR)
-			case LimeEngine::LogLevel::Error: return true; break;
+			case LogLevel::Error: return true;
 #endif
 #if defined(LE_ENABLE_LOG_CRITICAL_ERROR)
-			case LimeEngine::LogLevel::CriticalError: return true; break;
+			case LogLevel::CriticalError: return true;
 #endif
 			default: return false;
 		}
@@ -58,5 +69,22 @@ namespace LimeEngine
 	void Logger::Log(LogLevel level, std::string_view msg) const
 	{
 		if (CheckLogLevel(level)) spdLogger->log(static_cast<spdlog::level::level_enum>(level), msg);
+	}
+
+	SRef<spdlog::logger> Logger::GetNativeLogger() noexcept
+	{
+		return spdLogger;
+	}
+
+	void Logger::AddSink(const SRef<LoggerSink>& sink)
+	{
+		spdLogger->sinks().push_back(sink);
+	}
+
+	void Logger::RemoveSink(const SRef<LoggerSink>& sink)
+	{
+		auto& sinks = spdLogger->sinks();
+		auto sinkIt = std::find(std::begin(sinks), std::end(sinks), sink);
+		if (sinkIt != std::end(sinks)) sinks.erase(sinkIt);
 	}
 }

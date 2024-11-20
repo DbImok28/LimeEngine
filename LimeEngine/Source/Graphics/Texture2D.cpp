@@ -21,7 +21,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create Texture2D");
+		LE_ASSERT(false, "Unknown render API. Failed to create Texture2D");
 		return nullptr;
 	}
 
@@ -35,7 +35,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create Texture2D from data");
+		LE_ASSERT(false, "Unknown render API. Failed to create Texture2D from data");
 		return nullptr;
 	}
 
@@ -49,7 +49,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create Texture2D from file");
+		LE_ASSERT(false, "Unknown render API. Failed to create Texture2D from file");
 		return nullptr;
 	}
 

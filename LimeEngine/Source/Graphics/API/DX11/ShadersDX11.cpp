@@ -31,7 +31,7 @@ namespace LimeEngine
 			case ShaderDataType::BGRA8_SRGB: return DXGI_FORMAT::DXGI_FORMAT_B8G8R8A8_UNORM_SRGB;
 			case ShaderDataType::R24G8: return DXGI_FORMAT::DXGI_FORMAT_X24_TYPELESS_G8_UINT;
 		}
-		LE_CORE_ASSERT(false, "Unknown ShaderDataType");
+		LE_ASSERT(false, "Unknown ShaderDataType");
 		return DXGI_FORMAT::DXGI_FORMAT_UNKNOWN;
 	}
 
@@ -56,7 +56,7 @@ namespace LimeEngine
 			case DXGI_FORMAT::DXGI_FORMAT_B8G8R8A8_UNORM_SRGB: return ShaderDataType::BGRA8_SRGB;
 			case DXGI_FORMAT::DXGI_FORMAT_X24_TYPELESS_G8_UINT: return ShaderDataType::R24G8;
 		}
-		LE_CORE_ASSERT(false, "Unknown DXGI_FORMAT");
+		LE_ASSERT(false, "Unknown DXGI_FORMAT");
 		return ShaderDataType::None;
 	}
 
@@ -100,11 +100,11 @@ namespace LimeEngine
 			throw GFX_EXCEPTION_HR_MSG(hr, oss.str());
 		}
 
-		auto loyout = ConvertToDX11InputLayout(this->inputLayout);
+		auto layout = ConvertToDX11InputLayout(this->inputLayout);
 		auto device = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDevice();
 
 		GFX_CHECK_HR(device->CreateInputLayout(
-			loyout.data(), static_cast<uint>(loyout.size()), shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), inputLoyoutDX11.GetAddressOf()));
+			layout.data(), static_cast<uint>(layout.size()), shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), inputLoyoutDX11.GetAddressOf()));
 		GFX_CHECK_HR(device->CreateVertexShader(shaderBuffer->GetBufferPointer(), shaderBuffer->GetBufferSize(), NULL, shader.GetAddressOf()));
 	}
 

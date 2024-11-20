@@ -20,7 +20,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create WindowRenderOutput");
+		LE_ASSERT(false, "Unknown render API. Failed to create WindowRenderOutput");
 		return nullptr;
 	}
 
@@ -47,7 +47,7 @@ namespace LimeEngine
 
 	void RenderOutput::SetWindow(Window* newWindow)
 	{
-		LE_CORE_ASSERT(newWindow != nullptr, "Window cannot be a null");
+		LE_ASSERT(newWindow != nullptr, "Window cannot be a null");
 		if (window) window->events.Unbind(WindowEventType::Resize, this, &RenderOutput::OnResizeEvent);
 		window = newWindow;
 		if (window) window->events.Bind(WindowEventType::Resize, this, &RenderOutput::OnResizeEvent);

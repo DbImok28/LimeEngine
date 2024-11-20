@@ -21,7 +21,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create RenderViewport");
+		LE_ASSERT(false, "Unknown render API. Failed to create RenderViewport");
 		return nullptr;
 	}
 	void RenderViewport::BindMyltipleRenderViewports(const std::vector<RenderViewport>& viewports)
@@ -34,6 +34,6 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to BindMyltipleRenderViewports");
+		LE_ASSERT(false, "Unknown render API. Failed to BindMyltipleRenderViewports");
 	}
 }

@@ -7,6 +7,13 @@
 
 namespace LimeEngine
 {
+#ifdef LE_ENABLE_CONSOLE
+	URef<Console> Console::mainConsole = Console::Create({});
+#endif
+
+	Logger Logger::coreLogger{ "Engine" };
+	Logger Logger::appLogger{ "App" };
+
 	Renderer Renderer::renderer;
 	Engine Engine::engine;
 }

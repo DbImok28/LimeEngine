@@ -74,7 +74,7 @@ namespace LimeEngine
 	bool ResourcePath::CheckPathFormat(const std::string& path)
 	{
 		bool isValid = IsValidPathFormat(path);
-		LE_CORE_ASSERT(isValid, "Invalid path format to resource \"{}\".", path);
+		LE_ASSERT(isValid, "Invalid path format to resource \"{}\".", path);
 		return isValid;
 	}
 }

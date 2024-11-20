@@ -18,7 +18,7 @@ namespace LimeEngine
 		auto dx11buffer = reinterpret_cast<VertexBufferDX11*>(vertexBuffer.get());
 		if (!dx11buffer)
 		{
-			LE_CORE_ASSERT(false, "VertexBuffer not initialized");
+			LE_ASSERT(false, "VertexBuffer not initialized");
 			return;
 		}
 

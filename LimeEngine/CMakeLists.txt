@@ -23,9 +23,11 @@ set(RENDERER "DirectX")
 set(SHADER_OUTPUT_DIR ${PROJECT_BINARY_DIR}/Shaders)
 set(HLSL_VERTEX_SHADER
     VertexShader.hlsl
+    SimpleShader_vs.hlsl
 )
 set(HLSL_PIXEL_SHADERS
     PixelShader.hlsl
+    SimpleShader_ps.hlsl
 )
 CompileShaders()
 DisableRTTI()

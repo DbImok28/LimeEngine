@@ -16,5 +16,6 @@ namespace LimeEngine
 	void EditorLayer::Update()
 	{
 		GetEngine().sceneLayer.DebugUpdate();
+		outputLogPanel.Render();
 	}
 }

@@ -99,11 +99,15 @@ namespace LimeEngine
 		blendDesc.IndependentBlendEnable = TRUE;
 		const D3D11_RENDER_TARGET_BLEND_DESC defaultRenderTargetBlendDesc = {
 			FALSE,
-			D3D11_BLEND::D3D11_BLEND_SRC_ALPHA, D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA, D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,
-			D3D11_BLEND::D3D11_BLEND_ONE, D3D11_BLEND::D3D11_BLEND_ZERO, D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,
+			D3D11_BLEND::D3D11_BLEND_SRC_ALPHA,
+			D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA,
+			D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,
+			D3D11_BLEND::D3D11_BLEND_ONE,
+			D3D11_BLEND::D3D11_BLEND_ZERO,
+			D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,
 			D3D11_COLOR_WRITE_ENABLE::D3D11_COLOR_WRITE_ENABLE_ALL,
 		};
-		for (auto & renderTargetBlendDesc : blendDesc.RenderTarget)
+		for (auto& renderTargetBlendDesc : blendDesc.RenderTarget)
 		{
 			renderTargetBlendDesc = defaultRenderTargetBlendDesc;
 		}
@@ -124,7 +128,7 @@ namespace LimeEngine
 	{
 		if (renderTargetSlot > D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT)
 		{
-			LE_CORE_ASSERT(false, "Invalid render target slot to enable blending")
+			LE_ASSERT(false, "Invalid render target slot to enable blending");
 			return;
 		}
 
@@ -137,8 +141,12 @@ namespace LimeEngine
 		{
 			const D3D11_RENDER_TARGET_BLEND_DESC renderTargetBlendDesc = {
 				TRUE,
-				D3D11_BLEND::D3D11_BLEND_SRC_ALPHA, D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA, D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,
-				D3D11_BLEND::D3D11_BLEND_ONE, D3D11_BLEND::D3D11_BLEND_ZERO, D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,
+				D3D11_BLEND::D3D11_BLEND_SRC_ALPHA,
+				D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA,
+				D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,
+				D3D11_BLEND::D3D11_BLEND_ONE,
+				D3D11_BLEND::D3D11_BLEND_ZERO,
+				D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,
 				D3D11_COLOR_WRITE_ENABLE::D3D11_COLOR_WRITE_ENABLE_ALL,
 			};
 			blendDesc.RenderTarget[renderTargetSlot] = renderTargetBlendDesc;

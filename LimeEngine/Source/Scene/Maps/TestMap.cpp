@@ -23,28 +23,36 @@ namespace LimeEngine
 
 		// Input
 		inputDevice.AddAxisMapping({
-			"MoveForward", {{ InputKey::W, 1.0f }, { InputKey::S, -1.0f }}
+			"MoveForward", { { InputKey::W, 1.0f }, { InputKey::S, -1.0f } }
         });
 		inputDevice.AddAxisMapping({
-			"MoveRight", {{ InputKey::D, 1.0f }, { InputKey::A, -1.0f }}
+			"MoveRight", { { InputKey::D, 1.0f }, { InputKey::A, -1.0f } }
         });
 		inputDevice.AddAxisMapping({
-			"MoveUp", {{ InputKey::Space, 1.0f }, { InputKey::Z, -1.0f }, { InputKey::LeftShift, -1.0f }}
+			"MoveUp", { { InputKey::Space, 1.0f }, { InputKey::Z, -1.0f }, { InputKey::LeftShift, -1.0f } }
         });
 		inputDevice.AddAxisMapping({ "TurnUp", { { InputKey::MouseMoveY, 1.0f } } });
 		inputDevice.AddAxisMapping({ "TurnRight", { { InputKey::MouseMoveX, 1.0f } } });
 		inputDevice.AddActionMapping({ "Print", { InputActionKey(InputKey::F) } });
 
 		inputDevice.BindActionEvent("Print", InputActionType::Pressed, []() { LE_LOG_DEBUG("Press F"); });
-		inputDevice.BindActionEvent("Print", InputActionType::Released, []() { LE_LOG_DEBUG("Released F"); });
+		inputDevice.BindActionEvent("Print", InputActionType::Released, []() {
+			LE_LOG_DEBUG("Released F");
+			LE_LOG_DEBUG("LE_CORE_LOG_DEBUG");
+			LE_LOG_ERROR("LE_CORE_LOG_ERROR");
+			LE_LOG_CRITICAL_ERROR("LE_CORE_LOG_CRITICAL_ERROR");
+			LE_LOG_INFO("LE_CORE_LOG_INFO");
+			LE_LOG_TRACE("LE_CORE_LOG_TRACE");
+			LE_LOG_WARNING("LE_CORE_LOG_WARNING");
+		});
 
 		// DataManager
 		auto& gameDataManager = DataLayer::GetDataLayer().GetGameDataManager();
 		// Load materials
 		InputLayout InputLayout = {
-			{"POSITION",  ShaderDataType::RGB32F, true},
-            { "NORMAL",   ShaderDataType::RGB32F, true},
-            { "TEXCOORD", ShaderDataType::RG32F,  true}
+			{ "POSITION", ShaderDataType::RGB32F, true },
+            { "NORMAL",   ShaderDataType::RGB32F, true },
+            { "TEXCOORD", ShaderDataType::RG32F,  true }
 		};
 		ShaderArray simpleShader(InputLayout, Paths::ShaderFolder, "SimpleShader");
 		auto material = gameDataManager.CreateMaterial("EngineContent/M_Cat", std::move(simpleShader), {}, MaterialType::Solid);
@@ -86,10 +94,10 @@ namespace LimeEngine
 		//auto boxMesh = gameDataManager.CreateMesh("EngineContent/Cube", vertices, indices);
 
 		std::vector<Vertex> vertices = {
-			{-1.0f,  -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f},
-			{ 1.0f,  -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f},
-			{ 1.0f,  1.0f,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f},
-			{ -1.0f, 1.0f,  0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f},
+			{ -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f },
+			{ 1.0f,  -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f },
+			{ 1.0f,  1.0f,  0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f },
+			{ -1.0f, 1.0f,  0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f },
 		};
 		std::vector<uint> indices = ConvertTrianglesFormCCWToCW({ 0, 1, 2, 2, 3, 0 });
 
@@ -98,6 +106,13 @@ namespace LimeEngine
 			vertex.texCoord.y = Math::FlipUV(vertex.texCoord.y);
 		}
 		auto boxMesh = gameDataManager.CreateMesh("EngineContent/Cube", vertices, indices);
+
+		LE_CORE_LOG_DEBUG("LE_CORE_LOG_DEBUG");
+		LE_CORE_LOG_ERROR("LE_CORE_LOG_ERROR");
+		LE_CORE_LOG_CRITICAL_ERROR("LE_CORE_LOG_CRITICAL_ERROR");
+		LE_CORE_LOG_INFO("LE_CORE_LOG_INFO");
+		LE_CORE_LOG_TRACE("LE_CORE_LOG_TRACE");
+		LE_CORE_LOG_WARNING("LE_CORE_LOG_WARNING");
 
 		// up	  forward
 		// +     +
@@ -179,6 +194,8 @@ namespace LimeEngine
 
 	void TestMap::Update()
 	{
+		static int i = 0;
+		LE_CORE_LOG_DEBUG("LE_CORE_LOG_DEBUG {}", ++i);
 		if (RuntimeEditor::BeginPanel("Assets"))
 		{
 			auto& gameDataManager = DataLayer::GetDataLayer().GetGameDataManager();

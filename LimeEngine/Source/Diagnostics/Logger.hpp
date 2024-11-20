@@ -4,10 +4,13 @@
 #pragma once
 #include "CoreBase.hpp"
 #include "Window/Console.hpp"
+#include "Base/Vector.hpp"
 
 // TODO: Remove dependencies
 #define SPDLOG_USE_STD_FORMAT
 #include <spdlog/spdlog.h>
+
+#include <spdlog/sinks/base_sink.h>
 
 #if defined(LE_LOG_PRESET_FULL)
 	#define LE_ENABLE_LOG_TRACE
@@ -30,6 +33,8 @@
 
 namespace LimeEngine
 {
+	class OutputLogPanel;
+
 	enum class LogLevel
 	{
 		Trace = SPDLOG_LEVEL_TRACE,
@@ -40,20 +45,20 @@ namespace LimeEngine
 		CriticalError = SPDLOG_LEVEL_CRITICAL,
 	};
 
+	Vector4D LogLevelToColor(LogLevel logLevel) noexcept;
+
+	class LoggerSink;
+
 	class LE_API Logger
 	{
 	public:
-		static void StaticInitialize();
-		LE_STATIC_INITIALIZE_IMMEDIATE(StaticInitialize);
-
-	public:
-		inline static Logger GetCoreLogger() noexcept
+		inline static Logger* GetCoreLogger() noexcept
 		{
-			return coreLogger;
+			return &coreLogger;
 		}
-		inline static Logger GetLogger() noexcept
+		inline static Logger* GetLogger() noexcept
 		{
-			return appLogger;
+			return &appLogger;
 		}
 
 	private:
@@ -61,11 +66,12 @@ namespace LimeEngine
 		static Logger appLogger;
 
 	public:
-		Logger() = default;
+		explicit Logger(const std::string& name);
 		LE_DEFAULT_MOVE_COPY(Logger)
 
 		void Initialize(const std::string& name);
-		bool CheckLogLevel(LogLevel level) const noexcept;
+
+		static bool CheckLogLevel(LogLevel level) noexcept;
 
 		void Log(LogLevel level, std::string_view msg) const;
 		template <typename... TArgs>
@@ -74,58 +80,63 @@ namespace LimeEngine
 			if (CheckLogLevel(level)) spdLogger->log(static_cast<spdlog::level::level_enum>(level), formatMsg, std::forward<TArgs>(args)...);
 		}
 
+		void AddSink(const SRef<LoggerSink>& sink);
+		void RemoveSink(const SRef<LoggerSink>& sink);
+
+		SRef<spdlog::logger> GetNativeLogger() noexcept;
+
 	private:
 		SRef<spdlog::logger> spdLogger;
 	};
 }
 
-#define LE_LOG(logLevel, ...)      ::LimeEngine::Logger::GetLogger().Log(logLevel, __VA_ARGS__)
-#define LE_CORE_LOG(logLevel, ...) ::LimeEngine::Logger::GetCoreLogger().Log(logLevel, __VA_ARGS__)
+#define LE_LOG(logLevel, ...)      ::LimeEngine::Logger::GetLogger()->Log(logLevel, __VA_ARGS__)
+#define LE_CORE_LOG(logLevel, ...) ::LimeEngine::Logger::GetCoreLogger()->Log(logLevel, __VA_ARGS__)
 
 #ifdef _DEBUG
 	#define LE_LOG_DEBUG(...)      LE_LOG(::LimeEngine::LogLevel::Debug, __VA_ARGS__)
 	#define LE_CORE_LOG_DEBUG(...) LE_CORE_LOG(::LimeEngine::LogLevel::Debug, __VA_ARGS__)
 #else
-	#define LE_LOG_DEBUG(...)      (void)0
-	#define LE_CORE_LOG_DEBUG(...) (void)0
+	#define LE_LOG_DEBUG(...)      LE_REQUIRE_SEMICOLON
+	#define LE_CORE_LOG_DEBUG(...) LE_REQUIRE_SEMICOLON
 #endif
 
 #if defined(LE_ENABLE_LOG_TRACE)
 	#define LE_LOG_TRACE(...)      LE_LOG(::LimeEngine::LogLevel::Trace, __VA_ARGS__)
 	#define LE_CORE_LOG_TRACE(...) LE_CORE_LOG(::LimeEngine::LogLevel::Trace, __VA_ARGS__)
 #else
-	#define LE_LOG_TRACE(...)      (void)0
-	#define LE_CORE_LOG_TRACE(...) (void)0
+	#define LE_LOG_TRACE(...)      LE_REQUIRE_SEMICOLON
+	#define LE_CORE_LOG_TRACE(...) LE_REQUIRE_SEMICOLON
 #endif
 
 #if defined(LE_ENABLE_LOG_INFO)
 	#define LE_LOG_INFO(...)      LE_LOG(::LimeEngine::LogLevel::Info, __VA_ARGS__)
 	#define LE_CORE_LOG_INFO(...) LE_CORE_LOG(::LimeEngine::LogLevel::Info, __VA_ARGS__)
 #else
-	#define LE_LOG_INFO(...)      (void)0
-	#define LE_CORE_LOG_INFO(...) (void)0
+	#define LE_LOG_INFO(...)      LE_REQUIRE_SEMICOLON
+	#define LE_CORE_LOG_INFO(...) LE_REQUIRE_SEMICOLON
 #endif
 
 #if defined(LE_ENABLE_LOG_WARNING)
 	#define LE_LOG_WARNING(...)      LE_LOG(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
 	#define LE_CORE_LOG_WARNING(...) LE_CORE_LOG(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
 #else
-	#define LE_LOG_WARNING(...)      (void)0
-	#define LE_CORE_LOG_WARNING(...) (void)0
+	#define LE_LOG_WARNING(...)      LE_REQUIRE_SEMICOLON
+	#define LE_CORE_LOG_WARNING(...) LE_REQUIRE_SEMICOLON
 #endif
 
 #if defined(LE_ENABLE_LOG_ERROR)
 	#define LE_LOG_ERROR(...)      LE_LOG(::LimeEngine::LogLevel::Error, __VA_ARGS__)
 	#define LE_CORE_LOG_ERROR(...) LE_CORE_LOG(::LimeEngine::LogLevel::Error, __VA_ARGS__)
 #else
-	#define LE_LOG_ERROR(...)      (void)0
-	#define LE_CORE_LOG_ERROR(...) (void)0
+	#define LE_LOG_ERROR(...)      LE_REQUIRE_SEMICOLON
+	#define LE_CORE_LOG_ERROR(...) LE_REQUIRE_SEMICOLON
 #endif
 
 #if defined(LE_ENABLE_LOG_CRITICAL_ERROR)
 	#define LE_LOG_CRITICAL_ERROR(...)      LE_LOG(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
 	#define LE_CORE_LOG_CRITICAL_ERROR(...) LE_CORE_LOG(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
 #else
-	#define LE_LOG_CRITICAL_ERROR(...)      (void)0
-	#define LE_CORE_LOG_CRITICAL_ERROR(...) (void)0
+	#define LE_LOG_CRITICAL_ERROR(...)      LE_REQUIRE_SEMICOLON
+	#define LE_CORE_LOG_CRITICAL_ERROR(...) LE_REQUIRE_SEMICOLON
 #endif

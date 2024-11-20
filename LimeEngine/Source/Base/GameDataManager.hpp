@@ -71,8 +71,7 @@ namespace LimeEngine
 		{
 			return Emplace<Mesh>(resourcePath, resourcePath, segmentData);
 		}
-		[[nodiscard]] GameResourceRef<MaterialAsset> CreateMaterial(
-			const ResourcePath& resourcePath, ShaderArray&& shaders, MaterialParameters&& parameters, MaterialType type)
+		[[nodiscard]] GameResourceRef<MaterialAsset> CreateMaterial(const ResourcePath& resourcePath, ShaderArray&& shaders, MaterialParameters&& parameters, MaterialType type)
 		{
 			return Emplace<MaterialAsset>(resourcePath, resourcePath, std::move(shaders), std::move(parameters), type);
 		}

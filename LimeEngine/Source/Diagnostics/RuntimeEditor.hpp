@@ -33,7 +33,9 @@ namespace LimeEngine
 		static void Render();
 
 		[[nodiscard]] static EditorPanel MakePanel(const std::string& name);
-		static void BeginPanel(const std::string& name);
+		[[nodiscard]] static EditorPanel MakePanel(const std::string& name, bool& isOpen);
+		static bool BeginPanel(const std::string& name);
+		static bool BeginPanel(const std::string& name, bool& isOpen);
 		static void EndPanel();
 
 	private:
@@ -83,6 +85,7 @@ namespace LimeEngine
 
 		static void Text(const std::string& str);
 		static void Text(const std::string& label, const std::string& str);
+		static void Text(const std::string& str, Vector4D color);
 
 		static void ShowNotification(NotificationType type, const std::string& title, const std::string& content, int displayTime = 3000);
 		static void ShowNotification(NotificationType type, const std::string& content, int displayTime = 3000);
@@ -114,6 +117,8 @@ namespace LimeEngine
 		static bool Input(const std::string& label, Vector& vec, float min = 0, float max = 0, float speed = 1.0f);
 		static bool Input(const std::string& label, Transform& transform);
 
+		static void AutoScroll(bool autoScroll);
+
 	private:
 		static bool inPanel;
 		static bool inDockSpace;
@@ -122,13 +127,24 @@ namespace LimeEngine
 	class EditorPanel
 	{
 	public:
-		EditorPanel(const std::string& name) noexcept
+		EditorPanel(const std::string& name, bool& isOpen) noexcept
 		{
-			RuntimeEditor::BeginPanel(name);
+			isVisible = RuntimeEditor::BeginPanel(name, isOpen);
+		}
+		explicit EditorPanel(const std::string& name) noexcept
+		{
+			isVisible = RuntimeEditor::BeginPanel(name);
 		}
 		~EditorPanel() noexcept
 		{
 			RuntimeEditor::EndPanel();
 		}
+		explicit operator bool() const
+		{
+			return isVisible;
+		}
+
+	private:
+		bool isVisible = true;
 	};
 }

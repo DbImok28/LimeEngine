@@ -21,7 +21,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create VertexBuffer");
+		LE_ASSERT(false, "Unknown render API. Failed to create VertexBuffer");
 		return nullptr;
 	}
 
@@ -35,7 +35,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create IndexBuffer");
+		LE_ASSERT(false, "Unknown render API. Failed to create IndexBuffer");
 		return nullptr;
 	}
 
@@ -49,7 +49,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create VSConstantBufferBase");
+		LE_ASSERT(false, "Unknown render API. Failed to create VSConstantBufferBase");
 		return nullptr;
 	}
 }

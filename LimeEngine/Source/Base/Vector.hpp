@@ -49,6 +49,39 @@ namespace LimeEngine
 	using UIntVector2D = CustomVector2D<uint32>;
 	using Vector2D = CustomVector2D<float>;
 
+	template <typename T>
+	class CustomVector4D
+	{
+	public:
+		CustomVector4D() noexcept : x(0), y(0), z(0), w(0) {}
+		CustomVector4D(T x, T y, T z, T w) noexcept : x(x), y(y), z(z), w(w) {}
+		CustomVector4D(const T vec[4]) noexcept : x(vec[0]), y(vec[1]), z(vec[2]), w(vec[3]) {}
+
+		std::string ToString() const noexcept
+		{
+			return std::format("x:{:< 8} y:{:< 8} z:{:< 8} w:{:< 8}", x, y, z, w);
+		}
+
+		T* GetArray() noexcept
+		{
+			return &x;
+		}
+		uint8 GetSize() noexcept
+		{
+			return 4u;
+		}
+
+	public:
+		T x;
+		T y;
+		T z;
+		T w;
+	};
+
+	using IntVector4D = CustomVector4D<int32>;
+	using UIntVector4D = CustomVector4D<uint32>;
+	using Vector4D = CustomVector4D<float>;
+
 	class Vector
 	{
 	public:

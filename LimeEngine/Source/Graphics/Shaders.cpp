@@ -21,7 +21,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create VertexShader");
+		LE_ASSERT(false, "Unknown render API. Failed to create VertexShader");
 		return nullptr;
 	}
 
@@ -35,7 +35,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create PixelShader");
+		LE_ASSERT(false, "Unknown render API. Failed to create PixelShader");
 		return nullptr;
 	}
 
@@ -59,6 +59,30 @@ namespace LimeEngine
 			case ShaderDataType::BGRA8: return "BGRA8";
 			case ShaderDataType::BGRA8_SRGB: return "BGRA8_SRGB";
 			default: return "Unknown";
+		}
+	}
+
+	ShaderArray::ShaderArray(const InputLayout& inputLayout, const FPath& directoryPath, const std::string& name)
+	{
+		Load(inputLayout, directoryPath, name);
+	}
+
+	void ShaderArray::Load(const InputLayout& inputLayout, const FPath& directoryPath, const std::string& name)
+	{
+		Add(VertexShader::Create(directoryPath / (name + "_vs.cso"), inputLayout));
+		Add(PixelShader::Create(directoryPath / (name + "_ps.cso")));
+	}
+
+	void ShaderArray::Add(URef<IBindable>&& shader)
+	{
+		shaders.push_back(std::move(shader));
+	}
+
+	void ShaderArray::Bind()
+	{
+		for (auto& shader : shaders)
+		{
+			shader->Bind();
 		}
 	}
 }

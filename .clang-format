@@ -9,14 +9,17 @@ IndentWidth: 4
 ColumnLimit: 180
 AccessModifierOffset: -4
 SpacesBeforeTrailingComments: 1
-SortIncludes: false
-AllowShortBlocksOnASingleLine: false
+SortIncludes: Never
+AllowShortBlocksOnASingleLine: Always
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortIfStatementsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: Empty
 AlignAfterOpenBracket: AlwaysBreak
 #AlignAfterOpenBracket: BlockIndent
-AlignConsecutiveMacros: true
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
 AlignEscapedNewlines: Left
 AlignArrayOfStructures: Left
 PointerAlignment: Left

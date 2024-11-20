@@ -74,14 +74,8 @@ namespace LimeEngine
 
 	void RuntimeEditor::Render()
 	{
-		if (inPanel)
-		{
-			ImGui::End();
-		}
-		if (inDockSpace)
-		{
-			ImGui::End();
-		}
+		if (inPanel) { ImGui::End(); }
+		if (inDockSpace) { ImGui::End(); }
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 5.f);
 		ImGui::RenderNotifications();
 		ImGui::PopStyleVar(1);
@@ -142,10 +136,7 @@ namespace LimeEngine
 			window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 			window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 		}
-		else
-		{
-			dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode;
-		}
+		else { dockspace_flags &= ~ImGuiDockNodeFlags_PassthruCentralNode; }
 
 		// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background
 		// and handle the pass-thru hole, so we ask Begin() to not render a background.
@@ -179,14 +170,8 @@ namespace LimeEngine
 				ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
 				ImGui::Separator();
 
-				if (ImGui::MenuItem("Flag: NoSplit", "", (dockspace_flags & ImGuiDockNodeFlags_NoSplit) != 0))
-				{
-					dockspace_flags ^= ImGuiDockNodeFlags_NoSplit;
-				}
-				if (ImGui::MenuItem("Flag: NoResize", "", (dockspace_flags & ImGuiDockNodeFlags_NoResize) != 0))
-				{
-					dockspace_flags ^= ImGuiDockNodeFlags_NoResize;
-				}
+				if (ImGui::MenuItem("Flag: NoSplit", "", (dockspace_flags & ImGuiDockNodeFlags_NoSplit) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoSplit; }
+				if (ImGui::MenuItem("Flag: NoResize", "", (dockspace_flags & ImGuiDockNodeFlags_NoResize) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoResize; }
 				if (ImGui::MenuItem("Flag: NoDockingInCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_NoDockingInCentralNode) != 0))
 				{
 					dockspace_flags ^= ImGuiDockNodeFlags_NoDockingInCentralNode;
@@ -212,22 +197,30 @@ namespace LimeEngine
 		return EditorPanel(name);
 	}
 
-	void RuntimeEditor::BeginPanel(const std::string& name)
+	EditorPanel RuntimeEditor::MakePanel(const std::string& name, bool& isOpen)
 	{
-		if (inPanel)
-		{
-			ImGui::End();
-		}
-		ImGui::Begin(name.c_str());
+		return EditorPanel(name, isOpen);
+	}
+
+	bool RuntimeEditor::BeginPanel(const std::string& name)
+	{
+		if (inPanel) ImGui::End();
+		bool isVisible = ImGui::Begin(name.c_str());
 		inPanel = true;
+		return isVisible;
+	}
+
+	bool RuntimeEditor::BeginPanel(const std::string& name, bool& isOpen)
+	{
+		if (inPanel) ImGui::End();
+		bool isVisible = ImGui::Begin(name.c_str(), &isOpen);
+		inPanel = true;
+		return isVisible;
 	}
 
 	void RuntimeEditor::EndPanel()
 	{
-		if (inPanel)
-		{
-			ImGui::End();
-		}
+		if (inPanel) ImGui::End();
 		inPanel = false;
 	}
 
@@ -444,13 +437,19 @@ namespace LimeEngine
 	void RuntimeEditor::Text(const std::string& str)
 	{
 		if (!inPanel) BeginPanel("None");
-		ImGui::Text(str.c_str());
+		ImGui::TextUnformatted(str.c_str());
 	}
 
 	void RuntimeEditor::Text(const std::string& label, const std::string& str)
 	{
 		if (!inPanel) BeginPanel("None");
 		ImGui::LabelText(label.c_str(), str.c_str());
+	}
+
+	void RuntimeEditor::Text(const std::string& str, Vector4D color)
+	{
+		if (!inPanel) BeginPanel("None");
+		ImGui::TextColored(*reinterpret_cast<ImVec4*>(&color), str.c_str());
 	}
 
 	void RuntimeEditor::ShowNotification(NotificationType type, const std::string& title, const std::string& content, int displayTime)
@@ -576,5 +575,10 @@ namespace LimeEngine
 		changed = Drag("Scale", transform.scale, 0, 0, 0.25f) || changed;
 		ImGui::PopID();
 		return changed;
+	}
+
+	void RuntimeEditor::AutoScroll(bool autoScroll)
+	{
+		if (autoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) ImGui::SetScrollHereY(1.0f);
 	}
 }

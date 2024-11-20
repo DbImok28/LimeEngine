@@ -19,7 +19,7 @@ namespace LimeEngine
 #endif
 			default: break;
 		}
-		LE_CORE_ASSERT(false, "Unknown render API. Failed to create VertexShader");
+		LE_ASSERT(false, "Unknown render API. Failed to create VertexShader");
 		return nullptr;
 	}
 }

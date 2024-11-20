@@ -90,7 +90,7 @@ namespace LimeEngine
 
 	void WindowRenderOutputDX11::Present()
 	{
-		LE_CORE_ASSERT((swapchain != nullptr) && (backBuffer != nullptr), "RenderOutput is not initialized");
+		LE_ASSERT((swapchain != nullptr) && (backBuffer != nullptr), "RenderOutput is not initialized");
 		HRESULT hr;
 		GFX_ERROR_INFO;
 		if (FAILED(hr = swapchain->Present(1u, NULL)))
@@ -123,7 +123,7 @@ namespace LimeEngine
 				auto hr = swapchain->SetFullscreenState(true, nullptr);
 				if (hr == DXGI_ERROR_NOT_CURRENTLY_AVAILABLE)
 				{
-					LE_CORE_ASSERT(false, "Switching to full screen mode is not currently available");
+					LE_ASSERT(false, "Switching to full screen mode is not currently available");
 					window->SetFullsreen(false);
 					return;
 				}
@@ -138,7 +138,7 @@ namespace LimeEngine
 			break;
 			default:
 			{
-				LE_CORE_ASSERT(false, "Unsupported window mode");
+				LE_ASSERT(false, "Unsupported window mode");
 			}
 		}
 		displayMode = newMode;
@@ -160,7 +160,7 @@ namespace LimeEngine
 
 	void WindowRenderOutputDX11::OnWindowResize(uint width, uint height)
 	{
-		LE_CORE_ASSERT(swapchain != nullptr, "Swapchain is not initialized");
+		LE_ASSERT(swapchain != nullptr, "Swapchain is not initialized");
 
 		BOOL currentFullscreen = TRUE;
 		GFX_CHECK_HR(swapchain->GetFullscreenState(&currentFullscreen, nullptr));
