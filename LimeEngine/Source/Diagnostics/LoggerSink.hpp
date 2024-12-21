@@ -10,14 +10,19 @@ namespace LimeEngine
 
 	class LogMessage
 	{
+		friend LoggerSink;
+
 	public:
 		explicit LogMessage(const spdlog::details::log_msg& logMsg) : logMsg(logMsg) {}
 
 		LogLevel GetLogLevel() const;
 		std::string GetSourceMessage() const;
 		std::string GetFormattedMessage(LoggerSink* sink) const;
+		LogLevel GetLevel() const;
+		std::chrono::system_clock::time_point GetTime() const;
+		size_t GetThreadId() const;
 
-	public:
+	private:
 		spdlog::details::log_msg logMsg;
 	};
 
@@ -31,7 +36,22 @@ namespace LimeEngine
 		virtual void Log(const LogMessage& logMessage) = 0;
 		virtual void Flush() = 0;
 
-		std::string Format(const LogMessage& logMessage);
+		std::string Format(const LogMessage& logMessage) const;
+	};
+
+	class BufferedLogMessage
+	{
+		friend LoggerSink;
+
+	public:
+		BufferedLogMessage() = default;
+		BufferedLogMessage(const std::string& msg, LogLevel level, const std::chrono::system_clock::time_point& time, size_t threadId);
+
+	public:
+		std::string msg;
+		LogLevel level;
+		std::chrono::system_clock::time_point time;
+		size_t threadId = 0;
 	};
 
 	class BufferedLogSink final : public LoggerSink
@@ -44,12 +64,15 @@ namespace LimeEngine
 		virtual void Flush() override {}
 
 	public:
-		const std::deque<std::string>& GetMessages() const noexcept;
+		const std::deque<BufferedLogMessage>& GetMessages() const noexcept;
 		size_t GetMaxMessages() const noexcept;
 		void SetMaxMessages(size_t maxMessages);
 
 	private:
-		std::deque<std::string> messages;
+		std::deque<BufferedLogMessage> messages;
 		size_t maxMessages;
+
+	public:
+		bool autoFormat = true;
 	};
 }

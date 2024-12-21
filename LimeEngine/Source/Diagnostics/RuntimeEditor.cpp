@@ -192,6 +192,36 @@ namespace LimeEngine
 		inDockSpace = true;
 	}
 
+	void RuntimeEditor::PushID(const std::string& id)
+	{
+		ImGui::PushID(id.c_str());
+	}
+
+	void RuntimeEditor::PushID(int id)
+	{
+		ImGui::PushID(id);
+	}
+
+	void RuntimeEditor::PopID()
+	{
+		ImGui::PopID();
+	}
+
+	void RuntimeEditor::AutoScroll(bool shouldAutoScroll)
+	{
+		if (shouldAutoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) ImGui::SetScrollHereY(1.0f);
+	}
+
+	void RuntimeEditor::SetTextColor(const Vector4D& color)
+	{
+		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(color.x, color.y, color.z, color.w));
+	}
+
+	void RuntimeEditor::ResetTextColor()
+	{
+		ImGui::PopStyleColor();
+	}
+
 	EditorPanel RuntimeEditor::MakePanel(const std::string& name)
 	{
 		return EditorPanel(name);
@@ -452,6 +482,18 @@ namespace LimeEngine
 		ImGui::TextColored(*reinterpret_cast<ImVec4*>(&color), str.c_str());
 	}
 
+	void RuntimeEditor::Image(const Texture2D* texture)
+	{
+		if (!inPanel) BeginPanel("None");
+		ImGui::Image(texture->GetView(), ImVec2(static_cast<float>(texture->GetWidth()), static_cast<float>(texture->GetHeight())));
+	}
+
+	void RuntimeEditor::Image(const Texture2D* texture, UIntVector2D size)
+	{
+		if (!inPanel) BeginPanel("None");
+		ImGui::Image(texture->GetView(), ImVec2(static_cast<float>(size.x), static_cast<float>(size.y)));
+	}
+
 	void RuntimeEditor::ShowNotification(NotificationType type, const std::string& title, const std::string& content, int displayTime)
 	{
 		ImGuiToast toast(static_cast<ImGuiToastType_>(type), displayTime);
@@ -575,10 +617,5 @@ namespace LimeEngine
 		changed = Drag("Scale", transform.scale, 0, 0, 0.25f) || changed;
 		ImGui::PopID();
 		return changed;
-	}
-
-	void RuntimeEditor::AutoScroll(bool autoScroll)
-	{
-		if (autoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY()) ImGui::SetScrollHereY(1.0f);
 	}
 }

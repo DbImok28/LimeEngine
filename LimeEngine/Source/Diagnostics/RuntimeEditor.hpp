@@ -4,6 +4,7 @@
 #pragma once
 #include "CoreBase.hpp"
 #include "Base/Transform.hpp"
+#include "Graphics/Texture2D.hpp"
 
 namespace LimeEngine
 {
@@ -41,6 +42,17 @@ namespace LimeEngine
 	private:
 		static void SetDefaultTheme();
 		static void SetupDockSpace();
+
+	public:
+		static void PushID(const std::string& id);
+		static void PushID(int id);
+		static void PopID();
+
+		static void AutoScroll(bool shouldAutoScroll);
+
+		// TODO: replace Vector4D to Color
+		static void SetTextColor(const Vector4D& color);
+		static void ResetTextColor();
 
 	public:
 		static bool Drag(const std::string& label, char& var, char min = 0, char max = 0, float speed = 1.0f);
@@ -87,6 +99,9 @@ namespace LimeEngine
 		static void Text(const std::string& label, const std::string& str);
 		static void Text(const std::string& str, Vector4D color);
 
+		static void Image(const Texture2D* texture);
+		static void Image(const Texture2D* texture, UIntVector2D size);
+
 		static void ShowNotification(NotificationType type, const std::string& title, const std::string& content, int displayTime = 3000);
 		static void ShowNotification(NotificationType type, const std::string& content, int displayTime = 3000);
 		static void ShowNotification(const std::string& title, const std::string& content, int displayTime = 3000);
@@ -116,8 +131,6 @@ namespace LimeEngine
 
 		static bool Input(const std::string& label, Vector& vec, float min = 0, float max = 0, float speed = 1.0f);
 		static bool Input(const std::string& label, Transform& transform);
-
-		static void AutoScroll(bool autoScroll);
 
 	private:
 		static bool inPanel;

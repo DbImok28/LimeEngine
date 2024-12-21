@@ -18,6 +18,8 @@ namespace LimeEngine
 		void SetLogger(Logger* newLogger) noexcept;
 		void SetTitle(const std::string& title = "OutputLog") noexcept;
 
+		SRef<BufferedLogSink> GetSink() const;
+
 	public:
 		void Render();
 

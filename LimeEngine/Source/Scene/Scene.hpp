@@ -18,8 +18,8 @@ namespace LimeEngine
 		{
 			return reinterpret_cast<TMap*>(SetupAttachment(MakeUnique<TMap>(std::forward<TArgs>(args)...)));
 		}
-		const std::vector<URef<SceneMap>>& GetSubMaps() const noexcept;
 
+		const std::vector<URef<SceneMap>>& GetSubMaps() const noexcept;
 		std::string GetSceneName() const noexcept;
 
 	private:

@@ -23,8 +23,9 @@ namespace LimeEngine
 		virtual void Bind(uint slotIndex) noexcept override;
 		virtual URef<Texture2D> Clone(const ResourcePath& cloneResourcePath) override;
 
-		ID3D11ShaderResourceView* GetView() const noexcept;
-		ID3D11ShaderResourceView* const* GetViewAddress() const noexcept;
+		virtual void* GetView() const;
+		ID3D11ShaderResourceView* GetNativeView() const noexcept;
+		ID3D11ShaderResourceView* const* GetNativeViewAddress() const noexcept;
 
 	protected:
 		com_ptr<ID3D11Texture2D> texture = nullptr;

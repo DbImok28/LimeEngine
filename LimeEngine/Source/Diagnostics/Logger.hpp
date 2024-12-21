@@ -45,6 +45,7 @@ namespace LimeEngine
 		CriticalError = SPDLOG_LEVEL_CRITICAL,
 	};
 
+	// TODO: Replace Vector4D to Color
 	Vector4D LogLevelToColor(LogLevel logLevel) noexcept;
 
 	class LoggerSink;

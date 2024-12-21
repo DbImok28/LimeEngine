@@ -218,12 +218,17 @@ namespace LimeEngine
 		return MakeUnique<Texture2DDX11>(cloneResourcePath, textureCopy, textureViewCopy, type);
 	}
 
-	ID3D11ShaderResourceView* Texture2DDX11::GetView() const noexcept
+	void* Texture2DDX11::GetView() const
+	{
+		return reinterpret_cast<void*>(GetNativeView());
+	}
+
+	ID3D11ShaderResourceView* Texture2DDX11::GetNativeView() const noexcept
 	{
 		return textureView.Get();
 	}
 
-	ID3D11ShaderResourceView* const* Texture2DDX11::GetViewAddress() const noexcept
+	ID3D11ShaderResourceView* const* Texture2DDX11::GetNativeViewAddress() const noexcept
 	{
 		return textureView.GetAddressOf();
 	}

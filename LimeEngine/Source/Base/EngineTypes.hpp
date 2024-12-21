@@ -4,6 +4,13 @@
 #pragma once
 #include <string>
 #include <sstream>
+#include <vector>
+#include <array>
+#include <list>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
 #include "Utility/PlatformDetection.hpp"
 
 #if defined(LE_BUILD_PLATFORM_WINDOWS)
@@ -19,13 +26,19 @@
 	#endif
 #else
 using TCHAR = char;
-using PTCHAR = char*;
 	#define __TEXT(quote) quote
 	#define TEXT(quote)   __TEXT(quote)
 #endif
 
+namespace std::filesystem
+{
+	class path;
+}
+
 namespace LimeEngine
 {
+	using FPath = std::filesystem::path;
+
 	using uint = unsigned int;
 	using int8 = int8_t;
 	using uint8 = uint8_t;
@@ -38,7 +51,23 @@ namespace LimeEngine
 
 	using float32 = float;
 	using float64 = double;
-	using float96 = long double;
+
+	template <class T>
+	using Array = std::vector<T>;
+	template <class T, size_t N>
+	using StaticArray = std::array<T, N>;
+	template <class T>
+	using List = std::list<T>;
+
+	template <typename TKey, typename TValue>
+	using Map = std::map<TKey, TValue>;
+	template <typename TKey, typename TValue>
+	using HashMap = std::unordered_map<TKey, TValue>;
+
+	template <typename TKey, typename TValue>
+	using Set = std::set<TKey, TValue>;
+	template <typename TKey, typename TValue>
+	using HashSet = std::unordered_set<TKey, TValue>;
 
 #if defined(LE_USE_CHARSET_UTF8)
 	using Char = char8_t;
@@ -53,7 +82,7 @@ namespace LimeEngine
 	using CString = const Char*;
 	using String = std::basic_string<Char, std::char_traits<Char>, std::allocator<Char>>;
 	using RefString = String&;
-	using ConstString = const String&;
+	using CRefString = const String&;
 
 	using tstring = std::basic_string<TCHAR, std::char_traits<TCHAR>, std::allocator<TCHAR>>;
 	using tstring_view = std::basic_string_view<TCHAR>;

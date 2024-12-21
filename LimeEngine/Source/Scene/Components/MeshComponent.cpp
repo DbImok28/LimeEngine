@@ -30,14 +30,8 @@ namespace LimeEngine
 	void MeshComponent::SetVisibility(bool visibility)
 	{
 		if (isVisible == visibility) return;
-		if (visibility)
-		{
-			ShowMesh();
-		}
-		else
-		{
-			HideMesh();
-		}
+		if (visibility) { ShowMesh(); }
+		else { HideMesh(); }
 	}
 
 	void MeshComponent::ShowMesh()
@@ -68,10 +62,7 @@ namespace LimeEngine
 	void MeshComponent::DebugUpdate()
 	{
 		bool visibility = isVisible;
-		if (RuntimeEditor::Input(std::format("IsVisible {}", GetComponentName()), visibility))
-		{
-			SetVisibility(visibility);
-		}
+		if (RuntimeEditor::Input(std::format("IsVisible {}", GetComponentName()), visibility)) { SetVisibility(visibility); }
 		SceneComponent::DebugUpdate();
 	}
 }

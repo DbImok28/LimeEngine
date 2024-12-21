@@ -32,17 +32,8 @@
 	#define LE_ENABLE_COM
 #endif
 
-namespace std::filesystem
-{
-	class path;
-}
-namespace LimeEngine
-{
-	using FPath = std::filesystem::path;
-}
-
 #include "Base/Debugger.hpp"
-#include "Base/BaseTypes.hpp"
+#include "Base/EngineTypes.hpp"
 #include "Base/StaticInitializer.hpp"
 #include "Diagnostics/Logger.hpp"
 #include "Diagnostics/RuntimeEditor.hpp"

@@ -19,43 +19,18 @@ namespace LimeEngine
 
 		virtual ~ScenePrimaryComponent() = default;
 
-		const std::string& GetPrimaryName() const noexcept
-		{
-			return primaryName;
-		}
+		const std::string& GetPrimaryName() const noexcept;
 
 	protected:
-		const std::vector<URef<ScenePrimaryComponent>>& GetSubPrimaryComponents() const noexcept
-		{
-			return subPrimaryComponent;
-		}
+		const std::vector<URef<ScenePrimaryComponent>>& GetSubPrimaryComponents() const noexcept;
+		ScenePrimaryComponent* SetupPrimaryAttachment(URef<ScenePrimaryComponent>&& component) noexcept;
 
-		ScenePrimaryComponent* SetupPrimaryAttachment(URef<ScenePrimaryComponent>&& component) noexcept
-		{
-			subPrimaryComponent.push_back(std::move(component));
-			return subPrimaryComponent.back().get();
-		}
-
-		virtual void Update(){};
-		virtual void DebugUpdate(){};
+		virtual void Update() {};
+		virtual void DebugUpdate() {};
 
 	private:
-		void UpdateSubPrimaryComponents()
-		{
-			Update();
-			for (auto&& component : subPrimaryComponent)
-			{
-				component->UpdateSubPrimaryComponents();
-			}
-		}
-		void DebugUpdateSubPrimaryComponents()
-		{
-			DebugUpdate();
-			for (auto&& component : subPrimaryComponent)
-			{
-				component->DebugUpdateSubPrimaryComponents();
-			}
-		}
+		void UpdateSubPrimaryComponents();
+		void DebugUpdateSubPrimaryComponents();
 
 	private:
 		std::string primaryName;

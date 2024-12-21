@@ -6,7 +6,7 @@
 
 #ifdef LE_DEBUG
 	#if defined(LE_BUILD_PLATFORM_WINDOWS)
-		#define LE_DEBUGBREAK() __debugbreak()
+		#define LE_DEBUGBREAK() (__nop(), __debugbreak())
 	#elif defined(LE_BUILD_PLATFORM_LINUX)
 		#include <signal.h>
 		#define LE_DEBUGBREAK() raise(SIGTRAP)

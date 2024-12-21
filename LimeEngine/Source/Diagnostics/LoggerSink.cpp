@@ -21,6 +21,21 @@ namespace LimeEngine
 		return sink->Format(*this);
 	}
 
+	LogLevel LogMessage::GetLevel() const
+	{
+		return static_cast<LogLevel>(logMsg.level);
+	}
+
+	std::chrono::system_clock::time_point LogMessage::GetTime() const
+	{
+		return logMsg.time;
+	}
+
+	size_t LogMessage::GetThreadId() const
+	{
+		return logMsg.thread_id;
+	}
+
 	// LoggerSink
 
 	void LoggerSink::sink_it_(const spdlog::details::log_msg& msg)
@@ -33,24 +48,28 @@ namespace LimeEngine
 		Flush();
 	}
 
-	std::string LoggerSink::Format(const LogMessage& logMessage)
+	std::string LoggerSink::Format(const LogMessage& logMessage) const
 	{
 		std::string formatted;
 		formatter_->format(logMessage.logMsg, formatted);
 		return formatted;
 	}
 
-	// BufferedLogSink
+	// BufferedLog
+
+	BufferedLogMessage::BufferedLogMessage(const std::string& msg, LogLevel level, const std::chrono::system_clock::time_point& time, size_t threadId) :
+		msg(msg), level(level), time(time), threadId(threadId)
+	{}
 
 	BufferedLogSink::BufferedLogSink(size_t maxMessages) noexcept : maxMessages(maxMessages) {}
 
 	void BufferedLogSink::Log(const LogMessage& logMessage)
 	{
-		messages.push_back(Format(logMessage));
+		messages.emplace_back(autoFormat ? Format(logMessage) : logMessage.GetSourceMessage(), logMessage.GetLogLevel(), logMessage.GetTime(), logMessage.GetThreadId());
 		if (messages.size() > maxMessages) messages.pop_front();
 	}
 
-	const std::deque<std::string>& BufferedLogSink::GetMessages() const noexcept
+	const std::deque<BufferedLogMessage>& BufferedLogSink::GetMessages() const noexcept
 	{
 		return messages;
 	}

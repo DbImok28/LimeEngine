@@ -27,12 +27,14 @@ namespace LimeEngine
 			{
 				for (const auto& message : sink->GetMessages())
 				{
-					RuntimeEditor::Text(message);
+					RuntimeEditor::SetTextColor(LogLevelToColor(message.level));
+					RuntimeEditor::Text(message.msg);
+					RuntimeEditor::ResetTextColor();
 				}
 			}
 			RuntimeEditor::AutoScroll(true);
+			RuntimeEditor::EndPanel();
 		}
-		RuntimeEditor::EndPanel();
 	}
 
 	void OutputLogPanel::SetLogger(Logger* logger, const std::string& title) noexcept
@@ -52,5 +54,10 @@ namespace LimeEngine
 	void OutputLogPanel::SetTitle(const std::string& title) noexcept
 	{
 		this->title = title;
+	}
+
+	SRef<BufferedLogSink> OutputLogPanel::GetSink() const
+	{
+		return sink;
 	}
 }

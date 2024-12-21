@@ -69,6 +69,7 @@ namespace LimeEngine
 		{
 			return arraySize;
 		}
+		virtual void* GetView() const = 0;
 
 	protected:
 		TextureType type;

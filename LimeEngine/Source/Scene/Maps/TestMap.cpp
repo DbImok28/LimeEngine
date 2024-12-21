@@ -194,8 +194,6 @@ namespace LimeEngine
 
 	void TestMap::Update()
 	{
-		static int i = 0;
-		LE_CORE_LOG_DEBUG("LE_CORE_LOG_DEBUG {}", ++i);
 		if (RuntimeEditor::BeginPanel("Assets"))
 		{
 			auto& gameDataManager = DataLayer::GetDataLayer().GetGameDataManager();
@@ -204,8 +202,8 @@ namespace LimeEngine
 			{
 				RuntimeEditor::Text(std::format("{}, refs: {}", ref->GetPath().GetPath(), ref->GetRefCount()));
 			}
+			RuntimeEditor::EndPanel();
 		}
-		RuntimeEditor::EndPanel();
 
 		if (RuntimeEditor::BeginPanel("Properties"))
 		{
@@ -225,8 +223,8 @@ namespace LimeEngine
 					}
 				}
 			}
+			RuntimeEditor::EndPanel();
 		}
-		RuntimeEditor::EndPanel();
 
 		if (RuntimeEditor::BeginPanel("Info"))
 		{
@@ -234,8 +232,10 @@ namespace LimeEngine
 			{
 				RuntimeEditor::Text(object->GetObjectName(), std::format("{}", object->GetObjectTransform()));
 			}
+
+			RuntimeEditor::Image(CherryTexture.Get());
+			RuntimeEditor::EndPanel();
 		}
-		RuntimeEditor::EndPanel();
 
 		SceneMap::Update();
 	}
