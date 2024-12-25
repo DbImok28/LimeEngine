@@ -12,10 +12,11 @@ namespace LimeEngine
 		LE_DELETE_COPY(EditorLayer)
 
 	public:
-		EditorLayer() noexcept : outputLogPanel(Logger::GetCoreLogger()) {}
+		EditorLayer() noexcept : EngineLayer("EditorLayer"), outputLogPanel(Logger::GetCoreLogger()) {}
 		static EditorLayer& GetEditorLayer();
 
-		void Update() override;
+		virtual void Update() override;
+		virtual void DebugUpdate() override;
 
 	private:
 		OutputLogPanel outputLogPanel;

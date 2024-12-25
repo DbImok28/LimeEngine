@@ -11,14 +11,41 @@ namespace LimeEngine
 
 	int Engine::Start()
 	{
-		LE_CORE_LOG_TRACE("Engine start");
+		// TODO: Add engine layers storage class (Add Layer priority and dependency)
+		LE_CORE_LOG_TRACE("Engine Init");
+		dataLayer.Init();
+		windowLayer.Init();
+		inputLayer.Init();
+		sceneLayer.Init();
+		editorLayer.Init();
+		renderLayer.Init();
+
 		timer.Start();
+
+		LE_CORE_LOG_TRACE("Engine Begin");
+		dataLayer.Begin();
+		windowLayer.Begin();
+		inputLayer.Begin();
+		sceneLayer.Begin();
+		editorLayer.Begin();
+		renderLayer.Begin();
+
+		LE_CORE_LOG_TRACE("Engine start Update Loop");
 		while (!exitCode.has_value())
 		{
 			deltaTime = timer.ElapsedTime();
 			timer.Restart();
 			UpdateLayers();
 		}
+
+		LE_CORE_LOG_TRACE("Engine End");
+		sceneLayer.End();
+		editorLayer.End();
+		renderLayer.End();
+		inputLayer.End();
+		windowLayer.End();
+		dataLayer.End();
+
 		LE_CORE_LOG_TRACE("Engine close with code {}", *exitCode);
 		return *exitCode;
 	}
@@ -26,6 +53,22 @@ namespace LimeEngine
 	void Engine::UpdateLayers()
 	{
 		RuntimeEditor::Processing(deltaTime);
+
+		if (RuntimeEditor::BeginPanel("Engine"))
+		{
+			if (RuntimeEditor::Button("Close")) exitCode = 0;
+			RuntimeEditor::EndPanel();
+		}
+
+#if defined(LE_DEBUG)
+		dataLayer.DebugUpdate();
+		windowLayer.DebugUpdate();
+		inputLayer.DebugUpdate();
+		sceneLayer.DebugUpdate();
+		editorLayer.DebugUpdate();
+		renderLayer.DebugUpdate();
+#endif
+
 		dataLayer.Update();
 		windowLayer.Update();
 		inputLayer.Update();

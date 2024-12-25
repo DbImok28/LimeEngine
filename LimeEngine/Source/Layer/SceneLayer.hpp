@@ -12,14 +12,18 @@ namespace LimeEngine
 		LE_DELETE_COPY(SceneLayer)
 
 	public:
-		SceneLayer() : SceneLayer(MakeUnique<Scene>()) {}
-		SceneLayer(URef<Scene>&& scene) : scene(std::move(scene)) {}
+		SceneLayer() noexcept : SceneLayer(MakeUnique<Scene>()) {}
+		explicit SceneLayer(URef<Scene>&& scene) noexcept : EngineLayer("SceneLayer"), scene(std::move(scene)) {}
+
 		static SceneLayer& GetSceneLayer();
 
-		void Update() override;
-		void DebugUpdate();
+		virtual void Init() override;
+		virtual void Begin() override;
+		virtual void End() override;
+		virtual void Update() override;
+		virtual void DebugUpdate() override;
 
-		Scene& GetScene() noexcept;
+		Scene* GetScene() noexcept;
 
 	private:
 		URef<Scene> scene;

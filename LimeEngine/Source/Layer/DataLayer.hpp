@@ -12,10 +12,12 @@ namespace LimeEngine
 		LE_DELETE_COPY(DataLayer)
 
 	public:
-		DataLayer() : gameDataManager(){};
+		DataLayer() noexcept : EngineLayer("DataLayer"), gameDataManager() {};
 		static DataLayer& GetDataLayer();
 
-		void Update() override;
+		virtual void Update() override;
+		virtual void DebugUpdate() override;
+		
 		GameDataManager& GetGameDataManager() noexcept;
 
 	private:

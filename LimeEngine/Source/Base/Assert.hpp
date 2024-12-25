@@ -60,7 +60,7 @@ namespace LimeEngine
 	#define LE_ASSERT_WARNING(...) LE_MACRO_OVERLOAD_ONE_OR_MANY(LE_ASSERT_WARNING, __VA_ARGS__)
 	#define LE_ASSERT_WARNING_MANY(conditionExpr, ...)                                                    \
 		{                                                                                                 \
-			bool condition = (conditionExpr);                                                             \
+			bool condition = !!(conditionExpr);                                                           \
 			::LimeEngine::Assertions::Warning(condition, ::LimeEngine::Logger::GetLogger(), __VA_ARGS__); \
 			if (!condition && Debugger::IsDebuggerAttached()) LE_DEBUGBREAK();                            \
 		}                                                                                                 \
@@ -70,7 +70,7 @@ namespace LimeEngine
 	#define LE_ASSERT(...)                     LE_MACRO_OVERLOAD_ONE_OR_MANY(LE_ASSERT, __VA_ARGS__)
 	#define LE_ASSERT_MANY(conditionExpr, ...)                                                           \
 		{                                                                                                \
-			bool condition = (conditionExpr);                                                            \
+			bool condition = !!(conditionExpr);                                                          \
 			::LimeEngine::Assertions::Assert(condition, ::LimeEngine::Logger::GetLogger(), __VA_ARGS__); \
 			if (!condition && Debugger::IsDebuggerAttached()) LE_DEBUGBREAK();                           \
 		}                                                                                                \
@@ -80,7 +80,7 @@ namespace LimeEngine
 	#define LE_ASSERT_CRITICAL(...)    LE_MACRO_OVERLOAD_ONE_OR_MANY(LE_ASSERT_CRITICAL, __VA_ARGS__)
 	#define LE_ASSERT_CRITICAL_MANY(conditionExpr, ...)                                                          \
 		{                                                                                                        \
-			bool condition = (conditionExpr);                                                                    \
+			bool condition = !!(conditionExpr);                                                                  \
 			::LimeEngine::Assertions::CriticalAssert(condition, ::LimeEngine::Logger::GetLogger(), __VA_ARGS__); \
 			if (!condition && Debugger::IsDebuggerAttached()) LE_DEBUGBREAK();                                   \
 		}                                                                                                        \

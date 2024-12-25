@@ -3,6 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "SceneMap.hpp"
+#include "Graphics/Mesh.hpp"
 
 namespace LimeEngine
 {
@@ -14,6 +15,6 @@ namespace LimeEngine
 		TestMap() : SceneMap("TestMap") {}
 
 		void Load() override;
-		virtual void Update() override;
+		virtual void DebugUpdate() override;
 	};
 }

@@ -10,9 +10,6 @@
 #include "Graphics/Shaders.hpp"
 #include "Base/Math.hpp"
 
-#include "Graphics/API/DX11/RenderOutputDX11.hpp"
-#include "Graphics/API/DX11/Texture2DDX11.hpp"
-
 namespace LimeEngine
 {
 	void TestMap::Load()
@@ -129,12 +126,13 @@ namespace LimeEngine
 		auto texture = gameDataManager.CreateTexture2D("EngineContent/T_Cat", TextureFolder / "cat.jpg", TextureFormat::RGBA8, TextureType::Diffuse);
 		auto boxMaterialInstance = material->Instantiate();
 
+		auto box1Object = SetupAttachment<MeshObject>("Box1");
+
 		boxMaterialInstance->SetTextureParameter(texture, 0u);
 		boxMaterialInstance->SetParameter("Saturation", 0.8f);
 		boxMesh->segments[0].SetMaterial(boxMaterialInstance);
-
-		auto box1Object = SetupAttachment<MeshObject>("Box1");
 		box1Object->SetMesh(boxMesh);
+
 		auto box2Component = box1Object->SetupAttachment<MeshComponent>("Box2");
 		box2Component->SetTransform(Transform(0, 10, 0));
 		box2Component->SetMesh(boxMesh);
@@ -155,29 +153,30 @@ namespace LimeEngine
 		CherryMaterialInstance->SetTextureParameter(CherryTexture, 0u);
 
 		// Primitives
-		auto planeMesh = Plane(40, 10, 12).CreateMesh("EngineContent/Plane");
-		planeMesh->segments[0].SetMaterial(UVMappingMaterialInstance);
 
 		auto upPlaneMesh = Plane(4, 0, 0).CreateMesh("EngineContent/Plane2");
 		upPlaneMesh->segments[0].SetMaterial(CherryMaterialInstance);
 
 		auto planeObject = SetupAttachment<MeshObject>("Plane");
 		planeObject->SetTransform(Transform(10.05f, 0.1f, 10));
-		planeObject->SetMesh(planeMesh);
 
 		auto upPlaneComponent = planeObject->SetupAttachment<MeshComponent>("UpPlane");
-		upPlaneComponent->SetMesh(upPlaneMesh);
 		upPlaneComponent->SetTransform(Transform(10.0f, 5.0f, 10.0f));
+		upPlaneComponent->SetMesh(upPlaneMesh);
+
+		auto planeMesh = Plane(40, 10, 12).CreateMesh("EngineContent/Plane");
+		planeMesh->segments[0].SetMaterial(UVMappingMaterialInstance);
+		planeObject->SetMesh(planeMesh);
 
 		auto middlePlaneComponent = planeObject->SetupAttachment<MeshComponent>("MiddlePlane");
-		middlePlaneComponent->SetMesh(upPlaneMesh);
 		middlePlaneComponent->SetTransform(Transform(10.0f, 2.5f, 10.0f));
-
-		auto sphereMesh = Sphere(10, 16, 16).CreateMesh("EngineContent/Sphere");
-		sphereMesh->segments[0].SetMaterial(UVMappingMaterialInstance);
+		middlePlaneComponent->SetMesh(upPlaneMesh);
 
 		auto sphereObject = SetupAttachment<MeshObject>("Sphere");
 		sphereObject->SetTransform(Transform(10.005f, 0, 10));
+
+		auto sphereMesh = Sphere(10, 16, 16).CreateMesh("EngineContent/Sphere");
+		sphereMesh->segments[0].SetMaterial(UVMappingMaterialInstance);
 		sphereObject->SetMesh(sphereMesh);
 
 		auto cubesphereMesh = Cubesphere(10, 3).CreateMesh("EngineContent/Cubesphere");
@@ -192,51 +191,8 @@ namespace LimeEngine
 		playerCamera->SetTransform(Transform(0, 5, -10));
 	}
 
-	void TestMap::Update()
+	void TestMap::DebugUpdate()
 	{
-		if (RuntimeEditor::BeginPanel("Assets"))
-		{
-			auto& gameDataManager = DataLayer::GetDataLayer().GetGameDataManager();
-			RuntimeEditor::Text(std::format("Assets {}", gameDataManager.GetAllResources().size()));
-			for (auto& [path, ref] : gameDataManager.GetAllResources())
-			{
-				RuntimeEditor::Text(std::format("{}, refs: {}", ref->GetPath().GetPath(), ref->GetRefCount()));
-			}
-			RuntimeEditor::EndPanel();
-		}
-
-		if (RuntimeEditor::BeginPanel("Properties"))
-		{
-			for (auto& object : GetSubObjects())
-			{
-				if (object != nullptr)
-				{
-					Transform transform = object->GetTransform();
-					RuntimeEditor::Input(object->GetObjectName(), transform);
-					object->SetTransform(transform);
-
-					for (auto& component : object->GetSubComponents())
-					{
-						transform = component->GetTransform();
-						RuntimeEditor::Input(std::format("{}/{}", object->GetObjectName(), component->GetComponentName()), transform);
-						component->SetTransform(transform);
-					}
-				}
-			}
-			RuntimeEditor::EndPanel();
-		}
-
-		if (RuntimeEditor::BeginPanel("Info"))
-		{
-			for (auto& object : GetSubObjects())
-			{
-				RuntimeEditor::Text(object->GetObjectName(), std::format("{}", object->GetObjectTransform()));
-			}
-
-			RuntimeEditor::Image(CherryTexture.Get());
-			RuntimeEditor::EndPanel();
-		}
-
-		SceneMap::Update();
+		SceneMap::DebugUpdate();
 	}
 }

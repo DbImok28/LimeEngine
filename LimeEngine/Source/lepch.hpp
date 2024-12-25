@@ -24,6 +24,7 @@
 #include <array>
 #include <list>
 #include <queue>
+#include <stack>
 #include <bitset>
 #include <map>
 #include <set>

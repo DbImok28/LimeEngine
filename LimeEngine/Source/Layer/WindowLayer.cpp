@@ -21,6 +21,7 @@ namespace LimeEngine
 
 	void WindowLayer::Update()
 	{
+		EngineLayer::Update();
 		if (window) window->OnUpdate();
 	}
 

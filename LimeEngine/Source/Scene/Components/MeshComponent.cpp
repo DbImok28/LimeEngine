@@ -61,6 +61,8 @@ namespace LimeEngine
 
 	void MeshComponent::DebugUpdate()
 	{
+		SceneComponent::DebugUpdate();
+
 		bool visibility = isVisible;
 		if (RuntimeEditor::Input(std::format("IsVisible {}", GetComponentName()), visibility)) { SetVisibility(visibility); }
 		SceneComponent::DebugUpdate();

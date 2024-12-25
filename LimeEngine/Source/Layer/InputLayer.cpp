@@ -10,6 +10,7 @@ namespace LimeEngine
 {
 	void InputLayer::Update()
 	{
+		EngineLayer::Update();
 		inputDevice.OnUpdate();
 	}
 

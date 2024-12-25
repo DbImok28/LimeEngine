@@ -10,10 +10,7 @@ namespace LimeEngine
 	DefaultPlayerCameraComponent::DefaultPlayerCameraComponent(const std::string& componentName, float cameraMovementSpeed, float cameraRotationSpeed) noexcept :
 		CameraComponent(componentName), cameraMovementSpeed(cameraMovementSpeed), cameraRotationSpeed(cameraRotationSpeed)
 	{
-		if (!RenderLayer::GetRenderLayer().GetRenderCamera())
-		{
-			AttachCamera();
-		}
+		if (!RenderLayer::GetRenderLayer().GetRenderCamera()) { AttachCamera(); }
 		WindowLayer::GetWindowLayer().GetWindow().events.Bind(WindowEventType::Resize, this, &DefaultPlayerCameraComponent::OnResize);
 
 		auto& inputDevice = InputLayer::GetInputLayer().GetInputDevice();
@@ -89,9 +86,9 @@ namespace LimeEngine
 
 	void DefaultPlayerCameraComponent::DebugUpdate()
 	{
+		CameraComponent::DebugUpdate();
+
 		RuntimeEditor::Input("CameraMovementSpeed", cameraMovementSpeed);
 		RuntimeEditor::Input("CameraRotationSpeed", cameraRotationSpeed);
-
-		CameraComponent::DebugUpdate();
 	}
 }

@@ -12,6 +12,10 @@ namespace LimeEngine
 	public:
 		Scene() : ScenePrimaryComponent("Scene") {}
 
+	protected:
+		void Update() override;
+
+	public:
 		SceneMap* SetupAttachment(URef<SceneMap>&& map);
 		template <std::derived_from<SceneMap> TMap, typename... TArgs>
 		TMap* SetupAttachment(TArgs&&... args) noexcept
@@ -19,10 +23,19 @@ namespace LimeEngine
 			return reinterpret_cast<TMap*>(SetupAttachment(MakeUnique<TMap>(std::forward<TArgs>(args)...)));
 		}
 
+		void AddToInitialization(ScenePrimaryComponent* primaryComponent);
+		void AddToDestroy(ScenePrimaryComponent* primaryComponent);
+
+	public:
 		const std::vector<URef<SceneMap>>& GetSubMaps() const noexcept;
 		std::string GetSceneName() const noexcept;
 
 	private:
+		std::queue<ScenePrimaryComponent*> componentsWaitingInitialization;
+		std::queue<ScenePrimaryComponent*> componentsWaitingBegin;
+		std::queue<ScenePrimaryComponent*> componentsWaitingDestroying;
+
+		// TODO: Remove. Engine is global variable
 		Engine* engine = nullptr;
 	};
 }

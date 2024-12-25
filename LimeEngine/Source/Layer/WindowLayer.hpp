@@ -12,7 +12,7 @@ namespace LimeEngine
 		LE_DELETE_COPY(WindowLayer);
 
 	public:
-		WindowLayer() = default;
+		WindowLayer() noexcept : EngineLayer("WindowLayer") {};
 		~WindowLayer();
 
 		static WindowLayer& GetWindowLayer();

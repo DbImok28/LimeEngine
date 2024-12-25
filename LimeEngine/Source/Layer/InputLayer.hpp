@@ -12,7 +12,7 @@ namespace LimeEngine
 		LE_DELETE_COPY(InputLayer);
 
 	public:
-		InputLayer() = default;
+		InputLayer() noexcept : EngineLayer("InputLayer") {};
 		static InputLayer& GetInputLayer();
 
 		void Update() override;

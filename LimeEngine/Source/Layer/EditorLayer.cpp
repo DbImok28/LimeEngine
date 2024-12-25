@@ -15,7 +15,13 @@ namespace LimeEngine
 
 	void EditorLayer::Update()
 	{
-		GetEngine().sceneLayer.DebugUpdate();
+		EngineLayer::Update();
 		outputLogPanel.Render();
+	}
+
+	void EditorLayer::DebugUpdate()
+	{
+		EngineLayer::DebugUpdate();
+		GetEngine().sceneLayer.DebugUpdate();
 	}
 }

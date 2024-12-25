@@ -7,9 +7,7 @@
 namespace LimeEngine
 {
 	CameraComponent::CameraComponent(const std::string& componentName, float width, float height, ProjectionType projectionType, float fovDegrees, float nearZ, float farZ) noexcept
-		:
-		SceneComponent(componentName),
-		projectionType(projectionType), width(width), height(height), fovDegrees(fovDegrees), nearZ(nearZ), farZ(farZ), aspectRatio(width / height)
+		: SceneComponent(componentName), projectionType(projectionType), width(width), height(height), fovDegrees(fovDegrees), nearZ(nearZ), farZ(farZ), aspectRatio(width / height)
 	{
 		SetProjectionType(projectionType);
 	}
@@ -100,14 +98,12 @@ namespace LimeEngine
 
 	void CameraComponent::DebugUpdate()
 	{
+		SceneComponent::DebugUpdate();
+		
 		bool changed = false;
 		changed = RuntimeEditor::Input("FovDegrees", fovDegrees) || changed;
 		changed = RuntimeEditor::Input("NearZ", nearZ) || changed;
 		changed = RuntimeEditor::Input("FarZ", farZ) || changed;
-		if (changed)
-		{
-			RecalculateViewMatrix();
-		}
-		SceneComponent::DebugUpdate();
+		if (changed) RecalculateViewMatrix();
 	}
 }

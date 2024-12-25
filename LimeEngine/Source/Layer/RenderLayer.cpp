@@ -20,50 +20,50 @@ namespace LimeEngine
 
 	void RenderLayer::Update()
 	{
+		EngineLayer::Update();
+		Renderer::GetRenderer().Render();
+	}
+
+	void RenderLayer::DebugUpdate()
+	{
+		EngineLayer::DebugUpdate();
+
 		auto& renderer = Renderer::GetRenderer();
-		RuntimeEditor::BeginPanel("Renderer");
-		RuntimeEditor::Text("GPU Name", RenderAPI::GetRenderAPI().GetVideoAdapterName());
-
-		// TODO: Remove
-		RuntimeEditor::Text("DXGI Messages:");
-
-		for (auto& message : dxgiErrorInfo.GetAllMessages())
+		if (RuntimeEditor::BeginPanel("Renderer"))
 		{
-			RuntimeEditor::Text(message);
-		}
+			RuntimeEditor::Text("GPU Name", RenderAPI::GetRenderAPI().GetVideoAdapterName());
 
-		RuntimeEditor::EndPanel();
-
-		RuntimeEditor::BeginPanel("Window");
-		RuntimeEditor::Text("Width", std::to_string(renderer.GetWidth()));
-		RuntimeEditor::Text("Height", std::to_string(renderer.GetHeight()));
-
-		auto winMode = renderer.GetDisplayMode();
-		if (winMode == DisplayMode::Windowed || winMode == DisplayMode::FullscreenWindowed)
-		{
-			if (RuntimeEditor::Button("Change windowed mode to FullscreenExclusive"))
+			// TODO: Remove
+			RuntimeEditor::Text("DXGI Messages:");
+			for (auto& message : dxgiErrorInfo.GetAllMessages())
 			{
-				renderer.SetDisplayMode(DisplayMode::FullscreenExclusive);
+				RuntimeEditor::Text(message);
 			}
-		}
-		if (winMode == DisplayMode::Windowed)
-		{
-			if (RuntimeEditor::Button("Change windowed mode to FullscreenWindowed"))
-			{
-				renderer.SetDisplayMode(DisplayMode::FullscreenWindowed);
-			}
+
+			RuntimeEditor::EndPanel();
 		}
 
-		if (winMode == DisplayMode::FullscreenWindowed || winMode == DisplayMode::FullscreenExclusive)
+		if (RuntimeEditor::BeginPanel("Window"))
 		{
-			if (RuntimeEditor::Button("Change windowed mode to Windowed"))
-			{
-				renderer.SetDisplayMode(DisplayMode::Windowed);
-			}
-		}
-		RuntimeEditor::EndPanel();
+			RuntimeEditor::Text("Width", std::to_string(renderer.GetWidth()));
+			RuntimeEditor::Text("Height", std::to_string(renderer.GetHeight()));
 
-		renderer.Render();
+			auto winMode = renderer.GetDisplayMode();
+			if (winMode == DisplayMode::Windowed || winMode == DisplayMode::FullscreenWindowed)
+			{
+				if (RuntimeEditor::Button("Change windowed mode to FullscreenExclusive")) { renderer.SetDisplayMode(DisplayMode::FullscreenExclusive); }
+			}
+			if (winMode == DisplayMode::Windowed)
+			{
+				if (RuntimeEditor::Button("Change windowed mode to FullscreenWindowed")) { renderer.SetDisplayMode(DisplayMode::FullscreenWindowed); }
+			}
+
+			if (winMode == DisplayMode::FullscreenWindowed || winMode == DisplayMode::FullscreenExclusive)
+			{
+				if (RuntimeEditor::Button("Change windowed mode to Windowed")) { renderer.SetDisplayMode(DisplayMode::Windowed); }
+			}
+			RuntimeEditor::EndPanel();
+		}
 	}
 
 	const CameraComponent* RenderLayer::GetRenderCamera() const noexcept
