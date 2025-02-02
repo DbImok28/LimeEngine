@@ -2,6 +2,8 @@
 // See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
+
+// TODO: Remove includes
 #include <string>
 #include <sstream>
 #include <vector>
@@ -11,6 +13,7 @@
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
+#include <bitset>
 #include "Utility/PlatformDetection.hpp"
 
 #if defined(LE_BUILD_PLATFORM_WINDOWS)
@@ -69,6 +72,10 @@ namespace LimeEngine
 	template <typename TKey, typename TValue>
 	using HashSet = std::unordered_set<TKey, TValue>;
 
+	using Bit = std::bitset<1>;
+	template <size_t N>
+	using Bitset = std::bitset<N>;
+
 #if defined(LE_USE_CHARSET_UTF8)
 	using Char = char8_t;
 #elif defined(LE_USE_CHARSET_UTF16)
@@ -111,7 +118,7 @@ namespace LimeEngine
 	template <typename T>
 	using SRef = std::shared_ptr<T>;
 	template <typename T>
-	using WRef = std::weak_ptr<T>;
+	using SoftRef = std::weak_ptr<T>;
 
 	template <class T, class... Args>
 	[[nodiscard]] std::enable_if_t<!std::is_array_v<T>, std::shared_ptr<T>> MakeShared(Args&&... args)

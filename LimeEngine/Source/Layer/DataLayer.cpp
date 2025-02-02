@@ -8,9 +8,9 @@
 
 namespace LimeEngine
 {
-	DataLayer& DataLayer::GetDataLayer()
+	DataLayer* DataLayer::GetDataLayer()
 	{
-		return GetEngine().dataLayer;
+		return GetEngine()->dataLayer;
 	}
 
 	void DataLayer::Update()

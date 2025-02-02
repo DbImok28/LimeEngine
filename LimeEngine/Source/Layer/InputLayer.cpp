@@ -8,19 +8,19 @@
 
 namespace LimeEngine
 {
+	InputLayer* InputLayer::GetInputLayer()
+	{
+		return GetEngine()->inputLayer;
+	}
+
 	void InputLayer::Update()
 	{
 		EngineLayer::Update();
 		inputDevice.OnUpdate();
 	}
 
-	InputLayer& InputLayer::GetInputLayer()
+	InputDevice* InputLayer::GetInputDevice()
 	{
-		return GetEngine().inputLayer;
-	}
-
-	InputDevice& InputLayer::GetInputDevice()
-	{
-		return inputDevice;
+		return &inputDevice;
 	}
 }

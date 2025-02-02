@@ -88,6 +88,11 @@ namespace LimeEngine
 		renderQueue.Remove(drawable);
 	}
 
+	void Renderer::CreateRenderOutput(const RenderOutputArgs& renderOutputArgs)
+	{
+		SetRenderOutput(RenderOutput::CreateWindowRenderOutput(renderOutputArgs));
+	}
+
 	void Renderer::SetRenderOutput(URef<RenderOutput>&& renderOutput)
 	{
 		this->renderOutput = std::move(renderOutput);

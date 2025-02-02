@@ -7,28 +7,38 @@
 
 namespace LimeEngine
 {
-	Engine::Engine() : windowLayer(), inputLayer(), renderLayer(), dataLayer(), sceneLayer(), editorLayer() {}
+	Engine::Engine() : windowLayer(), inputLayer(), renderLayer(), dataLayer(), sceneLayer(), editorLayer()
+	{
+		inputLayer = layerManager.EmplaceLayer<InputLayer>();
+		windowLayer = layerManager.EmplaceLayer<WindowLayer>();
+		dataLayer = layerManager.EmplaceLayer<DataLayer>();
+		renderLayer = layerManager.EmplaceLayer<RenderLayer>();
+		sceneLayer = layerManager.EmplaceLayer<SceneLayer>();
+		editorLayer = layerManager.EmplaceLayer<EditorLayer>();
+	}
 
 	int Engine::Start()
 	{
 		// TODO: Add engine layers storage class (Add Layer priority and dependency)
 		LE_CORE_LOG_TRACE("Engine Init");
-		dataLayer.Init();
-		windowLayer.Init();
-		inputLayer.Init();
-		sceneLayer.Init();
-		editorLayer.Init();
-		renderLayer.Init();
+		// dataLayer.Init();
+		// windowLayer.Init();
+		// inputLayer.Init();
+		// sceneLayer.Init();
+		// editorLayer.Init();
+		// renderLayer.Init();
+		layerManager.Init();
 
 		timer.Start();
 
 		LE_CORE_LOG_TRACE("Engine Begin");
-		dataLayer.Begin();
-		windowLayer.Begin();
-		inputLayer.Begin();
-		sceneLayer.Begin();
-		editorLayer.Begin();
-		renderLayer.Begin();
+		// dataLayer.Begin();
+		// windowLayer.Begin();
+		// inputLayer.Begin();
+		// sceneLayer.Begin();
+		// editorLayer.Begin();
+		// renderLayer.Begin();
+		layerManager.Begin();
 
 		LE_CORE_LOG_TRACE("Engine start Update Loop");
 		while (!exitCode.has_value())
@@ -39,12 +49,13 @@ namespace LimeEngine
 		}
 
 		LE_CORE_LOG_TRACE("Engine End");
-		sceneLayer.End();
-		editorLayer.End();
-		renderLayer.End();
-		inputLayer.End();
-		windowLayer.End();
-		dataLayer.End();
+		//		sceneLayer.End();
+		//		editorLayer.End();
+		//		renderLayer.End();
+		//		inputLayer.End();
+		//		windowLayer.End();
+		//		dataLayer.End();
+		layerManager.End();
 
 		LE_CORE_LOG_TRACE("Engine close with code {}", *exitCode);
 		return *exitCode;
@@ -60,21 +71,24 @@ namespace LimeEngine
 			RuntimeEditor::EndPanel();
 		}
 
+		layerManager.PreUpdate();
 #if defined(LE_DEBUG)
-		dataLayer.DebugUpdate();
-		windowLayer.DebugUpdate();
-		inputLayer.DebugUpdate();
-		sceneLayer.DebugUpdate();
-		editorLayer.DebugUpdate();
-		renderLayer.DebugUpdate();
+		//		dataLayer.DebugUpdate();
+		//		windowLayer.DebugUpdate();
+		//		inputLayer.DebugUpdate();
+		//		sceneLayer.DebugUpdate();
+		//		editorLayer.DebugUpdate();
+		//		renderLayer.DebugUpdate();
+		layerManager.DebugUpdate();
 #endif
-
-		dataLayer.Update();
-		windowLayer.Update();
-		inputLayer.Update();
-		sceneLayer.Update();
-		editorLayer.Update();
-		renderLayer.Update();
+		//		dataLayer.Update();
+		//		windowLayer.Update();
+		//		inputLayer.Update();
+		//		sceneLayer.Update();
+		//		editorLayer.Update();
+		//		renderLayer.Update();
+		layerManager.Update();
+		layerManager.PostUpdate();
 	}
 
 	void Engine::Close(int exitCode)
@@ -92,11 +106,14 @@ namespace LimeEngine
 	void Engine::Initialize()
 	{
 		// TODO: Load settings from file
-		WindowLayer::GetWindowLayer().SetWindow(WindowArgs(TEXT("LimeEngine"), 1080, 720));
+		WindowLayer::GetWindowLayer()->AddWindow(WindowArgs("MainWindow", TEXT("LimeEngine"), 1080, 720));
+
+		Window* window = WindowLayer::GetWindowLayer()->GetWindow(0);
+		Renderer::GetRenderer().CreateRenderOutput(RenderOutputArgs(window));
 	}
 
-	Engine& Engine::GetEngine() noexcept
+	Engine* Engine::GetEngine() noexcept
 	{
-		return engine;
+		return &engine;
 	}
 }

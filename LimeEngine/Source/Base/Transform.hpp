@@ -8,10 +8,6 @@
 
 namespace LimeEngine
 {
-	const TempVector RIGHT_VECTOR = DirectX::XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);   // x
-	const TempVector UP_VECTOR = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);      // y
-	const TempVector FORWARD_VECTOR = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f); // z
-
 	class Transform
 	{
 	public:

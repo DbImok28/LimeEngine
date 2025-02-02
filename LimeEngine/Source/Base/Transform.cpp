@@ -12,7 +12,7 @@ namespace LimeEngine
 
 	Transform::Transform(const TempTransformMatrix& mat) noexcept
 	{
-		Matrix::DecomposeTransform(location, rotation, scale, mat);
+		Matrix::DecomposeTransform(mat, location, rotation, scale);
 	}
 
 	Transform::Transform(float lx, float ly, float lz) noexcept : location(lx, ly, lz), rotation(0.0f, 0.0f, 0.0f), scale(1.0f, 1.0f, 1.0f) {}
@@ -51,7 +51,7 @@ namespace LimeEngine
 
 	Transform& Transform::operator=(const TempTransformMatrix& mat) noexcept
 	{
-		Matrix::DecomposeTransform(location, rotation, scale, mat);
+		Matrix::DecomposeTransform(mat, location, rotation, scale);
 		return *this;
 	}
 

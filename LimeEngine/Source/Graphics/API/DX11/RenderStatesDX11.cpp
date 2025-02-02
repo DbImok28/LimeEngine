@@ -137,7 +137,7 @@ namespace LimeEngine
 		D3D11_BLEND_DESC blendDesc;
 		blendState->GetDesc(&blendDesc);
 
-		if (blendDesc.RenderTarget[renderTargetSlot].BlendEnable != enable)
+		if (static_cast<bool>(blendDesc.RenderTarget[renderTargetSlot].BlendEnable) != enable)
 		{
 			const D3D11_RENDER_TARGET_BLEND_DESC renderTargetBlendDesc = {
 				TRUE,

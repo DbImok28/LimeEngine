@@ -4,6 +4,7 @@
 #pragma once
 #include "CoreBase.hpp"
 #include "Utility/Timer.hpp"
+#include "Layer/EngineLayerManager.hpp"
 #include "Layer/DataLayer.hpp"
 #include "Layer/WindowLayer.hpp"
 #include "Layer/InputLayer.hpp"
@@ -30,19 +31,21 @@ namespace LimeEngine
 		std::optional<int> exitCode;
 
 	public:
-		InputLayer inputLayer;
-		WindowLayer windowLayer;
-		DataLayer dataLayer;
-		RenderLayer renderLayer;
-		SceneLayer sceneLayer;
-		EditorLayer editorLayer;
+		InputLayer* inputLayer;
+		WindowLayer* windowLayer;
+		DataLayer* dataLayer;
+		RenderLayer* renderLayer;
+		SceneLayer* sceneLayer;
+		EditorLayer* editorLayer;
+
+		EngineLayerManager layerManager;
 
 		Timer timer;
 		float deltaTime = 0.0f;
 
 	public:
 		static void Initialize();
-		static Engine& GetEngine() noexcept;
+		static Engine* GetEngine() noexcept;
 
 	private:
 		static Engine engine;

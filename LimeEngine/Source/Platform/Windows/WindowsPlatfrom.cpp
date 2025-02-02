@@ -41,10 +41,7 @@ namespace LimeEngine
 	FPath Platform::GetPathToExeFolder()
 	{
 		std::array<wchar_t, MAX_PATH> filePath = { '\0' };
-		if (GetModuleFileNameW(NULL, filePath.data(), MAX_PATH) == 0)
-		{
-			throw HR_LAST_EXCEPTION();
-		}
+		if (GetModuleFileNameW(NULL, filePath.data(), MAX_PATH) == 0) { throw HR_LAST_EXCEPTION(); }
 		return std::filesystem::path(filePath.data()).remove_filename();
 	}
 }

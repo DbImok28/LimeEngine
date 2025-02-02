@@ -74,8 +74,8 @@ namespace LimeEngine
 			isTransformChange = false;
 		}
 		XMMATRIX camRotationMatrix = GetRotationMatrix();
-		XMVECTOR camTarget = XMVector3TransformCoord(FORWARD_VECTOR, camRotationMatrix);
-		XMVECTOR upDir = XMVector3TransformCoord(UP_VECTOR, camRotationMatrix);
+		XMVECTOR camTarget = XMVector3TransformCoord(Vector::ForwardVector, camRotationMatrix);
+		XMVECTOR upDir = XMVector3TransformCoord(Vector::UpVector, camRotationMatrix);
 		camTarget += GetTempLocationVector();
 		viewMatrix = XMMatrixLookAtLH(GetTempLocationVector(), camTarget, upDir);
 	}
@@ -99,7 +99,7 @@ namespace LimeEngine
 	void CameraComponent::DebugUpdate()
 	{
 		SceneComponent::DebugUpdate();
-		
+
 		bool changed = false;
 		changed = RuntimeEditor::Input("FovDegrees", fovDegrees) || changed;
 		changed = RuntimeEditor::Input("NearZ", nearZ) || changed;

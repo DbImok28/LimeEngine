@@ -85,6 +85,23 @@ namespace LimeEngine
 	class Vector
 	{
 	public:
+		static inline const TempVector ZeroVector = DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+		static inline const TempVector OneVector = DirectX::XMVectorSet(1.0f, 1.0f, 1.0f, 0.0f);
+
+		static inline const TempVector UpVector = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+		static inline const TempVector DownVector = DirectX::XMVectorSet(0.0f, -1.0f, 0.0f, 0.0f);
+
+		static inline const TempVector ForwardVector = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+		static inline const TempVector BackwardVector = DirectX::XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f);
+
+		static inline const TempVector RightVector = DirectX::XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+		static inline const TempVector LeftVector = DirectX::XMVectorSet(-1.0f, 0.0f, 0.0f, 0.0f);
+
+		static inline const TempVector XAxisVector = DirectX::XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+		static inline const TempVector YAxisVector = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+		static inline const TempVector ZAxisVector = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+	public:
 		Vector() noexcept;
 		Vector(const TempVector& vec) noexcept;
 		Vector(const DirectX::XMFLOAT3& vec) noexcept;

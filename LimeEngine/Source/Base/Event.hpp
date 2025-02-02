@@ -84,7 +84,7 @@ public:                                           \
 	class MethodEventHandler final : public EventHandler<TArgs...>
 	{
 	public:
-		using TMethod = void (TObject::*const)(TArgs...);
+		using TMethod = void (TObject::* const)(TArgs...);
 		using type = MethodEventHandler<TObject, TArgs...>;
 
 	public:
@@ -98,7 +98,7 @@ public:                                           \
 		bool IsEquals(const EventHandler<TArgs...>& other) const override final
 		{
 			const type* otherEvent = static_cast<const type*>(&other);
-			if (otherEvent) return &object == &otherEvent->object && method == otherEvent->method;
+			if (otherEvent) return std::addressof(object) == std::addressof(otherEvent->object) && method == otherEvent->method;
 			return false;
 		}
 
@@ -111,7 +111,7 @@ public:                                           \
 	class FunctionEventHandler final : public EventHandler<TArgs...>
 	{
 	public:
-		using TFunction = void (*)(TArgs...);
+		using TFunction = void (*const)(TArgs...);
 		using type = FunctionEventHandler<TArgs...>;
 
 	public:
@@ -133,6 +133,32 @@ public:                                           \
 		TFunction fun;
 	};
 
+	template <typename TLambda, typename... TArgs>
+	class LambdaEventHandler final : public EventHandler<TArgs...>
+	{
+	public:
+		using type = LambdaEventHandler<TLambda, TArgs...>;
+
+	public:
+		LambdaEventHandler(TLambda lambda) : EventHandler<TArgs...>(), lambda(std::move(lambda)) {}
+		virtual ~LambdaEventHandler() {}
+
+		void Call(TArgs... args) override final
+		{
+			lambda(std::forward<TArgs>(args)...);
+		}
+
+		bool IsEquals(const EventHandler<TArgs...>& other) const override final
+		{
+			const type* otherEvent = static_cast<const type*>(&other);
+			if (otherEvent) return (std::addressof(lambda) == std::addressof(otherEvent->lambda));
+			return false;
+		}
+
+	private:
+		TLambda lambda;
+	};
+
 	template <typename... TArgs>
 	class EventDispatcher
 	{
@@ -141,38 +167,49 @@ public:                                           \
 
 		void operator()(TArgs... args)
 		{
+#ifdef LE_DEBUG
+			size_t originalSize = events.size();
+#endif
 			auto it = events.begin();
-			auto it_end = events.end();
-			while (it != it_end)
+			auto endIt = events.end();
+			while (it != endIt)
 			{
-				auto it_last = it++;
-				(*it_last)->Call(std::forward<TArgs>(args)...);
+				auto prevIt = it++;
+				(*prevIt)->Call(std::forward<TArgs>(args)...);
+
+				size_t currentSize = events.size();
+				LE_ASSERT(originalSize == currentSize, "Cannot remove event handler in event dispatcher");
 			}
 		}
 		auto FindEventHandler(const EventHandler<TArgs...>& handler) const noexcept
 		{
 			return std::find_if(std::begin(events), std::end(events), [&handler](auto& item) { return (*item == handler); });
 		}
-		void Bind(URef<EventHandler<TArgs...>>&& handler)
+		void BindEventHandler(URef<EventHandler<TArgs...>>&& handler)
 		{
-			bool noFinded = FindEventHandler(*handler) == events.end();
-			LE_ASSERT(noFinded, "Can't bind the same events");
-			if (noFinded) events.push_back(std::move(handler));
+			bool noFounded = FindEventHandler(*handler) == events.end();
+			LE_ASSERT(noFounded, "Can't bind the same events");
+			if (noFounded) events.push_back(std::move(handler));
 		}
 		template <typename TObject>
 		void Bind(TObject* const object, MethodEventHandler<TObject, TArgs...>::TMethod method)
 		{
 			LE_ASSERT(object, "Object pointer cannot be null");
 			LE_ASSERT(method, "Method pointer cannot be null");
-			if (object && method) Bind(MakeUnique<MethodEventHandler<TObject, TArgs...>>(*object, method));
+			if (object && method) BindEventHandler(MakeUnique<MethodEventHandler<TObject, TArgs...>>(*object, method));
 		}
-		void Bind(void (*func)(TArgs...))
+		void Bind(FunctionEventHandler<TArgs...>::TFunction func)
 		{
 			LE_ASSERT(func, "Function pointer cannot be null");
-			if (func) Bind(MakeUnique<FunctionEventHandler<TArgs...>>(func));
+			if (func) BindEventHandler(MakeUnique<FunctionEventHandler<TArgs...>>(func));
+		}
+		template <typename TLambda>
+		void Bind(TLambda lambda)
+		{
+			BindEventHandler(MakeUnique<LambdaEventHandler<TLambda, TArgs...>>(lambda));
 		}
 
-		bool Unbind(const EventHandler<TArgs...>& handler) noexcept
+		bool UnbindEventHandler(const EventHandler<TArgs...>& handler) noexcept
 		{
 			auto it = FindEventHandler(handler);
 			if (it != std::end(events))
@@ -187,15 +224,21 @@ public:                                           \
 		{
 			LE_ASSERT(object, "Object pointer cannot be null");
 			LE_ASSERT(method, "Method pointer cannot be null");
-			if (object && method) return Unbind(MethodEventHandler{ *object, method });
+			if (object && method) return UnbindEventHandler(MethodEventHandler{ *object, method });
 			return false;
 		}
-		bool Unbind(void (*func)(TArgs...)) noexcept
+		bool Unbind(FunctionEventHandler<TArgs...>::TFunction func) noexcept
 		{
 			LE_ASSERT(func, "Function pointer cannot be null");
-			if (func) return Unbind(FunctionEventHandler{ func });
+			if (func) return UnbindEventHandler(FunctionEventHandler{ func });
 			return false;
 		}
+		template <typename TLambda>
+		void Unbind(TLambda lambda)
+		{
+			UnbindEventHandler(LambdaEventHandler<TLambda, TArgs...>{ lambda });
+		}
+
 		void Clear() noexcept
 		{
 			events.clear();
@@ -213,15 +256,25 @@ public:                                           \
 
 		void operator()(TKey key, TArgs... args)
 		{
+#ifdef LE_DEBUG
+			size_t eventsSize = events.size();
+			size_t handlersForAnyEventsSize = handlersForAnyEvents.size();
+#endif
 			auto range = events.equal_range(key);
 			for (auto& it = range.first; it != range.second;)
 			{
-				auto it_last = it++;
-				it_last->second->Call(std::forward<TArgs>(args)...);
+				auto prevIt = it++;
+				prevIt->second->Call(std::forward<TArgs>(args)...);
+
+				size_t currentSize = events.size();
+				LE_ASSERT(eventsSize == currentSize, "Cannot remove event handler in event dispatcher");
 			}
 			for (auto& handler : handlersForAnyEvents)
 			{
 				handler->Call(std::forward<TArgs>(args)...);
+
+				size_t currentSize = handlersForAnyEvents.size();
+				LE_ASSERT(handlersForAnyEventsSize == currentSize, "Cannot remove event handler in event dispatcher");
 			}
 		}
 
@@ -230,34 +283,36 @@ public:                                           \
 			auto range = events.equal_range(key);
 			for (auto it = range.first; it != range.second; ++it)
 			{
-				if (*it->second == handler)
-				{
-					return it;
-				}
+				if (*it->second == handler) { return it; }
 			}
 			return std::end(events);
 		}
 
-		void Bind(TKey key, URef<EventHandler<TArgs...>>&& handler)
+		void BindEventHandler(TKey key, URef<EventHandler<TArgs...>>&& handler)
 		{
-			bool noFinded = FindEventHandler(key, *handler) == events.end();
-			LE_ASSERT(noFinded, "Can't bind the same events");
-			if (noFinded) events.emplace(key, std::move(handler));
+			bool noFounded = FindEventHandler(key, *handler) == events.end();
+			LE_ASSERT(noFounded, "Can't bind the same events");
+			if (noFounded) events.emplace(key, std::move(handler));
 		}
 		template <typename TObject>
 		void Bind(TKey key, TObject* const object, MethodEventHandler<TObject, TArgs...>::TMethod method)
 		{
 			LE_ASSERT(object, "Object pointer cannot be null");
 			LE_ASSERT(method, "Method pointer cannot be null");
-			if (object && method) Bind(key, MakeUnique<MethodEventHandler<TObject, TArgs...>>(*object, method));
+			if (object && method) BindEventHandler(key, MakeUnique<MethodEventHandler<TObject, TArgs...>>(*object, method));
 		}
-		void Bind(TKey key, void (*func)(TArgs...))
+		void Bind(TKey key, FunctionEventHandler<TArgs...>::TFunction func)
 		{
 			LE_ASSERT(func, "Function pointer cannot be null");
-			if (func) Bind(key, MakeUnique<FunctionEventHandler<TArgs...>>(func));
+			if (func) BindEventHandler(key, MakeUnique<FunctionEventHandler<TArgs...>>(func));
+		}
+		template <typename TLambda>
+		void Bind(TKey key, TLambda lambda)
+		{
+			BindEventHandler(key, MakeUnique<LambdaEventHandler<TLambda, TArgs...>>(lambda));
 		}
 
-		bool Unbind(TKey key, const EventHandler<TArgs...>& handler) noexcept
+		bool UnbindEventHandler(TKey key, const EventHandler<TArgs...>& handler) noexcept
 		{
 			auto it = FindEventHandler(key, handler);
 			if (it != std::end(events))
@@ -272,14 +327,19 @@ public:                                           \
 		{
 			LE_ASSERT(object, "Object pointer cannot be null");
 			LE_ASSERT(method, "Method pointer cannot be null");
-			if (object && method) return Unbind(key, MethodEventHandler{ *object, method });
+			if (object && method) return UnbindEventHandler(key, MethodEventHandler{ *object, method });
 			return false;
 		}
-		bool Unbind(TKey key, void (*func)(TArgs...)) noexcept
+		bool Unbind(TKey key, FunctionEventHandler<TArgs...>::TFunction func) noexcept
 		{
 			LE_ASSERT(func, "Function pointer cannot be null");
-			if (func) return Unbind(key, FunctionEventHandler{ func });
+			if (func) return UnbindEventHandler(key, FunctionEventHandler{ func });
 			return false;
+		}
+		template <typename TLambda>
+		bool Unbind(TKey key, TLambda lambda)
+		{
+			return UnbindEventHandler(key, LambdaEventHandler<TArgs...>(lambda));
 		}
 
 		// For any events
@@ -288,26 +348,31 @@ public:                                           \
 			return std::find_if(std::begin(handlersForAnyEvents), std::end(handlersForAnyEvents), [&handler](auto& item) { return (*item == handler); });
 		}
 
-		void BindAny(URef<EventHandler<TArgs...>>&& handler)
+		void BindAnyEventHandler(URef<EventHandler<TArgs...>>&& handler)
 		{
-			bool noFinded = FindAnyEventHandler(*handler) == std::end(handlersForAnyEvents);
-			LE_ASSERT(noFinded, "Can't bind the same events");
-			if (noFinded) handlersForAnyEvents.emplace_back(std::move(handler));
+			bool noFounded = FindAnyEventHandler(*handler) == std::end(handlersForAnyEvents);
+			LE_ASSERT(noFounded, "Can't bind the same events");
+			if (noFounded) handlersForAnyEvents.emplace_back(std::move(handler));
 		}
 		template <typename TObject>
 		void BindAny(TObject* const object, MethodEventHandler<TObject, TArgs...>::TMethod method)
 		{
 			LE_ASSERT(object, "Object pointer cannot be null");
 			LE_ASSERT(method, "Method pointer cannot be null");
-			if (object && method) BindAny(MakeUnique<MethodEventHandler<TObject, TArgs...>>(*object, method));
+			if (object && method) BindAnyEventHandler(MakeUnique<MethodEventHandler<TObject, TArgs...>>(*object, method));
 		}
-		void BindAny(void (*func)(TArgs...))
+		void BindAny(FunctionEventHandler<TArgs...>::TFunction func)
 		{
 			LE_ASSERT(func, "Function pointer cannot be null");
-			if (func) BindAny(MakeUnique<FunctionEventHandler<TArgs...>>(func));
+			if (func) BindAnyEventHandler(MakeUnique<FunctionEventHandler<TArgs...>>(func));
+		}
+		template <typename TLambda>
+		void BindAny(TLambda lambda)
+		{
+			BindAnyEventHandler(MakeUnique<LambdaEventHandler<TLambda, TArgs...>>(lambda));
 		}
 
-		bool UnbindAny(const EventHandler<TArgs...>& handler) noexcept
+		bool UnbindAnyEventHandler(const EventHandler<TArgs...>& handler) noexcept
 		{
 			auto it = FindAnyEventHandler(handler);
 			if (it != std::end(handlersForAnyEvents))
@@ -322,14 +387,19 @@ public:                                           \
 		{
 			LE_ASSERT(object, "Object pointer cannot be null");
 			LE_ASSERT(method, "Method pointer cannot be null");
-			if (object && method) return UnbindAny(MethodEventHandler{ *object, method });
+			if (object && method) return UnbindAnyEventHandler(MethodEventHandler{ *object, method });
 			return false;
 		}
-		bool UnbindAny(void (*func)(TArgs...)) noexcept
+		bool UnbindAny(FunctionEventHandler<TArgs...>::TFunction func) noexcept
 		{
 			LE_ASSERT(func, "Function pointer cannot be null");
-			if (func) return UnbindAny(FunctionEventHandler{ func });
+			if (func) return UnbindAnyEventHandler(FunctionEventHandler{ func });
 			return false;
+		}
+		template <typename TLambda>
+		void UnbindAny(TLambda lambda)
+		{
+			UnbindAnyEventHandler(LambdaEventHandler<TLambda, TArgs...>{ lambda });
 		}
 
 		void Clear(TKey key) noexcept

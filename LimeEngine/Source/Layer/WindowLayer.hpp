@@ -7,23 +7,48 @@
 
 namespace LimeEngine
 {
+	namespace
+	{
+		struct PendingWindowsToCloseParams
+		{
+			Window* window = nullptr;
+			int exitCode = 0;
+		};
+	}
+
 	class WindowLayer : public EngineLayer
 	{
 		LE_DELETE_COPY(WindowLayer);
 
-	public:
-		WindowLayer() noexcept : EngineLayer("WindowLayer") {};
-		~WindowLayer();
+	private:
+		static inline const char* LayerType = "WindowLayer";
+		static inline std::vector<const char*> LayerDependencies = { "InputLayer" };
 
-		static WindowLayer& GetWindowLayer();
+	public:
+		static const std::vector<const char*>& GetLayerDependencies()
+		{
+			return LayerDependencies;
+		}
+
+	public:
+		WindowLayer() noexcept : EngineLayer(LayerType) {};
+		virtual ~WindowLayer() override;
+		static WindowLayer* GetWindowLayer();
 
 		void Update() override;
+		void PostUpdate() override;
 
-		void SetWindow(URef<Window>&& window);
-		void SetWindow(const WindowArgs& windowArgs);
-		Window& GetWindow() noexcept;
+		// TODO: rename to CreateWindow
+		void AddWindow(const WindowArgs& windowArgs);
+		void AddWindow(URef<Window>&& window);
+		Window* GetWindow(int index) noexcept;
 
 	private:
-		URef<Window> window;
+		void OnWindowCloseEvent(Window* window, int exitCode);
+
+	private:
+		List<URef<Window>> windows;
+		Array<PendingWindowsToCloseParams> pendingWindowsToClose;
+		bool closeEngineAfterClosingAllWindows = true;
 	};
 }

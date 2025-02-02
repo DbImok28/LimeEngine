@@ -3,7 +3,7 @@
 
 namespace LimeEngine
 {
-	Engine& EngineLayer::GetEngine()
+	Engine* EngineLayer::GetEngine()
 	{
 		return Engine::GetEngine();
 	}

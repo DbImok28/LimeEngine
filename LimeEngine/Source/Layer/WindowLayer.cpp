@@ -10,37 +10,76 @@ namespace LimeEngine
 {
 	WindowLayer::~WindowLayer()
 	{
-		window->events.Unbind(WindowEventType::Close, &Engine::GetEngine(), &Engine::Close);
+		//window->events.Unbind(WindowEventType::Close, Engine::GetEngine(), &Engine::Close);
+		//window->events.Clear();
 		Renderer::GetRenderer().RemoveRenderOutput();
 	}
 
-	WindowLayer& WindowLayer::GetWindowLayer()
+	WindowLayer* WindowLayer::GetWindowLayer()
 	{
-		return GetEngine().windowLayer;
+		return GetEngine()->windowLayer;
 	}
 
 	void WindowLayer::Update()
 	{
 		EngineLayer::Update();
-		if (window) window->OnUpdate();
+
+		for (auto& window : windows)
+		{
+			window->OnUpdate();
+		}
 	}
 
-	void WindowLayer::SetWindow(URef<Window>&& window)
+	void WindowLayer::PostUpdate()
 	{
-		this->window = std::move(window);
-		this->window->GetInput().SetInputDevice(&InputLayer::GetInputLayer().GetInputDevice());
-		this->window->events.Bind(WindowEventType::Close, &Engine::GetEngine(), &Engine::Close);
+		for (auto [windowToClose, exitCode] : pendingWindowsToClose)
+		{
+			LE_LOG_TRACE("Window {} closed with exit code {}", windowToClose->GetName(), exitCode);
 
-		Renderer::GetRenderer().SetRenderOutput(RenderOutput::CreateWindowRenderOutput(RenderOutputArgs(this->window.get())));
+			bool founded = false;
+			for (auto it = std::begin(windows); it != std::end(windows);)
+			{
+				if (it->get() == windowToClose)
+				{
+					windows.erase(it);
+					founded = true;
+					break;
+				}
+			}
+			LE_ASSERT(founded, "Attempting to delete a window that is not tracked by a window layer");
+
+			if (exitCode != 0 || (closeEngineAfterClosingAllWindows && windows.empty())) Engine::GetEngine()->Close(exitCode);
+		}
 	}
 
-	void WindowLayer::SetWindow(const WindowArgs& windowArgs)
+	void WindowLayer::AddWindow(const WindowArgs& windowArgs)
 	{
-		SetWindow(Window::Create(windowArgs));
+		AddWindow(Window::Create(windowArgs));
 	}
 
-	Window& WindowLayer::GetWindow() noexcept
+	void WindowLayer::AddWindow(URef<Window>&& window)
 	{
-		return *window.get();
+		Window* windowRef = windows.emplace_back(std::move(window)).get();
+		windowRef->GetInput().SetInputDevice(InputLayer::GetInputLayer()->GetInputDevice());
+		windowRef->events.Bind(WindowEventType::Close, [this, windowRef](const Event& e) {
+			int exitCode = CastEvent<CloseWindowEvent>(e).exitCode;
+			OnWindowCloseEvent(windowRef, exitCode);
+		});
+	}
+
+	void WindowLayer::OnWindowCloseEvent(Window* window, int exitCode)
+	{
+		pendingWindowsToClose.emplace_back(window, exitCode);
+	}
+
+	Window* WindowLayer::GetWindow(int index) noexcept
+	{
+		auto iter = std::begin(windows);
+		for (int i = 0; i < index; ++i)
+		{
+			++iter;
+			if (iter == std::end(windows)) return {};
+		}
+		return iter->get();
 	}
 }

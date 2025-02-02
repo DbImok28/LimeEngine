@@ -11,7 +11,7 @@ namespace LimeEngine
 {
 	GameResourceRef<Mesh> Primitive::CreateMesh(const ResourcePath& resourcePath) const
 	{
-		return DataLayer::GetDataLayer().GetGameDataManager().CreateMesh(resourcePath, vertices, indices);
+		return DataLayer::GetDataLayer()->GetGameDataManager().CreateMesh(resourcePath, vertices, indices);
 	}
 
 	Plane::Plane(float size, uint8 segmentsLength, uint8 segmentsWidth)
@@ -68,7 +68,7 @@ namespace LimeEngine
 			{
 				float u = Math::FlipUV(static_cast<float>(j) / static_cast<float>(vertexCountPerRow - 1u));
 				vertices.push_back({
-					projectedVertices[k] * radius, projectedVertices[k], {u, v}
+					projectedVertices[k] * radius, projectedVertices[k], { u, v }
                 });
 
 				if (i < (vertexCountPerRow - 1u) && j < (vertexCountPerRow - 1u))
@@ -159,14 +159,8 @@ namespace LimeEngine
 				float u = j / static_cast<float>(segments);
 				float v = i / static_cast<float>(rings);
 				// Shift of UV coordinates from top and bottom
-				if (i == 0u)
-				{
-					v += 1.0f / (static_cast<float>(rings));
-				}
-				if (i == (rings))
-				{
-					v -= 1.0f / (static_cast<float>(rings));
-				}
+				if (i == 0u) { v += 1.0f / (static_cast<float>(rings)); }
+				if (i == (rings)) { v -= 1.0f / (static_cast<float>(rings)); }
 
 				vertices.push_back({ x, y, z, nx, ny, nz, u, v });
 			}

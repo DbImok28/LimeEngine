@@ -11,9 +11,19 @@ namespace LimeEngine
 	{
 		LE_DELETE_COPY(EditorLayer)
 
+	private:
+		static inline const char* LayerType = "EditorLayer";
+		static inline std::vector<const char*> LayerDependencies = { /*"RenderLayer"*/ };
+
 	public:
-		EditorLayer() noexcept : EngineLayer("EditorLayer"), outputLogPanel(Logger::GetCoreLogger()) {}
-		static EditorLayer& GetEditorLayer();
+		static const std::vector<const char*>& GetLayerDependencies()
+		{
+			return LayerDependencies;
+		}
+
+	public:
+		EditorLayer() noexcept : EngineLayer(LayerType), outputLogPanel(Logger::GetCoreLogger()) {}
+		static EditorLayer* GetEditorLayer();
 
 		virtual void Update() override;
 		virtual void DebugUpdate() override;

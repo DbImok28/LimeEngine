@@ -16,24 +16,24 @@ namespace LimeEngine
 	{
 		LE_CORE_LOG_TRACE("Load map: {}", GetMapName());
 
-		auto& inputDevice = InputLayer::GetInputLayer().GetInputDevice();
+		InputDevice* inputDevice = InputLayer::GetInputLayer()->GetInputDevice();
 
 		// Input
-		inputDevice.AddAxisMapping({
+		inputDevice->AddAxisMapping({
 			"MoveForward", { { InputKey::W, 1.0f }, { InputKey::S, -1.0f } }
         });
-		inputDevice.AddAxisMapping({
+		inputDevice->AddAxisMapping({
 			"MoveRight", { { InputKey::D, 1.0f }, { InputKey::A, -1.0f } }
         });
-		inputDevice.AddAxisMapping({
+		inputDevice->AddAxisMapping({
 			"MoveUp", { { InputKey::Space, 1.0f }, { InputKey::Z, -1.0f }, { InputKey::LeftShift, -1.0f } }
         });
-		inputDevice.AddAxisMapping({ "TurnUp", { { InputKey::MouseMoveY, 1.0f } } });
-		inputDevice.AddAxisMapping({ "TurnRight", { { InputKey::MouseMoveX, 1.0f } } });
-		inputDevice.AddActionMapping({ "Print", { InputActionKey(InputKey::F) } });
+		inputDevice->AddAxisMapping({ "TurnUp", { { InputKey::MouseMoveY, 1.0f } } });
+		inputDevice->AddAxisMapping({ "TurnRight", { { InputKey::MouseMoveX, 1.0f } } });
+		inputDevice->AddActionMapping({ "Print", { InputActionKey(InputKey::F) } });
 
-		inputDevice.BindActionEvent("Print", InputActionType::Pressed, []() { LE_LOG_DEBUG("Press F"); });
-		inputDevice.BindActionEvent("Print", InputActionType::Released, []() {
+		inputDevice->BindActionEvent("Print", InputActionType::Pressed, []() { LE_LOG_DEBUG("Press F"); });
+		inputDevice->BindActionEvent("Print", InputActionType::Released, []() {
 			LE_LOG_DEBUG("Released F");
 			LE_LOG_DEBUG("LE_CORE_LOG_DEBUG");
 			LE_LOG_ERROR("LE_CORE_LOG_ERROR");
@@ -44,7 +44,7 @@ namespace LimeEngine
 		});
 
 		// DataManager
-		auto& gameDataManager = DataLayer::GetDataLayer().GetGameDataManager();
+		auto& gameDataManager = DataLayer::GetDataLayer()->GetGameDataManager();
 		// Load materials
 		InputLayout InputLayout = {
 			{ "POSITION", ShaderDataType::RGB32F, true },

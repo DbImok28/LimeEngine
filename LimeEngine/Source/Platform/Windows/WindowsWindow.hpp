@@ -39,8 +39,10 @@ namespace LimeEngine
 	public:
 		virtual void OnUpdate() override;
 		virtual void UpdateCursor() const override;
-		virtual void SetTitle(const tstring& title) override;
-		virtual void SetFullsreen(bool fullscreen) override;
+
+		virtual void SetTitle(const tstring& newTitle) override;
+		virtual void SetFullscreen(bool fullscreen) override;
+
 		virtual uint GetWidth() const noexcept override
 		{
 			return width;

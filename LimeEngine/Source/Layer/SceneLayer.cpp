@@ -8,9 +8,9 @@
 
 namespace LimeEngine
 {
-	SceneLayer& SceneLayer::GetSceneLayer()
+	SceneLayer* SceneLayer::GetSceneLayer()
 	{
-		return GetEngine().sceneLayer;
+		return GetEngine()->sceneLayer;
 	}
 
 	void SceneLayer::Init()

@@ -14,6 +14,7 @@ namespace LimeEngine
 		Resize,
 		Focus
 	};
+
 	class CloseWindowEvent : public Event
 	{
 		EVENT_TYPE(CloseWindowEvent);
@@ -22,16 +23,17 @@ namespace LimeEngine
 		explicit CloseWindowEvent(int exitCode) : exitCode(exitCode) {}
 		int exitCode;
 	};
+
 	class ResizeWindowEvent : public Event
 	{
 		EVENT_TYPE(ResizeWindowEvent);
 
 	public:
 		ResizeWindowEvent(uint width, uint height) : width(width), height(height) {}
-
 		uint width;
 		uint height;
 	};
+
 	class FocusWindowEvent : public Event
 	{
 		EVENT_TYPE(FocusWindowEvent);
@@ -44,9 +46,12 @@ namespace LimeEngine
 	struct WindowArgs
 	{
 		WindowArgs() = default;
-		explicit WindowArgs(tstring title, uint width = 1080, uint height = 720) : title(title), width(width), height(height) {}
+		explicit WindowArgs(std::string&& name, tstring&& title, uint width = 1080, uint height = 720) :
+			name(std::move(name)), title(std::move(title)), width(width), height(height)
+		{}
 
-		tstring title = "LimeEngine";
+		std::string name = "MainWindow";
+		tstring title = TEXT("LimeEngine");
 		uint width = 1080;
 		uint height = 720;
 	};
@@ -65,9 +70,20 @@ namespace LimeEngine
 		virtual ~Window() = default;
 
 		virtual void OnUpdate() = 0;
+
+		const std::string& GetName() const
+		{
+			return name;
+		}
+		const tstring& GetTitle() const
+		{
+			return title;
+		}
 		virtual void SetTitle(const tstring& title) = 0;
+
 		bool GetFullsreen() const noexcept;
-		virtual void SetFullsreen(bool bordered) = 0;
+		virtual void SetFullscreen(bool bordered) = 0;
+
 		virtual uint GetWidth() const noexcept = 0;
 		virtual uint GetHeight() const noexcept = 0;
 		virtual int GetPosX() const noexcept = 0;
@@ -82,6 +98,7 @@ namespace LimeEngine
 		void SetClipCursorInWindowMode(bool value) noexcept;
 		bool GetClipCursorInFullScreenMode() const noexcept;
 		void SetClipCursorInFullScreenMode(bool value) noexcept;
+
 		virtual void UpdateCursor() const = 0;
 
 		Input& GetInput() noexcept;
@@ -92,6 +109,8 @@ namespace LimeEngine
 
 	protected:
 		bool fullscreen = false;
+		tstring title;
+		std::string name;
 
 	private:
 		URef<Input> input;

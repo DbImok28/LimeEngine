@@ -19,7 +19,7 @@ namespace LimeEngine
 
 	void MeshComponent::SetMesh(const ResourcePath& resourcePath)
 	{
-		mesh = DataLayer::GetDataLayer().GetGameDataManager().LoadMesh(resourcePath);
+		mesh = DataLayer::GetDataLayer()->GetGameDataManager().LoadMesh(resourcePath);
 	}
 
 	void MeshComponent::SetMesh(GameResourceRef<Mesh> mesh)
@@ -38,14 +38,14 @@ namespace LimeEngine
 	{
 		if (isVisible) return;
 		isVisible = true;
-		RenderLayer::GetRenderLayer().AddToRender(this);
+		RenderLayer::GetRenderLayer()->AddToRender(this);
 	}
 
 	void MeshComponent::HideMesh()
 	{
 		if (!isVisible) return;
 		isVisible = false;
-		RenderLayer::GetRenderLayer().RemoveFromRender(this);
+		RenderLayer::GetRenderLayer()->RemoveFromRender(this);
 	}
 
 	void MeshComponent::Draw(Renderer& renderer)

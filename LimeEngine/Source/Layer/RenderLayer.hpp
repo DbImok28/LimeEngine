@@ -13,9 +13,19 @@ namespace LimeEngine
 	{
 		LE_DELETE_COPY(RenderLayer);
 
+	private:
+		static inline const char* LayerType = "RenderLayer";
+		static inline std::vector<const char*> LayerDependencies = { "WindowLayer", "SceneLayer", "EditorLayer" };
+
 	public:
-		RenderLayer() noexcept : EngineLayer("RenderLayer") {};
-		static RenderLayer& GetRenderLayer();
+		static const std::vector<const char*>& GetLayerDependencies()
+		{
+			return LayerDependencies;
+		}
+
+	public:
+		RenderLayer() noexcept : EngineLayer(LayerType) {};
+		static RenderLayer* GetRenderLayer();
 
 		virtual void Update() override;
 		virtual void DebugUpdate() override;
@@ -24,5 +34,9 @@ namespace LimeEngine
 
 		const CameraComponent* GetRenderCamera() const noexcept;
 		void SetRenderCamera(CameraComponent* camera) noexcept;
+
+	public:
+		// TODO: Add render windows
+		List<URef<RenderOutput>> renderWindows;
 	};
 }

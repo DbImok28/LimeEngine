@@ -13,9 +13,9 @@
 
 namespace LimeEngine
 {
-	RenderLayer& RenderLayer::GetRenderLayer()
+	RenderLayer* RenderLayer::GetRenderLayer()
 	{
-		return GetEngine().renderLayer;
+		return GetEngine()->renderLayer;
 	}
 
 	void RenderLayer::Update()

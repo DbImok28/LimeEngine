@@ -11,12 +11,22 @@ namespace LimeEngine
 	{
 		LE_DELETE_COPY(InputLayer);
 
+	private:
+		static inline const char* LayerType = "InputLayer";
+		static inline std::vector<const char*> LayerDependencies;
+
 	public:
-		InputLayer() noexcept : EngineLayer("InputLayer") {};
-		static InputLayer& GetInputLayer();
+		static const std::vector<const char*>& GetLayerDependencies()
+		{
+			return LayerDependencies;
+		}
+
+	public:
+		InputLayer() noexcept : EngineLayer(LayerType) {};
+		static InputLayer* GetInputLayer();
 
 		void Update() override;
-		InputDevice& GetInputDevice();
+		InputDevice* GetInputDevice();
 
 	private:
 		InputDevice inputDevice;

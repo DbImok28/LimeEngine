@@ -63,6 +63,8 @@ namespace LimeEngine
 
 		width = args.width;
 		height = args.height;
+		name = args.name;
+		title = args.title;
 
 		styles = WS_SIZEBOX       // Sizing border
 				 | WS_MAXIMIZEBOX // Maximize button
@@ -79,7 +81,7 @@ namespace LimeEngine
 
 		hWnd = CreateWindow(
 			WindowClass::GetName(),
-			args.title.c_str(),
+			title.c_str(),
 			static_cast<DWORD>(styles),
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
@@ -102,10 +104,7 @@ namespace LimeEngine
 			rid.usUsage = 0x02;
 			rid.dwFlags = 0;
 			rid.hwndTarget = NULL;
-			if (RegisterRawInputDevices(&rid, 1, sizeof(rid)) == FALSE)
-			{
-				throw WND_LAST_EXCEPTION();
-			}
+			if (RegisterRawInputDevices(&rid, 1, sizeof(rid)) == FALSE) { throw WND_LAST_EXCEPTION(); }
 			rawInputInitialized = true;
 		}
 	}
@@ -113,10 +112,7 @@ namespace LimeEngine
 	void WindowsWindow::Destroy()
 	{
 		if (hWnd == nullptr) return;
-		if (!DestroyWindow(hWnd))
-		{
-			throw WND_LAST_EXCEPTION();
-		}
+		if (!DestroyWindow(hWnd)) { throw WND_LAST_EXCEPTION(); }
 		hWnd = nullptr;
 	}
 
@@ -143,18 +139,16 @@ namespace LimeEngine
 			RECT windowRect = GetWindowRect();
 			ClipCursor(&windowRect);
 		}
-		else
-		{
-			ClipCursor(NULL);
-		}
+		else { ClipCursor(NULL); }
 	}
 
-	void WindowsWindow::SetTitle(const tstring& title)
+	void WindowsWindow::SetTitle(const tstring& newTitle)
 	{
+		title = newTitle;
 		if (!SetWindowText(hWnd, title.c_str())) throw WND_LAST_EXCEPTION();
 	}
 
-	void WindowsWindow::SetFullsreen(bool fullscreen)
+	void WindowsWindow::SetFullscreen(bool fullscreen)
 	{
 		this->fullscreen = fullscreen;
 		if (fullscreen)
@@ -184,10 +178,7 @@ namespace LimeEngine
 			SetWindowLong(hWnd, GWL_STYLE, styles);
 			SetWindowLong(hWnd, GWL_EXSTYLE, exStyles);
 
-			if (savedWindowMaximized)
-			{
-				lockResizeEvent = true;
-			}
+			if (savedWindowMaximized) { lockResizeEvent = true; }
 			SetWindowPos(
 				hWnd,
 				HWND_NOTOPMOST,
@@ -317,14 +308,8 @@ namespace LimeEngine
 						break;
 					}
 				}
-				if (inSizeMoveMode)
-				{
-					neadCallResizeEvent = true;
-				}
-				else if (!lockResizeEvent)
-				{
-					events(WindowEventType::Resize, ResizeWindowEvent(width, height));
-				}
+				if (inSizeMoveMode) { neadCallResizeEvent = true; }
+				else if (!lockResizeEvent) { events(WindowEventType::Resize, ResizeWindowEvent(width, height)); }
 				UpdateCursor();
 				break;
 			}
@@ -353,10 +338,7 @@ namespace LimeEngine
 			}
 			case WM_SYSCOMMAND:
 			{
-				if (wParam == SC_KEYMENU)
-				{
-					return 0;
-				}
+				if (wParam == SC_KEYMENU) { return 0; }
 				break;
 			}
 		}

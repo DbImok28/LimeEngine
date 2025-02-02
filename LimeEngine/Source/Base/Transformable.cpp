@@ -184,16 +184,16 @@ namespace LimeEngine
 
 	TempVector Transformable::GetRightVector() const noexcept
 	{
-		return XMVector3TransformCoord(RIGHT_VECTOR, GetRotationMatrix());
+		return XMVector3TransformCoord(Vector::RightVector, GetRotationMatrix());
 	}
 
 	TempVector Transformable::GetForwardVector() const noexcept
 	{
-		return XMVector3TransformCoord(FORWARD_VECTOR, GetRotationMatrix());
+		return XMVector3TransformCoord(Vector::ForwardVector, GetRotationMatrix());
 	}
 
 	TempVector Transformable::GetUpVector() const noexcept
 	{
-		return XMVector3TransformCoord(UP_VECTOR, GetRotationMatrix());
+		return XMVector3TransformCoord(Vector::UpVector, GetRotationMatrix());
 	}
 }

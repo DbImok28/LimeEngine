@@ -14,11 +14,9 @@ namespace LimeEngine
 
 	WindowRenderOutputDX11::~WindowRenderOutputDX11()
 	{
+		// TODO: Fix if window destroyed
 		window->GetInputDevice().UnbindActionEvent("Engine.ResizeWindow", InputActionType::Pressed, this, &WindowRenderOutputDX11::OnResizeActionEvent);
-		if (displayMode == DisplayMode::FullscreenExclusive)
-		{
-			swapchain->SetFullscreenState(FALSE, NULL);
-		}
+		if (displayMode == DisplayMode::FullscreenExclusive) { swapchain->SetFullscreenState(FALSE, NULL); }
 		RuntimeEditor::Destroy();
 	}
 
@@ -31,7 +29,7 @@ namespace LimeEngine
 		inputDevice.AddActionMapping(
 			"Engine.ResizeWindow",
 			{
-				{InputKey::Enter, true, false, false, false}
+				{ InputKey::Enter, true, false, false, false }
         });
 		inputDevice.BindActionEvent("Engine.ResizeWindow", InputActionType::Pressed, this, &WindowRenderOutputDX11::OnResizeActionEvent);
 
@@ -110,21 +108,18 @@ namespace LimeEngine
 		{
 			case LimeEngine::DisplayMode::Windowed:
 			{
-				if (displayMode == DisplayMode::FullscreenExclusive)
-				{
-					GFX_CHECK_HR(swapchain->SetFullscreenState(false, nullptr));
-				}
-				window->SetFullsreen(false);
+				if (displayMode == DisplayMode::FullscreenExclusive) { GFX_CHECK_HR(swapchain->SetFullscreenState(false, nullptr)); }
+				window->SetFullscreen(false);
 			}
 			break;
 			case LimeEngine::DisplayMode::FullscreenExclusive:
 			{
-				window->SetFullsreen(true);
+				window->SetFullscreen(true);
 				auto hr = swapchain->SetFullscreenState(true, nullptr);
 				if (hr == DXGI_ERROR_NOT_CURRENTLY_AVAILABLE)
 				{
 					LE_ASSERT(false, "Switching to full screen mode is not currently available");
-					window->SetFullsreen(false);
+					window->SetFullscreen(false);
 					return;
 				}
 				GFX_CHECK_HR(hr);
@@ -133,7 +128,7 @@ namespace LimeEngine
 			break;
 			case LimeEngine::DisplayMode::FullscreenWindowed:
 			{
-				window->SetFullsreen(true);
+				window->SetFullscreen(true);
 			}
 			break;
 			default:
@@ -164,10 +159,7 @@ namespace LimeEngine
 
 		BOOL currentFullscreen = TRUE;
 		GFX_CHECK_HR(swapchain->GetFullscreenState(&currentFullscreen, nullptr));
-		if (currentFullscreen)
-		{
-			displayMode = DisplayMode::FullscreenExclusive;
-		}
+		if (currentFullscreen) { displayMode = DisplayMode::FullscreenExclusive; }
 
 		// Reset buffers
 		auto deviceContext = RenderAPI::GetRenderAPI<RenderAPIDX11>().GetDeviceContext();
@@ -190,20 +182,11 @@ namespace LimeEngine
 
 	void WindowRenderOutputDX11::OnResizeActionEvent()
 	{
-		if (displayMode != DisplayMode::Windowed)
-		{
-			SetDisplayMode(DisplayMode::Windowed);
-		}
+		if (displayMode != DisplayMode::Windowed) { SetDisplayMode(DisplayMode::Windowed); }
 		else
 		{
-			if (defaultFullscreenModeIsExclusive)
-			{
-				SetDisplayMode(DisplayMode::FullscreenExclusive);
-			}
-			else
-			{
-				SetDisplayMode(DisplayMode::FullscreenWindowed);
-			}
+			if (defaultFullscreenModeIsExclusive) { SetDisplayMode(DisplayMode::FullscreenExclusive); }
+			else { SetDisplayMode(DisplayMode::FullscreenWindowed); }
 		}
 	}
 

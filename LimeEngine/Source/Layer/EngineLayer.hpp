@@ -9,11 +9,23 @@ namespace LimeEngine
 
 	class EngineLayer
 	{
+		LE_DELETE_COPY(EngineLayer)
+
+	private:
+		static inline const char* LayerType = "EditorLayer";
+		static inline std::vector<const char*> LayerDependencies = {};
+
+	public:
+		static Engine* GetEngine();
+		static const std::vector<const char*>& GetLayerDependencies()
+		{
+			return LayerDependencies;
+		}
+
 	public:
 		EngineLayer(const std::string& layerName) noexcept : layerName(layerName) {};
 		EngineLayer() = default;
 		virtual ~EngineLayer() = default;
-		static Engine& GetEngine();
 
 		virtual void Init()
 		{
@@ -27,7 +39,9 @@ namespace LimeEngine
 		{
 			LE_CORE_LOG_TRACE("End: {}", GetLayerName());
 		}
-		virtual void Update() {};
+		virtual void PreUpdate() {}
+		virtual void Update() {}
+		virtual void PostUpdate() {}
 		virtual void DebugUpdate() {}
 
 		const std::string& GetLayerName() const noexcept
@@ -36,6 +50,6 @@ namespace LimeEngine
 		}
 
 	private:
-		std::string layerName = "EngineLayer";
+		std::string layerName = LayerType;
 	};
 }

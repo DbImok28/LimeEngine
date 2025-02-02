@@ -34,7 +34,8 @@ namespace LimeEngine
 		void AddToRender(IDrawable* drawable);
 		void RemoveFromRender(const IDrawable* drawable);
 
-		//TODO: Add ability to add and Remove RenderOutput
+		// TODO: Add ability to add and Remove RenderOutput
+		void CreateRenderOutput(const RenderOutputArgs& renderOutputArgs);
 		void SetRenderOutput(URef<RenderOutput>&& renderOutput);
 		void RemoveRenderOutput();
 		RenderOutput* GetRenderOutput() noexcept;

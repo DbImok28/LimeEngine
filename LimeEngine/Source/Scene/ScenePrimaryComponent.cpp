@@ -10,7 +10,7 @@ namespace LimeEngine
 	{
 		if (primaryComponentState == SceneComponentState::Started || primaryComponentState == SceneComponentState::WaitForEnd)
 		{
-			LE_ASSERT_WARNING(false, "Incorrect destruction of the component {}. Call Destroy to correctly destroy the component", GetPrimaryName());
+			LE_WARNING(false, "Incorrect destruction of the component {}. Call Destroy to correctly destroy the component", GetPrimaryName());
 			DestroyImmediately();
 		}
 	}
@@ -134,7 +134,7 @@ namespace LimeEngine
 
 	Scene* ScenePrimaryComponent::GetScene() const noexcept
 	{
-		return SceneLayer::GetSceneLayer().GetScene();
+		return SceneLayer::GetSceneLayer()->GetScene();
 	}
 
 	const std::string& ScenePrimaryComponent::GetPrimaryName() const noexcept
