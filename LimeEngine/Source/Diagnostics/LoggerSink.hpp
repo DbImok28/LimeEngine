@@ -3,6 +3,21 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "Logger.hpp"
+#include <spdlog/sinks/basic_file_sink.h>
+
+#ifdef _WIN32
+	#include <spdlog/sinks/wincolor_sink.h>
+#else
+	#include <spdlog/sinks/ansicolor_sink.h>
+#endif
+
+#ifdef _WIN32
+using BaseConsoleLogSinkST = spdlog::sinks::wincolor_sink<spdlog::details::console_nullmutex>;
+using BaseConsoleLogSinkMT = spdlog::sinks::wincolor_sink<spdlog::details::console_mutex>;
+#else
+using BaseConsoleLogSinkST = spdlog::sinks::ansicolor_sink<spdlog::details::console_nullmutex>;
+using BaseConsoleLogSinkMT = spdlog::sinks::wincolor_sink<spdlog::details::console_mutex>;
+#endif
 
 namespace LimeEngine
 {
@@ -74,5 +89,24 @@ namespace LimeEngine
 
 	public:
 		bool autoFormat = true;
+	};
+
+	//using ConsoleLogSink = spdlog::sinks::stdout_color_sink_mt;
+
+	class ConsoleLogSink final : public BaseConsoleLogSinkMT
+	{
+	public:
+		using Supper = BaseConsoleLogSinkMT;
+
+		enum class ColorMode
+		{
+			Always,
+			Automatic,
+			Never
+		};
+
+		explicit ConsoleLogSink(void* consoleHandle, ConsoleLogSink::ColorMode colorMode = ColorMode::Automatic) noexcept :
+			Supper(consoleHandle, static_cast<spdlog::color_mode>(colorMode))
+		{}
 	};
 }

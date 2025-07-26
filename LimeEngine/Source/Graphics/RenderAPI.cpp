@@ -9,6 +9,8 @@
 
 namespace LimeEngine
 {
+	LE_DEFINE_LOGGER(LogRenderAPI);
+
 	std::string RenderAPIToString(RenderAPIType api) noexcept
 	{
 		switch (api)
@@ -31,7 +33,7 @@ namespace LimeEngine
 
 	URef<RenderAPI> RenderAPI::CreateRendererAPI(RenderAPIType api)
 	{
-		LE_CORE_LOG_TRACE("Creating a {} renderer", RenderAPIToString(api));
+		LE_LOG_TRACE(LogRenderAPI, "Creating a {} renderer", RenderAPIToString(api));
 		switch (api)
 		{
 			case RenderAPIType::None: break;

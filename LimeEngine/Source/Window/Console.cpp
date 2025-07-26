@@ -12,12 +12,13 @@ namespace LimeEngine
 		return Platform::MakeConsole(args);
 	}
 
-#ifdef LE_ENABLE_CONSOLE
-	//URef<Console> Console::mainConsole = Console::Create({});
-
-	Console& Console::GetConsole()
+	LoggerConsole::LoggerConsole(Console* console, ConsoleLogSink::ColorMode colorMode) noexcept : sink(std::make_shared<ConsoleLogSink>(console->GetHandle(), colorMode))
 	{
-		return *mainConsole;
+		LoggerManager::GetLoggerManager()->AddSink(sink);
 	}
-#endif
+
+	LoggerConsole::~LoggerConsole() noexcept
+	{
+		LoggerManager::GetLoggerManager()->RemoveSink(sink);
+	}
 }

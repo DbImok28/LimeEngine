@@ -6,6 +6,8 @@
 
 namespace LimeEngine
 {
+	LE_DEFINE_LOGGER(LogScene);
+	
 	ScenePrimaryComponent::~ScenePrimaryComponent() noexcept
 	{
 		if (primaryComponentState == SceneComponentState::Started || primaryComponentState == SceneComponentState::WaitForEnd)

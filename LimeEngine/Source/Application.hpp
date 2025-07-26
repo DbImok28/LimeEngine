@@ -3,6 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
+#include "Window/Console.hpp"
 
 namespace LimeEngine
 {
@@ -19,5 +20,12 @@ namespace LimeEngine
 
 		void Initialize();
 		virtual void Run();
+
+		Console* GetConsole() const;
+
+	protected:
+		bool autoRunConsole = true;
+		URef<Console> console;
+		URef<LoggerConsole> loggerConsole;
 	};
 }

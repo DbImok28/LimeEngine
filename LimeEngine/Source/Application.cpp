@@ -8,6 +8,7 @@
 #include "Base/StaticInitializer.hpp"
 #include "Platform/Platform.hpp"
 #include "Graphics/RenderAPI.hpp"
+#include "Window/Console.hpp"
 
 #include "Scene/Maps/TestMap.hpp"
 
@@ -15,6 +16,15 @@ namespace LimeEngine
 {
 	Application::Application()
 	{
+		if (autoRunConsole)
+		{
+			// TODO: Read console args from config
+			ConsoleArgs consoleArgs;
+			consoleArgs.title = "OutConsole";
+			console = Console::Create(consoleArgs);
+			loggerConsole = MakeUnique<LoggerConsole>(console.get());
+		}
+
 		Platform::Initialize();
 		Initialize();
 		StaticInitializer::Initialize();
@@ -30,5 +40,10 @@ namespace LimeEngine
 		map->Load();
 		SceneLayer::GetSceneLayer()->GetScene()->SetupAttachment(std::move(map));
 		Engine::GetEngine()->Start();
+	}
+
+	Console* Application::GetConsole() const
+	{
+		return console.get();
 	}
 }

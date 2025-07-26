@@ -16,11 +16,12 @@ namespace LimeEngine
 		virtual bool Open(const ConsoleArgs& args) override;
 		virtual bool Close() noexcept override;
 		virtual void Print(tstring_view msg, PrimaryColor color = PrimaryColor::Gray) noexcept override;
-		virtual void SetTitle(const tstring& title) noexcept override;
-		virtual void SetMinLength(int16 minLength) const noexcept override;
+		virtual void* GetHandle() const noexcept override;
+		virtual void SetTitle(const tstring& title) override;
+		virtual void SetMinLength(int16 minLength) const override;
 
 	private:
-		bool RedirectIO() const noexcept;
+		bool RedirectIO() const;
 		bool ReleaseIO() const noexcept;
 
 	private:

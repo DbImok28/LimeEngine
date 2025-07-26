@@ -4,6 +4,7 @@
 #pragma once
 #include "CoreBase.hpp"
 #include "Base/Color.hpp"
+#include "Diagnostics/LoggerSink.hpp"
 
 namespace LimeEngine
 {
@@ -14,26 +15,30 @@ namespace LimeEngine
 		int16 minLength;
 	};
 
+	//TODO: Make Console as singleton
 	class Console
 	{
 	public:
 		static URef<Console> Create(const ConsoleArgs& args);
 
-#ifdef LE_ENABLE_CONSOLE
-	private:
-		static URef<Console> mainConsole;
-
 	public:
-		static Console& GetConsole();
-#endif
-
-	public:
-		virtual ~Console(){};
+		virtual ~Console() {};
 
 		virtual bool Open(const ConsoleArgs& args) = 0;
 		virtual bool Close() noexcept = 0;
 		virtual void Print(tstring_view msg, PrimaryColor color = PrimaryColor::Gray) noexcept = 0;
-		virtual void SetTitle(const tstring& title) noexcept = 0;
-		virtual void SetMinLength(int16 minLength) const noexcept = 0;
+		virtual void SetTitle(const tstring& title) = 0;
+		virtual void SetMinLength(int16 minLength) const = 0;
+		virtual void* GetHandle() const noexcept = 0;
+	};
+
+	class LoggerConsole
+	{
+	public:
+		explicit LoggerConsole(Console* console, ConsoleLogSink::ColorMode colorMode = ConsoleLogSink::ColorMode::Automatic) noexcept;
+		~LoggerConsole() noexcept;
+
+	private:
+		SRef<ConsoleLogSink> sink;
 	};
 }

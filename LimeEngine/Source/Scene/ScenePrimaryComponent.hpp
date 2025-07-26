@@ -5,6 +5,8 @@
 
 namespace LimeEngine
 {
+	LE_DECLARE_EXTERN_LOGGER(LogScene);
+
 	class SceneLayer;
 	class Scene;
 
@@ -42,15 +44,15 @@ namespace LimeEngine
 
 		virtual void Init()
 		{
-			LE_CORE_LOG_DEBUG("Init: {}", GetPathInSceneHierarchy());
+			LE_LOG_DEBUG(LogScene, "Init: {}", GetPathInSceneHierarchy());
 		}
 		virtual void Begin()
 		{
-			LE_CORE_LOG_DEBUG("Begin: {}", GetPathInSceneHierarchy());
+			LE_LOG_DEBUG(LogScene, "Begin: {}", GetPathInSceneHierarchy());
 		}
 		virtual void End()
 		{
-			LE_CORE_LOG_DEBUG("End: {}", GetPathInSceneHierarchy());
+			LE_LOG_DEBUG(LogScene, "End: {}", GetPathInSceneHierarchy());
 		}
 
 		virtual void Update() {}

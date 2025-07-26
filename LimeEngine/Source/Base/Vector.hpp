@@ -3,6 +3,7 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include <DirectXMath.h>
+#include <format>
 
 namespace LimeEngine
 {

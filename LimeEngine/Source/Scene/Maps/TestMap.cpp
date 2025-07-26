@@ -14,7 +14,7 @@ namespace LimeEngine
 {
 	void TestMap::Load()
 	{
-		LE_CORE_LOG_TRACE("Load map: {}", GetMapName());
+		LE_LOG_TRACE(LogScene, "Load map: {}", GetMapName());
 
 		InputDevice* inputDevice = InputLayer::GetInputLayer()->GetInputDevice();
 
@@ -32,15 +32,15 @@ namespace LimeEngine
 		inputDevice->AddAxisMapping({ "TurnRight", { { InputKey::MouseMoveX, 1.0f } } });
 		inputDevice->AddActionMapping({ "Print", { InputActionKey(InputKey::F) } });
 
-		inputDevice->BindActionEvent("Print", InputActionType::Pressed, []() { LE_LOG_DEBUG("Press F"); });
+		inputDevice->BindActionEvent("Print", InputActionType::Pressed, []() { LE_LOG_DEBUG(LogScene, "Press F"); });
 		inputDevice->BindActionEvent("Print", InputActionType::Released, []() {
-			LE_LOG_DEBUG("Released F");
-			LE_LOG_DEBUG("LE_CORE_LOG_DEBUG");
-			LE_LOG_ERROR("LE_CORE_LOG_ERROR");
-			LE_LOG_CRITICAL_ERROR("LE_CORE_LOG_CRITICAL_ERROR");
-			LE_LOG_INFO("LE_CORE_LOG_INFO");
-			LE_LOG_TRACE("LE_CORE_LOG_TRACE");
-			LE_LOG_WARNING("LE_CORE_LOG_WARNING");
+			LE_LOG_DEBUG(LogScene, "Released F");
+			LE_LOG_DEBUG(LogScene, "LE_LOG_DEBUG");
+			LE_LOG_TRACE(LogScene, "LE_LOG_TRACE");
+			LE_LOG_INFO(LogScene, "LE_LOG_INFO");
+			LE_LOG_WARNING(LogScene, "LE_LOG_WARNING");
+			LE_LOG_ERROR(LogScene, "LE_LOG_ERROR");
+			LE_LOG_CRITICAL_ERROR(LogScene, "LE_LOG_CRITICAL_ERROR");
 		});
 
 		// DataManager
@@ -103,13 +103,6 @@ namespace LimeEngine
 			vertex.texCoord.y = Math::FlipUV(vertex.texCoord.y);
 		}
 		auto boxMesh = gameDataManager.CreateMesh("EngineContent/Cube", vertices, indices);
-
-		LE_CORE_LOG_DEBUG("LE_CORE_LOG_DEBUG");
-		LE_CORE_LOG_ERROR("LE_CORE_LOG_ERROR");
-		LE_CORE_LOG_CRITICAL_ERROR("LE_CORE_LOG_CRITICAL_ERROR");
-		LE_CORE_LOG_INFO("LE_CORE_LOG_INFO");
-		LE_CORE_LOG_TRACE("LE_CORE_LOG_TRACE");
-		LE_CORE_LOG_WARNING("LE_CORE_LOG_WARNING");
 
 		// up	  forward
 		// +     +

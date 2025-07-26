@@ -7,6 +7,8 @@
 
 namespace LimeEngine
 {
+	LE_DECLARE_EXTERN_LOGGER(LogRenderAPI);
+
 	enum class RenderAPIType
 	{
 		None = 0,

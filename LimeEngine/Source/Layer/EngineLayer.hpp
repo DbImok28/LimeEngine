@@ -5,6 +5,8 @@
 
 namespace LimeEngine
 {
+	LE_DECLARE_EXTERN_LOGGER(LogEngineLayer);
+
 	class Engine;
 
 	class EngineLayer
@@ -29,15 +31,15 @@ namespace LimeEngine
 
 		virtual void Init()
 		{
-			LE_CORE_LOG_TRACE("Init: {}", GetLayerName());
+			LE_LOG_TRACE(LogEngineLayer, "Init: {}", GetLayerName());
 		}
 		virtual void Begin()
 		{
-			LE_CORE_LOG_TRACE("Begin: {}", GetLayerName());
+			LE_LOG_TRACE(LogEngineLayer, "Begin: {}", GetLayerName());
 		}
 		virtual void End()
 		{
-			LE_CORE_LOG_TRACE("End: {}", GetLayerName());
+			LE_LOG_TRACE(LogEngineLayer, "End: {}", GetLayerName());
 		}
 		virtual void PreUpdate() {}
 		virtual void Update() {}

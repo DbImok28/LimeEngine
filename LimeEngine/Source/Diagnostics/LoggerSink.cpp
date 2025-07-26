@@ -55,7 +55,7 @@ namespace LimeEngine
 		return formatted;
 	}
 
-	// BufferedLog
+	// BufferedLogSink
 
 	BufferedLogMessage::BufferedLogMessage(const std::string& msg, LogLevel level, const std::chrono::system_clock::time_point& time, size_t threadId) :
 		msg(msg), level(level), time(time), threadId(threadId)

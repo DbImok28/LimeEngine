@@ -22,7 +22,7 @@ namespace LimeEngine
 		}
 
 	public:
-		EditorLayer() noexcept : EngineLayer(LayerType), outputLogPanel(Logger::GetCoreLogger()) {}
+		EditorLayer() noexcept : EngineLayer(LayerType), outputLogPanel() {}
 		static EditorLayer* GetEditorLayer();
 
 		virtual void Update() override;

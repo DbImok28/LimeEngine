@@ -34,7 +34,7 @@ namespace LimeEngine
 	{
 		for (auto [windowToClose, exitCode] : pendingWindowsToClose)
 		{
-			LE_LOG_TRACE("Window {} closed with exit code {}", windowToClose->GetName(), exitCode);
+			LE_LOG_TRACE(LogEngineLayer, "Window {} closed with exit code {}", windowToClose->GetName(), exitCode);
 
 			bool founded = false;
 			for (auto it = std::begin(windows); it != std::end(windows);)

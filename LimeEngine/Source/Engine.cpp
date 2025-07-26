@@ -7,6 +7,8 @@
 
 namespace LimeEngine
 {
+	LE_DEFINE_LOGGER(LogEngine);
+
 	Engine::Engine() : windowLayer(), inputLayer(), renderLayer(), dataLayer(), sceneLayer(), editorLayer()
 	{
 		inputLayer = layerManager.EmplaceLayer<InputLayer>();
@@ -20,7 +22,7 @@ namespace LimeEngine
 	int Engine::Start()
 	{
 		// TODO: Add engine layers storage class (Add Layer priority and dependency)
-		LE_CORE_LOG_TRACE("Engine Init");
+		LE_LOG_TRACE(LogEngine, "Engine Init");
 		// dataLayer.Init();
 		// windowLayer.Init();
 		// inputLayer.Init();
@@ -31,7 +33,7 @@ namespace LimeEngine
 
 		timer.Start();
 
-		LE_CORE_LOG_TRACE("Engine Begin");
+		LE_LOG_TRACE(LogEngine, "Engine Begin");
 		// dataLayer.Begin();
 		// windowLayer.Begin();
 		// inputLayer.Begin();
@@ -40,7 +42,7 @@ namespace LimeEngine
 		// renderLayer.Begin();
 		layerManager.Begin();
 
-		LE_CORE_LOG_TRACE("Engine start Update Loop");
+		LE_LOG_TRACE(LogEngine, "Engine start Update Loop");
 		while (!exitCode.has_value())
 		{
 			deltaTime = timer.ElapsedTime();
@@ -48,7 +50,7 @@ namespace LimeEngine
 			UpdateLayers();
 		}
 
-		LE_CORE_LOG_TRACE("Engine End");
+		LE_LOG_TRACE(LogEngine, "Engine End");
 		//		sceneLayer.End();
 		//		editorLayer.End();
 		//		renderLayer.End();
@@ -57,7 +59,7 @@ namespace LimeEngine
 		//		dataLayer.End();
 		layerManager.End();
 
-		LE_CORE_LOG_TRACE("Engine close with code {}", *exitCode);
+		LE_LOG_TRACE(LogEngine, "Engine close with code {}", *exitCode);
 		return *exitCode;
 	}
 
@@ -68,6 +70,27 @@ namespace LimeEngine
 		if (RuntimeEditor::BeginPanel("Engine"))
 		{
 			if (RuntimeEditor::Button("Close")) exitCode = 0;
+
+			static std::string loggerName = "LogEngine";
+			static std::string logMessage = "Hello";
+			LogLevel logLevel = LogLevel::Debug;
+
+			RuntimeEditor::TextField("LoggerName", loggerName);
+			RuntimeEditor::TextField("Message", logMessage);
+			//RuntimeEditor::Combobox("Level", logLevel);
+
+			std::optional<Logger> loggerOpt = LoggerManager::TryGetLogger(loggerName);
+			if (loggerOpt)
+			{
+				Logger logger = *loggerOpt;
+				if (RuntimeEditor::Button("Trace")) logger.Log(LogLevel::Trace, logMessage);
+				if (RuntimeEditor::Button("Debug")) logger.Log(LogLevel::Debug, logMessage);
+				if (RuntimeEditor::Button("Info")) logger.Log(LogLevel::Info, logMessage);
+				if (RuntimeEditor::Button("Warning")) logger.Log(LogLevel::Warning, logMessage);
+				if (RuntimeEditor::Button("Error")) logger.Log(LogLevel::Error, logMessage);
+				if (RuntimeEditor::Button("CriticalError")) logger.Log(LogLevel::CriticalError, logMessage);
+			}
+
 			RuntimeEditor::EndPanel();
 		}
 

@@ -4,6 +4,7 @@
 #pragma once
 #include "CoreBase.hpp"
 #include "Window/Window.hpp"
+#include "Window/Console.hpp"
 
 namespace LimeEngine
 {

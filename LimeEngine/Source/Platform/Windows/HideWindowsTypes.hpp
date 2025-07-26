@@ -3,7 +3,17 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 
-#define LE_ENABLE_CONSOLE
-#define LE_ENABLE_ASSERTION
-#define LE_ENABLE_IMGUI
-#define LE_ENABLE_RENDER_API_DX11
+#include "WinApi.hpp"
+
+#undef INT
+#undef UINT
+#undef DWORD
+#undef FLOAT
+
+#ifdef TRUE
+	#undef TRUE
+#endif
+
+#ifdef FALSE
+	#undef FALSE
+#endif

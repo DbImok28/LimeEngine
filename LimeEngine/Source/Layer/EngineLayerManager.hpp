@@ -33,12 +33,12 @@ namespace LimeEngine
 				const std::string& layerName = pair.first;
 				const std::vector<const char*>& dependencies = pair.second;
 
-				LE_LOG_INFO(layerName);
+				LE_LOG_INFO(LogEngineLayer, layerName);
 				if (!dependencies.empty())
 				{
 					for (auto dependency : dependencies)
 					{
-						LE_LOG_INFO("- {}", dependency);
+						LE_LOG_INFO(LogEngineLayer, "- {}", dependency);
 					}
 				}
 			}

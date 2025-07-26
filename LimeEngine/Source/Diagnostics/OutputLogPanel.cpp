@@ -6,54 +6,31 @@
 
 namespace LimeEngine
 {
-	OutputLogPanel::OutputLogPanel(Logger* logger, const std::string& title, size_t maxMessages) noexcept :
-		sink(MakeShared<BufferedLogSink>(maxMessages)), logger(logger), title(title)
+	OutputLogPanel::OutputLogPanel(const std::string& title, size_t maxMessages) noexcept : sink(MakeShared<BufferedLogSink>(maxMessages)), title(title)
 	{
-		if (logger) logger->AddSink(sink);
+		LoggerManager::GetLoggerManager()->AddSink(sink);
 	}
 
 	OutputLogPanel::~OutputLogPanel() noexcept
 	{
-		if (logger) logger->RemoveSink(sink);
+		LoggerManager::GetLoggerManager()->RemoveSink(sink);
 	}
 
 	void OutputLogPanel::Render()
 	{
+		LE_ASSERT(sink);
+		
 		if (RuntimeEditor::BeginPanel(title))
 		{
-			if (!sink)
-				RuntimeEditor::Text("Logger is not set!");
-			else
+			for (const auto& message : sink->GetMessages())
 			{
-				for (const auto& message : sink->GetMessages())
-				{
-					RuntimeEditor::SetTextColor(LogLevelToColor(message.level));
-					RuntimeEditor::Text(message.msg);
-					RuntimeEditor::ResetTextColor();
-				}
+				RuntimeEditor::SetTextColor(LogLevelToColor(message.level));
+				RuntimeEditor::Text(message.msg);
+				RuntimeEditor::ResetTextColor();
 			}
 			RuntimeEditor::AutoScroll(true);
 			RuntimeEditor::EndPanel();
 		}
-	}
-
-	void OutputLogPanel::SetLogger(Logger* logger, const std::string& title) noexcept
-	{
-		SetLogger(logger);
-		SetTitle(title);
-	}
-
-	void OutputLogPanel::SetLogger(Logger* newLogger) noexcept
-	{
-		if (logger) logger->RemoveSink(sink);
-
-		logger = newLogger;
-		if (logger) logger->AddSink(sink);
-	}
-
-	void OutputLogPanel::SetTitle(const std::string& title) noexcept
-	{
-		this->title = title;
 	}
 
 	SRef<BufferedLogSink> OutputLogPanel::GetSink() const

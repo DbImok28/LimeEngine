@@ -3,10 +3,11 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #include "lepch.hpp"
 #include "WindowsConsole.hpp"
+#include "WindowsExceptions.hpp"
 
 namespace LimeEngine
 {
-	WindowsConsole::WindowsConsole(const ConsoleArgs& args)
+	WindowsConsole::WindowsConsole(const ConsoleArgs& args) : hConsole(INVALID_HANDLE_VALUE)
 	{
 		WindowsConsole::Open(args);
 	}
@@ -18,20 +19,25 @@ namespace LimeEngine
 
 	bool WindowsConsole::Open(const ConsoleArgs& args)
 	{
-		if (hConsole != nullptr)
+		if (AttachConsole(ATTACH_PARENT_PROCESS))
 		{
-			Close();
-		}
-		bool result = false;
-		if (AllocConsole())
-		{
-			SetTitle(args.title);
-			SetMinLength(args.minLength);
-			result = RedirectIO();
+			// Console is already open
 			hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+			CHECK_HR(hConsole != INVALID_HANDLE_VALUE);
+			return false;
 		}
+
+		CHECK_LAST_ERROR(AllocConsole());
+		LE_ASSERT(RedirectIO());
+
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		CHECK_HR(hConsole != INVALID_HANDLE_VALUE);
+
+		SetTitle(args.title);
+		SetMinLength(args.minLength);
+
 		std::ios::sync_with_stdio();
-		return result;
+		return true;
 	}
 
 	bool WindowsConsole::Close() noexcept
@@ -50,35 +56,42 @@ namespace LimeEngine
 		SetConsoleTextAttribute(hConsole, static_cast<WORD>(color) | FOREGROUND_INTENSITY);
 
 		DWORD written = 0;
-		WriteConsole(GetStdHandle(STD_OUTPUT_HANDLE), msg.data(), static_cast<DWORD>(msg.length()), &written, NULL);
+		WriteConsole(hConsole, msg.data(), static_cast<DWORD>(msg.length()), &written, NULL);
 	}
 
-	void WindowsConsole::SetTitle(const tstring& title) noexcept
+	void WindowsConsole::SetTitle(const tstring& title)
 	{
-		SetConsoleTitle(title.c_str());
+		CHECK_LAST_ERROR(SetConsoleTitle(title.c_str()) != 0);
 	}
 
-	void WindowsConsole::SetMinLength(int16 minLength) const noexcept
+	void WindowsConsole::SetMinLength(int16 minLength) const
 	{
-		CONSOLE_SCREEN_BUFFER_INFO conInfo;
-		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &conInfo);
-		if (conInfo.dwSize.Y < minLength) conInfo.dwSize.Y = minLength;
-		SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), conInfo.dwSize);
+		CONSOLE_SCREEN_BUFFER_INFO bufferInfo;
+		CHECK_LAST_ERROR(GetConsoleScreenBufferInfo(hConsole, &bufferInfo) != 0);
+		if (bufferInfo.dwSize.Y < minLength) bufferInfo.dwSize.Y = minLength;
+
+		CHECK_LAST_ERROR(SetConsoleScreenBufferSize(hConsole, bufferInfo.dwSize) != 0);
 	}
 
-	bool RedirectIOHandle(DWORD stdHandle, const char* fileName, const char* openMode, FILE* stream) noexcept
+	void* WindowsConsole::GetHandle() const noexcept
 	{
-		bool result = true;
+		return hConsole;
+	}
+
+	bool RedirectIOHandle(DWORD stdHandle, const char* fileName, const char* openMode, FILE* stream)
+	{
+		auto handle = GetStdHandle(stdHandle);
+		CHECK_HR(handle != INVALID_HANDLE_VALUE);
+
 		FILE* fp;
-		if (GetStdHandle(stdHandle) != INVALID_HANDLE_VALUE)
-			if (freopen_s(&fp, fileName, openMode, stream) != 0)
-				result = false;
-			else
-				setvbuf(stream, NULL, _IONBF, 0);
-		return result;
+		if (freopen_s(&fp, fileName, openMode, stream) != 0)
+			return false;
+		else
+			setvbuf(stream, NULL, _IONBF, 0);
+		return true;
 	}
 
-	bool WindowsConsole::RedirectIO() const noexcept
+	bool WindowsConsole::RedirectIO() const
 	{
 		bool result = true;
 		if (!RedirectIOHandle(STD_OUTPUT_HANDLE, "CONOUT$", "w", stdout)) result = false;
@@ -89,13 +102,12 @@ namespace LimeEngine
 
 	bool ReleaseIOHandle(const char* openMode, FILE* stream) noexcept
 	{
-		bool result = true;
 		FILE* fp;
 		if (freopen_s(&fp, "NUL:", openMode, stream) != 0)
-			result = false;
+			return false;
 		else
 			setvbuf(stream, NULL, _IONBF, 0);
-		return result;
+		return true;
 	}
 
 	bool WindowsConsole::ReleaseIO() const noexcept

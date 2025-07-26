@@ -71,7 +71,14 @@ namespace LimeEngine
 	void RenderOutput::OnResizeEvent(const Event& e)
 	{
 		auto& resizeEvent = CastEvent<ResizeWindowEvent>(e);
-		LE_CORE_LOG_TRACE("Resize WindowRenderOutput (width: {}, height: {})", resizeEvent.width, resizeEvent.height);
+		LE_LOG_TRACE(LogRenderAPI, "Resize WindowRenderOutput (width: {}, height: {})", resizeEvent.width, resizeEvent.height);
 		OnWindowResize(resizeEvent.width, resizeEvent.height);
 	}
+
+	/*	void RenderOutput::OnCloseEvent(const Event& e)
+	{
+		auto& closeEvent = CastEvent<CloseWindowEvent>(e);
+		LE_CORE_LOG_TRACE("Close WindowRenderOutput (exitCode: {})", closeEvent.exitCode);
+		OnWindowClose();
+	}*/
 }

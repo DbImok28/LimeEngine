@@ -9,6 +9,8 @@
 
 namespace LimeEngine
 {
+	Logger LogDefault = ::LimeEngine::LoggerManager::GetLogger();
+
 	Vector4D LogLevelToColor(LogLevel logLevel) noexcept
 	{
 		switch (logLevel)
@@ -23,67 +25,98 @@ namespace LimeEngine
 		}
 	}
 
-	Logger::Logger(const std::string& name)
+	// LoggerManager
+
+	LoggerManager::LoggerManager() noexcept
 	{
-		Initialize(name);
+		fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("Logs/LastOutputLog.log", true);
+		sinks.emplace_back(fileSink);
+
+		spdlog::set_level(spdlog::level::trace);
+		spdlog::flush_on(spdlog::level::trace);
+		spdlog::set_automatic_registration(true);
+		spdlog::set_pattern("%^[%n][%Y.%m.%d %H:%M:%S %e][%l] %v%$");
+
+		auto defaultLogger = CreateLogger("LogDefault");
+		spdlog::set_default_logger(defaultLogger.nativeLogger);
 	}
 
-	void Logger::Initialize(const std::string& name)
+	LoggerManager* LoggerManager::GetLoggerManager() noexcept
 	{
-		std::vector<spdlog::sink_ptr> sinks;
-#ifdef LE_ENABLE_CONSOLE
-		sinks.emplace_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
-#endif
-		sinks.emplace_back(std::make_shared<spdlog::sinks::basic_file_sink_mt>("Logs/LastOutputLog.log", true));
-		spdLogger = std::make_shared<spdlog::logger>(name, sinks.begin(), sinks.end());
-		spdLogger->set_level(spdlog::level::trace);
-		spdLogger->flush_on(spdlog::level::trace);
-		spdLogger->set_pattern("%^[%n][%Y.%m.%d %H:%M:%S %e][%l] %v%$");
-		spdlog::register_logger(spdLogger);
+		static LoggerManager Instance;
+		return &Instance;
 	}
 
-	bool Logger::CheckLogLevel(LogLevel level) noexcept
+	Logger LoggerManager::CreateLogger(const std::string& category, LogLevel minLogLevel, LogLevel flushLogLevel) noexcept
 	{
-		switch (level)
+		auto nativeLogger = std::make_shared<spdlog::logger>(category, std::cbegin(sinks), std::cend(sinks));
+		LE_ASSERT(nativeLogger);
+
+		spdlog::initialize_logger(nativeLogger);
+		loggers.emplace_back(nativeLogger);
+
+		nativeLogger->set_level(static_cast<spdlog::level::level_enum>(minLogLevel));
+		nativeLogger->flush_on(static_cast<spdlog::level::level_enum>(flushLogLevel));
+
+		return Logger(std::move(nativeLogger));
+	}
+
+	Logger LoggerManager::GetLogger() noexcept
+	{
+		return Logger(spdlog::default_logger());
+	}
+
+	Logger LoggerManager::GetLogger(const std::string& category) noexcept
+	{
+		auto nativeLogger = spdlog::get(category);
+		LE_ASSERT(nativeLogger);
+		return Logger(std::move(nativeLogger));
+	}
+
+	std::optional<Logger> LoggerManager::TryGetLogger(const std::string& category) noexcept
+	{
+		auto nativeLogger = spdlog::get(category);
+		if (!nativeLogger) { return std::nullopt; }
+		return Logger(std::move(nativeLogger));
+	}
+
+	void LoggerManager::AddSink(const SRef<BaseLoggerSink>& sink)
+	{
+		sinks.emplace_back(sink);
+
+		for (auto& logger : loggers)
 		{
-			case LogLevel::Debug: return true;
-#if defined(LE_ENABLE_LOG_TRACE)
-			case LogLevel::Trace: return true;
-#endif
-#if defined(LE_ENABLE_LOG_INFO)
-			case LogLevel::Info: return true;
-#endif
-#if defined(LE_ENABLE_LOG_WARNING)
-			case LogLevel::Warning: return true;
-#endif
-#if defined(LE_ENABLE_LOG_ERROR)
-			case LogLevel::Error: return true;
-#endif
-#if defined(LE_ENABLE_LOG_CRITICAL_ERROR)
-			case LogLevel::CriticalError: return true;
-#endif
-			default: return false;
+			logger->sinks().push_back(sink);
 		}
 	}
 
+	void LoggerManager::RemoveSink(const SRef<BaseLoggerSink>& sink)
+	{
+		auto sinkIt = std::find(std::cbegin(sinks), std::cend(sinks), sink);
+		sinks.erase(sinkIt);
+
+		for (auto& logger : loggers)
+		{
+			auto loggerSinkIt = std::find(std::cbegin(logger->sinks()), std::cend(logger->sinks()), sink);
+			logger->sinks().erase(loggerSinkIt);
+		}
+	}
+
+	// Logger
+
 	void Logger::Log(LogLevel level, std::string_view msg) const
 	{
-		if (CheckLogLevel(level)) spdLogger->log(static_cast<spdlog::level::level_enum>(level), msg);
+		nativeLogger->log(static_cast<spdlog::level::level_enum>(level), msg);
 	}
 
-	SRef<spdlog::logger> Logger::GetNativeLogger() noexcept
+	void Logger::AddSink(const SRef<BaseLoggerSink>& sink)
 	{
-		return spdLogger;
+		nativeLogger->sinks().push_back(sink);
 	}
 
-	void Logger::AddSink(const SRef<LoggerSink>& sink)
+	void Logger::RemoveSink(const SRef<BaseLoggerSink>& sink)
 	{
-		spdLogger->sinks().push_back(sink);
-	}
-
-	void Logger::RemoveSink(const SRef<LoggerSink>& sink)
-	{
-		auto& sinks = spdLogger->sinks();
+		auto& sinks = nativeLogger->sinks();
 		auto sinkIt = std::find(std::begin(sinks), std::end(sinks), sink);
 		if (sinkIt != std::end(sinks)) sinks.erase(sinkIt);
 	}

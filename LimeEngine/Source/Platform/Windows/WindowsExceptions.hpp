@@ -10,13 +10,13 @@
 #define HR_LAST_EXCEPTION()       LimeEngine::EngineHrException(__LINE__, __FILE__, static_cast<HRESULT>(GetLastError()))
 
 #define CHECK_HR(call) \
-	if (HRESULT _hr = (call); FAILED(_hr)) throw HR_EXCEPTION(_hr);
+	if (HRESULT _hr = (call); FAILED(_hr)) throw HR_EXCEPTION(_hr)
 
 #define CHECK_HR_MSG(call, msg) \
-	if (HRESULT _hr = (call); FAILED(_hr)) throw HR_EXCEPTION(_hr, msg);
+	if (HRESULT _hr = (call); FAILED(_hr)) throw HR_EXCEPTION(_hr, msg)
 
 #define CHECK_LAST_ERROR(call) \
-	if (!(call)) throw HR_LAST_EXCEPTION();
+	if (!(call)) throw HR_LAST_EXCEPTION()
 
 #define WND_EXCEPTION(hr)    LimeEngine::WindowsWindowException(__LINE__, __FILE__, hr)
 #define WND_LAST_EXCEPTION() LimeEngine::WindowsWindowException(__LINE__, __FILE__, static_cast<HRESULT>(GetLastError()))

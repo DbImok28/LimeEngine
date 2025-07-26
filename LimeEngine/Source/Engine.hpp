@@ -14,6 +14,8 @@
 
 namespace LimeEngine
 {
+	LE_DECLARE_EXTERN_LOGGER(LogEngine);
+
 	class Engine
 	{
 		LE_DELETE_MOVE_COPY(Engine)

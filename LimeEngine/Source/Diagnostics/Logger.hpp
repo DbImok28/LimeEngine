@@ -3,37 +3,33 @@
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
 #include "CoreBase.hpp"
-#include "Window/Console.hpp"
 #include "Base/Vector.hpp"
 
 // TODO: Remove dependencies
 #define SPDLOG_USE_STD_FORMAT
+#define SPDLOG_DISABLE_DEFAULT_LOGGER
 #include <spdlog/spdlog.h>
-
 #include <spdlog/sinks/base_sink.h>
 
-#if defined(LE_LOG_PRESET_FULL)
-	#define LE_ENABLE_LOG_TRACE
-	#define LE_ENABLE_LOG_INFO
-	#define LE_ENABLE_LOG_WARNING
-	#define LE_ENABLE_LOG_ERROR
-	#define LE_ENABLE_LOG_CRITICAL_ERROR
-#endif
-#if defined(LE_LOG_PRESET_FULL_NOTRACE)
-	#define LE_ENABLE_LOG_INFO
-	#define LE_ENABLE_LOG_WARNING
-	#define LE_ENABLE_LOG_ERROR
-	#define LE_ENABLE_LOG_CRITICAL_ERROR
-#endif
-#if defined(LE_LOG_PRESET_WARNINGS_AND_ERRORS)
-	#define LE_ENABLE_LOG_WARNING
-	#define LE_ENABLE_LOG_ERROR
-	#define LE_ENABLE_LOG_CRITICAL_ERROR
-#endif
+#include <utility>
 
 namespace LimeEngine
 {
-	class OutputLogPanel;
+#define LE_DECLARE_EXTERN_LOGGER(category)   extern ::LimeEngine::Logger category
+#define LE_DEFINE_LOGGER(category)           ::LimeEngine::Logger category = ::LimeEngine::LoggerManager::GetLoggerManager()->CreateLogger(#category)
+
+#define LE_LOG(category, level, ...)         ::LimeEngine::LoggerManager::GetLogger(category).Log(level, __VA_ARGS__)
+#define LE_LOG_DEBUG(category, ...)          LE_LOG(category, ::LimeEngine::LogLevel::Debug, __VA_ARGS__)
+#define LE_LOG_TRACE(category, ...)          LE_LOG(category, ::LimeEngine::LogLevel::Trace, __VA_ARGS__)
+#define LE_LOG_INFO(category, ...)           LE_LOG(category, ::LimeEngine::LogLevel::Info, __VA_ARGS__)
+#define LE_LOG_WARNING(category, ...)        LE_LOG(category, ::LimeEngine::LogLevel::Warning, __VA_ARGS__)
+#define LE_LOG_ERROR(category, ...)          LE_LOG(category, ::LimeEngine::LogLevel::Error, __VA_ARGS__)
+#define LE_LOG_CRITICAL_ERROR(category, ...) LE_LOG(category, ::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
+
+	using BaseLoggerSink = spdlog::sinks::sink;
+
+	class Logger;
+	LE_DECLARE_EXTERN_LOGGER(LogDefault);
 
 	enum class LogLevel
 	{
@@ -48,96 +44,54 @@ namespace LimeEngine
 	// TODO: Replace Vector4D to Color
 	Vector4D LogLevelToColor(LogLevel logLevel) noexcept;
 
-	class LoggerSink;
+	class LE_API LoggerManager
+	{
+	private:
+		LoggerManager() noexcept;
+
+	public:
+		// TODO: Add multithreaded logger support
+		static LoggerManager* GetLoggerManager() noexcept;
+
+		static Logger GetLogger() noexcept;
+		static Logger GetLogger(const std::string& category) noexcept;
+		inline static const Logger& GetLogger(const Logger& logger) noexcept
+		{
+			return logger;
+		}
+		static std::optional<Logger> TryGetLogger(const std::string& category) noexcept;
+
+		Logger CreateLogger(const std::string& category, LogLevel minLogLevel = LogLevel::Trace, LogLevel flushLogLevel = LogLevel::Trace) noexcept;
+
+	public:
+		void AddSink(const SRef<BaseLoggerSink>& sink);
+		void RemoveSink(const SRef<BaseLoggerSink>& sink);
+
+	private:
+		SRef<BaseLoggerSink> fileSink;
+		std::vector<SRef<BaseLoggerSink>> sinks;
+		std::vector<SRef<spdlog::logger>> loggers;
+	};
 
 	class LE_API Logger
 	{
-	public:
-		inline static Logger* GetCoreLogger() noexcept
-		{
-			return &coreLogger;
-		}
-		inline static Logger* GetLogger() noexcept
-		{
-			return &appLogger;
-		}
+		friend LoggerManager;
 
 	private:
-		static Logger coreLogger;
-		static Logger appLogger;
+		explicit Logger(SRef<spdlog::logger>&& nativeLogger) : nativeLogger(std::move(nativeLogger)) {}
 
 	public:
-		explicit Logger(const std::string& name);
-		LE_DEFAULT_MOVE_COPY(Logger)
-
-		void Initialize(const std::string& name);
-
-		static bool CheckLogLevel(LogLevel level) noexcept;
-
-		void Log(LogLevel level, std::string_view msg) const;
 		template <typename... TArgs>
 		void Log(LogLevel level, std::format_string<TArgs...> formatMsg, TArgs&&... args) const
 		{
-			if (CheckLogLevel(level)) spdLogger->log(static_cast<spdlog::level::level_enum>(level), formatMsg, std::forward<TArgs>(args)...);
+			nativeLogger->log(static_cast<spdlog::level::level_enum>(level), formatMsg, std::forward<TArgs>(args)...);
 		}
+		void Log(LogLevel level, std::string_view msg) const;
 
-		void AddSink(const SRef<LoggerSink>& sink);
-		void RemoveSink(const SRef<LoggerSink>& sink);
-
-		SRef<spdlog::logger> GetNativeLogger() noexcept;
+		void AddSink(const SRef<BaseLoggerSink>& sink);
+		void RemoveSink(const SRef<BaseLoggerSink>& sink);
 
 	private:
-		SRef<spdlog::logger> spdLogger;
+		SRef<spdlog::logger> nativeLogger;
 	};
 }
-
-#define LE_LOG(logLevel, ...)      ::LimeEngine::Logger::GetLogger()->Log(logLevel, __VA_ARGS__)
-#define LE_CORE_LOG(logLevel, ...) ::LimeEngine::Logger::GetCoreLogger()->Log(logLevel, __VA_ARGS__)
-
-#ifdef _DEBUG
-	#define LE_LOG_DEBUG(...)      LE_LOG(::LimeEngine::LogLevel::Debug, __VA_ARGS__)
-	#define LE_CORE_LOG_DEBUG(...) LE_CORE_LOG(::LimeEngine::LogLevel::Debug, __VA_ARGS__)
-#else
-	#define LE_LOG_DEBUG(...)      LE_REQUIRE_SEMICOLON
-	#define LE_CORE_LOG_DEBUG(...) LE_REQUIRE_SEMICOLON
-#endif
-
-#if defined(LE_ENABLE_LOG_TRACE)
-	#define LE_LOG_TRACE(...)      LE_LOG(::LimeEngine::LogLevel::Trace, __VA_ARGS__)
-	#define LE_CORE_LOG_TRACE(...) LE_CORE_LOG(::LimeEngine::LogLevel::Trace, __VA_ARGS__)
-#else
-	#define LE_LOG_TRACE(...)      LE_REQUIRE_SEMICOLON
-	#define LE_CORE_LOG_TRACE(...) LE_REQUIRE_SEMICOLON
-#endif
-
-#if defined(LE_ENABLE_LOG_INFO)
-	#define LE_LOG_INFO(...)      LE_LOG(::LimeEngine::LogLevel::Info, __VA_ARGS__)
-	#define LE_CORE_LOG_INFO(...) LE_CORE_LOG(::LimeEngine::LogLevel::Info, __VA_ARGS__)
-#else
-	#define LE_LOG_INFO(...)      LE_REQUIRE_SEMICOLON
-	#define LE_CORE_LOG_INFO(...) LE_REQUIRE_SEMICOLON
-#endif
-
-#if defined(LE_ENABLE_LOG_WARNING)
-	#define LE_LOG_WARNING(...)      LE_LOG(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
-	#define LE_CORE_LOG_WARNING(...) LE_CORE_LOG(::LimeEngine::LogLevel::Warning, __VA_ARGS__)
-#else
-	#define LE_LOG_WARNING(...)      LE_REQUIRE_SEMICOLON
-	#define LE_CORE_LOG_WARNING(...) LE_REQUIRE_SEMICOLON
-#endif
-
-#if defined(LE_ENABLE_LOG_ERROR)
-	#define LE_LOG_ERROR(...)      LE_LOG(::LimeEngine::LogLevel::Error, __VA_ARGS__)
-	#define LE_CORE_LOG_ERROR(...) LE_CORE_LOG(::LimeEngine::LogLevel::Error, __VA_ARGS__)
-#else
-	#define LE_LOG_ERROR(...)      LE_REQUIRE_SEMICOLON
-	#define LE_CORE_LOG_ERROR(...) LE_REQUIRE_SEMICOLON
-#endif
-
-#if defined(LE_ENABLE_LOG_CRITICAL_ERROR)
-	#define LE_LOG_CRITICAL_ERROR(...)      LE_LOG(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
-	#define LE_CORE_LOG_CRITICAL_ERROR(...) LE_CORE_LOG(::LimeEngine::LogLevel::CriticalError, __VA_ARGS__)
-#else
-	#define LE_LOG_CRITICAL_ERROR(...)      LE_REQUIRE_SEMICOLON
-	#define LE_CORE_LOG_CRITICAL_ERROR(...) LE_REQUIRE_SEMICOLON
-#endif
