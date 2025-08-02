@@ -26,7 +26,7 @@ namespace LimeEngine
 
 		virtual bool Open(const ConsoleArgs& args) = 0;
 		virtual bool Close() noexcept = 0;
-		virtual void Print(tstring_view msg, PrimaryColor color = PrimaryColor::Gray) noexcept = 0;
+		virtual void Print(tstring_view msg, PrimaryColor color = PrimaryColor::Gray) = 0;
 		virtual void SetTitle(const tstring& title) = 0;
 		virtual void SetMinLength(int16 minLength) const = 0;
 		virtual void* GetHandle() const noexcept = 0;

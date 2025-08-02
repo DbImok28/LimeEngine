@@ -51,12 +51,12 @@ namespace LimeEngine
 		return result;
 	}
 
-	void WindowsConsole::Print(tstring_view msg, PrimaryColor color) noexcept
+	void WindowsConsole::Print(tstring_view msg, PrimaryColor color)
 	{
 		SetConsoleTextAttribute(hConsole, static_cast<WORD>(color) | FOREGROUND_INTENSITY);
 
 		DWORD written = 0;
-		WriteConsole(hConsole, msg.data(), static_cast<DWORD>(msg.length()), &written, NULL);
+		CHECK_LAST_ERROR(WriteConsole(hConsole, msg.data(), static_cast<DWORD>(msg.length()), &written, NULL) != 0);
 	}
 
 	void WindowsConsole::SetTitle(const tstring& title)
@@ -103,7 +103,10 @@ namespace LimeEngine
 	bool ReleaseIOHandle(const char* openMode, FILE* stream) noexcept
 	{
 		FILE* fp;
-		if (freopen_s(&fp, "NUL:", openMode, stream) != 0)
+		const errno_t result = freopen_s(&fp, "NUL:", openMode, stream);
+		LE_ASSERT_ERRNO(result);
+
+		if (result != 0)
 			return false;
 		else
 			setvbuf(stream, NULL, _IONBF, 0);

@@ -63,6 +63,8 @@ namespace LimeEngine
 
 	Logger LoggerManager::GetLogger() noexcept
 	{
+		// Initialize LoggerManager
+		GetLoggerManager();
 		return Logger(spdlog::default_logger());
 	}
 
