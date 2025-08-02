@@ -7,6 +7,15 @@
 
 namespace LimeEngine
 {
+	void Scene::Init()
+	{
+		ScenePrimaryComponent::Init();
+
+		WorldSubsystemInitializer subsystemInitializer;
+		subsystemInitializer.msg = "Hello";
+		subsystemHolder.InstantiateSubsystems(subsystemInitializer);
+	}
+
 	void Scene::Update()
 	{
 		ScenePrimaryComponent::Update();

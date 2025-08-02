@@ -4,6 +4,7 @@
 #pragma once
 #include "Maps/SceneMap.hpp"
 #include "Components/DefaultPlayerCameraComponent.hpp"
+#include "System/WorldSubsystem.hpp"
 
 namespace LimeEngine
 {
@@ -13,7 +14,8 @@ namespace LimeEngine
 		Scene() : ScenePrimaryComponent("Scene") {}
 
 	protected:
-		void Update() override;
+		virtual void Init() override;
+		virtual void Update() override;
 
 	public:
 		SceneMap* SetupAttachment(URef<SceneMap>&& map);
@@ -37,5 +39,7 @@ namespace LimeEngine
 
 		// TODO: Remove. Engine is global variable
 		Engine* engine = nullptr;
+
+		WorldSubsystemHolder subsystemHolder;
 	};
 }

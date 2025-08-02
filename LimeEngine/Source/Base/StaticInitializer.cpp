@@ -6,21 +6,21 @@
 
 namespace LimeEngine
 {
-	bool StaticInitializer::OrderFunctionsByPriority::operator()(const std::pair<int8, std::function<void()>>& item1, const std::pair<int8, std::function<void()>>& item2) const
+	bool StaticInitializer::OrderFunctionsByPriority::operator()(const std::pair<uint8, std::function<void()>>& item1, const std::pair<uint8, std::function<void()>>& item2) const
 	{
 		return item1.first < item2.first;
 	}
 
 	auto& StaticInitializer::GetFunctionsForStaticInit()
 	{
-		static std::priority_queue<std::pair<int8, std::function<void()>>, std::vector<std::pair<int8, std::function<void()>>>, OrderFunctionsByPriority> functions = {};
+		static std::priority_queue<std::pair<uint8, std::function<void()>>, std::vector<std::pair<uint8, std::function<void()>>>, OrderFunctionsByPriority> functions = {};
 		return functions;
 	}
 
-	int8 StaticInitializer::Add(std::function<void()> func, int8 priority)
+	uint8 StaticInitializer::Add(const std::function<void()>& func, uint8 priority)
 	{
-		GetFunctionsForStaticInit().push(std::make_pair(priority, func));
-		return 0;
+		GetFunctionsForStaticInit().emplace(priority, func);
+		return 0u;
 	}
 
 	void StaticInitializer::Initialize()
