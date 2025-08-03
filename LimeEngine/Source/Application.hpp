@@ -4,6 +4,7 @@
 #pragma once
 #include "CoreBase.hpp"
 #include "Window/Console.hpp"
+#include "System/ApplicationSubsystem.hpp"
 
 namespace LimeEngine
 {
@@ -27,5 +28,6 @@ namespace LimeEngine
 		bool autoRunConsole = true;
 		URef<Console> console;
 		URef<LoggerConsole> loggerConsole;
+		ApplicationSubsystemHolder subsystemHolder;
 	};
 }

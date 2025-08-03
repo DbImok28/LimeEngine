@@ -24,6 +24,8 @@ namespace LimeEngine
 			// Console is already open
 			hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 			CHECK_HR(hConsole != INVALID_HANDLE_VALUE);
+
+			consoleIsExternal = true;
 			return false;
 		}
 
@@ -42,6 +44,8 @@ namespace LimeEngine
 
 	bool WindowsConsole::Close() noexcept
 	{
+		if (consoleIsExternal) { return false; }
+
 		bool result = ReleaseIO();
 		if (!static_cast<bool>(FreeConsole()))
 		{

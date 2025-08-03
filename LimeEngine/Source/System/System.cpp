@@ -7,11 +7,13 @@
 
 namespace LimeEngine
 {
+	LE_DEFINE_LOGGER(LogSubsystem);
+
 	void SubsystemHolder::Reserve(uint32 capacity)
 	{
 		subsystems.reserve(subsystems.size() + capacity);
 	}
-	
+
 	void SubsystemHolder::AddSubsystem(URef<Subsystem>&& subsystem)
 	{
 		subsystems.emplace_back(std::move(subsystem));
@@ -32,7 +34,7 @@ namespace LimeEngine
 
 	void SubsystemManager::RegisterSubsystemInternal(uint32 SubsystemHolderTypeIndex, uint32 SubsystemTypeIndex, const SubsystemManager::CreateSubsystemFunc& CreateFunc)
 	{
-		auto subsystemsOfSubsystemHolder = subsystemRegistry.find(SubsystemTypeIndex);
+		auto subsystemsOfSubsystemHolder = subsystemRegistry.find(SubsystemHolderTypeIndex);
 		if (subsystemsOfSubsystemHolder == std::end(subsystemRegistry))
 		{
 			LE_ASSERT(false, "Subsystem holder is not registered");
@@ -40,7 +42,7 @@ namespace LimeEngine
 			subsystemsOfSubsystemHolder = subsystemRegistry.emplace(SubsystemHolderTypeIndex, std::unordered_map<uint32, CreateSubsystemFunc>{}).first;
 			LE_ASSERT(subsystemsOfSubsystemHolder != std::end(subsystemRegistry));
 		}
-		subsystemsOfSubsystemHolder->second.emplace(SubsystemHolderTypeIndex, CreateFunc);
+		subsystemsOfSubsystemHolder->second.emplace(SubsystemTypeIndex, CreateFunc);
 	}
 
 	void SubsystemManager::InstantiateSubsystemsInternal(SubsystemHolder& subsystemHolder, uint32 subsystemHolderTypeIndex, const SubsystemInitializer& Initializer) const

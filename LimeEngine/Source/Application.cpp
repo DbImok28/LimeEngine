@@ -20,6 +20,7 @@ namespace LimeEngine
 		{
 			// TODO: Read console args from config
 			ConsoleArgs consoleArgs;
+			// TODO: Use application name by default
 			consoleArgs.title = "OutConsole";
 			console = Console::Create(consoleArgs);
 			loggerConsole = MakeUnique<LoggerConsole>(console.get());
@@ -28,6 +29,11 @@ namespace LimeEngine
 		Platform::Initialize();
 		Initialize();
 		StaticInitializer::Initialize();
+
+		ApplicationSubsystemInitializer subsystemInitializer;
+		subsystemInitializer.application = this;
+		subsystemHolder.InstantiateSubsystems(subsystemInitializer);
+
 		RenderAPI::Initialize();
 		Engine::Initialize();
 	}

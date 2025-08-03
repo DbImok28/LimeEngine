@@ -23,7 +23,7 @@ namespace LimeEngine
 
 	std::string NotificationTypeToString(NotificationType type) noexcept;
 
-	class RuntimeEditor
+	class LE_API RuntimeEditor
 	{
 	public:
 #if defined(LE_ENABLE_RENDER_API_DX11)

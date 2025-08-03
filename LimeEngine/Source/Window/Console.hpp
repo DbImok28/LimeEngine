@@ -8,7 +8,7 @@
 
 namespace LimeEngine
 {
-	struct ConsoleArgs
+	struct LE_API ConsoleArgs
 	{
 		ConsoleArgs(const tstring& title = TEXT("LimeEngine output"), int16 minLength = 512) : title(title), minLength(minLength) {}
 		tstring title;
@@ -16,7 +16,7 @@ namespace LimeEngine
 	};
 
 	//TODO: Make Console as singleton
-	class Console
+	class LE_API Console
 	{
 	public:
 		static URef<Console> Create(const ConsoleArgs& args);
@@ -30,9 +30,12 @@ namespace LimeEngine
 		virtual void SetTitle(const tstring& title) = 0;
 		virtual void SetMinLength(int16 minLength) const = 0;
 		virtual void* GetHandle() const noexcept = 0;
+
+	protected:
+		bool consoleIsExternal = false;
 	};
 
-	class LoggerConsole
+	class LE_API LoggerConsole
 	{
 	public:
 		explicit LoggerConsole(Console* console, ConsoleLogSink::ColorMode colorMode = ConsoleLogSink::ColorMode::Automatic) noexcept;

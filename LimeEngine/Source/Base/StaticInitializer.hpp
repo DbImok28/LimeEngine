@@ -19,7 +19,7 @@
 
 namespace LimeEngine
 {
-	class StaticInitializer
+	class LE_API StaticInitializer
 	{
 		struct OrderFunctionsByPriority
 		{

@@ -5,7 +5,7 @@
 
 namespace LimeEngine
 {
-	class Assertions
+	class LE_API Assertions
 	{
 		Assertions() = delete;
 

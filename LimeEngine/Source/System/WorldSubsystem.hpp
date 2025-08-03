@@ -7,68 +7,30 @@
 
 namespace LimeEngine
 {
-	LE_DECLARE_EXTERN_LOGGER(LogSubsystem);
+	class Scene;
 
-	class WorldSubsystemInitializer : public SubsystemInitializer
+	class LE_API WorldSubsystemInitializer : public SubsystemInitializer
 	{
 	public:
-		// World* world;
-		std::string msg = "No msg :(";
+		Scene* scene;
 	};
 
-	class WorldSubsystemHolder : public SubsystemHolder
+	class LE_API WorldSubsystemHolder : public SubsystemHolder
 	{
-	public:
-		using Super = SubsystemHolder;
-		using This = WorldSubsystemHolder;
-
-		using SubsystemInitializerType = WorldSubsystemInitializer;
-
-		void InstantiateSubsystems(const SubsystemInitializerType& Initializer)
-		{
-			InstantiateSubsystems(SubsystemManager::Get(), reinterpret_cast<const SubsystemInitializer&>(Initializer));
-		}
-
-	protected:
-		virtual void InstantiateSubsystems(const SubsystemManager& subsystemManager, const SubsystemInitializer& Initializer) override
-		{
-			subsystemManager.InstantiateSubsystems<This>(*this, Initializer);
-		}
-
-	private:
-		static void RegisterSubsystemHolder()
-		{
-			SubsystemManager& subsystemManager = SubsystemManager::Get();
-			subsystemManager.RegisterSubsystemHolder<This>();
-		}
-		LE_STATIC_INITIALIZE(RegisterSubsystemHolder, SubsystemConstants::RegisterSubsystemHolderPriority);
+		LE_DEFINE_AND_REGISTER_SUBSYSTEM_HOLDER(WorldSubsystemHolder, WorldSubsystemInitializer);
 	};
 
-	class WorldSubsystem : public Subsystem
+	class LE_API WorldSubsystem : public Subsystem
 	{
+		LE_DEFINE_AND_REGISTER_SUBSYSTEM(WorldSubsystem, WorldSubsystemHolder);
+
 	public:
 		using Super = Subsystem;
-		using This = WorldSubsystem;
 
-		using SubsystemHolderType = WorldSubsystemHolder;
-
-		explicit WorldSubsystem(const SubsystemInitializer& BaseInitializer) : This(reinterpret_cast<const SubsystemHolderType::SubsystemInitializerType&>(BaseInitializer)) {}
-		explicit WorldSubsystem(const SubsystemHolderType::SubsystemInitializerType& Initializer) : Super(Initializer)
+	public:
+		explicit WorldSubsystem(const WorldSubsystemHolder::SubsystemInitializerType& Initializer) : Super(Initializer)
 		{
-			LE_LOG_DEBUG(LogDefault, Initializer.msg);
+			LE_LOG_DEBUG(LogSubsystem, "WorldSubsystem say hello!");
 		}
-
-		static URef<Subsystem> CreateSubsystem(const SubsystemInitializer& Initializer)
-		{
-			return std::make_unique<This>(Initializer);
-		}
-
-	private:
-		static void RegisterSubsystem()
-		{
-			SubsystemManager& subsystemManager = SubsystemManager::Get();
-			subsystemManager.RegisterSubsystem<SubsystemHolderType, This>();
-		}
-		LE_STATIC_INITIALIZE(RegisterSubsystem, SubsystemConstants::RegisterSubsystemPriority);
 	};
 }

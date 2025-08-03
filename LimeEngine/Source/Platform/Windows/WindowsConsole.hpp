@@ -6,7 +6,7 @@
 
 namespace LimeEngine
 {
-	class WindowsConsole final : public Console
+	class LE_API WindowsConsole final : public Console
 	{
 	public:
 		WindowsConsole() = default;

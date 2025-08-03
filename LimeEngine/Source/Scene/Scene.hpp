@@ -8,7 +8,7 @@
 
 namespace LimeEngine
 {
-	class Scene : public ScenePrimaryComponent
+	class LE_API Scene : public ScenePrimaryComponent
 	{
 	public:
 		Scene() : ScenePrimaryComponent("Scene") {}

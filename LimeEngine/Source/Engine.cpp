@@ -23,6 +23,13 @@ namespace LimeEngine
 	{
 		// TODO: Add engine layers storage class (Add Layer priority and dependency)
 		LE_LOG_TRACE(LogEngine, "Engine Init");
+
+		LE_LOG_TRACE(LogEngine, "Instantiate subsystems");
+		EngineSubsystemInitializer subsystemInitializer;
+		subsystemInitializer.engine = this;
+		subsystemHolder.InstantiateSubsystems(subsystemInitializer);
+
+		LE_LOG_TRACE(LogEngine, "Init layers");
 		// dataLayer.Init();
 		// windowLayer.Init();
 		// inputLayer.Init();

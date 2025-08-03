@@ -2,6 +2,7 @@
 // See the LICENSE file for copyright and licensing details.
 // GitHub: https://github.com/RubyCircle/LimeEngine
 #pragma once
+#include <System/EngineSubsystem.hpp>
 #include "CoreBase.hpp"
 #include "Utility/Timer.hpp"
 #include "Layer/EngineLayerManager.hpp"
@@ -16,7 +17,7 @@ namespace LimeEngine
 {
 	LE_DECLARE_EXTERN_LOGGER(LogEngine);
 
-	class Engine
+	class LE_API Engine
 	{
 		LE_DELETE_MOVE_COPY(Engine)
 
@@ -41,6 +42,7 @@ namespace LimeEngine
 		EditorLayer* editorLayer;
 
 		EngineLayerManager layerManager;
+		EngineSubsystemHolder subsystemHolder;
 
 		Timer timer;
 		float deltaTime = 0.0f;

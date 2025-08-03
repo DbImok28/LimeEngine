@@ -7,7 +7,7 @@
 
 namespace LimeEngine
 {
-	class OutputLogPanel
+	class LE_API OutputLogPanel
 	{
 	public:
 		explicit OutputLogPanel(const std::string& title = "OutputLog", size_t maxMessages = 200) noexcept;

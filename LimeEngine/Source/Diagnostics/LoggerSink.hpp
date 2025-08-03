@@ -41,7 +41,7 @@ namespace LimeEngine
 		spdlog::details::log_msg logMsg;
 	};
 
-	class LoggerSink : public spdlog::sinks::base_sink<spdlog::details::null_mutex>
+	class LE_API LoggerSink : public spdlog::sinks::base_sink<spdlog::details::null_mutex>
 	{
 	private:
 		virtual void sink_it_(const spdlog::details::log_msg& msg) final;
@@ -54,7 +54,7 @@ namespace LimeEngine
 		std::string Format(const LogMessage& logMessage) const;
 	};
 
-	class BufferedLogMessage
+	class LE_API BufferedLogMessage
 	{
 		friend LoggerSink;
 
@@ -69,7 +69,7 @@ namespace LimeEngine
 		size_t threadId = 0;
 	};
 
-	class BufferedLogSink final : public LoggerSink
+	class LE_API BufferedLogSink final : public LoggerSink
 	{
 	public:
 		explicit BufferedLogSink(size_t maxMessages = 200) noexcept;
@@ -93,7 +93,7 @@ namespace LimeEngine
 
 	//using ConsoleLogSink = spdlog::sinks::stdout_color_sink_mt;
 
-	class ConsoleLogSink final : public BaseConsoleLogSinkMT
+	class LE_API ConsoleLogSink final : public BaseConsoleLogSinkMT
 	{
 	public:
 		using Supper = BaseConsoleLogSinkMT;

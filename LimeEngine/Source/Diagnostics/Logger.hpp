@@ -73,7 +73,7 @@ namespace LimeEngine
 		std::vector<SRef<spdlog::logger>> loggers;
 	};
 
-	class LE_API Logger
+	class Logger
 	{
 		friend LoggerManager;
 
